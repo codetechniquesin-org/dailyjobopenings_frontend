@@ -1,1126 +1,469 @@
-// import { useState, useEffect } from "react";
-
-// const LOGO = "https://res.cloudinary.com/dd3niyhrb/image/upload/v1773481829/WhatsApp_Image_2026-03-14_at_3.18.14_PM_o5drwx.jpg";
-
-// /* ── DATA ─────────────────────────────────────────────────────── */
-// const JOBS = [
-//   { id:1,  badge:"featured", badgeLabel:"⭐ Featured", company:"Amazon India",              role:"Amazon Customer Support – Work From Home",          logo:"A",  logoBg:"#e8f4fd", logoColor:"#0f4c81", location:"Work From Home",       edu:"12th Pass / Any Graduate",   batch:"2022–2026 Batch", salary:"₹3.0 – 4.5 LPA",   posted:"2 hours ago",  skills:["Customer Support","Communication","Problem Solving"] },
-//   { id:2,  badge:"hot",      badgeLabel:"🔥 Hot",      company:"Infosys Limited",            role:"Infosys Systems Engineer – Off Campus Drive",        logo:"I",  logoBg:"#fff0f0", logoColor:"#e8472a", location:"Bangalore, Pune, Hyd",  edu:"B.E / B.Tech / MCA",         batch:"2025–2026 Batch", salary:"₹3.6 – 5.0 LPA",   posted:"5 hours ago",  skills:["Java","Python","SQL","OOPS"] },
-//   { id:3,  badge:"new",      badgeLabel:"🆕 New",      company:"Tata Consultancy Services",  role:"TCS BPS Fresher Hiring – Digital Operations",        logo:"T",  logoBg:"#f0fff4", logoColor:"#16a34a", location:"Multiple Locations",    edu:"Any Graduate",               batch:"2024–2026 Batch", salary:"₹2.5 – 3.5 LPA",   posted:"8 hours ago",  skills:["MS Office","Communication","Analytical Skills"] },
-//   { id:4,  badge:"remote",   badgeLabel:"🏠 Remote",   company:"Wipro Technologies",         role:"Wipro NLTH Elite Fresher Hiring 2026",               logo:"W",  logoBg:"#ede9fe", logoColor:"#7c3aed", location:"Bangalore, Chennai",    edu:"B.E / B.Tech (CS/IT/ECE)",   batch:"2025–2026 Batch", salary:"₹3.5 LPA",          posted:"1 day ago",    skills:["C/C++","Data Structures","DBMS","OS"] },
-//   { id:5,  badge:"hot",      badgeLabel:"🔥 Hot",      company:"Deloitte India",             role:"Deloitte USI – Analyst & Consulting Fresher",        logo:"D",  logoBg:"#fff7ed", logoColor:"#c2410c", location:"Hyderabad, Mumbai",     edu:"MBA / B.Com / BBA",          batch:"2025–2026 Batch", salary:"₹7.0 – 9.5 LPA",   posted:"1 day ago",    skills:["Excel","PowerPoint","Finance","Consulting"] },
-//   { id:6,  badge:"new",      badgeLabel:"🆕 New",      company:"Red Hat (IBM Company)",      role:"Red Hat – Associate Software Engineer",              logo:"R",  logoBg:"#e8f4fd", logoColor:"#0369a1", location:"Pune",                  edu:"B.E / B.Tech / M.Tech",      batch:"2023–2025 Batch", salary:"₹8.0 – 12.0 LPA",  posted:"2 days ago",   skills:["Linux","Python","Go","Kubernetes"] },
-//   { id:7,  badge:"new",      badgeLabel:"🆕 New",      company:"Google India",               role:"Google STEP Internship 2026",                        logo:"G",  logoBg:"#fef9c3", logoColor:"#a16207", location:"Bangalore / Remote",    edu:"CS / IT Students",           batch:"2026–2027 Batch", salary:"₹80,000/month",     posted:"3 days ago",   skills:["DSA","Problem Solving","C++/Java"] },
-//   { id:8,  badge:"featured", badgeLabel:"⭐ Featured", company:"Accenture India",            role:"Accenture ASE Fresher Drive 2026",                   logo:"Ac", logoBg:"#f0f4ff", logoColor:"#3730a3", location:"Pan India",             edu:"B.E / B.Tech / MCA / M.Sc", batch:"2024–2026 Batch", salary:"₹4.5 – 6.5 LPA",   posted:"4 days ago",   skills:["Communication","Reasoning","Tech Fundamentals"] },
-//   { id:9,  badge:"hot",      badgeLabel:"🔥 Hot",      company:"HCL Technologies",           role:"HCL Tech Bee Fresher Programme 2026",                logo:"H",  logoBg:"#f0fdf4", logoColor:"#166534", location:"Noida, Chennai, Hyd",   edu:"B.E / B.Tech / BCA / MCA",  batch:"2024–2026 Batch", salary:"₹3.0 – 4.0 LPA",   posted:"5 days ago",   skills:["Java","HTML/CSS","Testing","Communication"] },
-//   { id:10, badge:"remote",   badgeLabel:"🏠 Remote",   company:"NTT Data India",             role:"NTT Data Work From Home – Data Analyst",             logo:"N",  logoBg:"#fdf4ff", logoColor:"#86198f", location:"Work From Home",        edu:"B.E / B.Tech / BCA / MCA",  batch:"2022–2025 Batch", salary:"₹4.0 – 6.0 LPA",   posted:"6 days ago",   skills:["Python","SQL","Power BI","Excel"] },
-// ];
-
-// const CATS = ["All Jobs|12.4K","Software/IT|4.2K","Govt Jobs|1.8K","Work From Home|3.1K","MBA Jobs|890","Internships|2.3K","Data Analyst|670","Walk-in|340"].map(s => { const [l,c]=s.split("|"); return {label:l,count:c}; });
-// const QUICK_CATS = [["Software IT Jobs","4,200+"],["Work From Home","3,100+"],["Government Jobs","1,800+"],["MBA / BBA Jobs","890+"],["Internships","2,300+"],["Walk-in Jobs","340+"],["Data Analyst Jobs","670+"],["Non-Engineering","1,200+"]];
-// const COMPANIES = [{name:"Amazon",roles:"24 open roles",bg:"#e8f4fd",color:"#0f4c81",l:"A"},{name:"TCS",roles:"36 open roles",bg:"#f0fff4",color:"#16a34a",l:"T"},{name:"Infosys",roles:"18 open roles",bg:"#fff0f0",color:"#e8472a",l:"I"},{name:"Wipro",roles:"22 open roles",bg:"#ede9fe",color:"#7c3aed",l:"W"},{name:"Deloitte",roles:"11 open roles",bg:"#fff7ed",color:"#c2410c",l:"D"}];
-// const LOCATIONS = [["Bangalore","3,200"],["Hyderabad","2,400"],["Pune","1,900"],["Mumbai","1,600"],["Chennai","1,100"],["Delhi NCR","980"],["Noida","760"]];
-// const NAV_LINKS = ["Home","Freshers Jobs","Work From Home","Internships","Interview Tips","By Location"];
-
-// const C = { primary:"#0f4c81", accent:"#e8472a", gold:"#f5a623", light:"#f4f7fb", green:"#16a34a", text:"#1a1a2e", muted:"#6b7280", border:"#e2e8f0" };
-// const BADGE_STYLE = { featured:{bg:"#fff8e1",color:"#b45309"}, hot:{bg:"#fee2e2",color:"#b91c1c"}, new:{bg:"#dcfce7",color:"#15803d"}, remote:{bg:"#ede9fe",color:"#6d28d9"} };
-// const BADGE_BORDER = { featured:`3px solid ${C.gold}`, hot:`3px solid ${C.accent}`, remote:`3px solid #7c3aed`, new:`1px solid ${C.border}` };
-
-// /* ── HOOK: window width ───────────────────────────────────────── */
-// function useWidth() {
-//   const [w, setW] = useState(typeof window !== "undefined" ? window.innerWidth : 1200);
-//   useEffect(() => {
-//     const h = () => setW(window.innerWidth);
-//     window.addEventListener("resize", h);
-//     return () => window.removeEventListener("resize", h);
-//   }, []);
-//   return w;
-// }
-
-// /* ── SMALL COMPONENTS ─────────────────────────────────────────── */
-// function MetaTag({ icon, label }) {
-//   return (
-//     <span style={{ display:"inline-flex", alignItems:"center", gap:4, fontSize:11, color:C.muted, background:C.light, padding:"3px 8px", borderRadius:5, whiteSpace:"nowrap" }}>
-//       {icon} {label}
-//     </span>
-//   );
-// }
-
-// function SkillTag({ label }) {
-//   return <span style={{ background:"#e8f4fd", color:C.primary, fontSize:10.5, padding:"2px 8px", borderRadius:4, fontWeight:500, whiteSpace:"nowrap" }}>{label}</span>;
-// }
-
-// function SectionTitle({ text }) {
-//   return (
-//     <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:17, fontWeight:700, display:"flex", alignItems:"center", gap:8, margin:0 }}>
-//       <span style={{ width:4, height:20, background:C.accent, borderRadius:3, display:"inline-block", flexShrink:0 }} />
-//       {text}
-//     </h2>
-//   );
-// }
-
-// /* ── JOB CARD ─────────────────────────────────────────────────── */
-// function JobCard({ job }) {
-//   const [hov, setHov] = useState(false);
-//   return (
-//     <div
-//       onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
-//       style={{ background:"#fff", borderRadius:12, border:`1px solid ${C.border}`, borderLeft: BADGE_BORDER[job.badge], padding:"16px", position:"relative", display:"flex", flexDirection:"column", gap:10, height:"100%", boxSizing:"border-box", transition:"all .22s", boxShadow: hov ? "0 6px 24px rgba(15,76,129,.13)" : "none", transform: hov ? "translateY(-2px)" : "none", cursor:"pointer" }}
-//     >
-//       <span style={{ position:"absolute", top:12, right:12, fontSize:10, fontWeight:700, padding:"3px 8px", borderRadius:4, background:BADGE_STYLE[job.badge].bg, color:BADGE_STYLE[job.badge].color }}>
-//         {job.badgeLabel}
-//       </span>
-//       <div style={{ display:"flex", gap:11, alignItems:"flex-start" }}>
-//         <div style={{ width:44, height:44, borderRadius:10, background:job.logoBg, color:job.logoColor, display:"flex", alignItems:"center", justifyContent:"center", fontWeight:700, fontSize:14, flexShrink:0, border:`1px solid ${C.border}` }}>
-//           {job.logo}
-//         </div>
-//         <div style={{ paddingRight:80 }}>
-//           <div style={{ fontSize:13.5, fontWeight:700, lineHeight:1.3, color:C.text }}>{job.role}</div>
-//           <div style={{ fontSize:12, color:C.primary, fontWeight:500, marginTop:2 }}>{job.company}</div>
-//         </div>
-//       </div>
-//       <div style={{ display:"flex", flexWrap:"wrap", gap:5 }}>
-//         <MetaTag icon="📍" label={job.location} />
-//         <MetaTag icon="🎓" label={job.edu} />
-//         <MetaTag icon="📅" label={job.batch} />
-//       </div>
-//       <div style={{ display:"flex", flexWrap:"wrap", gap:5 }}>
-//         {job.skills.map(s => <SkillTag key={s} label={s} />)}
-//       </div>
-//       <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:8, marginTop:"auto" }}>
-//         <div>
-//           <div style={{ fontWeight:700, color:C.green, fontSize:13 }}>{job.salary}</div>
-//           <div style={{ fontSize:11, color:C.muted }}>{job.posted}</div>
-//         </div>
-//         <a href="#" style={{ background:C.primary, color:"#fff", padding:"7px 16px", borderRadius:7, fontSize:12.5, fontWeight:600, textDecoration:"none", whiteSpace:"nowrap" }}>Apply Now →</a>
-//       </div>
-//     </div>
-//   );
-// }
-
-// /* ── AD STRIP ─────────────────────────────────────────────────── */
-// function AdStrip({ icon, title, sub, btn, btnColor=C.accent, bg="linear-gradient(90deg,#fff9e6,#fffde7)", border=`1.5px dashed ${C.gold}` }) {
-//   const w = useWidth();
-//   const mobile = w < 600;
-//   return (
-//     <div style={{ background:bg, border, borderRadius:10, padding:"11px 14px", display:"flex", flexWrap:"wrap", alignItems:"center", gap:10 }}>
-//       <span style={{ fontSize:9.5, color:"#999", border:"1px solid #ddd", padding:"1px 5px", borderRadius:3, flexShrink:0 }}>AD</span>
-//       <div style={{ width:40, height:40, borderRadius:8, background:`linear-gradient(135deg,${C.gold},${C.accent})`, display:"flex", alignItems:"center", justifyContent:"center", color:"#fff", fontSize:18, flexShrink:0 }}>{icon}</div>
-//       <div style={{ flex:1, minWidth:120 }}>
-//         <strong style={{ fontSize: mobile ? 12.5 : 13.5, display:"block" }}>{title}</strong>
-//         <span style={{ fontSize: mobile ? 11 : 12, color:C.muted }}>{sub}</span>
-//       </div>
-//       <a href="#" style={{ background:btnColor, color:"#fff", padding:"7px 14px", borderRadius:7, fontWeight:600, fontSize:12.5, textDecoration:"none", whiteSpace:"nowrap", marginLeft:"auto" }}>{btn}</a>
-//     </div>
-//   );
-// }
-
-// /* ── INLINE AD ────────────────────────────────────────────────── */
-// function InlineAd({ icon, title, sub, btn, btnColor=C.primary, bg="linear-gradient(90deg,#e8f4fd,#f0f7ff)", border=`1px solid #bdd6f0` }) {
-//   const w = useWidth(); const mobile = w < 600;
-//   return (
-//     <div style={{ background:bg, border, borderRadius:10, padding:"12px 14px", display:"flex", flexWrap:"wrap", alignItems:"center", gap:10 }}>
-//       <span style={{ fontSize:9.5, color:"#999", border:"1px solid #ddd", padding:"1px 5px", borderRadius:3 }}>Sponsored</span>
-//       <span style={{ fontSize:24 }}>{icon}</span>
-//       <div style={{ flex:1, minWidth:120 }}>
-//         <strong style={{ fontSize: mobile ? 12.5 : 13.5, display:"block" }}>{title}</strong>
-//         <span style={{ fontSize: mobile ? 11 : 12, color:C.muted }}>{sub}</span>
-//       </div>
-//       <a href="#" style={{ background:btnColor, color:"#fff", padding:"7px 14px", borderRadius:7, fontSize:12.5, fontWeight:600, textDecoration:"none", whiteSpace:"nowrap", marginLeft:"auto" }}>{btn}</a>
-//     </div>
-//   );
-// }
-
-// /* ── SIDEBAR WIDGET ───────────────────────────────────────────── */
-// function SidebarWidget({ title, children }) {
-//   return (
-//     <div style={{ background:"#fff", borderRadius:12, border:`1px solid ${C.border}`, padding:16, marginBottom:14 }}>
-//       <div style={{ fontFamily:"'Syne',sans-serif", fontSize:13, fontWeight:700, marginBottom:12, color:C.text }}>{title}</div>
-//       {children}
-//     </div>
-//   );
-// }
-
-// function QuickLink({ label, count }) {
-//   return (
-//     <a href="#" style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding:"7px 0", borderBottom:`1px solid ${C.border}`, fontSize:12.5, color:C.text, textDecoration:"none" }}>
-//       {label}
-//       <span style={{ display:"flex", alignItems:"center", gap:5 }}>
-//         <span style={{ background:C.light, color:C.muted, fontSize:10.5, padding:"1px 7px", borderRadius:10 }}>{count}</span>
-//         <span style={{ color:C.muted, fontSize:11 }}>›</span>
-//       </span>
-//     </a>
-//   );
-// }
-
-// /* ── MOBILE BOTTOM NAV ────────────────────────────────────────── */
-// function MobileBottomNav() {
-//   const [active, setActive] = useState(0);
-//   const items = [["🏠","Home"],["💼","Jobs"],["🔍","Search"],["📍","Near Me"],["👤","Profile"]];
-//   return (
-//     <div style={{ position:"fixed", bottom:0, left:0, right:0, background:"#fff", borderTop:`1px solid ${C.border}`, display:"flex", zIndex:200, boxShadow:"0 -2px 10px rgba(0,0,0,.08)" }}>
-//       {items.map(([icon,label],i) => (
-//         <button key={label} onClick={() => setActive(i)} style={{ flex:1, border:"none", background:"none", padding:"8px 4px 10px", cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center", gap:2 }}>
-//           <span style={{ fontSize:18 }}>{icon}</span>
-//           <span style={{ fontSize:9.5, fontWeight: active===i ? 700 : 400, color: active===i ? C.primary : C.muted }}>{label}</span>
-//           {active===i && <span style={{ width:16, height:2, background:C.primary, borderRadius:2 }} />}
-//         </button>
-//       ))}
-//     </div>
-//   );
-// }
-
-// /* ── MOBILE DRAWER ────────────────────────────────────────────── */
-// function MobileDrawer({ open, onClose }) {
-//   if (!open) return null;
-//   return (
-//     <>
-//       <div onClick={onClose} style={{ position:"fixed", inset:0, background:"rgba(0,0,0,.45)", zIndex:300 }} />
-//       <div style={{ position:"fixed", top:0, left:0, bottom:0, width:280, background:"#fff", zIndex:400, overflowY:"auto", boxShadow:"4px 0 24px rgba(0,0,0,.15)" }}>
-//         <div style={{ background:C.primary, padding:"16px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-//           <div style={{ display:"flex", alignItems:"center", gap:8 }}>
-//             <img src={LOGO} alt="logo" style={{ height:32, width:32, borderRadius:8 }} />
-//             <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:17, color:"#fff" }}>Code<span style={{ color:C.gold }}>Techniques</span></span>
-//           </div>
-//           <button onClick={onClose} style={{ background:"rgba(255,255,255,.15)", border:"none", color:"#fff", borderRadius:7, width:30, height:30, cursor:"pointer", fontSize:16 }}>✕</button>
-//         </div>
-//         <div style={{ padding:12 }}>
-//           {NAV_LINKS.map(link => (
-//             <a key={link} href="#" onClick={onClose} style={{ display:"block", padding:"11px 12px", borderRadius:7, fontSize:14, fontWeight:500, color:C.text, marginBottom:2 }}>{link}</a>
-//           ))}
-//           <div style={{ height:1, background:C.border, margin:"12px 0" }} />
-//           <a href="#" style={{ display:"block", background:C.accent, color:"#fff", padding:"11px 12px", borderRadius:8, fontWeight:700, fontSize:14, textAlign:"center" }}>📢 Post a Job</a>
-//           <div style={{ marginTop:16, background:C.light, borderRadius:10, padding:14 }}>
-//             <div style={{ fontSize:12, color:C.muted, marginBottom:8, fontWeight:600 }}>📍 Browse by Location</div>
-//             {LOCATIONS.map(([l]) => <a key={l} href="#" style={{ display:"block", fontSize:13, padding:"5px 0", color:C.primary }}>{l}</a>)}
-//           </div>
-//         </div>
-//       </div>
-//     </>
-//   );
-// }
-
-// /* ── MAIN APP ─────────────────────────────────────────────────── */
-// export default function App() {
-//   const w = useWidth();
-//   const isMobile  = w < 640;
-//   const isTablet  = w >= 640 && w < 1024;
-//   const isDesktop = w >= 1024;
-//   const showSidebar = isDesktop;
-
-//   const [activeCat, setActiveCat]     = useState(0);
-//   const [drawerOpen, setDrawerOpen]   = useState(false);
-//   const [searching, setSearching]     = useState(false);
-//   const [searchQ, setSearchQ]         = useState("");
-
-//   const handleSearch = () => { setSearching(true); setTimeout(() => setSearching(false), 1400); };
-
-//   // cols: 1 on mobile, 2 on tablet+
-//   const jobCols = isMobile ? 1 : 2;
-
-//   return (
-//     <div style={{ fontFamily:"'DM Sans',sans-serif", background:C.light, color:C.text, minHeight:"100vh", paddingBottom: isMobile ? 64 : 0 }}>
-//       <style>{`
-//         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
-//         *{box-sizing:border-box;margin:0;padding:0;}
-//         a{text-decoration:none;color:inherit;}
-//         @keyframes ticker{0%{transform:translateX(100%)}100%{transform:translateX(-120%)}}
-//         .ticker{display:inline-block;animation:ticker 38s linear infinite;white-space:nowrap;}
-//         .cat-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;}
-//         .cat-scroll::-webkit-scrollbar{display:none;}
-//         input::placeholder{color:#aaa;}
-//         select{appearance:auto;}
-//         @media(hover:hover){
-//           .nav-a:hover{background:${C.light} !important;color:${C.primary} !important;}
-//           .qlink-a:hover{color:${C.primary} !important;}
-//           .co-item:hover{border-color:${C.primary} !important;}
-//         }
-//       `}</style>
-
-//       {/* ── ALERT BAR ── */}
-//       <div style={{ background:`linear-gradient(90deg,${C.accent},#c0392b)`, color:"#fff", textAlign:"center", padding: isMobile ? "8px 12px" : "9px 16px", fontSize: isMobile ? 12 : 13 }}>
-//         🎉 New jobs added today from Amazon, TCS, Infosys &amp; more!&nbsp;
-//         <a href="#jobs" style={{ color:"#fff", textDecoration:"underline" }}>View Latest →</a>
-//       </div>
-
-//       {/* ── TOP BAR (tablet+) ── */}
-//       {!isMobile && (
-//         <div style={{ background:C.primary, color:"#fff", fontSize:11.5, padding:"5px 0" }}>
-//           <div style={{ maxWidth:1280, margin:"0 auto", padding:"0 16px", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-//             <div style={{ display:"flex", alignItems:"center", gap:8, overflow:"hidden", flex:1 }}>
-//               <span style={{ background:C.accent, color:"#fff", borderRadius:3, padding:"1px 8px", fontWeight:700, fontSize:10, whiteSpace:"nowrap" }}>🔥 HOT</span>
-//               <div style={{ overflow:"hidden" }}>
-//                 <span className="ticker" style={{ opacity:.85 }}>TCS BPS Hiring 2026 &nbsp;|&nbsp; Amazon WFH &nbsp;|&nbsp; Wipro NLTH 2026 &nbsp;|&nbsp; Infosys Systems Engineer &nbsp;|&nbsp; Google Internship 2026 &nbsp;|&nbsp; Deloitte Fresher Drive &nbsp;|&nbsp; Accenture Off Campus &nbsp;|&nbsp; Red Hat Associate Eng</span>
-//               </div>
-//             </div>
-//             {isDesktop && (
-//               <div style={{ display:"flex", gap:16, flexShrink:0 }}>
-//                 {["About","Contact","Privacy"].map(l => <a key={l} href="#" style={{ color:"#c8d8ea" }}>{l}</a>)}
-//                 <a href="#" style={{ color:C.gold, fontWeight:600 }}>Advertise With Us</a>
-//               </div>
-//             )}
-//           </div>
-//         </div>
-//       )}
-
-//       {/* ── NAVBAR ── */}
-//       <nav style={{ background:"#fff", borderBottom:`2px solid ${C.border}`, position:"sticky", top:0, zIndex:100, boxShadow:"0 2px 10px rgba(0,0,0,.06)" }}>
-//         <div style={{ maxWidth:1280, margin:"0 auto", padding: isMobile ? "0 12px" : "0 16px", display:"flex", alignItems:"center", justifyContent:"space-between", height: isMobile ? 56 : 64 }}>
-//           {/* Brand */}
-//           <a href="#" style={{ display:"flex", alignItems:"center", gap:8, flexShrink:0 }}>
-//             <img src={LOGO} alt="CodeTechniques" style={{ height: isMobile ? 34 : 40, width: isMobile ? 34 : 40, borderRadius:9, objectFit:"cover" }} />
-//             <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize: isMobile ? 17 : 21, color:C.primary, whiteSpace:"nowrap" }}>
-//               Code<span style={{ color:C.accent }}>Techniques</span>
-//             </span>
-//           </a>
-
-//           {/* Desktop nav */}
-//           {isDesktop && (
-//             <div style={{ display:"flex", alignItems:"center", gap:2 }}>
-//               {NAV_LINKS.map((item,i) => (
-//                 <a key={item} className="nav-a" href="#" style={{ fontSize:13, fontWeight:500, padding:"7px 11px", borderRadius:6, color: i===0 ? C.primary : C.text, background: i===0 ? C.light : "transparent", transition:"all .2s", whiteSpace:"nowrap" }}>{item}</a>
-//               ))}
-//               <a href="#" style={{ background:C.accent, color:"#fff", padding:"7px 16px", borderRadius:7, fontWeight:600, fontSize:13, marginLeft:6, whiteSpace:"nowrap" }}>Post a Job</a>
-//             </div>
-//           )}
-
-//           {/* Tablet: show Post Job + hamburger */}
-//           {isTablet && (
-//             <div style={{ display:"flex", alignItems:"center", gap:10 }}>
-//               <a href="#" style={{ background:C.accent, color:"#fff", padding:"7px 14px", borderRadius:7, fontWeight:600, fontSize:12.5 }}>Post a Job</a>
-//               <button onClick={() => setDrawerOpen(true)} style={{ background:"none", border:`1.5px solid ${C.border}`, borderRadius:8, width:38, height:38, cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}>
-//                 <span style={{ fontSize:20, lineHeight:1 }}>☰</span>
-//               </button>
-//             </div>
-//           )}
-
-//           {/* Mobile: hamburger only */}
-//           {isMobile && (
-//             <button onClick={() => setDrawerOpen(true)} style={{ background:"none", border:`1.5px solid ${C.border}`, borderRadius:8, width:36, height:36, cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}>
-//               <span style={{ fontSize:18, lineHeight:1 }}>☰</span>
-//             </button>
-//           )}
-//         </div>
-//       </nav>
-
-//       {/* Mobile/Tablet Drawer */}
-//       <MobileDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
-
-//       {/* ── HERO ── */}
-//       <section style={{ background:"linear-gradient(135deg,#0f4c81 0%,#1565c0 60%,#0d47a1 100%)", color:"#fff", padding: isMobile ? "28px 0 24px" : isTablet ? "38px 0 32px" : "48px 0 40px" }}>
-//         <div style={{ maxWidth:1280, margin:"0 auto", padding: isMobile ? "0 14px" : "0 16px" }}>
-//           <div style={{ display:"flex", flexDirection: isMobile ? "column" : isTablet ? "column" : "row", alignItems: isDesktop ? "center" : "flex-start", gap: isMobile ? 20 : 28 }}>
-//             {/* Left */}
-//             <div style={{ flex:1 }}>
-//               <h1 style={{ fontFamily:"'Syne',sans-serif", fontSize: isMobile ? "1.55rem" : isTablet ? "2rem" : "2.4rem", fontWeight:800, lineHeight:1.2, marginBottom:10 }}>
-//                 Find Your Dream Job<br />As a <span style={{ color:C.gold }}>Fresher in India</span>
-//               </h1>
-//               <p style={{ fontSize: isMobile ? 13 : 14.5, opacity:.88, marginBottom:20, maxWidth:520 }}>
-//                 100% verified job postings from top IT, government &amp; startup companies. Updated daily for 2025 &amp; 2026 batch graduates.
-//               </p>
-//               <div style={{ display:"flex", gap: isMobile ? 8 : 14, flexWrap:"wrap" }}>
-//                 {[["12,400+","Active Jobs"],["850+","Companies"],["2.3L+","Hired"]].map(([n,l]) => (
-//                   <div key={l} style={{ background:"rgba(255,255,255,.13)", border:"1px solid rgba(255,255,255,.2)", borderRadius:10, padding: isMobile ? "9px 14px" : "12px 20px", textAlign:"center" }}>
-//                     <strong style={{ display:"block", fontFamily:"'Syne',sans-serif", fontSize: isMobile ? "1.1rem" : "1.3rem", fontWeight:800 }}>{n}</strong>
-//                     <small style={{ fontSize: isMobile ? 10.5 : 12, opacity:.8 }}>{l}</small>
-//                   </div>
-//                 ))}
-//               </div>
-//             </div>
-
-//             {/* Search Card */}
-//             <div style={{ background:"rgba(255,255,255,.13)", backdropFilter:"blur(8px)", border:"1px solid rgba(255,255,255,.2)", borderRadius:14, padding: isMobile ? 16 : 22, width: isDesktop ? 360 : "100%", flexShrink:0 }}>
-//               <h6 style={{ fontSize:13.5, fontWeight:600, marginBottom:12 }}>🔍 Quick Job Search</h6>
-//               <input value={searchQ} onChange={e => setSearchQ(e.target.value)} placeholder="Job title or company name"
-//                 style={{ width:"100%", padding:"10px 13px", borderRadius:8, border:"none", background:"rgba(255,255,255,.96)", fontSize:13.5, fontFamily:"'DM Sans',sans-serif", color:C.text, marginBottom:9, outline:"none", display:"block" }} />
-//               <select style={{ width:"100%", padding:"10px 13px", borderRadius:8, border:"none", background:"rgba(255,255,255,.96)", fontSize:13.5, fontFamily:"'DM Sans',sans-serif", color:C.text, marginBottom:9, display:"block" }}>
-//                 <option>All Locations</option>
-//                 {["Bangalore","Hyderabad","Pune","Mumbai","Chennai","Work From Home"].map(l => <option key={l}>{l}</option>)}
-//               </select>
-//               <select style={{ width:"100%", padding:"10px 13px", borderRadius:8, border:"none", background:"rgba(255,255,255,.96)", fontSize:13.5, fontFamily:"'DM Sans',sans-serif", color:C.text, marginBottom:12, display:"block" }}>
-//                 <option>All Categories</option>
-//                 {["Software / IT","Government Jobs","MBA Jobs","Internships","Data Analyst"].map(c => <option key={c}>{c}</option>)}
-//               </select>
-//               <button onClick={handleSearch} style={{ width:"100%", background:C.accent, color:"#fff", border:"none", padding:"11px", borderRadius:8, fontWeight:700, fontSize:14, fontFamily:"'Syne',sans-serif", cursor:"pointer" }}>
-//                 {searching ? "Searching..." : "Search Jobs →"}
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       </section>
-
-//       {/* ── TOP AD ── */}
-//       <div style={{ maxWidth:1280, margin:"14px auto", padding: isMobile ? "0 12px" : "0 16px" }}>
-//         <AdStrip icon="🎓" title="Upskill & Get Hired Faster — GreatLearning Free Courses" sub="Python, Data Science, Cloud, AI/ML — 100% Free Certifications" btn="Enroll Free →" />
-//       </div>
-
-//       {/* ── MAIN CONTENT ── */}
-//       <div id="jobs" style={{ maxWidth:1280, margin:"0 auto", padding: isMobile ? "0 12px 32px" : "0 16px 48px" }}>
-//         <div style={{ display:"flex", gap:22, alignItems:"flex-start" }}>
-
-//           {/* ── LEFT / FULL ── */}
-//           <div style={{ flex:1, minWidth:0 }}>
-
-//             {/* Category Pills */}
-//             <div style={{ marginTop:16, marginBottom:16 }}>
-//               <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:12 }}>
-//                 <SectionTitle text="Browse by Category" />
-//               </div>
-//               <div className="cat-scroll">
-//                 {CATS.map((c,i) => (
-//                   <span key={c.label} onClick={() => setActiveCat(i)}
-//                     style={{ background: activeCat===i ? C.primary : "#fff", color: activeCat===i ? "#fff" : C.text, border:`1.5px solid ${activeCat===i ? C.primary : C.border}`, borderRadius:20, padding: isMobile ? "5px 12px" : "5px 15px", fontSize: isMobile ? 11.5 : 12.5, fontWeight:500, cursor:"pointer", display:"inline-flex", alignItems:"center", gap:5, whiteSpace:"nowrap", transition:"all .18s", flexShrink:0 }}>
-//                     {c.label}
-//                     <span style={{ background: activeCat===i ? "rgba(255,255,255,.2)" : "#e8f4fd", color: activeCat===i ? "#fff" : C.primary, padding:"1px 6px", borderRadius:10, fontSize:10, fontWeight:700 }}>{c.count}</span>
-//                   </span>
-//                 ))}
-//               </div>
-//             </div>
-
-//             {/* Section Header */}
-//             <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:14 }}>
-//               <SectionTitle text="Latest Jobs 2026" />
-//               <a href="#" style={{ fontSize:12.5, color:C.primary, fontWeight:600 }}>View All →</a>
-//             </div>
-
-//             {/* Job Grid */}
-//             <div style={{ display:"grid", gridTemplateColumns:`repeat(${jobCols}, 1fr)`, gap:12 }}>
-//               {JOBS.slice(0,3).map(j => <JobCard key={j.id} job={j} />)}
-
-//               {/* Mid Ad */}
-//               <div style={{ gridColumn:`1 / -1` }}>
-//                 <InlineAd icon="💼" title="Naukri.com — India's No.1 Job Portal" sub="Build your resume, get alerts & apply to 1 crore+ jobs" btn="Visit Naukri →" />
-//               </div>
-
-//               {JOBS.slice(3,7).map(j => <JobCard key={j.id} job={j} />)}
-
-//               {/* Bottom Ad */}
-//               <div style={{ gridColumn:`1 / -1` }}>
-//                 <InlineAd icon="📚" title="Coding Ninjas — Crack Product Companies" sub="DSA, System Design, Mock Interviews & Placement Prep" btn="Start Free →" btnColor={C.accent} bg="linear-gradient(90deg,#fff0f0,#fff5f5)" border="1px solid #fbb" />
-//               </div>
-
-//               {JOBS.slice(7).map(j => <JobCard key={j.id} job={j} />)}
-//             </div>
-
-//             {/* Pagination */}
-//             <div style={{ display:"flex", gap:7, marginTop:24, justifyContent:"center", flexWrap:"wrap" }}>
-//               {["‹","1","2","3","4","5","›"].map((p,i) => (
-//                 <button key={i} style={{ width: isMobile ? 32 : 36, height: isMobile ? 32 : 36, borderRadius:7, border:`1.5px solid ${p==="1" ? C.primary : C.border}`, background: p==="1" ? C.primary : "#fff", color: p==="1" ? "#fff" : C.text, fontWeight:600, fontSize: isMobile ? 12.5 : 14, cursor:"pointer" }}>{p}</button>
-//               ))}
-//             </div>
-
-//             {/* Mobile quick cats (shown below jobs on mobile) */}
-//             {isMobile && (
-//               <div style={{ marginTop:24 }}>
-//                 <SidebarWidget title="⚡ Quick Job Categories">
-//                   {QUICK_CATS.map(([l,c]) => <QuickLink key={l} label={l} count={c} />)}
-//                 </SidebarWidget>
-//                 <div style={{ background:"linear-gradient(135deg,#0f4c81,#1565c0)", color:"#fff", borderRadius:12, padding:18, textAlign:"center", marginBottom:14 }}>
-//                   <span style={{ fontSize:9.5, color:"rgba(255,255,255,.4)", display:"block", marginBottom:7 }}>Advertisement</span>
-//                   <h5 style={{ fontFamily:"'Syne',sans-serif", fontSize:14.5, fontWeight:800, marginBottom:6 }}>🚀 Launch Your Tech Career</h5>
-//                   <p style={{ fontSize:12, opacity:.85, marginBottom:12 }}>GeeksforGeeks Bootcamp – Job Guarantee 2026</p>
-//                   <a href="#" style={{ background:C.gold, color:"#000", padding:"8px 18px", borderRadius:7, fontWeight:700, fontSize:13, display:"inline-block" }}>Join Now →</a>
-//                 </div>
-//                 <SidebarWidget title="📍 Jobs by Location">
-//                   {LOCATIONS.map(([l,c]) => <QuickLink key={l} label={l} count={c} />)}
-//                 </SidebarWidget>
-//               </div>
-//             )}
-//           </div>
-
-//           {/* ── SIDEBAR (desktop only) ── */}
-//           {showSidebar && (
-//             <div style={{ width:290, flexShrink:0 }}>
-//               {/* Sidebar Ad 1 */}
-//               <div style={{ background:"linear-gradient(135deg,#0f4c81,#1565c0)", color:"#fff", borderRadius:12, padding:18, textAlign:"center", marginBottom:14 }}>
-//                 <span style={{ fontSize:9.5, color:"rgba(255,255,255,.4)", display:"block", marginBottom:7 }}>Advertisement</span>
-//                 <h5 style={{ fontFamily:"'Syne',sans-serif", fontSize:14.5, fontWeight:800, marginBottom:6 }}>🚀 Launch Your Tech Career</h5>
-//                 <p style={{ fontSize:12, opacity:.85, marginBottom:14 }}>GeeksforGeeks Bootcamp – Job Guarantee for 2026 Batch</p>
-//                 <a href="#" style={{ background:C.gold, color:"#000", padding:"8px 18px", borderRadius:7, fontWeight:700, fontSize:13, display:"inline-block" }}>Join Now →</a>
-//               </div>
-
-//               <SidebarWidget title="⚡ Quick Job Categories">
-//                 {QUICK_CATS.map(([l,c]) => <QuickLink key={l} label={l} count={c} />)}
-//               </SidebarWidget>
-
-//               {/* Top Companies */}
-//               <SidebarWidget title="🏢 Top Hiring Companies">
-//                 <div style={{ display:"flex", flexDirection:"column", gap:9 }}>
-//                   {COMPANIES.map(c => (
-//                     <div key={c.name} className="co-item" style={{ display:"flex", alignItems:"center", gap:9, padding:9, borderRadius:8, border:`1px solid ${C.border}`, cursor:"pointer", transition:"border-color .2s" }}>
-//                       <div style={{ width:33, height:33, borderRadius:7, background:c.bg, color:c.color, display:"flex", alignItems:"center", justifyContent:"center", fontWeight:700, fontSize:13, flexShrink:0 }}>{c.l}</div>
-//                       <div><strong style={{ fontSize:12.5, display:"block" }}>{c.name}</strong><span style={{ fontSize:11.5, color:C.muted }}>{c.roles}</span></div>
-//                     </div>
-//                   ))}
-//                 </div>
-//               </SidebarWidget>
-
-//               {/* WhatsApp Ad */}
-//               <div style={{ background:"linear-gradient(160deg,#1a1a2e,#16213e)", color:"#fff", borderRadius:12, padding:18, textAlign:"center", marginBottom:14 }}>
-//                 <span style={{ fontSize:9.5, color:"rgba(255,255,255,.35)", display:"block", marginBottom:7 }}>Advertisement</span>
-//                 <div style={{ fontSize:34, marginBottom:5 }}>📱</div>
-//                 <h6 style={{ fontFamily:"'Syne',sans-serif", fontSize:13.5, fontWeight:800, marginBottom:5, color:"#fff" }}>Get Job Alerts on WhatsApp</h6>
-//                 <p style={{ fontSize:11.5, opacity:.75, marginBottom:12 }}>Join 5 Lakh+ freshers getting daily updates</p>
-//                 <a href="#" style={{ background:"linear-gradient(90deg,#e8472a,#f5a623)", color:"#fff", padding:"7px 16px", borderRadius:7, fontWeight:700, fontSize:12.5, display:"inline-block" }}>Join Free Group →</a>
-//               </div>
-
-//               <SidebarWidget title="📍 Jobs by Location">
-//                 {LOCATIONS.map(([l,c]) => <QuickLink key={l} label={l} count={c} />)}
-//               </SidebarWidget>
-//             </div>
-//           )}
-
-//           {/* Tablet sidebar (condensed, single column) */}
-//           {isTablet && (
-//             <div style={{ width:240, flexShrink:0 }}>
-//               <SidebarWidget title="⚡ Quick Categories">
-//                 {QUICK_CATS.slice(0,6).map(([l,c]) => <QuickLink key={l} label={l} count={c} />)}
-//               </SidebarWidget>
-//               <div style={{ background:"linear-gradient(135deg,#0f4c81,#1565c0)", color:"#fff", borderRadius:12, padding:16, textAlign:"center", marginBottom:14 }}>
-//                 <div style={{ fontSize:10, color:"rgba(255,255,255,.4)", marginBottom:6 }}>Advertisement</div>
-//                 <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:13.5, marginBottom:5 }}>🚀 Launch Your Career</div>
-//                 <p style={{ fontSize:11, opacity:.85, marginBottom:10 }}>GFG Bootcamp – Job Guarantee 2026</p>
-//                 <a href="#" style={{ background:C.gold, color:"#000", padding:"7px 14px", borderRadius:7, fontWeight:700, fontSize:12, display:"inline-block" }}>Join Now →</a>
-//               </div>
-//               <SidebarWidget title="📍 By Location">
-//                 {LOCATIONS.slice(0,5).map(([l,c]) => <QuickLink key={l} label={l} count={c} />)}
-//               </SidebarWidget>
-//             </div>
-//           )}
-
-//         </div>
-//       </div>
-
-//       {/* ── BOTTOM AD ── */}
-//       <div style={{ maxWidth:1280, margin:"0 auto", padding: isMobile ? "0 12px 16px" : "0 16px 20px" }}>
-//         <AdStrip icon="💰" title="Earn While You Learn — Referral Bonus up to ₹5,000" sub="Refer a friend to CodeTechniques Premium & earn per referral" btn="Learn More →" btnColor={C.green} bg="linear-gradient(90deg,#f0fff4,#e8f5e9)" border="1.5px dashed #86efac" />
-//       </div>
-
-//       {/* ── FOOTER ── */}
-//       <footer style={{ background:"#0d1b2a", color:"#c8d6e5", padding: isMobile ? "32px 0 14px" : "48px 0 20px" }}>
-//         <div style={{ maxWidth:1280, margin:"0 auto", padding: isMobile ? "0 14px" : "0 16px" }}>
-//           <div style={{ display:"grid", gridTemplateColumns: isMobile ? "1fr" : isTablet ? "1fr 1fr" : "2fr 1fr 1fr 1fr", gap: isMobile ? 24 : 28, marginBottom:28 }}>
-//             {/* Brand */}
-//             <div>
-//               <div style={{ display:"flex", alignItems:"center", gap:9, marginBottom:12 }}>
-//                 <img src={LOGO} alt="CodeTechniques" style={{ height:34, width:34, borderRadius:8 }} />
-//                 <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:18, color:"#fff" }}>Code<span style={{ color:C.accent }}>Techniques</span></span>
-//               </div>
-//               <p style={{ fontSize:12, opacity:.7, lineHeight:1.7, marginBottom:16 }}>India's most trusted job portal for freshers & recent graduates. 100% verified job postings updated daily.</p>
-//               <div style={{ display:"flex", maxWidth:300 }}>
-//                 <input type="email" placeholder="Email for job alerts" style={{ flex:1, background:"#1a2e44", border:"1px solid #2a3f5a", color:"#fff", fontSize:12, borderRadius:"7px 0 0 7px", padding:"9px 11px", outline:"none" }} />
-//                 <button style={{ background:C.accent, color:"#fff", border:"none", padding:"9px 13px", borderRadius:"0 7px 7px 0", fontWeight:600, fontSize:12, cursor:"pointer" }}>Subscribe</button>
-//               </div>
-//               <div style={{ display:"flex", gap:7, marginTop:12 }}>
-//                 {["f","𝕏","in","▶","W"].map((s,i) => (
-//                   <a key={i} href="#" style={{ width:32, height:32, borderRadius:7, background:"#1a2e44", display:"flex", alignItems:"center", justifyContent:"center", fontSize:13, color:"#8a9bb5" }}>{s}</a>
-//                 ))}
-//               </div>
-//             </div>
-//             {/* Links */}
-//             {!isMobile && (
-//               <>
-//                 <div>
-//                   <h6 style={{ fontFamily:"'Syne',sans-serif", fontSize:12.5, fontWeight:700, color:"#fff", marginBottom:12 }}>Fresher Jobs</h6>
-//                   {["2026 Batch Jobs","2025 Batch Jobs","Software/IT Jobs","Government Jobs","MBA/BBA Jobs","Non-Engineering","Walk-in Jobs"].map(l => (
-//                     <a key={l} href="#" style={{ display:"block", fontSize:12, color:"#8a9bb5", marginBottom:7 }}>{l}</a>
-//                   ))}
-//                 </div>
-//                 <div>
-//                   <h6 style={{ fontFamily:"'Syne',sans-serif", fontSize:12.5, fontWeight:700, color:"#fff", marginBottom:12 }}>Resources</h6>
-//                   {["Interview Questions","Resume Tips","Hiring Process Guide","Off Campus Alerts","Salary Guide 2026","Course Reviews"].map(l => (
-//                     <a key={l} href="#" style={{ display:"block", fontSize:12, color:"#8a9bb5", marginBottom:7 }}>{l}</a>
-//                   ))}
-//                 </div>
-//                 <div>
-//                   <h6 style={{ fontFamily:"'Syne',sans-serif", fontSize:12.5, fontWeight:700, color:"#fff", marginBottom:12 }}>Company</h6>
-//                   {["About Us","Contact Us","Advertise With Us","Privacy Policy","Disclaimer","Sitemap"].map(l => (
-//                     <a key={l} href="#" style={{ display:"block", fontSize:12, color:"#8a9bb5", marginBottom:7 }}>{l}</a>
-//                   ))}
-//                 </div>
-//               </>
-//             )}
-//             {/* Mobile: compact footer links */}
-//             {isMobile && (
-//               <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:16 }}>
-//                 <div>
-//                   <h6 style={{ fontFamily:"'Syne',sans-serif", fontSize:12, fontWeight:700, color:"#fff", marginBottom:10 }}>Jobs</h6>
-//                   {["2026 Batch","2025 Batch","Software/IT","Govt Jobs","Internships"].map(l => <a key={l} href="#" style={{ display:"block", fontSize:12, color:"#8a9bb5", marginBottom:6 }}>{l}</a>)}
-//                 </div>
-//                 <div>
-//                   <h6 style={{ fontFamily:"'Syne',sans-serif", fontSize:12, fontWeight:700, color:"#fff", marginBottom:10 }}>Company</h6>
-//                   {["About Us","Contact","Privacy Policy","Disclaimer","Advertise"].map(l => <a key={l} href="#" style={{ display:"block", fontSize:12, color:"#8a9bb5", marginBottom:6 }}>{l}</a>)}
-//                 </div>
-//               </div>
-//             )}
-//           </div>
-//           <div style={{ borderTop:"1px solid #1e3047", paddingTop:14, display:"flex", flexWrap:"wrap", justifyContent:"space-between", alignItems:"center", gap:8 }}>
-//             <p style={{ fontSize:11.5, opacity:.5 }}>© 2026 CodeTechniques India. All rights reserved.</p>
-//             <div style={{ display:"flex", gap:14 }}>
-//               {["Privacy","Terms","Cookies"].map(l => <a key={l} href="#" style={{ fontSize:11.5, color:"#8a9bb5" }}>{l}</a>)}
-//             </div>
-//           </div>
-//         </div>
-//       </footer>
-
-//       {/* ── MOBILE BOTTOM NAV ── */}
-//       {isMobile && <MobileBottomNav />}
-//     </div>
-//   );
-// }
-
 import { useState } from "react";
 
-// ─── Data ────────────────────────────────────────────────────────────────────
+// ─── Logo (base64) ───────────────────────────────────────────────
+const LOGO = "data:image/png;base64,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";
 
-const IT_JOB_TITLES = [
-  "Software Engineer", "Frontend Developer", "Backend Developer", "Full Stack Developer",
-  "Mobile Developer (iOS)", "Mobile Developer (Android)", "React Native Developer",
-  "DevOps Engineer", "Cloud Architect", "Site Reliability Engineer (SRE)",
-  "Data Scientist", "Data Analyst", "Data Engineer", "ML Engineer",
-  "AI Researcher", "NLP Engineer", "Computer Vision Engineer",
-  "Cybersecurity Analyst", "Penetration Tester", "Security Engineer",
-  "QA Engineer", "Automation Test Engineer", "Performance Engineer",
-  "Product Manager", "Technical Program Manager", "Scrum Master",
-  "UI/UX Designer", "UX Researcher", "System Administrator",
-  "Network Engineer", "Database Administrator (DBA)", "Blockchain Developer",
-  "Game Developer", "Embedded Systems Engineer", "Firmware Engineer",
-  "IT Support Specialist", "Help Desk Technician", "IT Manager", "CTO",
+// ─── Data ────────────────────────────────────────────────────────
+const JOBS = [
+  { id:1, badge:"featured", badgeLabel:"⭐ Featured", company:"Amazon India", role:"Amazon Customer Support – Work From Home", logo:"A", logoBg:"#e8f4fd", logoColor:"#0f4c81", location:"Work From Home", edu:"12th Pass / Any Graduate", batch:"2022–2026 Batch", salary:"₹3.0 – 4.5 LPA", posted:"2 hours ago", skills:["Customer Support","Communication","Problem Solving"] },
+  { id:2, badge:"hot", badgeLabel:"🔥 Hot", company:"Infosys Limited", role:"Infosys Systems Engineer – Off Campus", logo:"I", logoBg:"#fff0f0", logoColor:"#e8472a", location:"Bangalore, Pune, Hyd", edu:"B.E / B.Tech / MCA", batch:"2025–2026 Batch", salary:"₹3.6 – 5.0 LPA", posted:"5 hours ago", skills:["Java","Python","SQL","OOPS"] },
+  { id:3, badge:"new", badgeLabel:"🆕 New", company:"Tata Consultancy Services", role:"TCS BPS Fresher Hiring – Digital Operations", logo:"T", logoBg:"#f0fff4", logoColor:"#16a34a", location:"Multiple Locations", edu:"Any Graduate", batch:"2024–2026 Batch", salary:"₹2.5 – 3.5 LPA", posted:"8 hours ago", skills:["MS Office","Communication","Analytical Skills"] },
+  { id:4, badge:"remote", badgeLabel:"🏠 Remote", company:"Wipro Technologies", role:"Wipro NLTH Elite Fresher Hiring 2026", logo:"W", logoBg:"#ede9fe", logoColor:"#7c3aed", location:"Bangalore, Chennai", edu:"B.E / B.Tech (CS/IT/ECE)", batch:"2025–2026 Batch", salary:"₹3.5 LPA", posted:"1 day ago", skills:["C/C++","Data Structures","DBMS","OS"] },
+  { id:5, badge:"hot", badgeLabel:"🔥 Hot", company:"Deloitte India", role:"Deloitte USI – Analyst & Consulting Fresher", logo:"D", logoBg:"#fff7ed", logoColor:"#c2410c", location:"Hyderabad, Mumbai", edu:"MBA / B.Com / BBA", batch:"2025–2026 Batch", salary:"₹7.0 – 9.5 LPA", posted:"1 day ago", skills:["Excel","PowerPoint","Finance","Consulting"] },
+  { id:6, badge:"new", badgeLabel:"🆕 New", company:"Red Hat (IBM Company)", role:"Red Hat – Associate Software Engineer", logo:"R", logoBg:"#e8f4fd", logoColor:"#0369a1", location:"Pune", edu:"B.E / B.Tech / M.Tech", batch:"2023–2025 Batch", salary:"₹8.0 – 12.0 LPA", posted:"2 days ago", skills:["Linux","Python","Go","Kubernetes"] },
+  { id:7, badge:"new", badgeLabel:"🆕 New", company:"Google India", role:"Google STEP Internship 2026", logo:"G", logoBg:"#fef9c3", logoColor:"#a16207", location:"Bangalore / Remote", edu:"CS / IT Students", batch:"2026–2027 Batch", salary:"₹80,000/month", posted:"3 days ago", skills:["DSA","Problem Solving","C++/Java"] },
+  { id:8, badge:"featured", badgeLabel:"⭐ Featured", company:"Accenture India", role:"Accenture ASE Fresher Drive 2026", logo:"Ac", logoBg:"#f0f4ff", logoColor:"#3730a3", location:"Pan India", edu:"B.E / B.Tech / MCA / M.Sc", batch:"2024–2026 Batch", salary:"₹4.5 – 6.5 LPA", posted:"4 days ago", skills:["Communication","Reasoning","Tech Fundamentals"] },
 ];
 
-const NON_IT_JOB_TITLES = {
-  Finance: ["Financial Analyst", "Accountant", "Auditor", "Investment Banker", "Risk Manager", "Actuary", "CFO", "Tax Consultant"],
-  Healthcare: ["Doctor", "Nurse", "Pharmacist", "Physiotherapist", "Lab Technician", "Hospital Administrator", "Medical Coder", "Radiologist"],
-  Education: ["Teacher", "Professor", "Academic Coordinator", "School Principal", "Curriculum Designer", "Tutor", "Education Counselor"],
-  Marketing: ["Marketing Manager", "Brand Strategist", "SEO Specialist", "Content Writer", "Social Media Manager", "Growth Hacker", "PR Manager"],
-  Legal: ["Lawyer", "Legal Advisor", "Compliance Officer", "Paralegal", "Contract Manager", "Corporate Counsel"],
-  Engineering: ["Mechanical Engineer", "Civil Engineer", "Electrical Engineer", "Chemical Engineer", "Structural Engineer", "Industrial Engineer"],
-  HR: ["HR Manager", "Talent Acquisition Specialist", "Payroll Manager", "L&D Manager", "HRBP", "Recruiter"],
-  Sales: ["Sales Executive", "Business Development Manager", "Account Manager", "Regional Sales Manager", "Sales Director"],
-  Operations: ["Operations Manager", "Supply Chain Manager", "Logistics Coordinator", "Warehouse Manager", "Procurement Manager"],
-  Design: ["Graphic Designer", "Interior Designer", "Fashion Designer", "Industrial Designer", "Creative Director"],
-  Media: ["Journalist", "Video Editor", "Photographer", "Content Creator", "Radio Jockey", "Film Director"],
-  Hospitality: ["Hotel Manager", "Chef", "Front Desk Manager", "Event Coordinator", "Travel Consultant"],
-};
-
-const GOVT_JOB_TITLES = [
-  "IAS Officer", "IPS Officer", "IFS Officer", "IRS Officer",
-  "Bank PO", "Bank Clerk", "SSC CGL Officer", "Railway TC",
-  "Defence Officer (Army)", "Defence Officer (Navy)", "Defence Officer (Air Force)",
-  "Police Constable", "Sub-Inspector", "DSP",
-  "UPSC Civil Services", "State PSC Officer",
-  "Income Tax Officer", "Customs Officer", "Central Excise Officer",
-  "Judge / Magistrate", "Public Prosecutor",
-  "Government Teacher", "Government Doctor", "AIIMS Resident Doctor",
-  "Postal Assistant", "Panchayati Raj Officer",
+const CATS = [
+  { label:"All Jobs", count:"12.4K" },
+  { label:"Software/IT", count:"4.2K" },
+  { label:"Govt Jobs", count:"1.8K" },
+  { label:"Work From Home", count:"3.1K" },
+  { label:"MBA Jobs", count:"890" },
+  { label:"Internships", count:"2.3K" },
+  { label:"Data Analyst", count:"670" },
+  { label:"Walk-in", count:"340" },
 ];
 
-const JOB_ROLES = {
-  IT:     ["Engineering", "Design", "Product", "Data & AI", "DevOps & Infra", "Security", "QA", "Management"],
-  NON_IT: ["Finance", "Healthcare", "Education", "Marketing", "Legal", "Engineering", "HR", "Sales", "Operations", "Design", "Media", "Hospitality"],
-  GOVT:   ["Civil Services", "Defence", "Police", "Banking", "Railways", "Teaching", "Healthcare", "Judiciary", "Revenue"],
-};
-
-const WORK_MODES = [
-  "Full Time", "Part Time", "Remote", "Work From Home (WFH)", "Hybrid",
-  "Contract Based", "Freelance", "Internship", "Apprenticeship", "Temporary",
+const QUICK_CATS = [
+  ["Software IT Jobs","4,200+"],["Work From Home","3,100+"],["Government Jobs","1,800+"],
+  ["MBA / BBA Jobs","890+"],["Internships","2,300+"],["Walk-in Jobs","340+"],
+  ["Data Analyst Jobs","670+"],["Non-Engineering","1,200+"],
 ];
 
-const EXPERIENCE_LEVELS = [
-  "Fresher (0 – 1 yr)", "Junior (1 – 3 yrs)", "Mid-Level (3 – 5 yrs)",
-  "Senior (5 – 8 yrs)", "Lead / Principal (8 – 12 yrs)",
-  "Manager (5+ yrs)", "Director / VP (10+ yrs)", "C-Level / Executive",
+const COMPANIES = [
+  { name:"Amazon", roles:"24 open roles", bg:"#e8f4fd", color:"#0f4c81", letter:"A" },
+  { name:"TCS", roles:"36 open roles", bg:"#f0fff4", color:"#16a34a", letter:"T" },
+  { name:"Infosys", roles:"18 open roles", bg:"#fff0f0", color:"#e8472a", letter:"I" },
+  { name:"Wipro", roles:"22 open roles", bg:"#ede9fe", color:"#7c3aed", letter:"W" },
+  { name:"Deloitte", roles:"11 open roles", bg:"#fff7ed", color:"#c2410c", letter:"D" },
 ];
 
 const LOCATIONS = [
-  "Hyderabad", "Bengaluru", "Mumbai", "Delhi / NCR", "Chennai", "Pune",
-  "Kolkata", "Ahmedabad", "Jaipur", "Lucknow", "Chandigarh", "Kochi",
-  "Coimbatore", "Bhubaneswar", "Indore", "Nagpur", "Vizag", "Surat",
-  "Remote / Pan-India", "Multiple Locations",
+  ["Bangalore","3,200"],["Hyderabad","2,400"],["Pune","1,900"],
+  ["Mumbai","1,600"],["Chennai","1,100"],["Delhi NCR","980"],["Noida","760"],
 ];
 
-const SALARY_RANGES = [
-  "0 – 2 LPA", "2 – 4 LPA", "4 – 6 LPA", "6 – 8 LPA", "8 – 12 LPA",
-  "12 – 18 LPA", "18 – 25 LPA", "25 – 40 LPA", "40 – 60 LPA", "60+ LPA",
-  "Unpaid / Stipend", "As per industry standards",
-];
+// ─── Styles ──────────────────────────────────────────────────────
+const S = {
+  primary:"#0f4c81", accent:"#e8472a", gold:"#f5a623",
+  light:"#f4f7fb", green:"#16a34a", text:"#1a1a2e", muted:"#6b7280", border:"#e2e8f0",
+};
 
-// ─── Dummy API  (replace URL + logic with your real endpoint) ─────────────────
-const postJobToAPI = async (payload) => {
-  // TODO: swap the block below with your real fetch call
-  // ─────────────────────────────────────────────────────
-  // const res = await fetch("https://your-api.com/api/jobs", {
-  //   method: "POST",
-  //   headers: { "Content-Type": "application/json" },
-  //   body: JSON.stringify(payload),
-  // });
-  // if (!res.ok) throw new Error("API error " + res.status);
-  // return await res.json();
-  // ─────────────────────────────────────────────────────
+const badgeStyle = {
+  featured:{ background:"#fff8e1", color:"#b45309" },
+  hot:{ background:"#fee2e2", color:"#b91c1c" },
+  new:{ background:"#dcfce7", color:"#15803d" },
+  remote:{ background:"#ede9fe", color:"#6d28d9" },
+};
 
-  // Dummy: simulates an 800ms network round-trip
-  return new Promise((resolve) =>
-    setTimeout(() => resolve({
-      success: true,
-      jobId: "JOB-" + Math.random().toString(36).substring(2, 8).toUpperCase(),
-      message: "Job posted successfully",
-    }), 800)
+const borderAccent = {
+  featured: `3px solid ${S.gold}`,
+  hot: `3px solid ${S.accent}`,
+  remote: `3px solid #7c3aed`,
+  new: `1px solid ${S.border}`,
+};
+
+// ─── Sub-components ───────────────────────────────────────────────
+function AdBanner({ icon, title, sub, btnText, btnColor="#e8472a", bg="linear-gradient(90deg,#fff9e6,#fffde7)", borderColor="#f5a623" }) {
+  return (
+    <div style={{ background:bg, border:`1.5px dashed ${borderColor}`, borderRadius:10, padding:"10px 16px", display:"flex", flexWrap:"wrap", alignItems:"center", gap:12, marginBottom:16 }}>
+      <span style={{ fontSize:10, color:"#999", border:"1px solid #ddd", padding:"1px 5px", borderRadius:3 }}>Advertisement</span>
+      <div style={{ width:42, height:42, borderRadius:8, background:`linear-gradient(135deg,${S.gold},${S.accent})`, display:"flex", alignItems:"center", justifyContent:"center", color:"#fff", fontSize:20, flexShrink:0 }}>{icon}</div>
+      <div style={{ flex:1, minWidth:160 }}>
+        <strong style={{ fontSize:14, display:"block" }}>{title}</strong>
+        <span style={{ fontSize:12, color:S.muted }}>{sub}</span>
+      </div>
+      <a href="#" style={{ background:btnColor, color:"#fff", padding:"7px 16px", borderRadius:7, fontWeight:600, fontSize:13, textDecoration:"none", whiteSpace:"nowrap" }}>{btnText}</a>
+    </div>
   );
-};
+}
 
-// ─── Small shared components ──────────────────────────────────────────────────
+function MetaTag({ icon, label }) {
+  return (
+    <span style={{ display:"inline-flex", alignItems:"center", gap:4, fontSize:11.5, color:S.muted, background:S.light, padding:"3px 9px", borderRadius:5 }}>
+      <span>{icon}</span> {label}
+    </span>
+  );
+}
 
-const Tag = ({ label, onRemove }) => (
-  <span style={{
-    display: "inline-flex", alignItems: "center", gap: 5,
-    background: "#e8f0fe", color: "#1a56db",
-    borderRadius: 20, padding: "3px 10px", fontSize: 12, fontWeight: 500,
-    border: "1px solid #c3d9ff",
-  }}>
-    {label}
-    <button onClick={onRemove} style={{
-      background: "none", border: "none", cursor: "pointer",
-      color: "#1a56db", fontSize: 14, lineHeight: 1, padding: 0,
-    }}>×</button>
-  </span>
-);
+function SkillTag({ label }) {
+  return <span style={{ background:"#e8f4fd", color:S.primary, fontSize:11, padding:"2px 9px", borderRadius:4, fontWeight:500 }}>{label}</span>;
+}
 
-const Field = ({ label, required, children, hint }) => (
-  <div style={{ marginBottom: 22 }}>
-    <label style={{
-      display: "block", fontSize: 12, fontWeight: 600,
-      textTransform: "uppercase", letterSpacing: "0.06em",
-      color: "#6b7280", marginBottom: 6,
-    }}>
-      {label}{required && <span style={{ color: "#e24b4a", marginLeft: 3 }}>*</span>}
-    </label>
-    {children}
-    {hint && <p style={{ fontSize: 11, color: "#9ca3af", margin: "4px 0 0" }}>{hint}</p>}
-  </div>
-);
+function JobCard({ job }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        background:"#fff", borderRadius:12,
+        border:`1px solid ${S.border}`,
+        borderLeft: borderAccent[job.badge] || `1px solid ${S.border}`,
+        padding:18, position:"relative", height:"100%", boxSizing:"border-box",
+        transition:"all .2s", cursor:"pointer",
+        boxShadow: hovered ? "0 4px 20px rgba(15,76,129,.12)" : "none",
+        transform: hovered ? "translateY(-2px)" : "none",
+      }}
+    >
+      {/* Badge */}
+      <span style={{ position:"absolute", top:13, right:13, fontSize:10.5, fontWeight:700, padding:"3px 9px", borderRadius:4, ...badgeStyle[job.badge] }}>{job.badgeLabel}</span>
+      {/* Header */}
+      <div style={{ display:"flex", gap:12, marginBottom:12 }}>
+        <div style={{ width:46, height:46, borderRadius:10, background:job.logoBg, color:job.logoColor, display:"flex", alignItems:"center", justifyContent:"center", fontWeight:700, fontSize:15, flexShrink:0, border:`1px solid ${S.border}` }}>{job.logo}</div>
+        <div>
+          <div style={{ fontSize:14, fontWeight:700, lineHeight:1.3, paddingRight:80, color:S.text }}>{job.role}</div>
+          <div style={{ fontSize:12, color:S.primary, fontWeight:500, marginTop:2 }}>{job.company}</div>
+        </div>
+      </div>
+      {/* Meta */}
+      <div style={{ display:"flex", flexWrap:"wrap", gap:6, marginBottom:10 }}>
+        <MetaTag icon="📍" label={job.location} />
+        <MetaTag icon="🎓" label={job.edu} />
+        <MetaTag icon="📅" label={job.batch} />
+      </div>
+      {/* Skills */}
+      <div style={{ display:"flex", flexWrap:"wrap", gap:5, marginBottom:14 }}>
+        {job.skills.map(s => <SkillTag key={s} label={s} />)}
+      </div>
+      {/* Footer */}
+      <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:8 }}>
+        <div>
+          <div style={{ fontWeight:700, color:S.green, fontSize:13.5 }}>{job.salary}</div>
+          <div style={{ fontSize:11, color:S.muted }}>{job.posted}</div>
+        </div>
+        <a href="#" style={{ background:S.primary, color:"#fff", padding:"7px 18px", borderRadius:7, fontSize:12.5, fontWeight:600, textDecoration:"none" }}>Apply Now →</a>
+      </div>
+    </div>
+  );
+}
 
-const SectionHead = ({ title }) => (
-  <h2 style={{
-    fontFamily: "'Syne', sans-serif", fontSize: 13, fontWeight: 700,
-    color: "#6366f1", textTransform: "uppercase", letterSpacing: "0.1em",
-    margin: "0 0 20px", paddingBottom: 10, borderBottom: "1px dashed #e5e7eb",
-  }}>{title}</h2>
-);
+function InlineAd({ icon, title, sub, btnText, btnColor=S.primary, bg="linear-gradient(90deg,#e8f4fd,#f0f7ff)", borderColor="#bdd6f0" }) {
+  return (
+    <div style={{ background:bg, border:`1px solid ${borderColor}`, borderRadius:10, padding:"13px 16px", display:"flex", flexWrap:"wrap", alignItems:"center", gap:12, marginBottom:0 }}>
+      <span style={{ fontSize:10, color:"#999", border:"1px solid #ddd", padding:"1px 5px", borderRadius:3 }}>AD</span>
+      <span style={{ fontSize:26 }}>{icon}</span>
+      <div style={{ flex:1, minWidth:140 }}>
+        <strong style={{ fontSize:13.5, display:"block" }}>{title}</strong>
+        <span style={{ fontSize:12, color:S.muted }}>{sub}</span>
+      </div>
+      <a href="#" style={{ background:btnColor, color:"#fff", padding:"7px 16px", borderRadius:7, fontSize:12.5, fontWeight:600, textDecoration:"none", whiteSpace:"nowrap" }}>{btnText}</a>
+    </div>
+  );
+}
 
-const inputStyle = {
-  width: "100%", padding: "10px 14px", fontSize: 14,
-  border: "1.5px solid #e5e7eb", borderRadius: 10,
-  outline: "none", background: "#fafafa", color: "#111827",
-  transition: "border-color 0.15s", boxSizing: "border-box",
-  fontFamily: "inherit",
-};
-const ERR = "1.5px solid #e24b4a";
-const ErrMsg = ({ msg }) => msg ? <p style={{ color: "#e24b4a", fontSize: 11, margin: "4px 0 0" }}>{msg}</p> : null;
+function SidebarWidget({ title, children }) {
+  return (
+    <div style={{ background:"#fff", borderRadius:12, border:`1px solid ${S.border}`, padding:18, marginBottom:16 }}>
+      <div style={{ fontFamily:"Syne, sans-serif", fontSize:13.5, fontWeight:700, marginBottom:14, color:S.text }}>{title}</div>
+      {children}
+    </div>
+  );
+}
 
-// ─── Main Component ───────────────────────────────────────────────────────────
+function QuickLink({ label, count }) {
+  return (
+    <a href="#" style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding:"8px 0", borderBottom:`1px solid ${S.border}`, fontSize:13, color:S.text, textDecoration:"none" }}>
+      {label}
+      <span style={{ display:"flex", alignItems:"center", gap:6 }}>
+        <span style={{ background:S.light, color:S.muted, fontSize:11, padding:"1px 7px", borderRadius:10 }}>{count}</span>
+        <span style={{ color:S.muted, fontSize:12 }}>›</span>
+      </span>
+    </a>
+  );
+}
 
-export default function JobPostForm() {
+// ─── App ──────────────────────────────────────────────────────────
+export default function App() {
+  const [activeCat, setActiveCat] = useState(0);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [searchVal, setSearchVal] = useState("");
+  const [searchTriggered, setSearchTriggered] = useState(false);
 
-  // ── Fields that match the backend payload exactly ──
-  const [companyLogo,      setCompanyLogo]      = useState("");  // Cloudinary URL
-  const [companyName,      setCompanyName]      = useState("");
-  const [jobTitle,         setJobTitle]         = useState("");
-  const [jobRole,          setJobRole]          = useState("");  // department / sub-role
-  const [jobDescription,   setJobDescription]   = useState("");
-  const [jobType,          setJobType]          = useState("IT"); // "IT" | "NON_IT" | "GOVT"
-  const [experienceLevel,  setExperienceLevel]  = useState("");
-  const [jobCategory,      setJobCategory]      = useState("");  // industry bucket
-  const [workMode,         setWorkMode]         = useState([]);  // array → joined on submit
-  const [salary,           setSalary]           = useState("");
-  const [location,         setLocation]         = useState("");
-  const [jobLink,          setJobLink]          = useState("");  // blank → filled after post
-  const [expiryDate,       setExpiryDate]       = useState("");
-
-  // ── UI-only state ──
-  const [errors,   setErrors]   = useState({});
-  const [loading,  setLoading]  = useState(false);
-  const [posted,   setPosted]   = useState(false);
-  const [apiError, setApiError] = useState("");
-  const [copied,   setCopied]   = useState(false);
-
-  // ── Helpers ──
-  const getJobTitles = () => {
-    if (jobType === "IT")   return IT_JOB_TITLES;
-    if (jobType === "GOVT") return GOVT_JOB_TITLES;
-    if (jobType === "NON_IT" && jobCategory) return NON_IT_JOB_TITLES[jobCategory] || [];
-    return [];
+  const handleSearch = () => {
+    setSearchTriggered(true);
+    setTimeout(() => setSearchTriggered(false), 1400);
   };
-
-  const toggleWorkMode = (wm) =>
-    setWorkMode(prev => prev.includes(wm) ? prev.filter(x => x !== wm) : [...prev, wm]);
-
-  const selectStyle = (hasErr) => ({
-    ...inputStyle,
-    border: hasErr ? ERR : "1.5px solid #e5e7eb",
-    appearance: "none",
-    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`,
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "right 14px center",
-    paddingRight: 36,
-  });
-
-  // ── Validation ──
-  const validate = () => {
-    const e = {};
-    if (!companyLogo.trim())                      e.companyLogo     = "Required";
-    if (!companyName.trim())                      e.companyName     = "Required";
-    if (!jobTitle)                                e.jobTitle        = "Required";
-    if (!jobRole)                                 e.jobRole         = "Required";
-    if (!jobDescription.trim())                   e.jobDescription  = "Required";
-    if (!experienceLevel)                         e.experienceLevel = "Required";
-    if (jobType === "NON_IT" && !jobCategory)     e.jobCategory     = "Required";
-    if (workMode.length === 0)                    e.workMode        = "Select at least one";
-    if (!salary)                                  e.salary          = "Required";
-    if (!location)                                e.location        = "Required";
-    if (!expiryDate)                              e.expiryDate      = "Required";
-    return e;
-  };
-
-  // ── Submit ──
-  const handlePost = async () => {
-    const e = validate();
-    setErrors(e);
-    setApiError("");
-    if (Object.keys(e).length > 0) return;
-
-    // Exact payload the backend expects
-    const payload = {
-      companyLogo,
-      companyName,
-      jobTitle,
-      jobRole,
-      jobDescription,
-      jobType,
-      experienceLevel,
-      jobCategory: jobCategory || jobType,   // IT / GOVT use jobType as category
-      workMode:    workMode.join(", "),       // comma-separated string
-      salary,
-      location,
-      jobLink,                               // may be blank; backend can return the real one
-      expiryDate,
-    };
-
-    console.log("📦 Job payload →", payload); // handy during dev
-
-    setLoading(true);
-    try {
-      const res = await postJobToAPI(payload);
-      if (res.success) {
-        setPosted(true);
-        // Auto-generate link if field is still blank
-        if (!jobLink) {
-          const slug = `${companyName.replace(/\s+/g, "-").toLowerCase()}-${jobTitle.replace(/\s+/g, "-").toLowerCase()}`;
-          setJobLink(`https://jobs.yourdomain.com/${slug}-${res.jobId.toLowerCase()}`);
-        }
-      }
-    } catch {
-      setApiError("Something went wrong. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleGenerateLink = () => {
-    const slug = `${companyName.replace(/\s+/g, "-").toLowerCase()}-${jobTitle.replace(/\s+/g, "-").toLowerCase()}`;
-    const uid  = Math.random().toString(36).substring(2, 8);
-    setJobLink(`https://jobs.yourdomain.com/${slug}-${uid}`);
-  };
-
-  const handleCopy = () => {
-    navigator.clipboard?.writeText(jobLink);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  // ─────────────────────────────────────────────────────────────────────────────
 
   return (
-    <div style={{
-      minHeight: "100vh",
-      background: "linear-gradient(135deg, #f0f4ff 0%, #fafbff 40%, #f5f0ff 100%)",
-      fontFamily: "'DM Sans', 'Segoe UI', sans-serif",
-      padding: "40px 20px",
-    }}>
+    <div style={{ fontFamily:"'DM Sans', sans-serif", background:S.light, color:S.text, minHeight:"100vh", fontSize:15 }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap');
-        input:focus, select:focus, textarea:focus { border-color:#6366f1 !important; box-shadow:0 0 0 3px rgba(99,102,241,0.1); }
-        .wt-btn  { cursor:pointer; border:1.5px solid #e5e7eb; border-radius:20px; padding:6px 14px; font-size:12px; background:white; color:#374151; transition:all 0.15s; font-family:inherit; }
-        .wt-btn:hover { border-color:#6366f1; color:#6366f1; }
-        .wt-btn.active { background:#6366f1; border-color:#6366f1; color:white; }
-        .jtype-btn { cursor:pointer; padding:8px 22px; border-radius:8px; font-size:13px; font-weight:600; border:1.5px solid #e5e7eb; background:white; color:#6b7280; transition:all 0.15s; font-family:inherit; }
-        .jtype-btn.active { background:#6366f1; border-color:#6366f1; color:white; }
-        .post-btn { width:100%; padding:14px; border-radius:12px; font-size:15px; font-weight:700; font-family:'Syne',sans-serif; letter-spacing:0.04em; cursor:pointer; border:none; background:linear-gradient(135deg,#6366f1,#8b5cf6); color:white; transition:all 0.2s; }
-        .post-btn:hover:not(:disabled) { transform:translateY(-1px); box-shadow:0 8px 24px rgba(99,102,241,0.35); }
-        .post-btn:disabled { opacity:0.65; cursor:not-allowed; }
-        .gen-btn { padding:9px 16px; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; border:1.5px solid #6366f1; background:white; color:#6366f1; font-family:inherit; transition:all 0.15s; white-space:nowrap; }
-        .gen-btn:hover:not(:disabled) { background:#f0f0ff; }
-        .gen-btn:disabled { opacity:0.45; cursor:not-allowed; }
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        .syne { font-family: 'Syne', sans-serif; }
+        a { text-decoration: none; color: inherit; }
+        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-110%); } }
+        .ticker { display: inline-block; animation: ticker 35s linear infinite; white-space: nowrap; }
+        @media (max-width: 768px) {
+          .hero-grid { flex-direction: column !important; }
+          .main-grid { flex-direction: column !important; }
+          .sidebar-col { display: none !important; }
+          .job-grid { grid-template-columns: 1fr !important; }
+          .desktop-nav { display: none !important; }
+          .mobile-ham { display: flex !important; }
+          .hero-stats { gap: 10px !important; }
+          .stat-box { padding: 8px 12px !important; }
+          .footer-grid { grid-template-columns: 1fr 1fr !important; }
+          .topbar-links { display: none !important; }
+        }
+        @media (max-width: 480px) {
+          .footer-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (min-width: 769px) {
+          .mobile-ham { display: none !important; }
+          .mobile-menu { display: none !important; }
+        }
+        .job-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .cat-pill-wrap { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+        .cat-pill-wrap::-webkit-scrollbar { display: none; }
       `}</style>
 
-      <div style={{ maxWidth: 760, margin: "0 auto" }}>
-
-        {/* ── Header ── */}
-        <div style={{ textAlign: "center", marginBottom: 40 }}>
-          <div style={{
-            display: "inline-flex", alignItems: "center", gap: 10,
-            background: "white", borderRadius: 40, padding: "8px 20px",
-            border: "1px solid #e5e7eb", marginBottom: 20,
-            boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
-          }}>
-            <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#22c55e" }} />
-            <span style={{ fontSize: 12, fontWeight: 600, color: "#6b7280", letterSpacing: "0.05em" }}>
-              JOB POSTING PORTAL
-            </span>
-          </div>
-          <h1 style={{
-            fontFamily: "'Syne', sans-serif", fontSize: 36, fontWeight: 800,
-            margin: "0 0 10px",
-            background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
-            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-          }}>Post a Job Opening</h1>
-          <p style={{ color: "#6b7280", fontSize: 14, margin: 0 }}>
-            Fill in the details below to reach thousands of active candidates
-          </p>
-        </div>
-
-        {/* ── Form Card ── */}
-        <div style={{
-          background: "white", borderRadius: 20, padding: "36px 40px",
-          border: "1px solid #e5e7eb", boxShadow: "0 4px 32px rgba(99,102,241,0.07)",
-        }}>
-
-          {/* ── Company Info ── */}
-          <div style={{ marginBottom: 32 }}>
-            <SectionHead title="Company Info" />
-
-            <Field label="Company Logo" required hint="Paste a Cloudinary image URL  ·  field key: companyLogo">
-              <input type="url"
-                placeholder="https://res.cloudinary.com/your-cloud/image/upload/logo.png"
-                value={companyLogo} onChange={e => setCompanyLogo(e.target.value)}
-                style={{ ...inputStyle, border: errors.companyLogo ? ERR : inputStyle.border }} />
-              {companyLogo && (
-                <img src={companyLogo} alt="logo preview" style={{
-                  width: 52, height: 52, borderRadius: 10, marginTop: 8,
-                  objectFit: "contain", border: "1px solid #e5e7eb", padding: 4, display: "block",
-                }} onError={e => e.target.style.display = "none"} />
-              )}
-              <ErrMsg msg={errors.companyLogo} />
-            </Field>
-
-            <Field label="Company Name" required hint="field key: companyName">
-              <input type="text" placeholder="Acme Corp"
-                value={companyName} onChange={e => setCompanyName(e.target.value)}
-                style={{ ...inputStyle, border: errors.companyName ? ERR : inputStyle.border }} />
-              <ErrMsg msg={errors.companyName} />
-            </Field>
-          </div>
-
-          {/* ── Job Details ── */}
-          <div style={{ marginBottom: 32 }}>
-            <SectionHead title="Job Details" />
-
-            {/* jobType */}
-            <Field label="Job Type" required hint="field key: jobType">
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                {[["IT", "IT / Tech"], ["NON_IT", "Non-IT"], ["GOVT", "Government"]].map(([val, lbl]) => (
-                  <button key={val} className={`jtype-btn ${jobType === val ? "active" : ""}`}
-                    onClick={() => { setJobType(val); setJobTitle(""); setJobRole(""); setJobCategory(""); }}>
-                    {lbl}
-                  </button>
-                ))}
-              </div>
-            </Field>
-
-            {/* jobCategory — required for NON_IT; auto-set for IT/GOVT */}
-            {jobType === "NON_IT" && (
-              <Field label="Industry / Job Category" required hint="field key: jobCategory">
-                <select value={jobCategory}
-                  onChange={e => { setJobCategory(e.target.value); setJobTitle(""); setJobRole(""); }}
-                  style={selectStyle(errors.jobCategory)}>
-                  <option value="">Select Industry...</option>
-                  {Object.keys(NON_IT_JOB_TITLES).map(ind => (
-                    <option key={ind} value={ind}>{ind}</option>
-                  ))}
-                </select>
-                <ErrMsg msg={errors.jobCategory} />
-              </Field>
-            )}
-
-            {/* jobTitle */}
-            <Field label="Job Title" required hint="field key: jobTitle">
-              <select value={jobTitle} onChange={e => setJobTitle(e.target.value)}
-                style={selectStyle(errors.jobTitle)}
-                disabled={jobType === "NON_IT" && !jobCategory}>
-                <option value="">Select Job Title...</option>
-                {getJobTitles().map(t => <option key={t} value={t}>{t}</option>)}
-              </select>
-              <ErrMsg msg={errors.jobTitle} />
-            </Field>
-
-            {/* jobRole */}
-            <Field label="Job Role / Department" required hint="field key: jobRole">
-              <select value={jobRole} onChange={e => setJobRole(e.target.value)}
-                style={selectStyle(errors.jobRole)}>
-                <option value="">Select Role / Department...</option>
-                {(JOB_ROLES[jobType] || []).map(r => (
-                  <option key={r} value={r}>{r}</option>
-                ))}
-              </select>
-              <ErrMsg msg={errors.jobRole} />
-            </Field>
-
-            {/* experienceLevel */}
-            <Field label="Experience Level" required hint="field key: experienceLevel">
-              <select value={experienceLevel} onChange={e => setExperienceLevel(e.target.value)}
-                style={selectStyle(errors.experienceLevel)}>
-                <option value="">Select Experience Level...</option>
-                {EXPERIENCE_LEVELS.map(l => <option key={l} value={l}>{l}</option>)}
-              </select>
-              <ErrMsg msg={errors.experienceLevel} />
-            </Field>
-
-            {/* jobDescription */}
-            <Field label="Job Description" required hint="field key: jobDescription">
-              <textarea
-                placeholder="Describe roles, responsibilities, required skills, and qualifications..."
-                value={jobDescription} onChange={e => setJobDescription(e.target.value)} rows={5}
-                style={{ ...inputStyle, resize: "vertical", border: errors.jobDescription ? ERR : inputStyle.border }} />
-              <ErrMsg msg={errors.jobDescription} />
-            </Field>
-          </div>
-
-          {/* ── Work & Compensation ── */}
-          <div style={{ marginBottom: 32 }}>
-            <SectionHead title="Work & Compensation" />
-
-            {/* workMode */}
-            <Field label="Work Mode" required hint="field key: workMode  ·  sent as comma-separated string">
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                {WORK_MODES.map(wm => (
-                  <button key={wm} className={`wt-btn ${workMode.includes(wm) ? "active" : ""}`}
-                    onClick={() => toggleWorkMode(wm)}>{wm}</button>
-                ))}
-              </div>
-              <ErrMsg msg={errors.workMode} />
-              {workMode.length > 0 && (
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 10 }}>
-                  {workMode.map(wm => <Tag key={wm} label={wm} onRemove={() => toggleWorkMode(wm)} />)}
-                </div>
-              )}
-            </Field>
-
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-              {/* salary */}
-              <Field label="Salary" required hint="field key: salary">
-                <select value={salary} onChange={e => setSalary(e.target.value)} style={selectStyle(errors.salary)}>
-                  <option value="">Select Range...</option>
-                  {SALARY_RANGES.map(r => <option key={r} value={r}>{r}</option>)}
-                </select>
-                <ErrMsg msg={errors.salary} />
-              </Field>
-
-              {/* location */}
-              <Field label="Location" required hint="field key: location">
-                <select value={location} onChange={e => setLocation(e.target.value)} style={selectStyle(errors.location)}>
-                  <option value="">Select Location...</option>
-                  {LOCATIONS.map(l => <option key={l} value={l}>{l}</option>)}
-                </select>
-                <ErrMsg msg={errors.location} />
-              </Field>
-            </div>
-
-            {/* expiryDate */}
-            <Field label="Application Expiry Date" required hint="field key: expiryDate  ·  last date candidates can apply">
-              <input type="date" value={expiryDate} onChange={e => setExpiryDate(e.target.value)}
-                style={{ ...inputStyle, border: errors.expiryDate ? ERR : inputStyle.border }} />
-              <ErrMsg msg={errors.expiryDate} />
-            </Field>
-          </div>
-
-          {/* ── Job Link ── */}
-          <div style={{ marginBottom: 32 }}>
-            <SectionHead title="Job Link" />
-            <Field label="Job Link" hint="field key: jobLink  ·  auto-filled after posting, or generate manually">
-              <div style={{ display: "flex", gap: 10, alignItems: "stretch" }}>
-                <input type="url"
-                  placeholder="https://jobs.yourdomain.com/your-job-link  — leave blank to auto-fill"
-                  value={jobLink} onChange={e => setJobLink(e.target.value)}
-                  style={{ ...inputStyle, flex: 1 }} />
-                <button className="gen-btn" onClick={handleGenerateLink}
-                  disabled={!companyName || !jobTitle}>
-                  ⚡ Generate
-                </button>
-              </div>
-              {jobLink && (
-                <div style={{
-                  marginTop: 8, display: "flex", alignItems: "center", gap: 8,
-                  background: "#f8f7ff", borderRadius: 8, padding: "8px 12px",
-                  border: "1px solid #c7d2fe",
-                }}>
-                  <a href={jobLink} target="_blank" rel="noreferrer" style={{
-                    fontSize: 12, color: "#6366f1", wordBreak: "break-all",
-                    textDecoration: "none", flex: 1, fontWeight: 500,
-                  }}>{jobLink}</a>
-                  <button onClick={handleCopy} style={{
-                    background: copied ? "#22c55e" : "#6366f1", color: "white",
-                    border: "none", borderRadius: 6, padding: "5px 12px",
-                    fontSize: 12, cursor: "pointer", fontFamily: "inherit",
-                    fontWeight: 600, whiteSpace: "nowrap", transition: "background 0.2s",
-                  }}>{copied ? "Copied!" : "Copy"}</button>
-                </div>
-              )}
-            </Field>
-          </div>
-
-          {/* ── Post Button ── */}
-          <button className="post-btn" onClick={handlePost} disabled={loading || posted}>
-            {loading ? "Posting…" : posted ? "✓  Job Posted Successfully" : "Post Job Opening →"}
-          </button>
-
-          {apiError && (
-            <p style={{ color: "#e24b4a", fontSize: 12, textAlign: "center", marginTop: 10 }}>{apiError}</p>
-          )}
-          {Object.keys(errors).length > 0 && !posted && (
-            <p style={{ color: "#e24b4a", fontSize: 12, textAlign: "center", marginTop: 10 }}>
-              Please fill all required fields marked with *
-            </p>
-          )}
-
-          {/* ── Success banner (inline, below button) ── */}
-          {posted && (
-            <div style={{
-              marginTop: 20, background: "#f0fdf4",
-              border: "1px solid #bbf7d0", borderRadius: 12, padding: "16px 20px",
-              display: "flex", alignItems: "flex-start", gap: 14,
-            }}>
-              <div style={{
-                width: 36, height: 36, borderRadius: "50%", background: "#dcfce7",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: 18, flexShrink: 0,
-              }}>✓</div>
-              <div>
-                <p style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 14, margin: "0 0 4px", color: "#166534" }}>
-                  {jobTitle} at {companyName} — posted!
-                </p>
-                <p style={{ fontSize: 12, color: "#16a34a", margin: 0 }}>
-                  {jobLink
-                    ? "Your job link has been generated. Copy it from the Job Link field above."
-                    : "Use ⚡ Generate in the Job Link field to create a shareable link."}
-                </p>
-              </div>
-            </div>
-          )}
-        </div>
-
-        <p style={{ textAlign: "center", fontSize: 11, color: "#9ca3af", marginTop: 24 }}>
-          All job posts are reviewed within 24 hours before going live.
-        </p>
+      {/* Alert Bar */}
+      <div style={{ background:"linear-gradient(90deg,#e8472a,#c0392b)", color:"#fff", textAlign:"center", padding:"9px 16px", fontSize:13 }}>
+        🎉 New jobs added today from Amazon, TCS, Infosys &amp; more! <a href="#jobs" style={{ color:"#fff", textDecoration:"underline", marginLeft:8 }}>View Latest Jobs →</a>
       </div>
+
+      {/* Topbar */}
+      <div style={{ background:S.primary, color:"#fff", fontSize:12, padding:"5px 0" }}>
+        <div style={{ maxWidth:1200, margin:"0 auto", padding:"0 16px", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+          <div style={{ display:"flex", alignItems:"center", gap:8, overflow:"hidden", maxWidth:"65%" }}>
+            <span style={{ background:S.accent, color:"#fff", borderRadius:3, padding:"1px 8px", fontWeight:700, fontSize:10.5, whiteSpace:"nowrap" }}>🔥 HOT</span>
+            <div style={{ overflow:"hidden" }}><span className="ticker" style={{ opacity:.85 }}>TCS BPS Hiring 2026 &nbsp;|&nbsp; Amazon Work From Home &nbsp;|&nbsp; Wipro NLTH 2026 &nbsp;|&nbsp; Infosys Systems Engineer &nbsp;|&nbsp; Google Internship 2026 &nbsp;|&nbsp; Deloitte Fresher Drive &nbsp;|&nbsp; Accenture Off Campus</span></div>
+          </div>
+          <div className="topbar-links" style={{ display:"flex", gap:16 }}>
+            {["About","Contact","Privacy"].map(l => <a key={l} href="#" style={{ color:"#c8d8ea" }}>{l}</a>)}
+            <a href="#" style={{ color:S.gold, fontWeight:600 }}>Advertise With Us</a>
+          </div>
+        </div>
+      </div>
+
+      {/* Navbar */}
+      <nav style={{ background:"#fff", borderBottom:`2px solid ${S.border}`, position:"sticky", top:0, zIndex:100, boxShadow:"0 2px 10px rgba(0,0,0,.06)" }}>
+        <div style={{ maxWidth:1200, margin:"0 auto", padding:"0 16px", display:"flex", alignItems:"center", justifyContent:"space-between", height:64 }}>
+          {/* Brand */}
+          <a href="#" style={{ display:"flex", alignItems:"center", gap:10 }}>
+            <img src={LOGO} alt="CodeTechniques" style={{ height:40, width:40, borderRadius:10, objectFit:"cover" }} />
+            <span className="syne" style={{ fontWeight:800, fontSize:21, color:S.primary }}>Code<span style={{ color:S.accent }}>Techniques</span></span>
+          </a>
+          {/* Desktop Nav */}
+          <div className="desktop-nav" style={{ display:"flex", alignItems:"center", gap:4 }}>
+            {["Home","Freshers Jobs","By Location","Work From Home","Internships","Interview Tips"].map((item, i) => (
+              <a key={item} href="#" style={{ fontSize:13, fontWeight:500, padding:"7px 12px", borderRadius:6, color: i===0 ? S.primary : S.text, background: i===0 ? S.light : "transparent", transition:"all .2s" }}>{item}</a>
+            ))}
+            <a href="#" style={{ background:S.accent, color:"#fff", padding:"8px 18px", borderRadius:7, fontWeight:600, fontSize:13, marginLeft:8 }}>Post a Job</a>
+          </div>
+          {/* Hamburger */}
+          <button className="mobile-ham" onClick={() => setMobileNavOpen(!mobileNavOpen)} style={{ display:"none", flexDirection:"column", gap:5, background:"none", border:"none", cursor:"pointer", padding:5 }}>
+            <span style={{ width:24, height:2, background:S.text, borderRadius:2, display:"block" }} />
+            <span style={{ width:24, height:2, background:S.text, borderRadius:2, display:"block" }} />
+            <span style={{ width:24, height:2, background:S.text, borderRadius:2, display:"block" }} />
+          </button>
+        </div>
+        {/* Mobile Menu */}
+        {mobileNavOpen && (
+          <div className="mobile-menu" style={{ background:"#fff", borderTop:`1px solid ${S.border}`, padding:"12px 16px" }}>
+            {["Home","Freshers Jobs","By Location","Work From Home","Internships","Interview Tips"].map(item => (
+              <a key={item} href="#" onClick={() => setMobileNavOpen(false)} style={{ display:"block", padding:"10px 0", borderBottom:`1px solid ${S.border}`, fontSize:14, fontWeight:500 }}>{item}</a>
+            ))}
+            <a href="#" style={{ display:"block", marginTop:12, background:S.accent, color:"#fff", padding:"10px 0", borderRadius:7, fontWeight:600, fontSize:14, textAlign:"center" }}>Post a Job</a>
+          </div>
+        )}
+      </nav>
+
+      {/* Hero */}
+      <section style={{ background:"linear-gradient(135deg,#0f4c81 0%,#1565c0 60%,#0d47a1 100%)", color:"#fff", padding:"48px 0 40px" }}>
+        <div style={{ maxWidth:1200, margin:"0 auto", padding:"0 16px" }}>
+          <div className="hero-grid" style={{ display:"flex", alignItems:"center", gap:32, flexWrap:"wrap" }}>
+            {/* Left */}
+            <div style={{ flex:1, minWidth:280 }}>
+              <h1 className="syne" style={{ fontSize:"clamp(1.5rem,4vw,2.4rem)", fontWeight:800, lineHeight:1.2, marginBottom:10 }}>
+                Find Your Dream Job<br />As a <span style={{ color:S.gold }}>Fresher in India</span>
+              </h1>
+              <p style={{ fontSize:14.5, opacity:.88, marginBottom:24, maxWidth:480 }}>100% verified job postings from top IT, government &amp; startup companies. Updated daily for 2025 &amp; 2026 batch graduates.</p>
+              <div className="hero-stats" style={{ display:"flex", gap:16, flexWrap:"wrap" }}>
+                {[["12,400+","Active Jobs"],["850+","Companies"],["2.3L+","Hired"]].map(([n,l]) => (
+                  <div key={l} className="stat-box" style={{ background:"rgba(255,255,255,.12)", border:"1px solid rgba(255,255,255,.2)", borderRadius:10, padding:"12px 20px", textAlign:"center" }}>
+                    <strong className="syne" style={{ display:"block", fontSize:"1.3rem", fontWeight:800 }}>{n}</strong>
+                    <small style={{ fontSize:11.5, opacity:.8 }}>{l}</small>
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* Search Card */}
+            <div style={{ background:"rgba(255,255,255,.12)", backdropFilter:"blur(8px)", border:"1px solid rgba(255,255,255,.2)", borderRadius:14, padding:22, flex:"0 0 340px", minWidth:280 }}>
+              <h6 style={{ fontSize:14, fontWeight:600, marginBottom:14 }}>🔍 Quick Job Search</h6>
+              <input value={searchVal} onChange={e => setSearchVal(e.target.value)} placeholder="Job title or company name" style={{ width:"100%", padding:"10px 14px", borderRadius:8, border:"none", background:"rgba(255,255,255,.95)", fontSize:13.5, fontFamily:"'DM Sans',sans-serif", color:S.text, marginBottom:10, outline:"none" }} />
+              <select style={{ width:"100%", padding:"10px 14px", borderRadius:8, border:"none", background:"rgba(255,255,255,.95)", fontSize:13.5, fontFamily:"'DM Sans',sans-serif", color:S.text, marginBottom:10, outline:"none" }}>
+                <option>All Locations</option>
+                {["Bangalore","Hyderabad","Pune","Mumbai","Chennai","Work From Home"].map(l => <option key={l}>{l}</option>)}
+              </select>
+              <select style={{ width:"100%", padding:"10px 14px", borderRadius:8, border:"none", background:"rgba(255,255,255,.95)", fontSize:13.5, fontFamily:"'DM Sans',sans-serif", color:S.text, marginBottom:12, outline:"none" }}>
+                <option>All Categories</option>
+                {["Software / IT","Government Jobs","MBA Jobs","Internships","Data Analyst"].map(c => <option key={c}>{c}</option>)}
+              </select>
+              <button onClick={handleSearch} style={{ width:"100%", background:S.accent, color:"#fff", border:"none", padding:11, borderRadius:8, fontWeight:700, fontSize:14, fontFamily:"'Syne',sans-serif", cursor:"pointer", transition:"opacity .2s" }}>
+                {searchTriggered ? "Searching..." : "Search Jobs →"}
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Top Ad */}
+      <div style={{ maxWidth:1200, margin:"16px auto", padding:"0 16px" }}>
+        <AdBanner icon="🎓" title="Upskill & Get Hired Faster — GreatLearning Free Courses" sub="Python, Data Science, Cloud, AI/ML — 100% Free Certifications" btnText="Enroll Free →" />
+      </div>
+
+      {/* Main */}
+      <div id="jobs" style={{ maxWidth:1200, margin:"0 auto", padding:"0 16px 48px" }}>
+        <div className="main-grid" style={{ display:"flex", gap:24, alignItems:"flex-start" }}>
+
+          {/* Content */}
+          <div style={{ flex:1, minWidth:0 }}>
+            {/* Category Pills */}
+            <div style={{ marginTop:16, marginBottom:20 }}>
+              <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:12 }}>
+                <h2 className="syne" style={{ fontSize:17, fontWeight:700, display:"flex", alignItems:"center", gap:8 }}>
+                  <span style={{ width:4, height:20, background:S.accent, borderRadius:3, display:"inline-block" }} />
+                  Browse by Category
+                </h2>
+              </div>
+              <div className="cat-pill-wrap">
+                {CATS.map((c,i) => (
+                  <span key={c.label} onClick={() => setActiveCat(i)} style={{ background: activeCat===i ? S.primary : "#fff", color: activeCat===i ? "#fff" : S.text, border: `1.5px solid ${activeCat===i ? S.primary : S.border}`, borderRadius:20, padding:"5px 15px", fontSize:12.5, fontWeight:500, cursor:"pointer", display:"inline-flex", alignItems:"center", gap:5, whiteSpace:"nowrap", flexShrink:0, transition:"all .2s" }}>
+                    {c.label}
+                    <span style={{ background: activeCat===i ? "rgba(255,255,255,.2)" : "#e8f4fd", color: activeCat===i ? "#fff" : S.primary, padding:"1px 6px", borderRadius:10, fontSize:10.5, fontWeight:700 }}>{c.count}</span>
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Section Header */}
+            <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:16 }}>
+              <h2 className="syne" style={{ fontSize:17, fontWeight:700, display:"flex", alignItems:"center", gap:8 }}>
+                <span style={{ width:4, height:20, background:S.accent, borderRadius:3, display:"inline-block" }} />
+                Latest Jobs 2026
+              </h2>
+              <a href="#" style={{ fontSize:12.5, color:S.primary, fontWeight:600 }}>View All →</a>
+            </div>
+
+            {/* Job Grid */}
+            <div className="job-grid">
+              <JobCard job={JOBS[0]} />
+              <JobCard job={JOBS[1]} />
+              <JobCard job={JOBS[2]} />
+              {/* Inline Ad full width */}
+              <div style={{ gridColumn:"1 / -1" }}>
+                <InlineAd icon="💼" title="Naukri.com — India's No.1 Job Portal" sub="Build your resume, get job alerts & apply to 1 crore+ jobs" btnText="Visit Naukri →" />
+              </div>
+              <JobCard job={JOBS[3]} />
+              <JobCard job={JOBS[4]} />
+              <JobCard job={JOBS[5]} />
+              <JobCard job={JOBS[6]} />
+              {/* Bottom Ad */}
+              <div style={{ gridColumn:"1 / -1" }}>
+                <InlineAd icon="📚" title="Coding Ninjas — Crack Product Companies" sub="Data Structures, System Design, Mock Interviews & Placement Prep" btnText="Start Free →" btnColor={S.accent} bg="linear-gradient(90deg,#fff0f0,#fff5f5)" borderColor="#fbb" />
+              </div>
+              <JobCard job={JOBS[7]} />
+            </div>
+
+            {/* Pagination */}
+            <div style={{ display:"flex", gap:8, marginTop:28, justifyContent:"center" }}>
+              {["‹","1","2","3","4","5","›"].map((p,i) => (
+                <button key={i} style={{ width:36, height:36, borderRadius:7, border:`1.5px solid ${p==="1" ? S.primary : S.border}`, background: p==="1" ? S.primary : "#fff", color: p==="1" ? "#fff" : S.text, fontWeight:600, fontSize:14, cursor:"pointer" }}>{p}</button>
+              ))}
+            </div>
+          </div>
+
+          {/* Sidebar */}
+          <div className="sidebar-col" style={{ width:300, flexShrink:0 }}>
+            {/* Sidebar Ad 1 */}
+            <div style={{ background:"linear-gradient(135deg,#0f4c81,#1565c0)", color:"#fff", borderRadius:12, padding:20, textAlign:"center", marginBottom:16 }}>
+              <span style={{ fontSize:10, color:"rgba(255,255,255,.4)", display:"block", marginBottom:8 }}>Advertisement</span>
+              <h5 className="syne" style={{ fontSize:15, fontWeight:800, marginBottom:6 }}>🚀 Launch Your Tech Career</h5>
+              <p style={{ fontSize:12, opacity:.85, marginBottom:14 }}>Bootcamp by GeeksforGeeks – Job Guarantee for 2026 Batch</p>
+              <a href="#" style={{ background:S.gold, color:"#000", padding:"8px 18px", borderRadius:7, fontWeight:700, fontSize:12.5, display:"inline-block" }}>Join Now →</a>
+            </div>
+            {/* Quick Categories */}
+            <SidebarWidget title="⚡ Quick Job Categories">
+              {QUICK_CATS.map(([l,c]) => <QuickLink key={l} label={l} count={c} />)}
+            </SidebarWidget>
+            {/* Top Companies */}
+            <SidebarWidget title="🏢 Top Hiring Companies">
+              <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
+                {COMPANIES.map(c => (
+                  <div key={c.name} style={{ display:"flex", alignItems:"center", gap:10, padding:9, borderRadius:8, border:`1px solid ${S.border}`, cursor:"pointer" }}>
+                    <div style={{ width:34, height:34, borderRadius:7, background:c.bg, color:c.color, display:"flex", alignItems:"center", justifyContent:"center", fontWeight:700, fontSize:13, flexShrink:0 }}>{c.letter}</div>
+                    <div><strong style={{ fontSize:13, display:"block" }}>{c.name}</strong><span style={{ fontSize:12, color:S.muted }}>{c.roles}</span></div>
+                  </div>
+                ))}
+              </div>
+            </SidebarWidget>
+            {/* WhatsApp Ad */}
+            <div style={{ background:"linear-gradient(160deg,#1a1a2e,#16213e)", color:"#fff", borderRadius:12, padding:18, textAlign:"center", marginBottom:16 }}>
+              <span style={{ fontSize:10, color:"rgba(255,255,255,.35)", display:"block", marginBottom:8 }}>Advertisement</span>
+              <div style={{ fontSize:36, marginBottom:6 }}>📱</div>
+              <h6 className="syne" style={{ fontSize:14, fontWeight:800, marginBottom:6, color:"#fff" }}>Get Job Alerts on WhatsApp</h6>
+              <p style={{ fontSize:12, opacity:.75, marginBottom:14 }}>Join 5 Lakh+ freshers getting daily updates</p>
+              <a href="#" style={{ background:"linear-gradient(90deg,#e8472a,#f5a623)", color:"#fff", padding:"8px 18px", borderRadius:7, fontWeight:700, fontSize:12.5, display:"inline-block" }}>Join Free Group →</a>
+            </div>
+            {/* Locations */}
+            <SidebarWidget title="📍 Jobs by Location">
+              {LOCATIONS.map(([l,c]) => <QuickLink key={l} label={l} count={c} />)}
+            </SidebarWidget>
+          </div>
+
+        </div>
+      </div>
+
+      {/* Bottom Ad */}
+      <div style={{ maxWidth:1200, margin:"0 auto", padding:"0 16px", marginBottom:20 }}>
+        <AdBanner icon="💰" title="Earn While You Learn — Referral Bonus up to ₹5,000" sub="Refer a friend to CodeTechniques Premium & earn per successful referral" btnText="Learn More →" btnColor={S.green} bg="linear-gradient(90deg,#f0fff4,#e8f5e9)" borderColor="#86efac" />
+      </div>
+
+      {/* Footer */}
+      <footer style={{ background:"#0d1b2a", color:"#c8d6e5", padding:"48px 0 20px" }}>
+        <div style={{ maxWidth:1200, margin:"0 auto", padding:"0 16px" }}>
+          <div className="footer-grid" style={{ display:"grid", gridTemplateColumns:"2fr 1fr 1fr 1fr", gap:32, marginBottom:32 }}>
+            <div>
+              <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:12 }}>
+                <img src={LOGO} alt="CodeTechniques" style={{ height:36, width:36, borderRadius:8 }} />
+                <span className="syne" style={{ fontWeight:800, fontSize:19, color:"#fff" }}>Code<span style={{ color:S.accent }}>Techniques</span></span>
+              </div>
+              <p style={{ fontSize:12.5, opacity:.7, lineHeight:1.7, marginBottom:16 }}>India's most trusted job portal for freshers &amp; recent graduates. 100% verified job postings updated daily.</p>
+              <div style={{ display:"flex", gap:8, marginBottom:16 }}>
+                <input type="email" placeholder="Enter email for job alerts" style={{ flex:1, background:"#1a2e44", border:"1px solid #2a3f5a", color:"#fff", fontSize:12.5, borderRadius:"7px 0 0 7px", padding:"8px 12px", outline:"none" }} />
+                <button style={{ background:S.accent, color:"#fff", border:"none", padding:"8px 14px", borderRadius:"0 7px 7px 0", fontWeight:600, fontSize:12.5, cursor:"pointer" }}>Subscribe</button>
+              </div>
+              <div style={{ display:"flex", gap:8 }}>
+                {["f","𝕏","in","▶","W"].map((s,i) => (
+                  <a key={i} href="#" style={{ width:34, height:34, borderRadius:7, background:"#1a2e44", display:"flex", alignItems:"center", justifyContent:"center", fontSize:13.5, color:"#8a9bb5", transition:"all .2s" }}>{s}</a>
+                ))}
+              </div>
+            </div>
+            <div>
+              <h6 className="syne" style={{ fontSize:13, fontWeight:700, color:"#fff", marginBottom:14 }}>Fresher Jobs</h6>
+              {["2026 Batch Jobs","2025 Batch Jobs","Software/IT Jobs","Government Jobs","MBA/BBA Jobs","Non-Engineering","Walk-in Jobs"].map(l => <a key={l} href="#" style={{ display:"block", fontSize:12.5, color:"#8a9bb5", marginBottom:8 }}>{l}</a>)}
+            </div>
+            <div>
+              <h6 className="syne" style={{ fontSize:13, fontWeight:700, color:"#fff", marginBottom:14 }}>Resources</h6>
+              {["Interview Questions","Resume Tips","Hiring Process Guide","Off Campus Alerts","Salary Guide 2026","Course Reviews"].map(l => <a key={l} href="#" style={{ display:"block", fontSize:12.5, color:"#8a9bb5", marginBottom:8 }}>{l}</a>)}
+            </div>
+            <div>
+              <h6 className="syne" style={{ fontSize:13, fontWeight:700, color:"#fff", marginBottom:14 }}>Company</h6>
+              {["About Us","Contact Us","Advertise With Us","Privacy Policy","Disclaimer","Sitemap","Affiliate Disclosure"].map(l => <a key={l} href="#" style={{ display:"block", fontSize:12.5, color:"#8a9bb5", marginBottom:8 }}>{l}</a>)}
+            </div>
+          </div>
+          <div style={{ borderTop:"1px solid #1e3047", paddingTop:16, display:"flex", flexWrap:"wrap", justifyContent:"space-between", alignItems:"center", gap:8 }}>
+            <p style={{ fontSize:12, opacity:.55 }}>© 2026 CodeTechniques India. All rights reserved.</p>
+            <div style={{ display:"flex", gap:16 }}>
+              {["Privacy","Terms","Cookies"].map(l => <a key={l} href="#" style={{ fontSize:12, color:"#8a9bb5" }}>{l}</a>)}
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
