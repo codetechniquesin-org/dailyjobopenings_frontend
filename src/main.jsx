@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
 import JobPostForm from './admin_pages/job_posting.jsx'
+import ViewJob from './user_pages/viewjob.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -12,6 +13,7 @@ createRoot(document.getElementById('root')).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/post-job" element={<JobPostForm />} />
+        <Route path="/view-job" element={<ViewJob />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>
