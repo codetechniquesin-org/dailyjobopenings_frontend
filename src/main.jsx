@@ -1,13 +1,10 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-
 import './index.css'
 import App from './App.jsx'
 import JobPostForm from './admin_pages/job_posting.jsx'
 import ViewJob from './user_pages/viewjob.jsx'
-import TestJobPage from './user_pages/test_viewjob.jsx'
-import OldJob from './user_pages/oldthing.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
