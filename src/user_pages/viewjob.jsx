@@ -545,7 +545,7 @@ const fetchJob = async () => {
       {/* ────────────── BREADCRUMB ────────────── */}
       <div style={{ maxWidth: "100%", margin: "0 auto", padding: `12px ${gutter} 0` }}>
         <div style={{ fontSize: 12.5, color: C.muted, display: "flex", alignItems: "center", gap: 5, flexWrap: "wrap" }}>
-          <a href="#" style={{ color: C.primary }}>Home</a>
+          <a href="http://localhost:5173" style={{ color: C.primary }}>Home</a>
           <span>›</span>
           <a href="#" style={{ color: C.primary }}>Software / IT Jobs</a>
           <span>›</span>
