@@ -182,7 +182,7 @@
     border-right-color: var(--border);
   }
 }
-
+.page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 .ticker-outer {
   overflow: hidden;
   white-space: nowrap;
