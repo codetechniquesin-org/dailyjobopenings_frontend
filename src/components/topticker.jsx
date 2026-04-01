@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function TopTicker({ isMobile, isDesktop, C, gutter }) {
   if (isMobile) return null;
@@ -7,7 +8,7 @@ function TopTicker({ isMobile, isDesktop, C, gutter }) {
     <div style={{ background: C.primary, color: "#fff", fontSize: 11.5, padding: "5px 0" }}>
       <div
         style={{
-          maxWidth: 1280,
+          Width: "100%",
           margin: "0 auto",
           padding: `0 ${gutter}`,
           display: "flex",
@@ -42,18 +43,30 @@ function TopTicker({ isMobile, isDesktop, C, gutter }) {
         </div>
 
         {/* Right Section */}
-        {isDesktop && (
-          <div style={{ display: "flex", gap: 16, flexShrink: 0 }}>
-            {["About", "Contact", "Privacy"].map((l) => (
-              <a key={l} href="#" style={{ color: "#c8d8ea" }}>
-                {l}
-              </a>
-            ))}
-            <a href="#" style={{ color: C.gold, fontWeight: 600 }}>
-              Advertise With Us
-            </a>
-          </div>
-        )}
+{isDesktop && (
+  <div style={{ display: "flex", gap: 16, flexShrink: 0 }}>
+    {[
+      { label: "About", path: "/about-us" },
+      { label: "Contact", path: "/contact-us" },
+      { label: "Privacy", path: "/privacy" }
+    ].map((item) => (
+      <Link
+        key={item.label}
+        to={item.path}
+        style={{ color: "#c8d8ea", textDecoration: "none" }}
+      >
+        {item.label}
+      </Link>
+    ))}
+
+    <Link
+      to="/advertise-with-us"
+      style={{ color: C.gold, fontWeight: 600, textDecoration: "none" }}
+    >
+      Advertise With Us
+    </Link>
+  </div>
+)}
       </div>
     </div>
   );

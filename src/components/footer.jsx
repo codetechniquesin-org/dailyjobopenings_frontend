@@ -1,4 +1,6 @@
 import React from "react";
+import Select from "react-select";
+import JobAlertSubscribe from "./common_components/job_alert";
 
 // ✅ Default colors (prevents crash if not passed)
 const defaultColors = {
@@ -17,7 +19,7 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
         padding: isMobile ? "32px 0 24px" : "48px 0 24px",
       }}
     >
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: `0 ${gutter}` }}>
+      <div style={{ Width: "100%", margin: "0 auto", padding: `0 ${gutter}` }}>
         
         {/* Top Section */}
         <div
@@ -35,25 +37,18 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
           {/* Brand */}
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 12 }}>
-              <div
-                style={{
-                  width: 34,
-                  height: 34,
-                  borderRadius: 8,
-                  background: C.primary,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontWeight: 800,
-                  fontSize: 13,
-                  color: "#fff",
-                }}
-              >
-                CT
-              </div>
+            <img
+            src="https://res.cloudinary.com/dd3niyhrb/image/upload/v1773481829/WhatsApp_Image_2026-03-14_at_3.18.14_PM_o5drwx.jpg"
+            alt="Logo"
+            style={{
+              width: isMobile ? 32 : 40,
+              height: isMobile ? 32 : 40,
+              borderRadius: 9,
+            }}
+          /> 
 
               <span style={{ fontWeight: 800, fontSize: 18, color: "#fff" }}>
-                Code<span style={{ color: C.accent }}>Techniques</span>
+                Daily<span style={{ color: C.accent }}>Job Openings</span>
               </span>
             </div>
 
@@ -63,36 +58,7 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
             </p>
 
             {/* Email */}
-            <div style={{ display: "flex", maxWidth: 320 }}>
-              <input
-                type="email"
-                placeholder="Email for job alerts"
-                style={{
-                  flex: 1,
-                  background: "#1a2e44",
-                  border: "1px solid #2a3f5a",
-                  color: "#fff",
-                  fontSize: 12,
-                  borderRadius: "7px 0 0 7px",
-                  padding: "10px 12px",
-                  outline: "none",
-                }}
-              />
-              <button
-                style={{
-                  background: C.accent,
-                  color: "#fff",
-                  border: "none",
-                  padding: "10px 14px",
-                  borderRadius: "0 7px 7px 0",
-                  fontWeight: 600,
-                  fontSize: 12,
-                  cursor: "pointer",
-                }}
-              >
-                Subscribe
-              </button>
-            </div>
+<JobAlertSubscribe />
           </div>
 
           {/* Desktop & Tablet Links */}

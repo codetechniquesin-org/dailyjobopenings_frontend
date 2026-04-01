@@ -3,6 +3,10 @@ import TopTicker from "../components/topticker";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import AlertBar from "../components/alertbar";
+import { useParams } from "react-router-dom";
+import SimilarJobs from "../components/viewjob_page_components/similar_jobs";
+import API_BASE_URL from "../config/api";
+
 
 /* ─────────────────────────────────────────────
    THEME
@@ -18,70 +22,43 @@ const C = {
   border:  "#e2e8f0",
 };
 
-/* ─────────────────────────────────────────────
-   JOB DATA
-───────────────────────────────────────────── */
-const JOB = {
-  id: 1,
-  title: "Associate Software Engineer",
-  role: "Software Engineer – Cloud & Linux Platform",
-  company: "Red Hat, Inc.",
-  companyParent: "An IBM Company",
-  companyIndustry: "Open Source / Cloud",
-  companySize: "20,000+ employees",
-  companyFounded: "1993, North Carolina",
-  companyRating: "4.3",
-  logo: "R",
-  logoBg: "#e8f4fd",
-  logoColor: "#0f4c81",
-  badge: "new",
-  badgeLabel: "🆕 New",
-  verified: true,
-  category: "Software / IT",
-  jobType: "Full-Time, Permanent",
-  experienceLevel: "Entry Level / Fresher",
-  experience: "0 – 2 Years (Freshers OK)",
-  workMode: "Hybrid",
-  workModeDetail: "Hybrid – 3 Days Office",
-  location: "Pune, Maharashtra, India",
-  salary: "₹8.0 – 12.0 LPA",
-  salaryNote: "Annual CTC",
-  department: "Engineering – Cloud & Linux",
-  openings: 15,
-  eligibleBatch: "2023 – 2025 Passout",
-  education: "B.E / B.Tech / M.Tech",
-  applicants: "2–10 applicants",
-  postedAgo: "2 days ago",
-  expiryDate: "April 15, 2026",
-  expiryDaysLeft: 12,
-  jobLink: "https://www.redhat.com/en/jobs/2026/ase-pune-fresher-batch",
-  skills: ["Linux", "Python", "Go (Golang)", "Kubernetes", "Docker", "REST APIs", "Git / GitHub", "CI/CD", "Cloud (AWS/GCP)"],
-  perks: ["🏥 Health Insurance", "📚 Learning Stipend", "🌴 Paid Leave", "🍽 Meal Allowance", "🎯 Performance Bonus", "💻 Laptop Provided"],
-  description: `Red Hat is looking for a passionate Associate Software Engineer to join its Engineering division in Pune. In this role, you will work on open-source cloud infrastructure projects, contributing to products like OpenShift, Ansible, and RHEL. You'll collaborate with globally distributed teams to design, build, and ship enterprise-grade software.`,
-  responsibilities: [
-    "Design and develop features for Red Hat's open-source software portfolio",
-    "Write clean, maintainable code in Python and Go with proper test coverage",
-    "Participate in code reviews, standups, and sprint planning",
-    "Deploy and manage containerized workloads using Kubernetes and Docker",
-    "Collaborate with upstream open-source communities (CNCF, Linux Foundation)",
-    "Troubleshoot production issues and contribute to RCA documentation",
-  ],
-  qualifications: [
-    "B.E / B.Tech / M.Tech in CS, IT, ECE, or related field (2023–2025 batch)",
-    "Strong foundation in Data Structures, Algorithms, and OS concepts",
-    "Hands-on experience with Linux command-line environment",
-    "Familiarity with at least one scripting language (Python preferred)",
-    "Good written and verbal communication skills",
-  ],
+const overlayStyle = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  background: "rgba(0,0,0,0.6)",
+  backdropFilter: "blur(6px)",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  zIndex: 999
 };
 
-const SIMILAR_JOBS = [
-  { logo: "I", logoBg: "#fff0f0", logoColor: "#e8472a", title: "Systems Engineer",    company: "Infosys", salary: "₹3.6–5.0 LPA" },
-  { logo: "W", logoBg: "#ede9fe", logoColor: "#7c3aed", title: "NLTH Elite Engineer", company: "Wipro",   salary: "₹3.5 LPA" },
-  { logo: "G", logoBg: "#fef9c3", logoColor: "#a16207", title: "STEP Intern 2026",    company: "Google",  salary: "₹80K/month" },
-];
+const modalStyle = {
+  background: "#ffffff",
+  padding: "24px",
+  borderRadius: "16px",
+  width: "320px",
+  textAlign: "center",
+  boxShadow: "0 10px 30px rgba(0,0,0,0.2)"
+};
 
-const NAV_LINKS = ["Home", "Freshers Jobs", "Work From Home", "Internships", "Interview Tips", "By Location"];
+const iconBtn = (bg) => ({
+  width: "48px",
+  height: "48px",
+  borderRadius: "50%",
+  background: bg,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  cursor: "pointer",
+  textDecoration: "none"
+});
+
+
+// const NAV_LINKS = ["Home", "Freshers Jobs", "Work From Home", "Internships", "Interview Tips", "By Location"];
 
 const BADGE_STYLE = {
   featured: { background: "#fff8e1", color: "#b45309" },
@@ -102,7 +79,7 @@ const BADGE_STYLE = {
   //this is related to toptocler
 function useBreakpoint() {
   const [w, setW] = useState(
-    typeof window !== "undefined" ? window.innerWidth : 1280
+    typeof window !== "undefined" ? window.innerWidth : "100%"
   );
   useEffect(() => {
     const h = () => setW(window.innerWidth);
@@ -278,7 +255,7 @@ function MobileDrawer({ open, onClose }) {
                 fontSize: 14, textAlign: "center", fontFamily: "'Syne',sans-serif",
               }}
             >
-              📢 Post a Job
+              📢 Post a Job ggg
             </a>
           </div>
           <div style={{ background: C.light, borderRadius: 10, padding: 14, marginTop: 12 }}>
@@ -311,7 +288,7 @@ function SidebarWidget({ title, children }) {
     </Card>
   );
 }
-
+//--------------------------------------------------------------------------------------------------------------------------------------//
 /* ─────────────────────────────────────────────
    SIDEBAR
 ───────────────────────────────────────────── */
@@ -322,24 +299,39 @@ function Sidebar({ job }) {
       {/* Company Card */}
       <SidebarWidget title="🏢 About the Company">
         <div style={{ display: "flex", alignItems: "center", gap: 11, marginBottom: 14 }}>
-          <div style={{
-            width: 48, height: 48, borderRadius: 10,
-            background: job.logoBg, color: job.logoColor,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontWeight: 800, fontSize: 20, fontFamily: "'Syne',sans-serif",
-            border: `1px solid ${C.border}`, flexShrink: 0,
-          }}>
-            {job.logo}
-          </div>
+<div
+  style={{
+    width: 48,
+    height: 48,
+    borderRadius: 10,
+    background: "#fff",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    border: `1px solid ${C.border}`,
+    flexShrink: 0,
+    overflow: "hidden"
+  }}
+>
+  <img
+    src={job.companyLogo}
+    alt={job.companyName}
+    style={{
+      width: "80%",
+      height: "80%",
+      objectFit: "contain"
+    }}
+  />
+</div>
           <div>
-            <div style={{ fontWeight: 700, fontSize: 14, color: C.text }}>{job.company}</div>
-            <div style={{ fontSize: 12, color: C.muted }}>{job.companyParent}</div>
+            <div style={{ fontWeight: 700, fontSize: 14, color: C.text }}>{job.JobTitle}</div>
+            <div style={{ fontSize: 12, color: C.muted }}>{job.companyName}</div>
           </div>
         </div>
         {[
-          ["Industry", job.companyIndustry],
-          ["Size",     job.companySize],
-          ["Founded",  job.companyFounded],
+          ["Industry", 'IT'],
+          ["Size",     "BIG"],
+          ["Founded",  "Today"],
         ].map(([lbl, val]) => (
           <div key={lbl} style={{ display: "flex", justifyContent: "space-between", fontSize: 12.5, padding: "5px 0", borderBottom: `1px solid ${C.border}` }}>
             <span style={{ color: C.muted }}>{lbl}</span>
@@ -348,7 +340,7 @@ function Sidebar({ job }) {
         ))}
         <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12.5, padding: "5px 0" }}>
           <span style={{ color: C.muted }}>Rating</span>
-          <span style={{ fontWeight: 600, color: C.gold }}>⭐ {job.companyRating} / 5</span>
+          <span style={{ fontWeight: 600, color: C.gold }}>5⭐ {job.companyRating} / 5</span>
         </div>
         <a
           href="#"
@@ -358,7 +350,7 @@ function Sidebar({ job }) {
             border: `1.5px solid ${C.border}`, borderRadius: 8, padding: "8px 0",
           }}
         >
-          View All Jobs at {job.company.split(",")[0]} →
+          View All Jobs at {job.companyCareersLink?.split(",")[0]} →
         </a>
       </SidebarWidget>
 
@@ -366,10 +358,10 @@ function Sidebar({ job }) {
       <SidebarWidget title="📋 Job Summary">
         <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
           {[
-            ["📌", "JOB ROLE",   job.role],
+            ["📌", "JOB ROLE",   job.jobRole],
             ["💼", "JOB TYPE",   job.jobType],
-            ["🎯", "EXPERIENCE", job.experience],
-            ["🏠", "WORK MODE",  job.workModeDetail],
+            ["🎯", "EXPERIENCE", job.experienceLevel],
+            ["🏠", "WORK MODE",  job.workMode],
             ["📍", "LOCATION",   job.location],
           ].map(([icon, lbl, val]) => (
             <div key={lbl} style={{ display: "flex", gap: 9, alignItems: "flex-start" }}>
@@ -387,13 +379,13 @@ function Sidebar({ job }) {
               <div style={{ fontSize: 13, fontWeight: 700, color: C.green }}>{job.salary}</div>
             </div>
           </div>
-          <div style={{ display: "flex", gap: 9, alignItems: "flex-start" }}>
+          {/* <div style={{ display: "flex", gap: 9, alignItems: "flex-start" }}>
             <span style={{ fontSize: 15, flexShrink: 0, marginTop: 2 }}>⏰</span>
             <div>
               <SectionLabel>LAST DATE</SectionLabel>
               <div style={{ fontSize: 13, fontWeight: 600, color: C.accent }}>{job.expiryDate}</div>
             </div>
-          </div>
+          </div> */}
         </div>
       </SidebarWidget>
 
@@ -419,36 +411,7 @@ function Sidebar({ job }) {
       </div>
 
       {/* Similar Jobs */}
-      <SidebarWidget title="🔍 Similar Jobs">
-        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-          {SIMILAR_JOBS.map((j) => (
-            <a
-              key={j.title} href="#"
-              style={{
-                display: "flex", gap: 10, padding: 10,
-                borderRadius: 9, border: `1px solid ${C.border}`,
-                textDecoration: "none",
-              }}
-            >
-              <div style={{
-                width: 34, height: 34, borderRadius: 8,
-                background: j.logoBg, color: j.logoColor,
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontWeight: 700, fontSize: 13, flexShrink: 0,
-              }}>
-                {j.logo}
-              </div>
-              <div>
-                <strong style={{ fontSize: 13, display: "block", color: C.text }}>{j.title}</strong>
-                <span style={{ fontSize: 11.5, color: C.muted }}>{j.company} · {j.salary}</span>
-              </div>
-            </a>
-          ))}
-        </div>
-        <a href="#" style={{ display: "block", textAlign: "center", marginTop: 12, fontSize: 12.5, color: C.primary, fontWeight: 600 }}>
-          View All Software Jobs →
-        </a>
-      </SidebarWidget>
+        {job?._id && <SimilarJobs jobId={job._id} />}
     </div>
   );
 }
@@ -462,12 +425,39 @@ export default function ViewJob() {
   const { isMobile, isTablet, isDesktop, showSidebar, w } = bp;
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [saved, setSaved] = useState(false);
-  const job = JOB;
-
   const gutter = isMobile ? "14px" : isTablet ? "20px" : "24px";
+  const [showShare, setShowShare] = useState(false);
+  const { slug } = useParams();
+
+  const [job, setJob] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+const fetchJob = async () => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/view-job/${slug}`);
+    const data = await res.json();
+
+    console.log("FULL RESPONSE:", data); // 🔥 MUST DO
+
+    setJob(data.data); // keep this for now
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
+};
+
+    fetchJob();
+  }, [slug]);
+
+  if (loading) return <p style={{ padding: "20px" }}>Loading...</p>;
+  if (!job) return <p style={{ padding: "20px" }}>No job found</p>;
+
+  
 
   return (
-    <div style={{ fontFamily: "'DM Sans',sans-serif", background: C.light, color: C.text, minHeight: "100vh" }}>
+    <div style={{ fontFamily: "'DM Sans',sans-serif", background: C.light, color: C.text, minHeight: "100vh" , width: "100%" , overflowX: "hidden"}}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -529,7 +519,10 @@ export default function ViewJob() {
           .job-title { font-size: 24px !important; }
           .detail-grid { grid-template-columns: repeat(3, 1fr) !important; }
         }
+          html, body { width: 100% !important; margin: 0 !important; padding: 0 !important; overflow-x: hidden !important; }
+#root { width: 100% !important; overflow-x: hidden !important; }
       `}</style>
+      
 
       <AlertBar 
   isMobile={false}
@@ -551,9 +544,9 @@ export default function ViewJob() {
       <MobileDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
 
       {/* ────────────── BREADCRUMB ────────────── */}
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: `12px ${gutter} 0` }}>
+      <div style={{ maxWidth: "100%", margin: "0 auto", padding: `12px ${gutter} 0` }}>
         <div style={{ fontSize: 12.5, color: C.muted, display: "flex", alignItems: "center", gap: 5, flexWrap: "wrap" }}>
-          <a href="#" style={{ color: C.primary }}>Home</a>
+          <a href="http://localhost:5173" style={{ color: C.primary }}>Home</a>
           <span>›</span>
           <a href="#" style={{ color: C.primary }}>Software / IT Jobs</a>
           <span>›</span>
@@ -563,7 +556,8 @@ export default function ViewJob() {
 
       {/* ────────────── MAIN CONTENT ────────────── */}
       <div style={{
-        maxWidth: 1280, margin: "16px auto",
+        maxWidth: "100%",
+        margin: "16px auto",
         padding: `0 ${gutter} 56px`,
         display: "flex",
         flexDirection: showSidebar ? "row" : "column",
@@ -580,17 +574,30 @@ export default function ViewJob() {
           <Card style={{ marginBottom: 14, borderLeft: `4px solid ${C.primary}` }}>
 
             <div style={{ display: "flex", gap: 16, alignItems: "flex-start", flexWrap: "wrap" }}>
-              {/* Company logo */}
-              <div style={{
-                width: isMobile ? 54 : 72, height: isMobile ? 54 : 72,
-                borderRadius: 12, background: job.logoBg, color: job.logoColor,
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontWeight: 800, fontSize: isMobile ? 22 : 30,
-                fontFamily: "'Syne',sans-serif",
-                border: `1px solid ${C.border}`, flexShrink: 0,
-              }}>
-                {job.logo}
-              </div>
+<div
+  style={{
+    width: isMobile ? 54 : 72,
+    height: isMobile ? 54 : 72,
+    borderRadius: 12,
+    background: "#fff",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    border: `1px solid ${C.border}`,
+    flexShrink: 0,
+    overflow: "hidden"
+  }}
+>
+  <img
+    src={job.companyLogo}
+    alt={job.companyName}
+    style={{
+      width: "80%",
+      height: "80%",
+      objectFit: "contain"
+    }}
+  />
+</div>
 
               {/* Title / company / meta */}
               <div style={{ flex: 1, minWidth: 0 }}>
@@ -604,7 +611,7 @@ export default function ViewJob() {
                     </span>
                   )}
                   <span style={{ background: "#fff7ed", color: "#c2410c", fontSize: 11, fontWeight: 700, padding: "3px 9px", borderRadius: 5 }}>
-                    {job.category}
+                    {job.jobCategory}
                   </span>
                 </div>
 
@@ -615,18 +622,24 @@ export default function ViewJob() {
                     color: C.text, lineHeight: 1.2, marginBottom: 5,
                   }}
                 >
-                  {job.title}
+                  {job.jobTitle}
                 </h1>
 
                 <div style={{ fontSize: isMobile ? 13.5 : 15, fontWeight: 600, color: C.primary, marginBottom: 10 }}>
-                  {job.company}
+                  {job.companyName}
                 </div>
 
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                   <Tag>📍 {isMobile ? "Pune, MH" : job.location}</Tag>
                   <Tag>🏠 {job.workMode}</Tag>
-                  <Tag>📅 {job.postedAgo}</Tag>
-                  {!isMobile && <Tag>👥 {job.applicants}</Tag>}
+<Tag>
+  📅 {job.createdAt ? new Date(job.createdAt).toDateString() : "N/A"}
+</Tag>
+{!isMobile && job?.applicantsCount !== undefined && (
+  <Tag>
+    👥 {job.applicantsCount} applicants
+  </Tag>
+)}
                 </div>
               </div>
 
@@ -673,11 +686,119 @@ export default function ViewJob() {
               <button className="btn-save" onClick={() => setSaved(!saved)}>
                 {saved ? "✅ Saved" : "🔖 Save Job"}
               </button>
-              <button className="btn-share">📤 Share</button>
+<button className="btn-share" onClick={() => setShowShare(true)}>
+  📤 Share
+</button>
+{showShare && (
+  <div style={overlayStyle}>
+    <div style={modalStyle}>
+      
+      <h3 style={{ marginBottom: "10px" }}>Share Job</h3>
+
+      {/* Link Box */}
+      <input
+        type="text"
+        value={`${window.location.origin}/view-job/${job.slug}`}
+        readOnly
+        style={{
+          width: "100%",
+          padding: "8px",
+          borderRadius: "8px",
+          border: "1px solid #ddd",
+          marginBottom: "12px"
+        }}
+      />
+
+      {/* Copy Button */}
+      <button
+        onClick={() => {
+          navigator.clipboard.writeText(`${window.location.origin}/view-job/${job.slug}`);
+          alert("Link copied!");
+        }}
+        style={{
+          padding: "8px 14px",
+          borderRadius: "8px",
+          border: "none",
+          background: "#0f4c81",
+          color: "#fff",
+          cursor: "pointer"
+        }}
+      >
+        Copy Link
+      </button>
+
+      <div style={{ marginTop: "18px", display: "flex", justifyContent: "center", gap: "12px" }}>
+
+  {/* WhatsApp */}
+  <a
+    href={`https://wa.me/?text=${window.location.origin}/view-job/${job.slug}`}
+    target="_blank"
+    style={iconBtn("#25D366")}
+  >
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+      <path d="M20.52 3.48A11.94 11.94 0 0012.02 0C5.39 0 .02 5.37.02 12c0 2.12.55 4.18 1.6 6L0 24l6.17-1.62A11.96 11.96 0 0012.02 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.2-3.5-8.52zM12.02 22c-1.82 0-3.6-.48-5.17-1.38l-.37-.22-3.66.96.98-3.57-.24-.37A9.93 9.93 0 012.02 12c0-5.52 4.48-10 10-10s10 4.48 10 10-4.48 10-10 10zm5.49-7.32c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.07-.8.37-.27.3-1.05 1.02-1.05 2.5 0 1.47 1.08 2.9 1.23 3.1.15.2 2.13 3.25 5.16 4.56.72.31 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35z"/>
+    </svg>
+  </a>
+
+  {/* Twitter */}
+  <a
+    href={`https://twitter.com/intent/tweet?url=${window.location.origin}/view-job/${job.slug}`}
+    target="_blank"
+    style={iconBtn("#1DA1F2")}
+  >
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+      <path d="M22.46 6c-.77.35-1.6.58-2.46.69a4.3 4.3 0 001.88-2.37 8.6 8.6 0 01-2.72 1.04 4.28 4.28 0 00-7.3 3.9 12.14 12.14 0 01-8.82-4.47 4.28 4.28 0 001.32 5.7 4.24 4.24 0 01-1.94-.54v.05c0 2.06 1.46 3.78 3.4 4.17-.36.1-.74.15-1.13.15-.28 0-.55-.03-.81-.08.55 1.72 2.14 2.97 4.02 3a8.58 8.58 0 01-5.3 1.83c-.34 0-.68-.02-1.01-.06A12.1 12.1 0 006.56 21c7.88 0 12.2-6.53 12.2-12.2 0-.19 0-.39-.01-.58A8.72 8.72 0 0022.46 6z"/>
+    </svg>
+  </a>
+
+  {/* LinkedIn */}
+  <a
+    href={`https://www.linkedin.com/sharing/share-offsite/?url=${window.location.origin}/view-job/${job.slug}`}
+    target="_blank"
+    style={iconBtn("#0077B5")}
+  >
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+      <path d="M4.98 3.5C4.98 5 3.88 6 2.49 6S0 5 0 3.5 1.1 1 2.49 1 4.98 2 4.98 3.5zM.24 8.98h4.5V24H.24V8.98zM8.98 8.98h4.31v2.05h.06c.6-1.14 2.07-2.34 4.27-2.34 4.56 0 5.4 3 5.4 6.89V24h-4.5v-7.53c0-1.8-.03-4.12-2.51-4.12-2.51 0-2.89 1.96-2.89 3.98V24h-4.5V8.98z"/>
+    </svg>
+  </a>
+
+  {/* Copy */}
+  <div
+    onClick={() => {
+      navigator.clipboard.writeText(`${window.location.origin}/view-job/${job.slug}`);
+      alert("Copied!");
+    }}
+    style={iconBtn("#6b7280")}
+  >
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+      <path d="M16 1H4C2.9 1 2 1.9 2 3v12h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+    </svg>
+  </div>
+
+
+      </div>
+
+      {/* Close */}
+      <button
+        onClick={() => setShowShare(false)}
+        style={{
+          marginTop: "20px",
+          background: "transparent",
+          border: "none",
+          color: "#666",
+          cursor: "pointer"
+        }}
+      >
+        Close
+      </button>
+
+    </div>
+  </div>
+)}
             </div>
 
             {/* Expiry warning */}
-            <div style={{
+            {/* <div style={{
               background: "#fff8e1", border: `1.5px solid ${C.gold}`,
               borderRadius: 9, padding: "10px 14px",
               display: "flex", alignItems: "flex-start",
@@ -689,7 +810,7 @@ export default function ViewJob() {
                 <strong>Application Deadline:</strong> {job.expiryDate}&nbsp;|&nbsp;
                 <span style={{ color: C.accent, fontWeight: 700 }}>{job.expiryDaysLeft} days remaining</span>
               </div>
-            </div>
+            </div> */}
           </Card>
 
           {/* ── JOB DETAILS GRID ── */}
@@ -702,12 +823,12 @@ export default function ViewJob() {
             >
               {[
                 ["Job Type",         <Pill bg="#e8f4fd"  color={C.primary}>{job.jobType}</Pill>],
-                ["Job Category",     <Pill bg="#fff0f0"  color={C.accent}>{job.category}</Pill>],
+                ["Job Category",     <Pill bg="#fff0f0"  color={C.accent}>{job.jobCategory}</Pill>],
                 ["Experience Level", <Pill bg="#dcfce7"  color="#15803d">{job.experienceLevel}</Pill>],
-                ["Work Mode",        <div style={{ fontSize: 13.5, fontWeight: 500 }}>🏠 {job.workModeDetail}</div>],
+                ["Work Mode",        <div style={{ fontSize: 13.5, fontWeight: 500 }}>🏠 {job.workMode}</div>],
                 ["Location",         <div style={{ fontSize: 13.5, fontWeight: 500 }}>📍 {isMobile ? "Pune, MH" : job.location}</div>],
                 ["Education",        <div style={{ fontSize: 13.5, fontWeight: 500 }}>{job.education}</div>],
-                ["Eligible Batch",   <div style={{ fontSize: 13.5, fontWeight: 500 }}>{job.eligibleBatch}</div>],
+                ["Eligible Batch",   <div style={{ fontSize: 13.5, fontWeight: 500 }}>{job.eligibleBatches}</div>],
                 ["Department",       <div style={{ fontSize: 13.5, fontWeight: 500 }}>{job.department}</div>],
                 ["Openings",         <div style={{ fontSize: 13.5, fontWeight: 500 }}>{job.openings} positions</div>],
               ].map(([lbl, val]) => (
@@ -722,7 +843,7 @@ export default function ViewJob() {
 
             <SectionLabel>Required Skills</SectionLabel>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 7, marginTop: 8 }}>
-              {job.skills.map((s) => <SkillTag key={s} label={s} />)}
+              {job.skills?.map((s) => <SkillTag key={s} label={s} />)}
             </div>
           </Card>
 
@@ -731,23 +852,45 @@ export default function ViewJob() {
             <SectionTitle text="Job Description" />
 
             <p style={{ fontSize: 13.5, color: C.text, lineHeight: 1.8, marginBottom: 20 }}>
-              {job.description}
+              {job.jobDescription || "No description available."}
             </p>
 
-            <div style={{ marginBottom: 20 }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 10 }}>Key Responsibilities</div>
-              <ul>{job.responsibilities.map((r) => <li key={r}>{r}</li>)}</ul>
-            </div>
+<div style={{ marginBottom: 20 }}>
+  <div style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 10 }}>
+    Key Responsibilities
+  </div>
 
-            <div style={{ marginBottom: 20 }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 10 }}>Qualifications</div>
-              <ul>{job.qualifications.map((q) => <li key={q}>{q}</li>)}</ul>
-            </div>
+  {Array.isArray(job?.responsibilities) && job.responsibilities.length > 0 ? (
+    <ul>
+      {job.responsibilities.map((r, i) => (
+        <li key={i}>{r}</li>
+      ))}
+    </ul>
+  ) : (
+    <p style={{ color: "#6b7280" }}>Not specified</p>
+  )}
+</div>
+
+<div style={{ marginBottom: 20 }}>
+  <div style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 10 }}>
+    Qualifications
+  </div>
+
+  {Array.isArray(job?.qualifications) && job.qualifications.length > 0 ? (
+    <ul>
+      {job.qualifications.map((q, i) => (
+        <li key={i}>{q}</li>
+      ))}
+    </ul>
+  ) : (
+    <p style={{ color: "#6b7280" }}>Not specified</p>
+  )}
+</div>
 
             <div>
               <div style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 10 }}>Perks &amp; Benefits</div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                {job.perks.map((p) => <Tag key={p}>{p}</Tag>)}
+                {job.perks?.map((p) => <Tag key={p}>{p}</Tag>)}
               </div>
             </div>
           </Card>
@@ -777,7 +920,7 @@ export default function ViewJob() {
                 className="btn-apply"
                 style={{ flexShrink: 0 }}
               >
-                Apply on {job.company.split(",")[0]} →
+                Apply on {job.company?.split(",")[0]} →
               </a>
             </div>
             <div style={{ marginTop: 12, fontSize: 12, color: C.muted, display: "flex", alignItems: "center", gap: 5 }}>
@@ -804,7 +947,7 @@ export default function ViewJob() {
       </div>
 
       {/* ────────────── BOTTOM AD STRIP ────────────── */}
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: `0 ${gutter} 20px` }}>
+      <div style={{ maxWidth: "100%", margin: "0 auto", padding: `0 ${gutter} 20px` }}>
         <div style={{
           background: "linear-gradient(90deg,#f0fff4,#e8f5e9)",
           border: "1.5px dashed #86efac", borderRadius: 10,
