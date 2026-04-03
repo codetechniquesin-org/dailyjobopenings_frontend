@@ -4,6 +4,7 @@ import TopTicker from "../components/topticker";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import axios from "axios";
+import API_BASE_URL from "../config/api";
 
 
 const C = {
@@ -222,7 +223,7 @@ export default function ResourcesPage() {
   useEffect(() => {
   const fetchResources = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/resources/get-all-resources");
+      const res = await fetch(`${API_BASE_URL}/api/resources/get-all-resources`);
       
       if (!res.ok) {
         throw new Error("Failed to fetch data");
