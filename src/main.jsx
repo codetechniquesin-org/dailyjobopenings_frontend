@@ -19,6 +19,7 @@ import ProtectedRoute from "./admin/components/ProtectedRoute";
 import ManageJobs from './admin/pages/manageJobs.jsx'
 import ManageResources from './admin/pages/manageResources.jsx'
 import InterviewQues from './admin/pages/manageInterQues.jsx'
+import ResetPassword from './admin/pages/resetPassword.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -39,7 +40,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/admin/manage-admins" element={<ProtectedRoute><Admins /></ProtectedRoute>} />
         <Route path="/admin/manage-resources" element={<ProtectedRoute><ManageResources /></ProtectedRoute>} />
         <Route path="/admin/manage-interview-questions" element={<ProtectedRoute><InterviewQues /></ProtectedRoute>} />
-
+        <Route path="/admin/reset-password" element={<ProtectedRoute><ResetPassword /></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
   </StrictMode>

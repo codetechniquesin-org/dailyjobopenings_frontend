@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import AdminNavbar from "../components/adminnavbar";
+import useAutoLogout from "../services/useAutoLogout";
 
 /* ── Design tokens ── */
 const S = {
@@ -36,6 +37,7 @@ const cards = [
 ];
 
 export default function Dashboard() {
+  useAutoLogout();
   const admin = JSON.parse(localStorage.getItem("adminInfo"));
   const [date, setDate] = useState("");
 

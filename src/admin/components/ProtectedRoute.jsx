@@ -10,9 +10,12 @@ const ProtectedRoute = ({ children, requireSuperAdmin = false }) => {
   }
 
   // ❌ Force password reset
-  if (admin?.isTempPassword) {
-    return <Navigate to="/admin/reset-password" replace />;
-  }
+if (
+  admin?.isTempPassword &&
+  window.location.pathname !== "/admin/reset-password"
+) {
+  return <Navigate to="/admin/reset-password" />;
+}
 
   // ❌ Role-based protection
   if (requireSuperAdmin && admin?.role !== "super_admin") {
