@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import AdminNavbar from "../components/adminnavbar";
-import VITE_API_BASE_URL from "../../config/api";
+import API_BASE_URL from "../../config/api";
 
 /* ── Design tokens ── */
 const S = {
@@ -99,7 +99,7 @@ export default function Admins() {
 
   const fetchAdmins = async () => {
     try {
-      const res = await fetch(`${VITE_API_BASE_URL}/api/admin/get-all-admins`, {
+      const res = await fetch(`${API_BASE_URL}/api/admin/get-all-admins`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
       const data = await res.json();
@@ -112,7 +112,7 @@ export default function Admins() {
 
   const doDelete = async () => {
     try {
-      const res = await fetch(`${VITE_API_BASE_URL}/api/admin/delete-admin/${confirm}`, {
+      const res = await fetch(`${API_BASE_URL}/api/admin/delete-admin/${confirm}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${getToken()}` },
       });
@@ -125,7 +125,7 @@ export default function Admins() {
 
   const doEdit = async () => {
     try {
-      const res = await fetch(`${VITE_API_BASE_URL}/api/admin/update-admin/${editAdmin._id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/admin/update-admin/${editAdmin._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${getToken()}` },
         body: JSON.stringify({ email: editAdmin.email, role: editAdmin.role }),
@@ -140,7 +140,7 @@ export default function Admins() {
   const doCreate = async () => {
     if (!form.email.trim()) return;
     try {
-      const res = await fetch(`${VITE_API_BASE_URL}/api/admin/create-admin`, {
+      const res = await fetch(`${API_BASE_URL}/api/admin/create-admin`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${getToken()}` },
         body: JSON.stringify(form),
