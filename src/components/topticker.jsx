@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function TopTicker({ isMobile, isDesktop, C, gutter }) {
-  if (isMobile) return null;
+  // if (isMobile) return null;
 
   return (
     <div style={{ background: C.primary, color: "#fff", fontSize: 11.5, padding: "5px 0" }}>
