@@ -125,7 +125,7 @@ function SectionTitle({ text }) {
   return (
     <h2 style={{
       fontFamily: "'Syne',sans-serif", fontSize: 16, fontWeight: 700,
-      display: "flex", alignItems: "center", gap: 8, margin: "0 0 18px",
+      display: "flex", alignItems: "center", gap: 8, margin: "0 0 18px",color:"black"
     }}>
       <span style={{ width: 4, height: 20, background: C.accent, borderRadius: 3, display: "inline-block", flexShrink: 0 }} />
       {text}
@@ -152,7 +152,7 @@ function SectionLabel({ children }) {
   return (
     <div style={{
       fontSize: 10.5, fontWeight: 700, color: C.muted,
-      textTransform: "uppercase", letterSpacing: "0.7px", marginBottom: 5,
+      textTransform: "uppercase", letterSpacing: "0.7px", marginBottom: 5
     }}>
       {children}
     </div>
@@ -274,7 +274,462 @@ function MobileDrawer({ open, onClose }) {
     </>
   );
 }
+function ViewJobSkeleton() {
+  const { isMobile, isTablet, showSidebar, w } = useBreakpoint();
+  const gutter = isMobile ? "10px" : isTablet ? "18px" : "24px";
 
+  // Shimmer bar helper
+  const S = (width, height, extra = {}) => (
+    <span style={{
+      display: "block", width, height, borderRadius: 6, flexShrink: 0,
+      background: "linear-gradient(90deg,#e2e8f0 25%,#cdd5e0 50%,#e2e8f0 75%)",
+      backgroundSize: "200% 100%", animation: "skshimmer 1.5s infinite",
+      ...extra,
+    }} />
+  );
+
+  const BlueS = (width, height) => (
+    <span style={{
+      display: "block", width, height, borderRadius: 5, flexShrink: 0,
+      background: "linear-gradient(90deg,#dbeafe 25%,#bfdbfe 50%,#dbeafe 75%)",
+      backgroundSize: "200% 100%", animation: "skshimmer 1.5s infinite",
+    }} />
+  );
+
+  const Card = ({ children, style = {} }) => (
+    <div style={{
+      background: "#fff", borderRadius: 14,
+      border: "1px solid #e2e8f0", padding: isMobile ? 14 : 18,
+      marginBottom: 12, ...style,
+    }}>
+      {children}
+    </div>
+  );
+
+  const Divider = () => (
+    <div style={{ height: 1, background: "#e2e8f0", margin: "14px 0" }} />
+  );
+
+  const Row = ({ children, gap = 8 }) => (
+    <div style={{ display: "flex", gap, flexWrap: "wrap", alignItems: "center" }}>
+      {children}
+    </div>
+  );
+
+  const Col = ({ children, gap = 6 }) => (
+    <div style={{ display: "flex", flexDirection: "column", gap }}>
+      {children}
+    </div>
+  );
+
+  const SidebarContent = () => (
+    <>
+      {/* Company */}
+      <Card>
+        {S(142, 13, { marginBottom: 14 })}
+        <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 14 }}>
+          {S(48, 48, { borderRadius: 10 })}
+          <Col>
+            {S(112, 13)}
+            {S(82, 11)}
+          </Col>
+        </div>
+        <Col gap={5} style={{ marginBottom: 12 }}>
+          {S("100%", 11, { borderRadius: 3 })}
+          {S("94%", 11, { borderRadius: 3 })}
+          {S("86%", 11, { borderRadius: 3 })}
+          {S("76%", 11, { borderRadius: 3 })}
+        </Col>
+        {S("100%", 34, { borderRadius: 8 })}
+      </Card>
+
+      {/* Job Summary */}
+      <Card>
+        {S(100, 13, { marginBottom: 14 })}
+        <Col gap={12}>
+          {[54, 64, 76, 50, 60, 48].map((lw, i) => (
+            <div key={i} style={{ display: "flex", gap: 9, alignItems: "center" }}>
+              {S(20, 20, { borderRadius: 4 })}
+              <Col gap={5}>
+                {S(lw, 10, { borderRadius: 3 })}
+                {S(i === 5 ? 74 : 92, 13, i === 5 ? {
+                  background: "linear-gradient(90deg,#dcfce7 25%,#bbf7d0 50%,#dcfce7 75%)",
+                  backgroundSize: "200% 100%", animation: "skshimmer 1.5s infinite",
+                } : {})}
+              </Col>
+            </div>
+          ))}
+        </Col>
+      </Card>
+
+      {/* Ad placeholder */}
+      <div style={{
+        background: "#1565c0", borderRadius: 12,
+        height: 130, opacity: 0.13, marginBottom: 12,
+      }} />
+
+      {/* Similar Jobs */}
+      <Card>
+        {S(120, 13, { marginBottom: 12 })}
+        <Col gap={0}>
+          {[88, 80, 85].map((pw, i) => (
+            <div key={i} style={{
+              display: "flex", gap: 10, alignItems: "center",
+              padding: "8px 0",
+              borderBottom: i < 2 ? "1px solid #f1f5f9" : "none",
+            }}>
+              {S(40, 40, { borderRadius: 8 })}
+              <Col gap={5} style={{ flex: 1 }}>
+                {S(`${pw}%`, 12, { borderRadius: 4 })}
+                {S("55%", 10, { borderRadius: 3 })}
+              </Col>
+            </div>
+          ))}
+        </Col>
+      </Card>
+    </>
+  );
+
+  return (
+    <div style={{
+      fontFamily: "'DM Sans',sans-serif",
+      background: "#f4f7fb",
+      minHeight: "100vh",
+      width: "100%",
+      overflowX: "hidden",
+    }}>
+      <style>{`
+        @keyframes skshimmer {
+          0%   { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
+                    html, body { width: 100% !important; margin: 0 !important; padding: 0 !important; overflow-x: hidden !important; }
+#root { width: 100% !important; overflow-x: hidden !important; }
+      `}</style>
+
+      {/* Breadcrumb */}
+      <div style={{ padding: `12px ${gutter} 0` }}>
+        {S(200, 12, { borderRadius: 4 })}
+      </div>
+
+      <div style={{
+        padding: `14px ${gutter} 40px`,
+        display: "flex",
+        flexDirection: showSidebar ? "row" : "column",
+        gap: 16,
+        alignItems: "flex-start",
+        width: "100%",
+      }}>
+
+        {/* ── MAIN COLUMN ── */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+
+          {/* Hero Card */}
+          <Card style={{ borderLeft: "4px solid #0f4c81", borderRadius: "0 14px 14px 0" }}>
+            <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
+              {S(isMobile ? 48 : 80, isMobile ? 48 : 80, { borderRadius: 12, flexShrink: 0 })}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <Row gap={6} style={{ marginBottom: 8 }}>
+                  {S(56, 20, { borderRadius: 5 })}
+                  {S(68, 20, { borderRadius: 5 })}
+                  {!isMobile && S(76, 20, { borderRadius: 5 })}
+                </Row>
+                {S(isMobile ? "90%" : "72%", 24, { borderRadius: 6, marginBottom: 8 })}
+                {S(isMobile ? "55%" : "40%", 16, { borderRadius: 5, marginBottom: 10 })}
+                <Row gap={6}>
+                  {S(isMobile ? 88 : 100, 24, { borderRadius: 6 })}
+                  {S(isMobile ? 80 : 90, 24, { borderRadius: 6 })}
+                  {!isMobile && S(106, 24, { borderRadius: 6 })}
+                </Row>
+              </div>
+              {w >= 768 && (
+                <div style={{
+                  border: "1.5px solid #86efac", borderRadius: 10,
+                  padding: "12px 16px", flexShrink: 0,
+                  display: "flex", flexDirection: "column", alignItems: "center", gap: 7,
+                }}>
+                  {S(50, 10, { borderRadius: 3 })}
+                  {S(74, 26, { borderRadius: 6 })}
+                  {S(44, 10, { borderRadius: 3 })}
+                </div>
+              )}
+            </div>
+
+            {/* Mobile salary strip */}
+            {w < 768 && (
+              <div style={{
+                marginTop: 12, border: "1.5px solid #86efac",
+                borderRadius: 10, padding: "10px 12px",
+                display: "flex", justifyContent: "space-between", alignItems: "center",
+              }}>
+                <Col gap={6}>
+                  {S(64, 10, { borderRadius: 3 })}
+                  {S(80, 22, { borderRadius: 5 })}
+                </Col>
+                {S(50, 10, { borderRadius: 3 })}
+              </div>
+            )}
+
+            <Divider />
+            <Row gap={10}>
+              {isMobile ? (
+                <>
+                  {S("100%", 42, { borderRadius: 9 })}
+                  <div style={{ display: "flex", gap: 10, width: "100%" }}>
+                    {S("50%", 42, { borderRadius: 9 })}
+                    {S("50%", 42, { borderRadius: 9, flex: 1 })}
+                  </div>
+                </>
+              ) : (
+                <>
+                  {S(128, 42, { borderRadius: 9 })}
+                  {S(108, 42, { borderRadius: 9 })}
+                  {S(88, 42, { borderRadius: 9 })}
+                </>
+              )}
+            </Row>
+          </Card>
+
+          {/* Details Grid */}
+          <Card>
+            {S(110, 18, { borderRadius: 5, marginBottom: 16 })}
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: isMobile ? "repeat(2, minmax(0,1fr))" : "repeat(3, minmax(0,1fr))",
+              gap: isMobile ? 12 : 18,
+              marginBottom: 18,
+            }}>
+              {Array(isMobile ? 6 : 9).fill(0).map((_, i) => (
+                <Col key={i} gap={6}>
+                  {S(60, 10, { borderRadius: 3 })}
+                  {S("82%", 22, { borderRadius: 5 })}
+                </Col>
+              ))}
+            </div>
+            <Divider />
+            {S(80, 10, { borderRadius: 3, marginBottom: 10 })}
+            <Row gap={7}>
+              {[68, 86, 58, 78, 64, 72].map((bw, i) => (
+                <span key={i} style={{
+                  display: "block", width: bw, height: 26, borderRadius: 5, flexShrink: 0,
+                  background: "linear-gradient(90deg,#dbeafe 25%,#bfdbfe 50%,#dbeafe 75%)",
+                  backgroundSize: "200% 100%", animation: "skshimmer 1.5s infinite",
+                }} />
+              ))}
+            </Row>
+          </Card>
+
+          {/* Description */}
+          <Card>
+            {S(136, 18, { borderRadius: 5, marginBottom: 16 })}
+            <Col gap={7} style={{ marginBottom: 18 }}>
+              {[100, 97, 92, 86, 72].map((p, i) => S(`${p}%`, 13, { borderRadius: 4, key: i }))}
+            </Col>
+            {[
+              { label: 154, items: [90, 82, 88, 76] },
+              { label: 118, items: [85, 78, 92] },
+            ].map((sec, si) => (
+              <div key={si} style={{ marginBottom: 18 }}>
+                {S(sec.label, 15, { borderRadius: 4, marginBottom: 12 })}
+                <Col gap={8}>
+                  {sec.items.map((p, i) => (
+                    <div key={i} style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                      {S(6, 6, { borderRadius: "50%", flexShrink: 0 })}
+                      {S(`${p}%`, 12, { borderRadius: 4 })}
+                    </div>
+                  ))}
+                </Col>
+              </div>
+            ))}
+            {S(100, 15, { borderRadius: 4, marginBottom: 12 })}
+            <Row gap={7}>
+              {[80, 96, 72, 88, 76].map((bw, i) => S(bw, 28, { borderRadius: 6, key: i }))}
+            </Row>
+          </Card>
+
+          {/* How to Apply */}
+          <Card style={{ background: "#f0f7ff", borderColor: "#bdd6f0" }}>
+            {S(120, 18, { borderRadius: 5, marginBottom: 14, background: "linear-gradient(90deg,#cce4f7 25%,#b3d4f0 50%,#cce4f7 75%)", backgroundSize: "200% 100%", animation: "skshimmer 1.5s infinite" })}
+            <Col gap={6} style={{ marginBottom: 14 }}>
+              {S("90%", 12, { borderRadius: 4 })}
+              {S("74%", 12, { borderRadius: 4 })}
+            </Col>
+            <div style={{
+              background: "#fff", border: "1.5px solid #e2e8f0",
+              borderRadius: 9, padding: "12px 14px",
+              display: "flex",
+              flexDirection: isMobile ? "column" : "row",
+              justifyContent: "space-between", alignItems: isMobile ? "flex-start" : "center",
+              gap: 12,
+            }}>
+              <Col gap={5} style={{ flex: 1, minWidth: 0 }}>
+                {S(72, 10, { borderRadius: 3 })}
+                {S("85%", 13, { borderRadius: 4 })}
+              </Col>
+              {S(isMobile ? "100%" : 130, 40, { borderRadius: 9, flexShrink: 0 })}
+            </div>
+            {S("80%", 11, { borderRadius: 3, marginTop: 10 })}
+          </Card>
+
+          {/* Sidebar below content on mobile/tablet */}
+          {!showSidebar && (
+            <div style={{ marginTop: 8 }}>
+              <SidebarContent />
+            </div>
+          )}
+        </div>
+
+        {/* ── SIDEBAR (desktop ≥1024) ── */}
+        {showSidebar && (
+          <div style={{ width: w >= 1280 ? 300 : 260, flexShrink: 0 }}>
+            <SidebarContent />
+          </div>
+        )}
+      </div>
+
+      {/* Bottom ad strip */}
+      <div style={{ padding: `0 ${gutter} 20px` }}>
+        <div style={{
+          background: "#f0fff4", border: "1.5px dashed #86efac",
+          borderRadius: 10, padding: "12px 14px",
+          display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap",
+        }}>
+          {S(32, 32, { borderRadius: 8 })}
+          <Col gap={5} style={{ flex: 1, minWidth: 120 }}>
+            {S(isMobile ? "90%" : "55%", 13, { borderRadius: 4 })}
+            {S(isMobile ? "70%" : "40%", 11, { borderRadius: 3 })}
+          </Col>
+          {S(isMobile ? "100%" : 100, 34, { borderRadius: 7 })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function JobNotFound() {
+  return (
+    <div style={{
+      fontFamily: "'DM Sans',sans-serif",
+      background: "#f4f7fb",
+      minHeight: "100vh",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "32px 20px",
+      textAlign: "center",
+    }}>
+      <style>{`
+        @keyframes njf-float  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+        @keyframes njf-fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+        .njf-float   { animation: njf-float 3.5s ease-in-out infinite; }
+        .njf-f1 { animation: njf-fadeUp .6s ease .1s both; }
+        .njf-f2 { animation: njf-fadeUp .6s ease .2s both; }
+        .njf-f3 { animation: njf-fadeUp .6s ease .3s both; }
+        .njf-f4 { animation: njf-fadeUp .6s ease .4s both; }
+        .njf-f5 { animation: njf-fadeUp .6s ease .55s both; }
+        .njf-f6 { animation: njf-fadeUp .6s ease .65s both; }
+        .njf-btn-primary { background:#0f4c81;color:#fff;padding:12px 24px;border-radius:9px;font-weight:700;font-size:13.5px;font-family:'Syne',sans-serif;text-decoration:none;display:inline-block;transition:background .2s; }
+        .njf-btn-primary:hover { background:#0a3a65; }
+        .njf-btn-outline { background:#fff;color:#0f4c81;border:1.5px solid #0f4c81;padding:11px 22px;border-radius:9px;font-weight:600;font-size:13.5px;text-decoration:none;display:inline-block;transition:background .2s; }
+        .njf-btn-outline:hover { background:#f0f7ff; }
+        .njf-chip { background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:10px;min-width:140px;cursor:pointer;transition:border-color .2s; }
+        .njf-chip:hover { border-color:#0f4c81; }
+                  html, body { width: 100% !important; margin: 0 !important; padding: 0 !important; overflow-x: hidden !important; }
+#root { width: 100% !important; overflow-x: hidden !important; }
+      `}</style>
+
+      {/* Floating illustration */}
+      <div className="njf-float">
+        <svg width="160" height="140" viewBox="0 0 160 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="30" width="120" height="88" rx="12" fill="#e8eef6" stroke="#c8d6e8" strokeWidth="1.5"/>
+          <rect x="20" y="30" width="120" height="22" rx="12" fill="#cddaed" stroke="#c8d6e8" strokeWidth="1.5"/>
+          <rect x="20" y="41" width="120" height="11" fill="#cddaed"/>
+          <rect x="36" y="70" width="60" height="8" rx="4" fill="#c8d6e8"/>
+          <rect x="36" y="84" width="88" height="7" rx="3.5" fill="#dce6f2"/>
+          <rect x="36" y="97" width="72" height="7" rx="3.5" fill="#dce6f2"/>
+          <rect x="36" y="110" width="50" height="7" rx="3.5" fill="#dce6f2"/>
+          <circle cx="112" cy="108" r="22" fill="#fee2e2" stroke="#fca5a5" strokeWidth="1.5"/>
+          <line x1="105" y1="101" x2="119" y2="115" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round"/>
+          <line x1="119" y1="101" x2="105" y2="115" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round"/>
+          <circle cx="67" cy="42" r="5" fill="#fff" opacity=".5"/>
+          <circle cx="80" cy="42" r="5" fill="#fff" opacity=".35"/>
+          <circle cx="93" cy="42" r="5" fill="#fff" opacity=".2"/>
+        </svg>
+      </div>
+
+      {/* 404 badge */}
+      <div className="njf-f1">
+        <span style={{
+          display: "inline-block", background: "#fee2e2", color: "#b91c1c",
+          fontSize: 11, fontWeight: 700, padding: "4px 12px", borderRadius: 20,
+          letterSpacing: ".5px", textTransform: "uppercase", marginBottom: 16,
+        }}>
+          404 — Not Found
+        </span>
+      </div>
+
+      {/* Headline */}
+      <div className="njf-f2">
+        <h1 style={{
+          fontFamily: "'Syne',sans-serif",
+          fontSize: "clamp(22px, 5vw, 30px)",
+          fontWeight: 800, color: "#1a1a2e",
+          marginBottom: 10, lineHeight: 1.2,
+        }}>
+          Oops! This job has vanished
+        </h1>
+      </div>
+
+      {/* Subtext */}
+      <div className="njf-f3">
+        <p style={{
+          fontSize: 14, color: "#6b7280",
+          maxWidth: 360, lineHeight: 1.7, marginBottom: 28,
+        }}>
+          The job listing you're looking for may have expired, been removed,
+          or the link might be incorrect.
+        </p>
+      </div>
+
+      {/* CTA buttons */}
+      <div className="njf-f4" style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "center" }}>
+        <a href="/" className="njf-btn-primary">Browse All Jobs →</a>
+        <a href="#" onClick={() => window.history.back()} className="njf-btn-outline">← Go Back</a>
+      </div>
+
+      {/* Quick nav chips */}
+      <div className="njf-f5" style={{
+        marginTop: 40, display: "flex",
+        gap: 12, flexWrap: "wrap", justifyContent: "center",
+      }}>
+        {[
+          { bg: "#e8f4fd", icon: "🔍", iconColor: "#0f4c81", label: "Try searching", title: "Latest Jobs",    href: "/jobs" },
+          { bg: "#dcfce7", icon: "💼", iconColor: "#16a34a", label: "Explore",       title: "Internships",   href: "/internships" },
+          { bg: "#fef3c7", icon: "🏠", iconColor: "#b45309", label: "Browse",        title: "Work From Home", href: "/work-from-home" },
+        ].map(({ bg, icon, label, title, href }) => (
+          <a key={title} href={href} className="njf-chip" style={{ textDecoration: "none" }}>
+            <div style={{
+              width: 34, height: 34, borderRadius: 8, background: bg,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              flexShrink: 0, fontSize: 16,
+            }}>
+              {icon}
+            </div>
+            <div style={{ textAlign: "left" }}>
+              <div style={{ fontSize: 11, color: "#6b7280", fontWeight: 600 }}>{label}</div>
+              <div style={{ fontSize: 12.5, color: "#1a1a2e", fontWeight: 700 }}>{title}</div>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <p className="njf-f6" style={{ marginTop: 32, fontSize: 11.5, color: "#9ca3af" }}>
+        Updated every hour · 100% free listings · No spam
+      </p>
+    </div>
+  );
+}
 /* ─────────────────────────────────────────────
    SIDEBAR WIDGET WRAPPER
 ───────────────────────────────────────────── */
@@ -328,22 +783,31 @@ function Sidebar({ job }) {
             <div style={{ fontSize: 12, color: C.muted }}>{job.companyName}</div>
           </div>
         </div>
-        {[
-          ["Industry", 'IT'],
-          ["Size",     "BIG"],
-          ["Founded",  "Today"],
-        ].map(([lbl, val]) => (
-          <div key={lbl} style={{ display: "flex", justifyContent: "space-between", fontSize: 12.5, padding: "5px 0", borderBottom: `1px solid ${C.border}` }}>
-            <span style={{ color: C.muted }}>{lbl}</span>
-            <span style={{ fontWeight: 500 }}>{val}</span>
+                <div style={{ marginTop: 10 }}>
+          {/* <div style={{
+            fontSize: 12,
+            fontWeight: 700,
+            color: C.text,
+            marginBottom: 6
+          }}>
+            About Company
+          </div> */}
+
+          <div style={{
+            fontSize: 12.5,
+            color: C.muted,
+            lineHeight: 1.6
+          }}>
+            {job.aboutCompany && job.aboutCompany.trim() !== ""
+              ? job.aboutCompany
+              : "No company description provided"}
           </div>
-        ))}
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12.5, padding: "5px 0" }}>
-          <span style={{ color: C.muted }}>Rating</span>
-          <span style={{ fontWeight: 600, color: C.gold }}>5⭐ {job.companyRating} / 5</span>
         </div>
-        <a
-          href="#"
+         <a
+          href={job.companyCareersLink}
+          target="_blank"
+          rel="noopener noreferrer"
+
           style={{
             display: "block", textAlign: "center", marginTop: 12,
             fontSize: 12.5, color: C.primary, fontWeight: 600,
@@ -451,15 +915,15 @@ const fetchJob = async () => {
     fetchJob();
   }, [slug]);
 
-  if (loading) return <p style={{ padding: "20px" }}>Loading...</p>;
-  if (!job) return <p style={{ padding: "20px" }}>No job found</p>;
+if (loading) return <ViewJobSkeleton />;
+if (!job) return <JobNotFound />;
 
   
 
   return (
     <div style={{ fontFamily: "'DM Sans',sans-serif", background: C.light, color: C.text, minHeight: "100vh" , width: "100%" , overflowX: "hidden"}}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         a { text-decoration: none; color: inherit; }
         ul { list-style: disc; padding-left: 20px; }
@@ -576,8 +1040,8 @@ const fetchJob = async () => {
             <div style={{ display: "flex", gap: 16, alignItems: "flex-start", flexWrap: "wrap" }}>
 <div
   style={{
-    width: isMobile ? 54 : 72,
-    height: isMobile ? 54 : 72,
+    width: isMobile ? 54 : 100,
+    height: isMobile ? 54 : 100,
     borderRadius: 12,
     background: "#fff",
     display: "flex",
@@ -630,7 +1094,7 @@ const fetchJob = async () => {
                 </div>
 
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                  <Tag>📍 {isMobile ? "Pune, MH" : job.location}</Tag>
+                  <Tag>📍 {job.location}</Tag>
                   <Tag>🏠 {job.workMode}</Tag>
 <Tag>
   📅 {job.createdAt ? new Date(job.createdAt).toDateString() : "N/A"}
@@ -826,7 +1290,7 @@ const fetchJob = async () => {
                 ["Job Category",     <Pill bg="#fff0f0"  color={C.accent}>{job.jobCategory}</Pill>],
                 ["Experience Level", <Pill bg="#dcfce7"  color="#15803d">{job.experienceLevel}</Pill>],
                 ["Work Mode",        <div style={{ fontSize: 13.5, fontWeight: 500 }}>🏠 {job.workMode}</div>],
-                ["Location",         <div style={{ fontSize: 13.5, fontWeight: 500 }}>📍 {isMobile ? "Pune, MH" : job.location}</div>],
+                ["Location",         <div style={{ fontSize: 13.5, fontWeight: 500 }}>📍 {job.location}</div>],
                 ["Education",        <div style={{ fontSize: 13.5, fontWeight: 500 }}>{job.education}</div>],
                 ["Eligible Batch",   <div style={{ fontSize: 13.5, fontWeight: 500 }}>{job.eligibleBatches}</div>],
                 ["Department",       <div style={{ fontSize: 13.5, fontWeight: 500 }}>{job.department}</div>],
@@ -848,7 +1312,7 @@ const fetchJob = async () => {
           </Card>
 
           {/* ── JOB DESCRIPTION ── */}
-          <Card style={{ marginBottom: 14 }}>
+          <Card style={{ marginBottom: 14,textAlign:"left" }}>
             <SectionTitle text="Job Description" />
 
             <p style={{ fontSize: 13.5, color: C.text, lineHeight: 1.8, marginBottom: 20 }}>

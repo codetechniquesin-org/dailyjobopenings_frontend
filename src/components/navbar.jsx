@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const C = {
   primary: "#0a2540",
@@ -13,28 +14,29 @@ const NAV_ITEMS = [
   {
     label: "Jobs",
     dropdown: [
-      { icon: "🎓", label: "Fresher Jobs", desc: "0–1 year experience" },
-      { icon: "💼", label: "Experienced Jobs", desc: "2+ years experience" },
-      { icon: "🏠", label: "Work From Home", desc: "Remote opportunities" },
-      { icon: "⏰", label: "Part-Time Jobs", desc: "Flexible hours" },
-      { icon: "🚀", label: "Urgent Hiring", desc: "Immediate joiners" },
-      { icon: "🌍", label: "Abroad Jobs", desc: "International roles" },
+      { icon: "🎓", label: "Fresher Jobs", key: "fresher", desc: "0–1 year experience" },
+      { icon: "💼", label: "Experienced Jobs", key: "experienced", desc: "2+ years experience" },
+      { icon: "🏠", label: "Work From Home", key: "remote", desc: "Remote opportunities" },
+      { icon: "⏰", label: "Part-Time Jobs", key: "part-time", desc: "Flexible hours" },
+      { icon: "🚀", label: "Urgent Hiring", key: "urgent", desc: "Immediate joiners" },
+      { icon: "🌍", label: "Abroad Jobs", key: "abroad", desc: "International roles" },
     ],
   },
   { label: "Walk in Drive" },
   {
     label: "Internships",
     dropdown: [
-      { icon: "💰", label: "IT Internships", desc: "Earn while you learn" },
-      { icon: "📚", label: "GOVT Internships", desc: "Build experience" },
+      { icon: "💰", label: "IT Internships", key: "it-internship", desc: "Earn while you learn" },
+      { icon: "📚", label: "GOVT Internships", key: "govt-internship", desc: "Build experience" },
     ],
   },
-  { label: "Interview Questions" },
+  { label: "interview Questions" , page: "interview-questions" },
   { label: "Resources", page: "resources" },
   { label: "Resume Builder", page: "resume", external: "https://resumecraft.site" },
 ];
 
 /* ── Desktop Dropdown ─────────────────────────────────────── */
+
 function DropdownMenu({ items }) {
   return (
     <div
@@ -53,9 +55,9 @@ function DropdownMenu({ items }) {
       }}
     >
       {items.map((item) => (
-        <a
-          key={item.label}
-          href="#"
+        <Link
+          key={item.key}
+          to={`/jobs/categories/${item.key}`}
           style={{
             display: "flex",
             alignItems: "center",
@@ -68,11 +70,16 @@ function DropdownMenu({ items }) {
           }}
         >
           <span>{item.icon}</span>
+
           <div>
-            <div style={{ fontWeight: 600, color: C.primary }}>{item.label}</div>
-            <div style={{ fontSize: 11, color: "#9ca3af" }}>{item.desc}</div>
+            <div style={{ fontWeight: 600, color: C.primary }}>
+              {item.label}
+            </div>
+            <div style={{ fontSize: 11, color: "#9ca3af" }}>
+              {item.desc}
+            </div>
           </div>
-        </a>
+        </Link>
       ))}
     </div>
   );
@@ -176,7 +183,7 @@ function ApplyWithAIButton({ fullWidth = false }) {
             }}
           />
         )}
-        <span style={{ position: "relative", zIndex: 1 }}>✨ Apply with AI</span>
+        <span style={{ position: "relative", zIndex: 1000 }}>✨ Apply with AI</span>
       </button>
     </>
   );
@@ -235,33 +242,50 @@ function MobileNavItem({ item, onNavigate, closeMenu }) {
         )}
       </a>
 
-      {hasDropdown && expanded && (
-        <div style={{ background: "#f9fafb", borderBottom: `1px solid ${C.border}` }}>
-          {item.dropdown.map((sub) => (
-            <a
-              key={sub.label}
-              href="#"
-              onClick={(e) => { e.preventDefault(); closeMenu(); }}
+{hasDropdown && expanded && (
+  <div style={{ background: "#f9fafb", borderBottom: `1px solid ${C.border}` }}>
+    {item.dropdown.map((sub) => (
+      <Link
+        key={sub.key}
+        to={`/jobs/categories/${sub.key}`}
+        onClick={closeMenu}
+        style={{
+          textDecoration: "none",
+          color: "inherit",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 12,
+            padding: "10px 32px",
+            cursor: "pointer",
+            borderBottom: `1px solid ${C.border}`,
+          }}
+        >
+          <span style={{ fontSize: 18 }}>{sub.icon}</span>
+
+          <div>
+            <div
               style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-                padding: "10px 32px",
-                textDecoration: "none",
-                color: C.text,
+                fontWeight: 600,
+                color: C.primary,
                 fontSize: 13,
-                borderBottom: `1px solid ${C.border}`,
               }}
             >
-              <span style={{ fontSize: 18 }}>{sub.icon}</span>
-              <div>
-                <div style={{ fontWeight: 600, color: C.primary, fontSize: 13 }}>{sub.label}</div>
-                <div style={{ fontSize: 11, color: "#9ca3af" }}>{sub.desc}</div>
-              </div>
-            </a>
-          ))}
+              {sub.label}
+            </div>
+
+            <div style={{ fontSize: 11, color: "#9ca3af" }}>
+              {sub.desc}
+            </div>
+          </div>
         </div>
-      )}
+      </Link>
+    ))}
+  </div>
+)}
     </div>
   );
 }

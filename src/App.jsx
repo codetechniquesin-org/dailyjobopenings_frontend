@@ -336,32 +336,43 @@ export default function App() {
                   </div>
                 ))}
               </div> */}
-              <div>
-                {/* 🔥 HERO STATS SECTION */}
-                <div className="hero-stats">
-                  {[
-                    [`${stats?.activeJobs ?? "..."}+`, "Active Jobs"],
-                    [`${stats?.companies ?? "..."}+`, "Companies"],
-                    [`${stats?.newJobs ?? "..."}+`, "New This Week"]
-                  ].map(([n, l]) => (
-                    <div key={l} className="stat-box">
-                      <strong
-                        className="syne"
-                        style={{
-                          display: "block",
-                          fontSize: "1.3rem",
-                          fontWeight: 800
-                        }}
-                      >
-                        {n}
-                      </strong>
-                      <small style={{ fontSize: 11.5, opacity: 0.8 }}>
-                        {l}
-                      </small>
-                    </div>
-                  ))}
-                </div>
-              </div>
+{/* 🔥 HERO STATS SECTION */}
+<div className="hero-stats">
+  {[
+    [stats?.activeJobs, "Active Jobs"],
+    [stats?.companies, "Companies"],
+    [stats?.newJobs, "New This Week"]
+  ].map(([value, label]) => (
+    <div key={label} className="stat-box">
+      {value == null ? (
+  <span
+    style={{
+      display: "block",
+      width: "60px",
+      height: "22px",
+      borderRadius: "6px",
+      background: "linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.1) 75%)",
+      backgroundSize: "200% 100%",
+      animation: "shimmer 1.4s infinite",
+      marginBottom: "6px"
+    }}
+  />
+) : (
+  <strong
+    className="syne"
+    style={{
+      display: "block",
+      fontSize: "1.3rem",
+      fontWeight: 800
+    }}
+  >
+    {value}+
+  </strong>
+)}
+      <small style={{ fontSize: 11.5, opacity: 0.8 }}>{label}</small>
+    </div>
+  ))}
+</div>
             </div>
             {/* Search Card */}
             <div className="hero-card" style={{ background: "rgba(255,255,255,.12)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,.2)", borderRadius: 14, padding: 22 }}>

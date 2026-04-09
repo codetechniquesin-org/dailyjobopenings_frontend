@@ -1,4 +1,11 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
+import AlertBar from "../components/alertbar";
+import TopTicker from "../components/topticker";
+import Navbar from "../components/navbar";
+import Footer from "../components/footer";
+import axios from "axios";
+import API_BASE_URL from "../config/api";
+
 
 const C = {
   primary: "#0a2540",
@@ -15,25 +22,25 @@ const CATEGORIES = [
   "DSA", "Database", "DevOps", "Interview Prep",
 ];
 
-const RESOURCES = [
-  { id: 1,  title: "Python Complete Handbook",    desc: "Covers basics to advanced: OOP, decorators, generators & more.", type: "PDF", category: "Python",         pages: 320, size: "4.2 MB", color: "#3b82f6", icon: "🐍", level: "Beginner" },
-  { id: 2,  title: "Python Data Science Notes",   desc: "NumPy, Pandas, Matplotlib & Scikit-learn cheatsheet.",          type: "DOC", category: "Python",         pages: 80,  size: "1.1 MB", color: "#3b82f6", icon: "🐍", level: "Intermediate" },
-  { id: 3,  title: "Python Interview Q&A",        desc: "Top 200 Python interview questions with detailed answers.",      type: "PDF", category: "Python",         pages: 110, size: "2.0 MB", color: "#3b82f6", icon: "🐍", level: "Advanced" },
-  { id: 4,  title: "Java Core Concepts",          desc: "OOP, collections, multithreading & exception handling.",        type: "PDF", category: "Java",           pages: 280, size: "3.8 MB", color: "#f59e0b", icon: "☕", level: "Beginner" },
-  { id: 5,  title: "Spring Boot Notes",           desc: "REST APIs, dependency injection, JPA & security.",              type: "DOC", category: "Java",           pages: 140, size: "2.3 MB", color: "#f59e0b", icon: "☕", level: "Intermediate" },
-  { id: 6,  title: "JavaScript ES6+ Guide",       desc: "Arrow functions, promises, async/await, modules & more.",       type: "PDF", category: "JavaScript",     pages: 190, size: "2.8 MB", color: "#eab308", icon: "⚡", level: "Beginner" },
-  { id: 7,  title: "React.js Mastery Notes",      desc: "Hooks, context, Redux, performance & testing.",                 type: "DOC", category: "JavaScript",     pages: 160, size: "2.5 MB", color: "#eab308", icon: "⚡", level: "Intermediate" },
-  { id: 8,  title: "HTML & CSS Fundamentals",     desc: "Semantic HTML, Flexbox, Grid & responsive design patterns.",    type: "PDF", category: "Web Dev",        pages: 200, size: "3.1 MB", color: "#ef4444", icon: "🌐", level: "Beginner" },
-  { id: 9,  title: "Full Stack Roadmap Doc",      desc: "Structured learning path from HTML to deployment.",             type: "DOC", category: "Web Dev",        pages: 60,  size: "0.9 MB", color: "#ef4444", icon: "🌐", level: "Beginner" },
-  { id: 10, title: "DSA Crash Course",            desc: "Arrays, linked lists, trees, graphs, sorting & searching.",     type: "PDF", category: "DSA",            pages: 350, size: "5.1 MB", color: "#8b5cf6", icon: "🧠", level: "Intermediate" },
-  { id: 11, title: "LeetCode Patterns Notes",     desc: "Two pointers, sliding window, DP, backtracking patterns.",      type: "DOC", category: "DSA",            pages: 120, size: "1.8 MB", color: "#8b5cf6", icon: "🧠", level: "Advanced" },
-  { id: 12, title: "SQL Complete Guide",          desc: "DDL, DML, joins, indexes, transactions & optimization.",        type: "PDF", category: "Database",       pages: 180, size: "2.6 MB", color: "#06b6d4", icon: "🗄️", level: "Beginner" },
-  { id: 13, title: "MongoDB Basics",              desc: "Document model, CRUD, aggregation & indexing.",                 type: "DOC", category: "Database",       pages: 90,  size: "1.4 MB", color: "#06b6d4", icon: "🗄️", level: "Beginner" },
-  { id: 14, title: "Docker & Kubernetes Notes",   desc: "Containers, images, pods, services & deployments.",             type: "PDF", category: "DevOps",         pages: 170, size: "2.9 MB", color: "#10b981", icon: "⚙️", level: "Intermediate" },
-  { id: 15, title: "Linux Command Cheatsheet",    desc: "Essential terminal commands for developers.",                   type: "DOC", category: "DevOps",         pages: 30,  size: "0.5 MB", color: "#10b981", icon: "⚙️", level: "Beginner" },
-  { id: 16, title: "System Design Primer",        desc: "Scalability, load balancing, caching, databases & microservices.", type: "PDF", category: "Interview Prep", pages: 240, size: "3.5 MB", color: "#f43f5e", icon: "🎯", level: "Advanced" },
-  { id: 17, title: "HR Interview Questions",      desc: "Behavioural, situational & common HR round questions.",         type: "DOC", category: "Interview Prep", pages: 70,  size: "1.0 MB", color: "#f43f5e", icon: "🎯", level: "Beginner" },
-];
+// const RESOURCES = [
+//   { id: 1,  title: "Python Complete Handbook",    desc: "Covers basics to advanced: OOP, decorators, generators & more.", type: "PDF", category: "Python",         pages: 320, size: "4.2 MB", color: "#3b82f6", icon: "🐍", level: "Beginner" },
+//   { id: 2,  title: "Python Data Science Notes",   desc: "NumPy, Pandas, Matplotlib & Scikit-learn cheatsheet.",          type: "DOC", category: "Python",         pages: 80,  size: "1.1 MB", color: "#3b82f6", icon: "🐍", level: "Intermediate" },
+//   { id: 3,  title: "Python Interview Q&A",        desc: "Top 200 Python interview questions with detailed answers.",      type: "PDF", category: "Python",         pages: 110, size: "2.0 MB", color: "#3b82f6", icon: "🐍", level: "Advanced" },
+//   { id: 4,  title: "Java Core Concepts",          desc: "OOP, collections, multithreading & exception handling.",        type: "PDF", category: "Java",           pages: 280, size: "3.8 MB", color: "#f59e0b", icon: "☕", level: "Beginner" },
+//   { id: 5,  title: "Spring Boot Notes",           desc: "REST APIs, dependency injection, JPA & security.",              type: "DOC", category: "Java",           pages: 140, size: "2.3 MB", color: "#f59e0b", icon: "☕", level: "Intermediate" },
+//   { id: 6,  title: "JavaScript ES6+ Guide",       desc: "Arrow functions, promises, async/await, modules & more.",       type: "PDF", category: "JavaScript",     pages: 190, size: "2.8 MB", color: "#eab308", icon: "⚡", level: "Beginner" },
+//   { id: 7,  title: "React.js Mastery Notes",      desc: "Hooks, context, Redux, performance & testing.",                 type: "DOC", category: "JavaScript",     pages: 160, size: "2.5 MB", color: "#eab308", icon: "⚡", level: "Intermediate" },
+//   { id: 8,  title: "HTML & CSS Fundamentals",     desc: "Semantic HTML, Flexbox, Grid & responsive design patterns.",    type: "PDF", category: "Web Dev",        pages: 200, size: "3.1 MB", color: "#ef4444", icon: "🌐", level: "Beginner" },
+//   { id: 9,  title: "Full Stack Roadmap Doc",      desc: "Structured learning path from HTML to deployment.",             type: "DOC", category: "Web Dev",        pages: 60,  size: "0.9 MB", color: "#ef4444", icon: "🌐", level: "Beginner" },
+//   { id: 10, title: "DSA Crash Course",            desc: "Arrays, linked lists, trees, graphs, sorting & searching.",     type: "PDF", category: "DSA",            pages: 350, size: "5.1 MB", color: "#8b5cf6", icon: "🧠", level: "Intermediate" },
+//   { id: 11, title: "LeetCode Patterns Notes",     desc: "Two pointers, sliding window, DP, backtracking patterns.",      type: "DOC", category: "DSA",            pages: 120, size: "1.8 MB", color: "#8b5cf6", icon: "🧠", level: "Advanced" },
+//   { id: 12, title: "SQL Complete Guide",          desc: "DDL, DML, joins, indexes, transactions & optimization.",        type: "PDF", category: "Database",       pages: 180, size: "2.6 MB", color: "#06b6d4", icon: "🗄️", level: "Beginner" },
+//   { id: 13, title: "MongoDB Basics",              desc: "Document model, CRUD, aggregation & indexing.",                 type: "DOC", category: "Database",       pages: 90,  size: "1.4 MB", color: "#06b6d4", icon: "🗄️", level: "Beginner" },
+//   { id: 14, title: "Docker & Kubernetes Notes",   desc: "Containers, images, pods, services & deployments.",             type: "PDF", category: "DevOps",         pages: 170, size: "2.9 MB", color: "#10b981", icon: "⚙️", level: "Intermediate" },
+//   { id: 15, title: "Linux Command Cheatsheet",    desc: "Essential terminal commands for developers.",                   type: "DOC", category: "DevOps",         pages: 30,  size: "0.5 MB", color: "#10b981", icon: "⚙️", level: "Beginner" },
+//   { id: 16, title: "System Design Primer",        desc: "Scalability, load balancing, caching, databases & microservices.", type: "PDF", category: "Interview Prep", pages: 240, size: "3.5 MB", color: "#f43f5e", icon: "🎯", level: "Advanced" },
+//   { id: 17, title: "HR Interview Questions",      desc: "Behavioural, situational & common HR round questions.",         type: "DOC", category: "Interview Prep", pages: 70,  size: "1.0 MB", color: "#f43f5e", icon: "🎯", level: "Beginner" },
+// ];
 
 const LEVEL_COLOR = {
   Beginner:     { bg: "#dcfce7", text: "#16a34a" },
@@ -45,6 +52,21 @@ const TYPE_COLOR = {
   PDF: { bg: "#fee2e2", text: "#dc2626" },
   DOC: { bg: "#dbeafe", text: "#2563eb" },
 };
+function useBreakpoint() {
+  const [w, setW] = useState(typeof window !== "undefined" ? window.innerWidth : 1280);
+  useEffect(() => {
+    const h = () => setW(window.innerWidth);
+    window.addEventListener("resize", h);
+    return () => window.removeEventListener("resize", h);
+  }, []);
+  return {
+    w,
+    isMobile: w < 640,
+    isTablet: w >= 640 && w < 1024,
+    isDesktop: w >= 1024,
+    showSidebar: w >= 1024,
+  };
+}
 
 /* ── Badge ────────────────────────────────────────────────── */
 function Badge({ label, bg, color }) {
@@ -63,7 +85,13 @@ function Badge({ label, bg, color }) {
 
 /* ── Resource Card ────────────────────────────────────────── */
 function ResourceCard({ res }) {
+
   const [hovered, setHovered] = useState(false);
+   // ✅ ADD THIS HERE (inside component, before return)
+  const handleDownload = (url) => {
+    window.open(url, "_blank");
+  };
+
   const lvl = LEVEL_COLOR[res.level];
   const typ = TYPE_COLOR[res.type];
 
@@ -75,8 +103,10 @@ function ResourceCard({ res }) {
         background: C.white,
         border: `1.5px solid ${hovered ? res.color : C.border}`,
         borderRadius: 14,
-        padding: "20px",
+        padding: "18px",
         display: "flex",
+        maxWidth:"300px",
+        width:"100%",
         flexDirection: "column",
         gap: 12,
         transition: "border-color .2s, box-shadow .2s, transform .2s",
@@ -121,6 +151,7 @@ function ResourceCard({ res }) {
 
       {/* Download btn */}
       <button
+        onClick={() => handleDownload(res.fileUrl)}
         style={{
           width: "100%",
           padding: "9px 0",
@@ -142,11 +173,11 @@ function ResourceCard({ res }) {
 }
 
 /* ── Stats Bar ────────────────────────────────────────────── */
-function StatsBar() {
+function StatsBar({resources}) {
   const stats = [
-    { label: "Total Resources", value: RESOURCES.length,                              icon: "📚" },
-    { label: "PDF Files",       value: RESOURCES.filter(r => r.type === "PDF").length, icon: "📕" },
-    { label: "DOC Files",       value: RESOURCES.filter(r => r.type === "DOC").length, icon: "📘" },
+    { label: "Total Resources", value: resources.length,                              icon: "📚" },
+    { label: "PDF Files",       value: resources.filter(r => r.type === "PDF").length, icon: "📕" },
+    { label: "DOC Files",       value: resources.filter(r => r.type === "DOC").length, icon: "📘" },
     { label: "Topics Covered",  value: CATEGORIES.length - 1,                          icon: "🗂️" },
   ];
 
@@ -181,18 +212,53 @@ function StatsBar() {
 
 /* ── Resources Page ───────────────────────────────────────── */
 export default function ResourcesPage() {
+  const bp = useBreakpoint();
+  const [resources, setResources] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [activeCategory, setActiveCategory] = useState("All");
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState("All");
+  const { isMobile, isTablet, isDesktop, showSidebar } = bp;
+  useEffect(() => {
+  const fetchResources = async () => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/resources/get-all-resources`);
+      
+      if (!res.ok) {
+        throw new Error("Failed to fetch data");
+      }
 
-  const filtered = RESOURCES.filter(r => {
+      const data = await res.json();
+      setResources(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchResources();
+}, []);
+
+
+
+  const filtered = resources.filter(r => {
     const matchCat    = activeCategory === "All" || r.category === activeCategory;
     const matchType   = typeFilter === "All"     || r.type === typeFilter;
     const matchSearch =
       r.title.toLowerCase().includes(search.toLowerCase()) ||
       r.desc.toLowerCase().includes(search.toLowerCase());
+
     return matchCat && matchType && matchSearch;
   });
+if (loading) {
+  return <div style={{ padding: 40 }}>⏳ Loading resources...</div>;
+}
+
+if (error) {
+  return <div style={{ padding: 40, color: "red" }}>❌ {error}</div>;
+}
 
   return (
         <div style={{ fontFamily: "'DM Sans',sans-serif", background: C.light, color: C.text, minHeight: "100vh" , width: "100%" , overflowX: "hidden"}}>
@@ -260,6 +326,21 @@ export default function ResourcesPage() {
           html, body { width: 100% !important; margin: 0 !important; padding: 0 !important; overflow-x: hidden !important; }
 #root { width: 100% !important; overflow-x: hidden !important; }
       `}</style>
+      {/* ── AlertBar: full width ── */}
+      <div className="section-full">
+        <AlertBar isMobile={isMobile} C={{ accent: "#ff4d4f" }} />
+      </div>
+      {/* ── TopTicker: full width ── */}
+      <div className="section-full">
+        <TopTicker isMobile={isMobile} isDesktop={isDesktop} C={C} gutter="16px" />
+      </div>
+      {/* ── Navbar: full width ── */}
+      <Navbar
+        bp={bp}
+        onMenuOpen={() => {}}
+        onNavigate={(page) => navigate(`/${page}`)}
+        activePage={location.pathname.replace("/", "")}
+      />
       {/* ── Hero Banner ── */}
       <div
         style={{
@@ -311,8 +392,8 @@ export default function ResourcesPage() {
       </div>
 
       {/* ── Content ── */}
-      <div style={{ maxWidth: 1180, margin: "0 auto", padding: "36px 20px" }}>
-        <StatsBar />
+      <div style={{ Width: "100%", padding: "36px 40px" }}>
+        <StatsBar resources={resources} />
 
         {/* Filters Row */}
         <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10, marginBottom: 24 }}>
@@ -376,12 +457,12 @@ export default function ResourcesPage() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
               gap: 18,
             }}
           >
             {filtered.map(res => (
-              <ResourceCard key={res.id} res={res} />
+              <ResourceCard key={res._id} res={res} />
             ))}
           </div>
         )}
@@ -395,7 +476,9 @@ export default function ResourcesPage() {
             borderRadius: 12,
             border: "1px solid #fed7aa",
             display: "flex",
-            alignItems: "flex-start",
+            alignItems: "center",
+            justifyContent: "center", 
+            textAlign: "center",
             gap: 12,
           }}
         >
@@ -409,6 +492,10 @@ export default function ResourcesPage() {
             </div>
           </div>
         </div>
+      </div>
+        {/* ── Footer: full width ── */}
+      <div className="section-full">
+        <Footer bp={bp} gutter="16px" />
       </div>
     </div>
   );
