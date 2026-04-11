@@ -317,9 +317,35 @@ export default function App() {
   onNavigate={(page) => navigate(`/${page}`)}
   activePage={location.pathname.split("/")[1]}
 />
+{/* 
 <Routes>
+
+  <Route
+    path="/"
+    element={
+      <>
+        Hero
+        Top Ad
+        Main Content
+        Bottom Ad
+        Footer
+      </>
+    }
+  />
+
+  <Route
+    path="/home"
+    element={
+      <>
+        SAME UI
+      </>
+    }
+  />
+
   <Route path="/walk-in-drive" element={<WalkInDrivesPage />} />
+
 </Routes>
+*/}
 
       {/* ── Hero: full width ── */}
       <div className="section-full" style={{ background: "linear-gradient(135deg,#0f4c81 0%,#1565c0 60%,#0d47a1 100%)", color: "#fff", padding: "48px 0 40px" }}>

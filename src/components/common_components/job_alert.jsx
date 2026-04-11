@@ -25,7 +25,7 @@ const SUB_CATEGORIES = {
   ],
 };
 
-const BATCHES = ["2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027"];
+const BATCHES = ["2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027","2028", "2029", "2030"];
 
 const LOCATIONS = [
   "Hyderabad", "Bengaluru", "Chennai", "Mumbai", "Pune",
