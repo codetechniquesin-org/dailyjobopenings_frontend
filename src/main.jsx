@@ -34,7 +34,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/advertise-with-us" element={<Advertise />} />
         <Route path="/resources" element={<ResourcesPage />} />
         <Route path="/jobs/categories/:category" element={<Jobcategories />} />
-        <Route path="/interview-questions" element={<InterviewQuestionsPage />} />
+        <Route path="/users/view-courses" element={<InterviewQuestionsPage />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/walk-in-drive" element={<WalkInDrivesPage/>}/>
         <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />

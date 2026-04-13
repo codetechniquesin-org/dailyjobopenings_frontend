@@ -38,11 +38,11 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 12 }}>
             <img
-            src="https://res.cloudinary.com/dd3niyhrb/image/upload/v1773481829/WhatsApp_Image_2026-03-14_at_3.18.14_PM_o5drwx.jpg"
+            src="../public/favicon.svg"
             alt="Logo"
             style={{
-              width: isMobile ? 32 : 40,
-              height: isMobile ? 32 : 40,
+              width: isMobile ? 32 : 50,
+              height: isMobile ? 32 : 50,
               borderRadius: 9,
             }}
           /> 

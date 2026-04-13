@@ -30,7 +30,12 @@ const NAV_ITEMS = [
       { icon: "📚", label: "GOVT Internships", key: "govt-internship", desc: "Build experience" },
     ],
   },
-  { label: "interview Questions" , page: "interview-questions" },
+  {label: "Exams",dropdown: [
+      { icon: "🎓", label: "Government Exams", key: "govt", desc: "" },
+      { icon: "💼", label: "IT Exams", key: "experienced", desc: "" },    
+      { icon: "🌍", label: "Non-IT Exams", key: "abroad", desc: "" },
+    ], page: "exams"},
+  { label: "Courses" , page: "users/view-courses" },
   { label: "Resources", page: "resources" },
   { label: "Resume Builder", page: "resume", external: "https://resumes-by-hirely.onrender.com/" },
 ];
@@ -306,7 +311,7 @@ function ApplyWithAIButton({ fullWidth = false }) {
           100% { transform: translateX(100%); }
         }
       `}</style>
-      <button
+      {/* <button
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         style={{
@@ -345,7 +350,7 @@ function ApplyWithAIButton({ fullWidth = false }) {
           />
         )}
         <span style={{ position: "relative", zIndex: 1000 }}>✨ Apply with AI</span>
-      </button>
+      </button> */}
     </>
   );
 }
@@ -536,15 +541,30 @@ function Navbar({ onNavigate = () => {}, activePage = "" }) {
 
   // Close on outside click
   const drawerRef = useRef(null);
+  // useEffect(() => {
+  //   const handler = (e) => {
+  //     if (drawerRef.current && !drawerRef.current.contains(e.target)) {
+  //       setMenuOpen(false);
+  //     }
+  //   };
+  //   if (menuOpen) document.addEventListener("mousedown", handler);
+  //   return () => document.removeEventListener("mousedown", handler);
+  // }, [menuOpen]);
   useEffect(() => {
-    const handler = (e) => {
-      if (drawerRef.current && !drawerRef.current.contains(e.target)) {
-        setMenuOpen(false);
-      }
-    };
-    if (menuOpen) document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, [menuOpen]);
+  const handler = (e) => {
+    // ✅ allow clicks on button
+    if (
+      drawerRef.current &&
+      !drawerRef.current.contains(e.target) &&
+      !e.target.closest("button")   // <-- ADD THIS
+    ) {
+      setMenuOpen(false);
+    }
+  };
+
+  if (menuOpen) document.addEventListener("mousedown", handler);
+  return () => document.removeEventListener("mousedown", handler);
+}, [menuOpen]);
 
   return (
     <>
@@ -553,7 +573,7 @@ function Navbar({ onNavigate = () => {}, activePage = "" }) {
           position: fixed; inset: 0;
           background: rgba(0,0,0,0.25);
           z-index: 198;
-          backdrop-filter: blur(2px);
+          // backdrop-filter: blur(2px);
         }
         .ct-drawer {
           position: absolute;
@@ -621,9 +641,9 @@ function Navbar({ onNavigate = () => {}, activePage = "" }) {
   }}
 >
   <img
-    src="https://res.cloudinary.com/dd3niyhrb/image/upload/v1773481829/WhatsApp_Image_2026-03-14_at_3.18.14_PM_o5drwx.jpg"
+    src="../public/favicon.svg"
     alt="Logo"
-    style={{ width: 40, height: 40, borderRadius: 9 }}
+    style={{ width: 65, height: 65, borderRadius: 9 }}
   />
   <span style={{ fontWeight: 800, color: C.primary, fontSize: 15 }}>
     Daily<span style={{ color: C.accent }}>Job Openings</span>
