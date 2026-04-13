@@ -112,10 +112,22 @@ function Tag({ children }) {
 
 function SkillTag({ label }) {
   return (
-    <span style={{
-      background: "#e8f4fd", color: C.primary, fontSize: 12,
-      padding: "4px 10px", borderRadius: 5, fontWeight: 500, whiteSpace: "nowrap",
-    }}>
+    <span
+      style={{
+        background: "#e8f4fd",
+        color: C.primary,
+        fontSize: 12,
+        padding: "4px 10px",
+        borderRadius: 5,
+        fontWeight: 500,
+
+        whiteSpace: "normal",
+        wordBreak: "break-word",
+        overflowWrap: "anywhere",
+        maxWidth: "100%",
+        display: "inline-block"
+      }}
+    >
       {label}
     </span>
   );
@@ -824,7 +836,7 @@ function Sidebar({ job }) {
     whiteSpace: "normal"
   }}
 >
-  View All Jobs at {job.companyCareersLink?.split(",")[0]} →
+  View All Jobs at {job.companyName} →
 </a>
       </SidebarWidget>
 
@@ -995,6 +1007,20 @@ if (!job) return <JobNotFound />;
         }
           html, body { width: 100% !important; margin: 0 !important; padding: 0 !important; overflow-x: hidden !important; }
 #root { width: 100% !important; overflow-x: hidden !important; }
+* {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+div, span, p, a, h1, h2, h3, h4, h5, h6 {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
       `}</style>
       
 
@@ -1318,7 +1344,17 @@ gap: 8,              }}>
             <Divider />
 
             <SectionLabel>Required Skills</SectionLabel>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 7, marginTop: 8 }}>
+<div
+  style={{
+    display: "flex",
+    flexWrap: "wrap",
+    gap: 7,
+    marginTop: 8,
+    width: "100%",
+    minWidth: 0,
+    overflow: "hidden"
+  }}
+>
               {job.skills?.map((s) => <SkillTag key={s} label={s} />)}
             </div>
           </Card>
