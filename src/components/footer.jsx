@@ -38,7 +38,7 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 12 }}>
             <img
-            src="../public/favicon.svg"
+            src="/favicon.svg"
             alt="Logo"
             style={{
               width: isMobile ? 32 : 50,
