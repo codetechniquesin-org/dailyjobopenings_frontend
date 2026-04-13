@@ -805,19 +805,27 @@ function Sidebar({ job }) {
               : "No company description provided"}
           </div>
         </div>
-         <a
-          href={job.companyCareersLink}
-          target="_blank"
-          rel="noopener noreferrer"
-
-          style={{
-            display: "block", textAlign: "center", marginTop: 12,
-            fontSize: 12.5, color: C.primary, fontWeight: 600,
-            border: `1.5px solid ${C.border}`, borderRadius: 8, padding: "8px 0",
-          }}
-        >
-          View All Jobs at {job.companyCareersLink?.split(",")[0]} →
-        </a>
+<a
+  href={job.companyCareersLink}
+  target="_blank"
+  rel="noopener noreferrer"
+  style={{
+    display: "block",
+    textAlign: "center",
+    marginTop: 12,
+    fontSize: 12.5,
+    color: C.primary,
+    fontWeight: 600,
+    border: `1.5px solid ${C.border}`,
+    borderRadius: 8,
+    padding: "8px 10px",
+    wordBreak: "break-word",
+    overflowWrap: "anywhere",
+    whiteSpace: "normal"
+  }}
+>
+  View All Jobs at {job.companyCareersLink?.split(",")[0]} →
+</a>
       </SidebarWidget>
 
       {/* Job Summary */}
