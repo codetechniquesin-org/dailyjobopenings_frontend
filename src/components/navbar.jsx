@@ -35,7 +35,7 @@ const NAV_ITEMS = [
       { icon: "💼", label: "IT Exams", key: "experienced", desc: "" },    
       { icon: "🌍", label: "Non-IT Exams", key: "abroad", desc: "" },
     ], page: "exams"},
-  { label: "interview Questions" , page: "interview-questions" },
+  { label: "Courses" , page: "users/view-courses" },
   { label: "Resources", page: "resources" },
   { label: "Resume Builder", page: "resume", external: "https://resumes-by-hirely.onrender.com/" },
 ];

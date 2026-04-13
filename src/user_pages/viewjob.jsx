@@ -209,7 +209,7 @@ function MobileDrawer({ open, onClose }) {
         style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.5)", zIndex: 400 }}
       />
       <div style={{
-        position: "fixed", top: 0, left: 0, bottom: 0, width: 300,
+        position: "fixed", top: 0, left: 0, bottom: 0, width: "85%", maxWidth: "300px",
         background: "#fff", zIndex: 500, overflowY: "auto",
         boxShadow: "6px 0 32px rgba(0,0,0,.18)",
         display: "flex", flexDirection: "column",
@@ -460,8 +460,10 @@ function ViewJobSkeleton() {
               <div style={{
                 marginTop: 12, border: "1.5px solid #86efac",
                 borderRadius: 10, padding: "10px 12px",
-                display: "flex", justifyContent: "space-between", alignItems: "center",
-              }}>
+display: "flex",
+flexDirection: isMobile ? "column" : "row",
+alignItems: isMobile ? "flex-start" : "center",
+gap: 8,              }}>
                 <Col gap={6}>
                   {S(64, 10, { borderRadius: 3 })}
                   {S(80, 22, { borderRadius: 5 })}
@@ -969,7 +971,7 @@ if (!job) return <JobNotFound />;
         /* Responsive font helpers */
         @media (max-width: 639px) {
           .job-title { font-size: 19px !important; }
-          .detail-grid { grid-template-columns: 1fr 1fr !important; }
+          .detail-grid { grid-template-columns: 1fr !important; }
           .action-row { flex-direction: column; align-items: stretch !important; }
           .action-row .btn-apply,
           .action-row .btn-save,
@@ -1002,7 +1004,7 @@ if (!job) return <JobNotFound />;
       {/* ────────────── NAVBAR ────────────── */}
       {/* <Navbar bp={bp} onMenuOpen={() => setDrawerOpen(true)} /> */}
       <Navbar 
-  bp={{ isMobile: false, isTablet: false, isDesktop: true }}
+  bp={ bp }
   onMenuOpen={() => console.log("menu open")}
 />
       <MobileDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
@@ -1037,11 +1039,11 @@ if (!job) return <JobNotFound />;
           {/* ── HERO JOB CARD ── */}
           <Card style={{ marginBottom: 14, borderLeft: `4px solid ${C.primary}` }}>
 
-            <div style={{ display: "flex", gap: 16, alignItems: "flex-start", flexWrap: "wrap" }}>
+            <div style={{ display: "flex", gap: 16, alignItems: isMobile? "center":"flex-start",flexDirection: isMobile? "column" : "row", flexWrap: "nowrap" }}>
 <div
   style={{
-    width: isMobile ? 54 : 100,
-    height: isMobile ? 54 : 100,
+    width: isMobile ? 45 : 100,
+    height: isMobile ? 45 : 100,
     borderRadius: 12,
     background: "#fff",
     display: "flex",
@@ -1130,8 +1132,10 @@ if (!job) return <JobNotFound />;
                 background: "linear-gradient(135deg,#f0fff4,#e8f5e9)",
                 border: "1.5px solid #86efac", borderRadius: 10,
                 padding: "11px 14px",
-                display: "flex", justifyContent: "space-between", alignItems: "center",
-              }}>
+display: "flex",
+flexDirection: isMobile ? "column" : "row",
+alignItems: isMobile ? "flex-start" : "center",
+gap: 8,              }}>
                 <div>
                   <div style={{ fontSize: 10.5, color: C.muted, fontWeight: 600 }}>SALARY RANGE</div>
                   <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 18, fontWeight: 800, color: C.green }}>{job.salary}</div>
@@ -1404,7 +1408,10 @@ if (!job) return <JobNotFound />;
             RIGHT SIDEBAR (desktop ≥1024)
         ═════════════════════════════ */}
         {showSidebar && (
-          <div style={{ width: w >= 1280 ? 300 : 260, flexShrink: 0 }}>
+<div style={{ 
+  width: isMobile ? "100%" : (w >= 1280 ? 300 : 260),
+  flexShrink: 0 
+}}>
             <Sidebar job={job} />
           </div>
         )}
