@@ -13,13 +13,13 @@ import API_BASE_URL from "../config/api";
 ───────────────────────────────────────────── */
 const C = {
   primary: "#0f4c81",
-  accent:  "#e8472a",
-  gold:    "#f5a623",
-  light:   "#f4f7fb",
-  green:   "#16a34a",
-  text:    "#1a1a2e",
-  muted:   "#6b7280",
-  border:  "#e2e8f0",
+  accent: "#e8472a",
+  gold: "#f5a623",
+  light: "#f4f7fb",
+  green: "#16a34a",
+  text: "#1a1a2e",
+  muted: "#6b7280",
+  border: "#e2e8f0",
 };
 
 const overlayStyle = {
@@ -40,7 +40,8 @@ const modalStyle = {
   background: "#ffffff",
   padding: "24px",
   borderRadius: "16px",
-  width: "320px",
+  width: "90%",
+  maxWidth: "320px",
   textAlign: "center",
   boxShadow: "0 10px 30px rgba(0,0,0,0.2)"
 };
@@ -62,9 +63,9 @@ const iconBtn = (bg) => ({
 
 const BADGE_STYLE = {
   featured: { background: "#fff8e1", color: "#b45309" },
-  hot:      { background: "#fee2e2", color: "#b91c1c" },
-  new:      { background: "#dcfce7", color: "#15803d" },
-  remote:   { background: "#ede9fe", color: "#6d28d9" },
+  hot: { background: "#fee2e2", color: "#b91c1c" },
+  new: { background: "#dcfce7", color: "#15803d" },
+  remote: { background: "#ede9fe", color: "#6d28d9" },
 };
 
 /* ─────────────────────────────────────────────
@@ -76,7 +77,7 @@ const BADGE_STYLE = {
    xl  1024-1279 laptops
    2xl 1280+     desktops
 ───────────────────────────────────────────── */
-  //this is related to toptocler
+//this is related to toptocler
 function useBreakpoint() {
   const [w, setW] = useState(
     typeof window !== "undefined" ? window.innerWidth : "100%"
@@ -88,9 +89,9 @@ function useBreakpoint() {
   }, []);
   return {
     w,
-    isMobile:    w < 640,
-    isTablet:    w >= 640 && w < 1024,
-    isDesktop:   w >= 1024,
+    isMobile: w < 640,
+    isTablet: w >= 640 && w < 1024,
+    isDesktop: w >= 1024,
     showSidebar: w >= 1024,
   };
 }
@@ -98,13 +99,37 @@ function useBreakpoint() {
 /* ─────────────────────────────────────────────
    PRIMITIVES
 ───────────────────────────────────────────── */
+// function Tag({ children }) {
+//   return (
+//     <span style={{
+//       display: "inline-flex", alignItems: "center", gap: 5,
+//       fontSize: 11.5, color: C.muted, background: C.light,
+//       padding: "4px 10px", borderRadius: 6, whiteSpace: "nowrap",
+//     }}>
+//       {children}
+//     </span>
+//   );
+// }
+
 function Tag({ children }) {
   return (
-    <span style={{
-      display: "inline-flex", alignItems: "center", gap: 5,
-      fontSize: 11.5, color: C.muted, background: C.light,
-      padding: "4px 10px", borderRadius: 6, whiteSpace: "nowrap",
-    }}>
+    <span
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 5,
+        fontSize: 11.5,
+        color: C.muted,
+        background: C.light,
+        padding: "4px 10px",
+        borderRadius: 6,
+
+        whiteSpace: "normal",
+        wordBreak: "break-word",
+        overflowWrap: "anywhere",
+        maxWidth: "100%"
+      }}
+    >
       {children}
     </span>
   );
@@ -137,7 +162,7 @@ function SectionTitle({ text }) {
   return (
     <h2 style={{
       fontFamily: "'Syne',sans-serif", fontSize: 16, fontWeight: 700,
-      display: "flex", alignItems: "center", gap: 8, margin: "0 0 18px",color:"black"
+      display: "flex", alignItems: "center", gap: 8, margin: "0 0 18px", color: "black"
     }}>
       <span style={{ width: 4, height: 20, background: C.accent, borderRadius: 3, display: "inline-block", flexShrink: 0 }} />
       {text}
@@ -171,12 +196,35 @@ function SectionLabel({ children }) {
   );
 }
 
+// function Pill({ children, bg, color }) {
+//   return (
+//     <span style={{
+//       background: bg, color, padding: "4px 11px",
+//       borderRadius: 20, fontSize: 12, fontWeight: 500,
+//     }}>
+//       {children}
+//     </span>
+//   );
+// }
+
 function Pill({ children, bg, color }) {
   return (
-    <span style={{
-      background: bg, color, padding: "4px 11px",
-      borderRadius: 20, fontSize: 12, fontWeight: 500,
-    }}>
+    <span
+      style={{
+        background: bg,
+        color,
+        padding: "4px 11px",
+        borderRadius: 20,
+        fontSize: 12,
+        fontWeight: 500,
+
+        whiteSpace: "normal",
+        wordBreak: "break-word",
+        overflowWrap: "anywhere",
+        maxWidth: "100%",
+        display: "inline-block"
+      }}
+    >
       {children}
     </span>
   );
@@ -472,10 +520,11 @@ function ViewJobSkeleton() {
               <div style={{
                 marginTop: 12, border: "1.5px solid #86efac",
                 borderRadius: 10, padding: "10px 12px",
-display: "flex",
-flexDirection: isMobile ? "column" : "row",
-alignItems: isMobile ? "flex-start" : "center",
-gap: 8,              }}>
+                display: "flex",
+                flexDirection: isMobile ? "column" : "row",
+                alignItems: isMobile ? "flex-start" : "center",
+                gap: 8,
+              }}>
                 <Col gap={6}>
                   {S(64, 10, { borderRadius: 3 })}
                   {S(80, 22, { borderRadius: 5 })}
@@ -656,19 +705,19 @@ function JobNotFound() {
       {/* Floating illustration */}
       <div className="njf-float">
         <svg width="160" height="140" viewBox="0 0 160 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="20" y="30" width="120" height="88" rx="12" fill="#e8eef6" stroke="#c8d6e8" strokeWidth="1.5"/>
-          <rect x="20" y="30" width="120" height="22" rx="12" fill="#cddaed" stroke="#c8d6e8" strokeWidth="1.5"/>
-          <rect x="20" y="41" width="120" height="11" fill="#cddaed"/>
-          <rect x="36" y="70" width="60" height="8" rx="4" fill="#c8d6e8"/>
-          <rect x="36" y="84" width="88" height="7" rx="3.5" fill="#dce6f2"/>
-          <rect x="36" y="97" width="72" height="7" rx="3.5" fill="#dce6f2"/>
-          <rect x="36" y="110" width="50" height="7" rx="3.5" fill="#dce6f2"/>
-          <circle cx="112" cy="108" r="22" fill="#fee2e2" stroke="#fca5a5" strokeWidth="1.5"/>
-          <line x1="105" y1="101" x2="119" y2="115" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round"/>
-          <line x1="119" y1="101" x2="105" y2="115" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round"/>
-          <circle cx="67" cy="42" r="5" fill="#fff" opacity=".5"/>
-          <circle cx="80" cy="42" r="5" fill="#fff" opacity=".35"/>
-          <circle cx="93" cy="42" r="5" fill="#fff" opacity=".2"/>
+          <rect x="20" y="30" width="120" height="88" rx="12" fill="#e8eef6" stroke="#c8d6e8" strokeWidth="1.5" />
+          <rect x="20" y="30" width="120" height="22" rx="12" fill="#cddaed" stroke="#c8d6e8" strokeWidth="1.5" />
+          <rect x="20" y="41" width="120" height="11" fill="#cddaed" />
+          <rect x="36" y="70" width="60" height="8" rx="4" fill="#c8d6e8" />
+          <rect x="36" y="84" width="88" height="7" rx="3.5" fill="#dce6f2" />
+          <rect x="36" y="97" width="72" height="7" rx="3.5" fill="#dce6f2" />
+          <rect x="36" y="110" width="50" height="7" rx="3.5" fill="#dce6f2" />
+          <circle cx="112" cy="108" r="22" fill="#fee2e2" stroke="#fca5a5" strokeWidth="1.5" />
+          <line x1="105" y1="101" x2="119" y2="115" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" />
+          <line x1="119" y1="101" x2="105" y2="115" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" />
+          <circle cx="67" cy="42" r="5" fill="#fff" opacity=".5" />
+          <circle cx="80" cy="42" r="5" fill="#fff" opacity=".35" />
+          <circle cx="93" cy="42" r="5" fill="#fff" opacity=".2" />
         </svg>
       </div>
 
@@ -718,9 +767,9 @@ function JobNotFound() {
         gap: 12, flexWrap: "wrap", justifyContent: "center",
       }}>
         {[
-          { bg: "#e8f4fd", icon: "🔍", iconColor: "#0f4c81", label: "Try searching", title: "Latest Jobs",    href: "/jobs" },
-          { bg: "#dcfce7", icon: "💼", iconColor: "#16a34a", label: "Explore",       title: "Internships",   href: "/internships" },
-          { bg: "#fef3c7", icon: "🏠", iconColor: "#b45309", label: "Browse",        title: "Work From Home", href: "/work-from-home" },
+          { bg: "#e8f4fd", icon: "🔍", iconColor: "#0f4c81", label: "Try searching", title: "Latest Jobs", href: "/jobs" },
+          { bg: "#dcfce7", icon: "💼", iconColor: "#16a34a", label: "Explore", title: "Internships", href: "/internships" },
+          { bg: "#fef3c7", icon: "🏠", iconColor: "#b45309", label: "Browse", title: "Work From Home", href: "/work-from-home" },
         ].map(({ bg, icon, label, title, href }) => (
           <a key={title} href={href} className="njf-chip" style={{ textDecoration: "none" }}>
             <div style={{
@@ -768,36 +817,36 @@ function Sidebar({ job }) {
       {/* Company Card */}
       <SidebarWidget title="🏢 About the Company">
         <div style={{ display: "flex", alignItems: "center", gap: 11, marginBottom: 14 }}>
-<div
-  style={{
-    width: 48,
-    height: 48,
-    borderRadius: 10,
-    background: "#fff",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    border: `1px solid ${C.border}`,
-    flexShrink: 0,
-    overflow: "hidden"
-  }}
->
-  <img
-    src={job.companyLogo}
-    alt={job.companyName}
-    style={{
-      width: "80%",
-      height: "80%",
-      objectFit: "contain"
-    }}
-  />
-</div>
+          <div
+            style={{
+              width: 48,
+              height: 48,
+              borderRadius: 10,
+              background: "#fff",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              border: `1px solid ${C.border}`,
+              flexShrink: 0,
+              overflow: "hidden"
+            }}
+          >
+            <img
+              src={job.companyLogo}
+              alt={job.companyName}
+              style={{
+                width: "80%",
+                height: "80%",
+                objectFit: "contain"
+              }}
+            />
+          </div>
           <div>
             <div style={{ fontWeight: 700, fontSize: 14, color: C.text }}>{job.JobTitle}</div>
             <div style={{ fontSize: 12, color: C.muted }}>{job.companyName}</div>
           </div>
         </div>
-                <div style={{ marginTop: 10 }}>
+        <div style={{ marginTop: 10 }}>
           {/* <div style={{
             fontSize: 12,
             fontWeight: 700,
@@ -817,38 +866,38 @@ function Sidebar({ job }) {
               : "No company description provided"}
           </div>
         </div>
-<a
-  href={job.companyCareersLink}
-  target="_blank"
-  rel="noopener noreferrer"
-  style={{
-    display: "block",
-    textAlign: "center",
-    marginTop: 12,
-    fontSize: 12.5,
-    color: C.primary,
-    fontWeight: 600,
-    border: `1.5px solid ${C.border}`,
-    borderRadius: 8,
-    padding: "8px 10px",
-    wordBreak: "break-word",
-    overflowWrap: "anywhere",
-    whiteSpace: "normal"
-  }}
->
-  View All Jobs at {job.companyName} →
-</a>
+        <a
+          href={job.companyCareersLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: "block",
+            textAlign: "center",
+            marginTop: 12,
+            fontSize: 12.5,
+            color: C.primary,
+            fontWeight: 600,
+            border: `1.5px solid ${C.border}`,
+            borderRadius: 8,
+            padding: "8px 10px",
+            wordBreak: "break-word",
+            overflowWrap: "anywhere",
+            whiteSpace: "normal"
+          }}
+        >
+          View All Jobs at {job.companyName} →
+        </a>
       </SidebarWidget>
 
       {/* Job Summary */}
       <SidebarWidget title="📋 Job Summary">
         <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
           {[
-            ["📌", "JOB ROLE",   job.jobRole],
-            ["💼", "JOB TYPE",   job.jobType],
+            ["📌", "JOB ROLE", job.jobRole],
+            ["💼", "JOB TYPE", job.jobType],
             ["🎯", "EXPERIENCE", job.experienceLevel],
-            ["🏠", "WORK MODE",  job.workMode],
-            ["📍", "LOCATION",   job.location],
+            ["🏠", "WORK MODE", job.workMode],
+            ["📍", "LOCATION", job.location],
           ].map(([icon, lbl, val]) => (
             <div key={lbl} style={{ display: "flex", gap: 9, alignItems: "flex-start" }}>
               <span style={{ fontSize: 15, flexShrink: 0, marginTop: 2 }}>{icon}</span>
@@ -897,7 +946,7 @@ function Sidebar({ job }) {
       </div>
 
       {/* Similar Jobs */}
-        {job?._id && <SimilarJobs jobId={job._id} />}
+      {job?._id && <SimilarJobs jobId={job._id} />}
     </div>
   );
 }
@@ -906,7 +955,7 @@ function Sidebar({ job }) {
    MAIN APP
 ───────────────────────────────────────────── */
 export default function ViewJob() {
-    //this is related to toptocler
+  //this is related to toptocler
   const bp = useBreakpoint();
   const { isMobile, isTablet, isDesktop, showSidebar, w } = bp;
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -919,31 +968,31 @@ export default function ViewJob() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-const fetchJob = async () => {
-  try {
-    const res = await fetch(`${API_BASE_URL}/api/view-job/${slug}`);
-    const data = await res.json();
+    const fetchJob = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/view-job/${slug}`);
+        const data = await res.json();
 
-    console.log("FULL RESPONSE:", data); // 🔥 MUST DO
+        console.log("FULL RESPONSE:", data); // 🔥 MUST DO
 
-    setJob(data.data); // keep this for now
-  } catch (err) {
-    console.error(err);
-  } finally {
-    setLoading(false);
-  }
-};
+        setJob(data.data); // keep this for now
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
     fetchJob();
   }, [slug]);
 
-if (loading) return <ViewJobSkeleton />;
-if (!job) return <JobNotFound />;
+  if (loading) return <ViewJobSkeleton />;
+  if (!job) return <JobNotFound />;
 
-  
+
 
   return (
-    <div style={{ fontFamily: "'DM Sans',sans-serif", background: C.light, color: C.text, minHeight: "100vh" , width: "100%" , overflowX: "hidden"}}>
+    <div style={{ fontFamily: "'DM Sans',sans-serif", background: C.light, color: C.text, minHeight: "100vh", width: "100%", overflowX: "hidden" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1007,40 +1056,40 @@ if (!job) return <JobNotFound />;
         }
           html, body { width: 100% !important; margin: 0 !important; padding: 0 !important; overflow-x: hidden !important; }
 #root { width: 100% !important; overflow-x: hidden !important; }
-* {
-  box-sizing: border-box;
-  max-width: 100%;
-}
+// * {
+//   box-sizing: border-box;
+//   max-width: 100%;
+// }
 
-img {
-  max-width: 100%;
-  height: auto;
-}
+// img {
+//   max-width: 100%;
+//   height: auto;
+// }
 
-div, span, p, a, h1, h2, h3, h4, h5, h6 {
-  word-break: break-word;
-  overflow-wrap: anywhere;
-}
+// // div, span, p, a, h1, h2, h3, h4, h5, h6 {
+// //   word-break: break-word;
+// //   overflow-wrap: anywhere;
+// // }
       `}</style>
-      
 
-      <AlertBar 
-  isMobile={false}
-  C={{ accent: "#ff4d4f" }}
-/>
 
-      <TopTicker 
+      <AlertBar
+        isMobile={false}
+        C={{ accent: "#ff4d4f" }}
+      />
+
+      <TopTicker
         isMobile={isMobile}
         isDesktop={isDesktop}
         C={C}
         gutter="16px"
-        />
+      />
       {/* ────────────── NAVBAR ────────────── */}
       {/* <Navbar bp={bp} onMenuOpen={() => setDrawerOpen(true)} /> */}
-      <Navbar 
-  bp={ bp }
-  onMenuOpen={() => console.log("menu open")}
-/>
+      <Navbar
+        bp={bp}
+        onMenuOpen={() => console.log("menu open")}
+      />
       <MobileDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
 
       {/* ────────────── BREADCRUMB ────────────── */}
@@ -1073,31 +1122,31 @@ div, span, p, a, h1, h2, h3, h4, h5, h6 {
           {/* ── HERO JOB CARD ── */}
           <Card style={{ marginBottom: 14, borderLeft: `4px solid ${C.primary}` }}>
 
-            <div style={{ display: "flex", gap: 16, alignItems: isMobile? "center":"flex-start",flexDirection: isMobile? "column" : "row", flexWrap: "nowrap" }}>
-<div
-  style={{
-    width: isMobile ? 45 : 100,
-    height: isMobile ? 45 : 100,
-    borderRadius: 12,
-    background: "#fff",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    border: `1px solid ${C.border}`,
-    flexShrink: 0,
-    overflow: "hidden"
-  }}
->
-  <img
-    src={job.companyLogo}
-    alt={job.companyName}
-    style={{
-      width: "80%",
-      height: "80%",
-      objectFit: "contain"
-    }}
-  />
-</div>
+            <div style={{ display: "flex", gap: 16, alignItems: isMobile ? "center" : "flex-start", flexDirection: isMobile ? "column" : "row", flexWrap: "nowrap" }}>
+              <div
+                style={{
+                  width: isMobile ? 45 : 100,
+                  height: isMobile ? 45 : 100,
+                  borderRadius: 12,
+                  background: "#fff",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  border: `1px solid ${C.border}`,
+                  flexShrink: 0,
+                  overflow: "hidden"
+                }}
+              >
+                <img
+                  src={job.companyLogo}
+                  alt={job.companyName}
+                  style={{
+                    width: "80%",
+                    height: "80%",
+                    objectFit: "contain"
+                  }}
+                />
+              </div>
 
               {/* Title / company / meta */}
               <div style={{ flex: 1, minWidth: 0 }}>
@@ -1118,28 +1167,43 @@ div, span, p, a, h1, h2, h3, h4, h5, h6 {
                 <h1
                   className="job-title"
                   style={{
-                    fontFamily: "'Syne',sans-serif", fontWeight: 800,
-                    color: C.text, lineHeight: 1.2, marginBottom: 5,
+                    fontFamily: "'Syne',sans-serif",
+                    fontWeight: 800,
+                    color: C.text,
+                    lineHeight: 1.2,
+                    marginBottom: 5,
+                    wordBreak: "break-word",
+                    overflowWrap: "anywhere",
+                    maxWidth: "100%"
                   }}
                 >
                   {job.jobTitle}
                 </h1>
 
-                <div style={{ fontSize: isMobile ? 13.5 : 15, fontWeight: 600, color: C.primary, marginBottom: 10 }}>
+                <div
+                  style={{
+                    fontSize: isMobile ? 13.5 : 15,
+                    fontWeight: 600,
+                    color: C.primary,
+                    marginBottom: 10,
+                    wordBreak: "break-word",
+                    overflowWrap: "anywhere"
+                  }}
+                >
                   {job.companyName}
                 </div>
 
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                   <Tag>📍 {job.location}</Tag>
                   <Tag>🏠 {job.workMode}</Tag>
-<Tag>
-  📅 {job.createdAt ? new Date(job.createdAt).toDateString() : "N/A"}
-</Tag>
-{!isMobile && job?.applicantsCount !== undefined && (
-  <Tag>
-    👥 {job.applicantsCount} applicants
-  </Tag>
-)}
+                  <Tag>
+                    📅 {job.createdAt ? new Date(job.createdAt).toDateString() : "N/A"}
+                  </Tag>
+                  {!isMobile && job?.applicantsCount !== undefined && (
+                    <Tag>
+                      👥 {job.applicantsCount} applicants
+                    </Tag>
+                  )}
                 </div>
               </div>
 
@@ -1166,10 +1230,11 @@ div, span, p, a, h1, h2, h3, h4, h5, h6 {
                 background: "linear-gradient(135deg,#f0fff4,#e8f5e9)",
                 border: "1.5px solid #86efac", borderRadius: 10,
                 padding: "11px 14px",
-display: "flex",
-flexDirection: isMobile ? "column" : "row",
-alignItems: isMobile ? "flex-start" : "center",
-gap: 8,              }}>
+                display: "flex",
+                flexDirection: isMobile ? "column" : "row",
+                alignItems: isMobile ? "flex-start" : "center",
+                gap: 8,
+              }}>
                 <div>
                   <div style={{ fontSize: 10.5, color: C.muted, fontWeight: 600 }}>SALARY RANGE</div>
                   <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 18, fontWeight: 800, color: C.green }}>{job.salary}</div>
@@ -1188,115 +1253,115 @@ gap: 8,              }}>
               <button className="btn-save" onClick={() => setSaved(!saved)}>
                 {saved ? "✅ Saved" : "🔖 Save Job"}
               </button>
-<button className="btn-share" onClick={() => setShowShare(true)}>
-  📤 Share
-</button>
-{showShare && (
-  <div style={overlayStyle}>
-    <div style={modalStyle}>
-      
-      <h3 style={{ marginBottom: "10px" }}>Share Job</h3>
+              <button className="btn-share" onClick={() => setShowShare(true)}>
+                📤 Share
+              </button>
+              {showShare && (
+                <div style={overlayStyle}>
+                  <div style={modalStyle}>
 
-      {/* Link Box */}
-      <input
-        type="text"
-        value={`${window.location.origin}/view-job/${job.slug}`}
-        readOnly
-        style={{
-          width: "100%",
-          padding: "8px",
-          borderRadius: "8px",
-          border: "1px solid #ddd",
-          marginBottom: "12px"
-        }}
-      />
+                    <h3 style={{ marginBottom: "10px" }}>Share Job</h3>
 
-      {/* Copy Button */}
-      <button
-        onClick={() => {
-          navigator.clipboard.writeText(`${window.location.origin}/view-job/${job.slug}`);
-          alert("Link copied!");
-        }}
-        style={{
-          padding: "8px 14px",
-          borderRadius: "8px",
-          border: "none",
-          background: "#0f4c81",
-          color: "#fff",
-          cursor: "pointer"
-        }}
-      >
-        Copy Link
-      </button>
+                    {/* Link Box */}
+                    <input
+                      type="text"
+                      value={`${window.location.origin}/view-job/${job.slug}`}
+                      readOnly
+                      style={{
+                        width: "100%",
+                        padding: "8px",
+                        borderRadius: "8px",
+                        border: "1px solid #ddd",
+                        marginBottom: "12px"
+                      }}
+                    />
 
-      <div style={{ marginTop: "18px", display: "flex", justifyContent: "center", gap: "12px" }}>
+                    {/* Copy Button */}
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(`${window.location.origin}/view-job/${job.slug}`);
+                        alert("Link copied!");
+                      }}
+                      style={{
+                        padding: "8px 14px",
+                        borderRadius: "8px",
+                        border: "none",
+                        background: "#0f4c81",
+                        color: "#fff",
+                        cursor: "pointer"
+                      }}
+                    >
+                      Copy Link
+                    </button>
 
-  {/* WhatsApp */}
-  <a
-    href={`https://wa.me/?text=${window.location.origin}/view-job/${job.slug}`}
-    target="_blank"
-    style={iconBtn("#25D366")}
-  >
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
-      <path d="M20.52 3.48A11.94 11.94 0 0012.02 0C5.39 0 .02 5.37.02 12c0 2.12.55 4.18 1.6 6L0 24l6.17-1.62A11.96 11.96 0 0012.02 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.2-3.5-8.52zM12.02 22c-1.82 0-3.6-.48-5.17-1.38l-.37-.22-3.66.96.98-3.57-.24-.37A9.93 9.93 0 012.02 12c0-5.52 4.48-10 10-10s10 4.48 10 10-4.48 10-10 10zm5.49-7.32c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.07-.8.37-.27.3-1.05 1.02-1.05 2.5 0 1.47 1.08 2.9 1.23 3.1.15.2 2.13 3.25 5.16 4.56.72.31 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35z"/>
-    </svg>
-  </a>
+                    <div style={{ marginTop: "18px", display: "flex", justifyContent: "center", gap: "12px" }}>
 
-  {/* Twitter */}
-  <a
-    href={`https://twitter.com/intent/tweet?url=${window.location.origin}/view-job/${job.slug}`}
-    target="_blank"
-    style={iconBtn("#1DA1F2")}
-  >
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
-      <path d="M22.46 6c-.77.35-1.6.58-2.46.69a4.3 4.3 0 001.88-2.37 8.6 8.6 0 01-2.72 1.04 4.28 4.28 0 00-7.3 3.9 12.14 12.14 0 01-8.82-4.47 4.28 4.28 0 001.32 5.7 4.24 4.24 0 01-1.94-.54v.05c0 2.06 1.46 3.78 3.4 4.17-.36.1-.74.15-1.13.15-.28 0-.55-.03-.81-.08.55 1.72 2.14 2.97 4.02 3a8.58 8.58 0 01-5.3 1.83c-.34 0-.68-.02-1.01-.06A12.1 12.1 0 006.56 21c7.88 0 12.2-6.53 12.2-12.2 0-.19 0-.39-.01-.58A8.72 8.72 0 0022.46 6z"/>
-    </svg>
-  </a>
+                      {/* WhatsApp */}
+                      <a
+                        href={`https://wa.me/?text=${window.location.origin}/view-job/${job.slug}`}
+                        target="_blank"
+                        style={iconBtn("#25D366")}
+                      >
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+                          <path d="M20.52 3.48A11.94 11.94 0 0012.02 0C5.39 0 .02 5.37.02 12c0 2.12.55 4.18 1.6 6L0 24l6.17-1.62A11.96 11.96 0 0012.02 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.2-3.5-8.52zM12.02 22c-1.82 0-3.6-.48-5.17-1.38l-.37-.22-3.66.96.98-3.57-.24-.37A9.93 9.93 0 012.02 12c0-5.52 4.48-10 10-10s10 4.48 10 10-4.48 10-10 10zm5.49-7.32c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.07-.8.37-.27.3-1.05 1.02-1.05 2.5 0 1.47 1.08 2.9 1.23 3.1.15.2 2.13 3.25 5.16 4.56.72.31 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35z" />
+                        </svg>
+                      </a>
 
-  {/* LinkedIn */}
-  <a
-    href={`https://www.linkedin.com/sharing/share-offsite/?url=${window.location.origin}/view-job/${job.slug}`}
-    target="_blank"
-    style={iconBtn("#0077B5")}
-  >
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
-      <path d="M4.98 3.5C4.98 5 3.88 6 2.49 6S0 5 0 3.5 1.1 1 2.49 1 4.98 2 4.98 3.5zM.24 8.98h4.5V24H.24V8.98zM8.98 8.98h4.31v2.05h.06c.6-1.14 2.07-2.34 4.27-2.34 4.56 0 5.4 3 5.4 6.89V24h-4.5v-7.53c0-1.8-.03-4.12-2.51-4.12-2.51 0-2.89 1.96-2.89 3.98V24h-4.5V8.98z"/>
-    </svg>
-  </a>
+                      {/* Twitter */}
+                      <a
+                        href={`https://twitter.com/intent/tweet?url=${window.location.origin}/view-job/${job.slug}`}
+                        target="_blank"
+                        style={iconBtn("#1DA1F2")}
+                      >
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+                          <path d="M22.46 6c-.77.35-1.6.58-2.46.69a4.3 4.3 0 001.88-2.37 8.6 8.6 0 01-2.72 1.04 4.28 4.28 0 00-7.3 3.9 12.14 12.14 0 01-8.82-4.47 4.28 4.28 0 001.32 5.7 4.24 4.24 0 01-1.94-.54v.05c0 2.06 1.46 3.78 3.4 4.17-.36.1-.74.15-1.13.15-.28 0-.55-.03-.81-.08.55 1.72 2.14 2.97 4.02 3a8.58 8.58 0 01-5.3 1.83c-.34 0-.68-.02-1.01-.06A12.1 12.1 0 006.56 21c7.88 0 12.2-6.53 12.2-12.2 0-.19 0-.39-.01-.58A8.72 8.72 0 0022.46 6z" />
+                        </svg>
+                      </a>
 
-  {/* Copy */}
-  <div
-    onClick={() => {
-      navigator.clipboard.writeText(`${window.location.origin}/view-job/${job.slug}`);
-      alert("Copied!");
-    }}
-    style={iconBtn("#6b7280")}
-  >
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
-      <path d="M16 1H4C2.9 1 2 1.9 2 3v12h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
-    </svg>
-  </div>
+                      {/* LinkedIn */}
+                      <a
+                        href={`https://www.linkedin.com/sharing/share-offsite/?url=${window.location.origin}/view-job/${job.slug}`}
+                        target="_blank"
+                        style={iconBtn("#0077B5")}
+                      >
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+                          <path d="M4.98 3.5C4.98 5 3.88 6 2.49 6S0 5 0 3.5 1.1 1 2.49 1 4.98 2 4.98 3.5zM.24 8.98h4.5V24H.24V8.98zM8.98 8.98h4.31v2.05h.06c.6-1.14 2.07-2.34 4.27-2.34 4.56 0 5.4 3 5.4 6.89V24h-4.5v-7.53c0-1.8-.03-4.12-2.51-4.12-2.51 0-2.89 1.96-2.89 3.98V24h-4.5V8.98z" />
+                        </svg>
+                      </a>
+
+                      {/* Copy */}
+                      <div
+                        onClick={() => {
+                          navigator.clipboard.writeText(`${window.location.origin}/view-job/${job.slug}`);
+                          alert("Copied!");
+                        }}
+                        style={iconBtn("#6b7280")}
+                      >
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+                          <path d="M16 1H4C2.9 1 2 1.9 2 3v12h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" />
+                        </svg>
+                      </div>
 
 
-      </div>
+                    </div>
 
-      {/* Close */}
-      <button
-        onClick={() => setShowShare(false)}
-        style={{
-          marginTop: "20px",
-          background: "transparent",
-          border: "none",
-          color: "#666",
-          cursor: "pointer"
-        }}
-      >
-        Close
-      </button>
+                    {/* Close */}
+                    <button
+                      onClick={() => setShowShare(false)}
+                      style={{
+                        marginTop: "20px",
+                        background: "transparent",
+                        border: "none",
+                        color: "#666",
+                        cursor: "pointer"
+                      }}
+                    >
+                      Close
+                    </button>
 
-    </div>
-  </div>
-)}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Expiry warning */}
@@ -1324,15 +1389,15 @@ gap: 8,              }}>
               style={{ display: "grid", gap: isMobile ? 16 : 20 }}
             >
               {[
-                ["Job Type",         <Pill bg="#e8f4fd"  color={C.primary}>{job.jobType}</Pill>],
-                ["Job Category",     <Pill bg="#fff0f0"  color={C.accent}>{job.jobCategory}</Pill>],
-                ["Experience Level", <Pill bg="#dcfce7"  color="#15803d">{job.experienceLevel}</Pill>],
-                ["Work Mode",        <div style={{ fontSize: 13.5, fontWeight: 500 }}>🏠 {job.workMode}</div>],
-                ["Location",         <div style={{ fontSize: 13.5, fontWeight: 500 }}>📍 {job.location}</div>],
-                ["Education",        <div style={{ fontSize: 13.5, fontWeight: 500 }}>{job.education}</div>],
-                ["Eligible Batch",   <div style={{ fontSize: 13.5, fontWeight: 500 }}>{job.eligibleBatches}</div>],
-                ["Department",       <div style={{ fontSize: 13.5, fontWeight: 500 }}>{job.department}</div>],
-                ["Openings",         <div style={{ fontSize: 13.5, fontWeight: 500 }}>{job.openings} positions</div>],
+                ["Job Type", <Pill bg="#e8f4fd" color={C.primary}>{job.jobType}</Pill>],
+                ["Job Category", <Pill bg="#fff0f0" color={C.accent}>{job.jobCategory}</Pill>],
+                ["Experience Level", <Pill bg="#dcfce7" color="#15803d">{job.experienceLevel}</Pill>],
+                ["Work Mode", <div style={{ fontSize: 13.5, fontWeight: 500 }}>🏠 {job.workMode}</div>],
+                ["Location", <div style={{ fontSize: 13.5, fontWeight: 500 }}>📍 {job.location}</div>],
+                ["Education", <div style={{ fontSize: 13.5, fontWeight: 500 }}>{job.education}</div>],
+                ["Eligible Batch", <div style={{ fontSize: 13.5, fontWeight: 500 }}>{job.eligibleBatches}</div>],
+                ["Department", <div style={{ fontSize: 13.5, fontWeight: 500 }}>{job.department}</div>],
+                ["Openings", <div style={{ fontSize: 13.5, fontWeight: 500 }}>{job.openings} positions</div>],
               ].map(([lbl, val]) => (
                 <div key={lbl}>
                   <SectionLabel>{lbl}</SectionLabel>
@@ -1344,64 +1409,109 @@ gap: 8,              }}>
             <Divider />
 
             <SectionLabel>Required Skills</SectionLabel>
-<div
-  style={{
-    display: "flex",
-    flexWrap: "wrap",
-    gap: 7,
-    marginTop: 8,
-    width: "100%",
-    minWidth: 0,
-    overflow: "hidden"
-  }}
->
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 7,
+                marginTop: 8,
+                width: "100%",
+                minWidth: 0,
+                overflow: "hidden"
+              }}
+            >
               {job.skills?.map((s) => <SkillTag key={s} label={s} />)}
             </div>
           </Card>
 
           {/* ── JOB DESCRIPTION ── */}
-          <Card style={{ marginBottom: 14,textAlign:"left" }}>
+          <Card
+            style={{
+              marginBottom: 14,
+              textAlign: "left",
+              overflow: "hidden",
+              width: "100%",
+              minWidth: 0
+            }}
+          >
             <SectionTitle text="Job Description" />
 
-            <p style={{ fontSize: 13.5, color: C.text, lineHeight: 1.8, marginBottom: 20 }}>
+            <p
+              style={{
+                fontSize: 13.5,
+                color: C.text,
+                lineHeight: 1.8,
+                marginBottom: 20,
+                wordBreak: "break-word",
+                overflowWrap: "anywhere",
+                whiteSpace: "normal"
+              }}
+            >
               {job.jobDescription || "No description available."}
             </p>
 
-<div style={{ marginBottom: 20 }}>
-  <div style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 10 }}>
-    Key Responsibilities
-  </div>
+            <div style={{ marginBottom: 20 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 10 }}>
+                Key Responsibilities
+              </div>
 
-  {Array.isArray(job?.responsibilities) && job.responsibilities.length > 0 ? (
-    <ul>
-      {job.responsibilities.map((r, i) => (
-        <li key={i}>{r}</li>
-      ))}
-    </ul>
-  ) : (
-    <p style={{ color: "#6b7280" }}>Not specified</p>
-  )}
-</div>
+              {Array.isArray(job?.responsibilities) && job.responsibilities.length > 0 ? (
+                <ul>
+                  {job.responsibilities.map((r, i) => (
+                    <li
+                      key={i}
+                      style={{
+                        wordBreak: "break-word",
+                        overflowWrap: "anywhere",
+                        whiteSpace: "normal"
+                      }}
+                    >
+                      {r}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p style={{ color: "#6b7280" }}>Not specified</p>
+              )}
+            </div>
 
-<div style={{ marginBottom: 20 }}>
-  <div style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 10 }}>
-    Qualifications
-  </div>
+            <div style={{ marginBottom: 20 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 10 }}>
+                Qualifications
+              </div>
 
-  {Array.isArray(job?.qualifications) && job.qualifications.length > 0 ? (
-    <ul>
-      {job.qualifications.map((q, i) => (
-        <li key={i}>{q}</li>
-      ))}
-    </ul>
-  ) : (
-    <p style={{ color: "#6b7280" }}>Not specified</p>
-  )}
-</div>
+              {Array.isArray(job?.qualifications) && job.qualifications.length > 0 ? (
+                <ul>
+                  {job.qualifications.map((q, i) => (
+                    <li
+                      key={i}
+                      style={{
+                        wordBreak: "break-word",
+                        overflowWrap: "anywhere",
+                        whiteSpace: "normal"
+                      }}
+                    >
+                      {q}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p style={{ color: "#6b7280" }}>Not specified</p>
+              )}
+            </div>
 
             <div>
               <div style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 10 }}>Perks &amp; Benefits</div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: 8,
+                  width: "100%",
+                  minWidth: 0,
+                  overflow: "hidden"
+                }}
+              >
                 {job.perks?.map((p) => <Tag key={p}>{p}</Tag>)}
               </div>
             </div>
@@ -1452,10 +1562,10 @@ gap: 8,              }}>
             RIGHT SIDEBAR (desktop ≥1024)
         ═════════════════════════════ */}
         {showSidebar && (
-<div style={{ 
-  width: isMobile ? "100%" : (w >= 1280 ? 300 : 260),
-  flexShrink: 0 
-}}>
+          <div style={{
+            width: isMobile ? "100%" : (w >= 1280 ? 300 : 260),
+            flexShrink: 0
+          }}>
             <Sidebar job={job} />
           </div>
         )}
@@ -1495,11 +1605,11 @@ gap: 8,              }}>
           </a>
         </div>
       </div>
-<Footer 
-  bp={{ isMobile: false, isTablet: false, isDesktop: true }}
-  gutter="16px"
-/>
-        </div>
+      <Footer
+        bp={{ isMobile: false, isTablet: false, isDesktop: true }}
+        gutter="16px"
+      />
+    </div>
 
   );
 }
