@@ -23,7 +23,7 @@ localStorage.setItem(
     token: res.data.token,
   })
 );
-console.log("Admin info stored in localStorage:", JSON.parse(localStorage.getItem("adminInfo")));
+// console.log("Admin info stored in localStorage:", JSON.parse(localStorage.getItem("adminInfo")));
       navigate(res.data.admin.isTempPassword ? "/admin/reset-password" : "/admin/dashboard");
     } catch (err) {
       setError(err.response?.data?.message || "Invalid email or password");

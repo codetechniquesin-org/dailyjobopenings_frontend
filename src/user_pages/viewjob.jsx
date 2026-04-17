@@ -973,7 +973,7 @@ export default function ViewJob() {
         const res = await fetch(`${API_BASE_URL}/api/view-job/${slug}`);
         const data = await res.json();
 
-        console.log("FULL RESPONSE:", data); // 🔥 MUST DO
+        // console.log("FULL RESPONSE:", data); // 🔥 MUST DO
 
         setJob(data.data); // keep this for now
       } catch (err) {

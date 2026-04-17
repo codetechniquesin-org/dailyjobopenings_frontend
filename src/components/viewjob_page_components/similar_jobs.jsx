@@ -57,7 +57,7 @@ function SimilarJobs({ jobId }) {
 
     const fetchSimilarJobs = async () => {
       try {
-        console.log("Received jobId:", jobId);
+        // console.log("Received jobId:", jobId);
         const res = await fetch(`${API_BASE_URL}/api/similar-jobs/${jobId}`);
         const data = await res.json();
 

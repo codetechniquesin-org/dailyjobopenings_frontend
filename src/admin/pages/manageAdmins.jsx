@@ -152,8 +152,8 @@ const doCreate = async () => {
 
     const data = await res.json();
 
-    console.log("STATUS:", res.status);
-    console.log("RESPONSE:", data);
+    // console.log("STATUS:", res.status);
+    // console.log("RESPONSE:", data);
 
     if (!res.ok) {
       throw new Error(data.message || "Something went wrong");

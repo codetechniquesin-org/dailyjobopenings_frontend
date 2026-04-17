@@ -164,7 +164,7 @@ export default function App() {
         // convert response to JSON
         const data = await res.json();
 
-        console.log("Stats response:", data);
+        // console.log("Stats response:", data);
 
         // set state
         setStats(data.data);
