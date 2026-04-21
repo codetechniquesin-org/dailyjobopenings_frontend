@@ -11,6 +11,7 @@ import JobsByLocation from "./components/home_page_components/job_by_location";
 import API_BASE_URL from "./config/api";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import WalkInDrivesPage from "./user_pages/walk_in_jobs";
+import CategorySection from "./components/home_page_components/browse_by_categories";
 
 
 const C = {
@@ -445,13 +446,13 @@ export default function App() {
             <div className="main-content">
               {/* Category Pills */}
               <div style={{ marginTop: 16, marginBottom: 20 }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+                {/* <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
                   <h2 className="syne" style={{ fontSize: 17, fontWeight: 700, display: "flex", alignItems: "center", gap: 8, color: S.text }}>
                     <span style={{ width: 4, height: 20, background: S.accent, borderRadius: 3, display: "inline-block" }} />
                     Browse by Category
                   </h2>
-                </div>
-                <div className="cat-pill-wrap">
+                </div> */}
+                {/* <div className="cat-pill-wrap">
                   {CATS.map((c, i) => (
                     <span key={c.label} onClick={() => setActiveCat(i)} style={{
                       background: activeCat === i ? S.primary : "#fff",
@@ -465,7 +466,21 @@ export default function App() {
                       <span style={{ background: activeCat === i ? "rgba(255,255,255,.2)" : "#e8f4fd", color: activeCat === i ? "#fff" : S.primary, padding: "1px 6px", borderRadius: 10, fontSize: 10.5, fontWeight: 700 }}>{c.count}</span>
                     </span>
                   ))}
-                </div>
+                </div> */}
+                {/* Content column */}
+            {/* <div className="main-content"> */}
+              {/* Category Pills */}
+              <div style={{ marginTop: 16, marginBottom: 20 }}>
+                <CategorySection 
+                  styles={S}
+                  activeCat={activeCat}
+                  setActiveCat={(idx) => {
+                    setActiveCat(idx);
+                    setPage(1); // Reset page on category change
+                  }}
+                  onCategorySelect={(name) => setSelectedCategoryName(name)}
+                />
+              </div>
               </div>
 
               {/* Section Header */}

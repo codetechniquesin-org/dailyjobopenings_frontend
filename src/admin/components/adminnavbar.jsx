@@ -6,7 +6,7 @@ const LINKS = [
   { to: "/admin/manage-jobs",                 label: "Manage Jobs"         },
   { to: "/admin/manage-admins",               label: "Manage Admins",       superOnly: true },
   { to: "/admin/manage-resources",            label: "Resources"           },
-  { to: "/admin/manage-interview-questions",  label: "Interview Qs"        },
+  { to: "/admin/manage-interview-questions",  label: "Courses"        },
 ];
 
 export default function AdminNavbar() {

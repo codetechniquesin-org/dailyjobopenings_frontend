@@ -150,6 +150,9 @@ function PostJobForm() {
   const [apiError, setApiError] = useState("");
   const [jobUrl, setJobUrl] = useState("");
   const [jobData, setJobData] = useState(null);
+  const [companyResults, setCompanyResults] = useState([]);
+const [showDropdown, setShowDropdown] = useState(false);
+const [companyMessage, setCompanyMessage] = useState("");
   const generateShareMessage = () => {
   return `🚀 Job Opportunity Alert!
 
@@ -172,6 +175,32 @@ https://www.instagram.com/codetechniques/
 https://t.me/codetechniques
 
 📣 Share this opportunity with your friends & groups ❤️`;
+};
+const searchCompanies = async (query) => {
+  if (!query.trim()) {
+    setCompanyResults([]);
+    return;
+  }
+
+  try {
+    const res = await fetch(
+      `${API_BASE_URL}/api/admin/get-companies?search=${query}`,
+      {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("adminInfo"))?.token}`
+        }
+      }
+    );
+
+    const data = await res.json();
+
+    if (data.success) {
+      setCompanyResults(data.data);
+      setShowDropdown(true);
+    }
+  } catch (err) {
+    console.error("Search error", err);
+  }
 };
 
   const set = (k, v) => setF(p => ({ ...p, [k]: v }));
@@ -226,10 +255,27 @@ https://t.me/codetechniques
       // console.log("token", JSON.parse(localStorage.getItem("adminInfo"))?.token);
       const data = await res.json();
 
-if (data.success) { 
+// if (data.success) { 
+//   const job = data.data;
+
+//   // ✅ safe check
+//   const url = job?.slug
+//     ? `${window.location.origin}/view-job/${job.slug}`
+//     : "";
+
+//   setJobUrl(url);
+//   setPosted(true);
+//   setJobData(job);
+//   setF(blank);
+// }
+if (data.success) {
   const job = data.data;
 
-  // ✅ safe check
+  // 👇 Detect if company was newly created
+  if (job?.companyName === f.companyName.toLowerCase().trim()) {
+    setCompanyMessage("✅ Company created successfully");
+  }
+
   const url = job?.slug
     ? `${window.location.origin}/view-job/${job.slug}`
     : "";
@@ -335,13 +381,89 @@ if (data.success) {
       {/* Company Info */}
       <SectionHead title="Company Info" icon="🏢" />
       <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(240px,1fr))", gap:16 }}>
-        <Field label="Company Name" required>
-          <input value={f.companyName} onChange={e=>set("companyName",e.target.value)}
-            placeholder="e.g. Acme Corp" style={{ width:"100%", padding:"10px 14px", fontSize:13.5,
-              border: errors.companyName?`1.5px solid ${S.accent}`:"1.5px solid #e2e8f0",
-              borderRadius:9, outline:"none", background:"#fafafa", color:S.text, fontFamily:"inherit", boxSizing:"border-box" }} />
-          <ErrMsg msg={errors.companyName} />
-        </Field>
+<Field label="Company Name" required>
+  <div style={{ position: "relative" }}>
+    <input
+      value={f.companyName}
+      onChange={(e) => {
+        set("companyName", e.target.value);
+        searchCompanies(e.target.value);
+        setCompanyMessage("");
+      }}
+      placeholder="Search or type company name"
+      style={{
+        width: "100%",
+        padding: "10px 14px",
+        fontSize: 13.5,
+        border: errors.companyName
+          ? `1.5px solid ${S.accent}`
+          : "1.5px solid #e2e8f0",
+        borderRadius: 9,
+        outline: "none",
+        background: "#fafafa",
+          // 🔥 ADD THESE
+  color: "#111827",        // strong visible text
+  caretColor: "#111827"   // cursor visible
+      }}
+    />
+
+    {/* 🔽 Dropdown */}
+    {showDropdown && companyResults.length > 0 && (
+      <div
+        style={{
+          position: "absolute",
+          top: "100%",
+          left: 0,
+          right: 0,
+          background: "#fff",
+          border: "1px solid #e2e8f0",
+          borderRadius: 8,
+          maxHeight: 200,
+          overflowY: "auto",
+          zIndex: 1000
+        }}
+      >
+        {companyResults.map((c) => (
+          <div
+            key={c._id}
+            onClick={() => {
+              // 🔥 Autofill logic
+              setF((prev) => ({
+                ...prev,
+                companyName: c.companyName,
+                companyLogo: c.companyLogo || "",
+                companyWebsite: c.companyWebsite || "",
+                companyCareersLink: c.companyCareersLink || "",
+                aboutCompany: c.aboutCompany || "",
+                perks: (c.perks || []).join(", ")
+              }));
+
+              setShowDropdown(false);
+              setCompanyResults([]);
+              setCompanyMessage("✅ Autofilled company details successfully");
+            }}
+            style={{
+              padding: "10px",
+              cursor: "pointer",
+              borderBottom: "1px solid #eee"
+            }}
+          >
+            {c.companyName}
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+
+  {/* ✅ Message */}
+  {companyMessage && (
+    <p style={{ fontSize: 12, color: "green", marginTop: 4 }}>
+      {companyMessage}
+    </p>
+  )}
+
+  <ErrMsg msg={errors.companyName} />
+</Field>
         <Field label="Company Logo URL" hint="Cloudinary or direct image URL">
           <input value={f.companyLogo} onChange={e=>set("companyLogo",e.target.value)}
             placeholder="https://..." style={{ width:"100%", padding:"10px 14px", fontSize:13.5,
