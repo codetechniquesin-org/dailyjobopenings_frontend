@@ -153,6 +153,9 @@ function PostJobForm() {
   const [companyResults, setCompanyResults] = useState([]);
 const [showDropdown, setShowDropdown] = useState(false);
 const [companyMessage, setCompanyMessage] = useState("");
+const [extractUrl, setExtractUrl] = useState("");
+const [extractLoading, setExtractLoading] = useState(false);
+const [extractMessage, setExtractMessage] = useState("");
   const generateShareMessage = () => {
   return `🚀 Job Opportunity Alert!
 
@@ -175,6 +178,67 @@ https://www.instagram.com/codetechniques/
 https://t.me/codetechniques
 
 📣 Share this opportunity with your friends & groups ❤️`;
+};
+const handleExtractJob = async () => {
+  if (!extractUrl.trim()) {
+    setExtractMessage("❌ Please enter a valid URL");
+    return;
+  }
+
+  setExtractLoading(true);
+  setExtractMessage("");
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/admin/extract-job`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem("adminInfo"))?.token}`
+      },
+      body: JSON.stringify({ url: extractUrl })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      const d = data.data;
+
+      setF(prev => ({
+        ...prev,
+
+        // 🔹 Existing
+        jobTitle: d.jobTitle || "",
+        companyName: d.companyName || prev.companyName,
+        location: d.location || "",
+        jobDescription: d.description || "",
+        responsibilities: d.responsibilities || "",
+        qualifications: d.qualifications || "",
+
+        // 🔥 NEW FIELDS
+        education: d.education || "",
+        experienceLevel: d.experienceLevel || "",
+        department: d.department || "",
+        salary: d.salary || "",
+
+        // arrays → convert properly
+        skills: Array.isArray(d.skills) ? d.skills.join(", ") : (d.skills || ""),
+        perks: Array.isArray(d.perks) ? d.perks.join(", ") : (d.perks || ""),
+
+        expiryDate: d.expiryDate ? d.expiryDate.split("T")[0] : ""
+      }));
+
+      setExtractMessage("✅ Job details extracted successfully");
+
+    } else {
+      setExtractMessage("❌ " + data.message);
+    }
+
+  } catch (err) {
+    console.error(err);
+    setExtractMessage("❌ Extraction failed");
+  }
+
+  setExtractLoading(false);
 };
 const searchCompanies = async (query) => {
   if (!query.trim()) {
@@ -378,6 +442,69 @@ if (data.success) {
 
   return (
     <div>
+      {/* 🔥 AUTO EXTRACT BOX */}
+<div style={{
+  border: "1px solid #e2e8f0",
+  borderRadius: 12,
+  padding: 16,
+  marginBottom: 20,
+  background: "#ffffff",
+  boxShadow: "0 2px 10px rgba(0,0,0,0.04)"
+}}>
+  <h3 style={{
+    fontSize: 15,
+    fontWeight: 700,
+    marginBottom: 10,
+    color: S.primary
+  }}>
+    ⚡ Auto Extract Job Details
+  </h3>
+
+  <div style={{ display: "flex", gap: 10 }}>
+    <input
+      value={extractUrl}
+      onChange={(e) => setExtractUrl(e.target.value)}
+      placeholder="Paste original job link here..."
+      style={{
+        flex: 1,
+        padding: "10px 14px",
+        borderRadius: 8,
+        border: "1.5px solid #e2e8f0",
+        background: "#fafafa",
+        fontSize: 13.5,
+        color: "#111827",
+        outline: "none"
+      }}
+    />
+
+    <button
+      onClick={handleExtractJob}
+      disabled={extractLoading}
+      style={{
+        padding: "10px 18px",
+        borderRadius: 8,
+        border: "none",
+        background: extractLoading ? "#9ca3af" : S.primary,
+        color: "#fff",
+        fontWeight: 600,
+        cursor: extractLoading ? "not-allowed" : "pointer"
+      }}
+    >
+      {extractLoading ? "Extracting..." : "Extract"}
+    </button>
+  </div>
+
+  {/* ✅ Message */}
+  {extractMessage && (
+    <p style={{
+      marginTop: 8,
+      fontSize: 12,
+      color: extractMessage.includes("❌") ? "red" : "green"
+    }}>
+      {extractMessage}
+    </p>
+  )}
+</div>
       {/* Company Info */}
       <SectionHead title="Company Info" icon="🏢" />
       <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(240px,1fr))", gap:16 }}>
