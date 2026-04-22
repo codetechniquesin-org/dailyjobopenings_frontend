@@ -5,9 +5,20 @@ import CreatableSelect from "react-select/creatable";
 
 // ─── Shared Design Tokens (matches App.jsx) ───────────────────────────────────
 const S = {
-  primary: "#0f4c81", accent: "#e8472a", gold: "#f5a623",
-  light: "#f4f7fb", green: "#16a34a", text: "#1a1a2e",
-  muted: "#6b7280", border: "#e2e8f0",
+  cream:      "#EDE2D0",
+  creamDark:  "#D4C4B0",
+  creamDeep:  "#C2AF97",
+  white:      "#FAF6F0",
+  plum:       "#3D1A47",
+  plumMid:    "#5A2B6E",
+  plumLight:  "#7B4A8B",
+  text:       "#1e0d26",
+  muted:      "#6b5778",
+  border:     "#D4C4B0",
+  // keep these for button logic references
+  accent:     "#e8472a",
+  green:      "#16a34a",
+  gold:       "#f5a623",
 };
 
 // ─── Static Data ──────────────────────────────────────────────────────────────
@@ -80,16 +91,16 @@ const SectionHead = ({ title, icon }) => (
     paddingBottom:10, borderBottom:`1px dashed ${S.border}` }}>
     <span style={{ fontSize:16 }}>{icon}</span>
     <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:12, fontWeight:800,
-      color:S.primary, textTransform:"uppercase", letterSpacing:".1em", margin:0 }}>{title}</h3>
+      color: S.plum, textTransform:"uppercase", letterSpacing:".1em", margin:0 }}>{title}</h3>
   </div>
 );
 
 // ─── TAB CONFIG ───────────────────────────────────────────────────────────────
 const TABS = [
-  { key:"post",   label:"Post a Job",   icon:"✏️",  color:"#0f4c81", soft:"#e8f4fd" },
-  { key:"update", label:"Update Job",   icon:"🔄",  color:"#16a34a", soft:"#f0fdf4" },
-  { key:"delete", label:"Delete Job",   icon:"🗑️",  color:"#e8472a", soft:"#fee2e2" },
-  { key:"close",  label:"Close a Job",  icon:"🔒",  color:"#f59e0b", soft:"#fff8e1" },
+  { key:"post",   label:"Post a Job",   icon:"✏️",  color: S.plum,      soft:"rgba(61,26,71,0.08)"   },
+  { key:"update", label:"Update Job",   icon:"🔄",  color: S.plumMid,   soft:"rgba(90,43,110,0.08)"  },
+  { key:"delete", label:"Delete Job",   icon:"🗑️",  color:"#e8472a",    soft:"#fee2e2"               },
+  { key:"close",  label:"Close a Job",  icon:"🔒",  color: S.creamDeep, soft:"rgba(194,175,151,0.25)"},
 ];
 const selectStyles = {
   control: (base) => ({
@@ -771,29 +782,46 @@ if (data.success) {
             style={{ width:"100%", padding:"10px 14px", fontSize:13.5, border:"1.5px solid #e2e8f0",
               borderRadius:9, outline:"none", background:"#fafafa", color:S.text, fontFamily:"inherit", boxSizing:"border-box" }} />
         </Field>
-        <Field label="Expiry Date">
-  <input
-    type="date"
-    value={f.expiryDate || ""}
-    onChange={e => set("expiryDate", e.target.value)}
-    style={{
-      width: "100%",
-      padding: "10px 14px",
-      fontSize: 13.5,
-      border: "1.5px solid #e2e8f0",
-      borderRadius: 9,
-      outline: "none",
-      background: "#fafafa",
-      color: S.text,
-      fontFamily: "inherit",
-      boxSizing: "border-box"
-    }}
-  />
-
-  {/* 👇 Show message when empty */}
-  {!f.expiryDate && (
+<Field label="Expiry Date">
+  <div style={{ position: "relative" }}>
+    <input
+      type="date"
+      value={f.expiryDate || ""}
+      onChange={e => set("expiryDate", e.target.value)}
+      min={new Date().toISOString().split("T")[0]}
+      style={{
+        width: "100%",
+        padding: "10px 14px 10px 40px",
+        fontSize: 13.5,
+        border: "1.5px solid #D4C4B0",
+        borderRadius: 9,
+        outline: "none",
+        background: "#FAF6F0",
+        color: "#1e0d26",
+        fontFamily: "inherit",
+        boxSizing: "border-box",
+        cursor: "pointer",
+        colorScheme: "light"
+      }}
+    />
+    <span style={{
+      position: "absolute",
+      left: 12,
+      top: "50%",
+      transform: "translateY(-50%)",
+      fontSize: 16,
+      pointerEvents: "none"
+    }}>
+      📅
+    </span>
+  </div>
+  {!f.expiryDate ? (
     <p style={{ fontSize: 12, color: "#9ca3af", marginTop: 4 }}>
-      Expiry date not mentioned
+      No expiry date set
+    </p>
+  ) : (
+    <p style={{ fontSize: 12, color: S.plumLight, marginTop: 4 }}>
+      Expires: {new Date(f.expiryDate).toLocaleDateString("en-IN", { day:"numeric", month:"long", year:"numeric" })}
     </p>
   )}
 </Field>
@@ -1228,21 +1256,21 @@ export default function ManageJobs() {
   const activeTabData = TABS.find(t => t.key === activeTab);
 
   return (
-    <div style={{ width:"100%", minHeight:"100vh", background:S.light,
+    <div style={{ width:"100%", minHeight:"100vh", background: S.cream,
       fontFamily:"'DM Sans',sans-serif", color:S.text, overflowX:"hidden" }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap');
-        *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
-        html, body { width:100% !important; margin:0 !important; padding:0 !important; overflow-x:hidden !important; background:#f4f7fb !important; }
-        #root { width:100% !important; overflow-x:hidden !important; }
-        .section-full  { width:100%; }
-        .section-inner { width:100%; padding:0 clamp(16px,4vw,40px); box-sizing:border-box; }
-        input:focus, select:focus, textarea:focus { border-color:${S.primary} !important; box-shadow:0 0 0 3px rgba(15,76,129,.08) !important; }
-        .tab-btn { cursor:pointer; border:none; font-family:inherit; transition:all .2s; }
-        @media (max-width:600px) {
-          .tabs-row { grid-template-columns: repeat(2,1fr) !important; }
-        }
-      `}</style>
+<style>{`
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Cormorant+Garamond:wght@300;400;500;600&display=swap');
+  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+  html, body { width:100% !important; margin:0 !important; padding:0 !important; overflow-x:hidden !important; background:#EDE2D0 !important; }
+  #root { width:100% !important; overflow-x:hidden !important; }
+  .section-full  { width:100%; }
+  .section-inner { width:100%; padding:0 clamp(16px,4vw,40px); box-sizing:border-box; }
+  input:focus, select:focus, textarea:focus { border-color:#7B4A8B !important; box-shadow:0 0 0 3px rgba(61,26,71,.08) !important; }
+  .tab-btn { cursor:pointer; border:none; font-family:inherit; transition:all .2s; }
+  @media (max-width:600px) {
+    .tabs-row { grid-template-columns: repeat(2,1fr) !important; }
+  }
+`}</style>
 
       {/* Navbar */}
       <div className="section-full">
@@ -1250,10 +1278,10 @@ export default function ManageJobs() {
       </div>
 
       {/* Hero */}
-      <div className="section-full" style={{ background:`linear-gradient(135deg,${S.primary} 0%,#1565c0 60%,#0d47a1 100%)`,
+      <div className="section-full" style={{ background: S.plum,
         color:"#fff", padding:"clamp(24px,4vw,40px) 0" }}>
         <div className="section-inner">
-          <h1 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(1.2rem,3vw,1.8rem)",
+          <h1 style={{ fontFamily:"'Cormorant Garamond',serif", fontWeight:400, fontSize:"clamp(1.2rem,3vw,1.8rem)",
             fontWeight:800, marginBottom:6 }}>
             Manage Jobs
           </h1>
@@ -1266,7 +1294,7 @@ export default function ManageJobs() {
       </div>
 
       {/* Tab Switcher */}
-      <div className="section-full" style={{ background:"#fff", borderBottom:`1px solid ${S.border}`,
+      <div className="section-full" style={{ background: S.white, borderBottom:`1px solid ${S.border}`,
         boxShadow:"0 2px 8px rgba(0,0,0,.04)" }}>
         <div className="section-inner" style={{ paddingTop:0, paddingBottom:0 }}>
           <div className="tabs-row" style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:0 }}>
@@ -1301,7 +1329,7 @@ export default function ManageJobs() {
           </div>
 
           {/* Form card */}
-          <div style={{ background:"#fff", borderRadius:14, border:`1px solid ${S.border}`,
+          <div style={{ background: S.white, borderRadius:14, border:`1px solid ${S.border}`,
             padding:"clamp(20px,3vw,36px)", boxShadow:"0 2px 16px rgba(15,76,129,.06)" }}>
             {activeTab === "post"   && <PostJobForm />}
             {activeTab === "update" && <UpdateJobForm />}
