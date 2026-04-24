@@ -167,6 +167,8 @@ const [companyMessage, setCompanyMessage] = useState("");
 const [extractUrl, setExtractUrl] = useState("");
 const [extractLoading, setExtractLoading] = useState(false);
 const [extractMessage, setExtractMessage] = useState("");
+const [extractMode, setExtractMode] = useState("url"); // "url" | "text"
+const [extractText, setExtractText] = useState("");
   const generateShareMessage = () => {
   return `🚀 Job Opportunity Alert!
 
@@ -200,7 +202,7 @@ const handleExtractJob = async () => {
   setExtractMessage("");
 
   try {
-    const res = await fetch(`${API_BASE_URL}/api/admin/extract-job`, {
+    const res = await fetch(`${API_BASE_URL}/api/admin/extract-job-using-link`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -251,6 +253,63 @@ const handleExtractJob = async () => {
 
   setExtractLoading(false);
 };
+
+const handleExtractText = async () => {
+  if (!extractText.trim()) {
+    setExtractMessage("❌ Please paste job description");
+    return;
+  }
+
+  setExtractLoading(true);
+  setExtractMessage("");
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/admin/extract-job-using-text`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem("adminInfo"))?.token}`
+      },
+      body: JSON.stringify({ text: extractText })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      const d = data.data;
+
+      setF(prev => ({
+        ...prev,
+
+        jobTitle: d.jobTitle || "",
+        companyName: d.companyName || prev.companyName,
+        location: d.location || "",
+        jobDescription: d.description || "",
+        responsibilities: d.responsibilities || "",
+        qualifications: d.qualifications || "",
+
+        education: d.education || "",
+        experienceLevel: d.experienceLevel || "",
+        department: d.department || "",
+        salary: d.salary || "",
+
+        skills: Array.isArray(d.skills) ? d.skills.join(", ") : (d.skills || ""),
+        perks: Array.isArray(d.perks) ? d.perks.join(", ") : (d.perks || "")
+      }));
+
+      setExtractMessage("✅ Text extracted successfully");
+    } else {
+      setExtractMessage("❌ " + data.message);
+    }
+
+  } catch (err) {
+    console.error(err);
+    setExtractMessage("❌ Extraction failed");
+  }
+
+  setExtractLoading(false);
+};
+
 const searchCompanies = async (query) => {
   if (!query.trim()) {
     setCompanyResults([]);
@@ -462,50 +521,115 @@ if (data.success) {
   background: "#ffffff",
   boxShadow: "0 2px 10px rgba(0,0,0,0.04)"
 }}>
+
   <h3 style={{
     fontSize: 15,
     fontWeight: 700,
-    marginBottom: 10,
+    marginBottom: 12,
     color: S.primary
   }}>
     ⚡ Auto Extract Job Details
   </h3>
 
-  <div style={{ display: "flex", gap: 10 }}>
-    <input
-      value={extractUrl}
-      onChange={(e) => setExtractUrl(e.target.value)}
-      placeholder="Paste original job link here..."
-      style={{
-        flex: 1,
-        padding: "10px 14px",
-        borderRadius: 8,
-        border: "1.5px solid #e2e8f0",
-        background: "#fafafa",
-        fontSize: 13.5,
-        color: "#111827",
-        outline: "none"
-      }}
-    />
-
-    <button
-      onClick={handleExtractJob}
-      disabled={extractLoading}
-      style={{
-        padding: "10px 18px",
-        borderRadius: 8,
-        border: "none",
-        background: extractLoading ? "#9ca3af" : S.primary,
-        color: "#fff",
-        fontWeight: 600,
-        cursor: extractLoading ? "not-allowed" : "pointer"
-      }}
-    >
-      {extractLoading ? "Extracting..." : "Extract"}
-    </button>
+  {/* 🔥 MODE SWITCH */}
+  <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+    {["url", "text"].map(mode => (
+      <button
+        key={mode}
+        onClick={() => setExtractMode(mode)}
+        style={{
+          padding: "6px 14px",
+          borderRadius: 20,
+          fontSize: 12.5,
+          cursor: "pointer",
+          border: extractMode === mode
+            ? `1.5px solid ${S.primary}`
+            : "1.5px solid #e2e8f0",
+          background: extractMode === mode ? S.primary : "#fff",
+          color: extractMode === mode ? "#fff" : S.muted
+        }}
+      >
+        {mode === "url" ? "From URL" : "From Text"}
+      </button>
+    ))}
   </div>
 
-  {/* ✅ Message */}
+  {/* 🔥 URL MODE */}
+  {extractMode === "url" && (
+    <div style={{ display: "flex", gap: 10 }}>
+      <input
+        value={extractUrl}
+        onChange={(e) => setExtractUrl(e.target.value)}
+        placeholder="Paste original job link here..."
+        style={{
+          flex: 1,
+          padding: "10px 14px",
+          borderRadius: 8,
+          border: "1.5px solid #e2e8f0",
+          background: "#fafafa",
+          fontSize: 13.5,
+          color: "#111827",
+          outline: "none"
+        }}
+      />
+
+      <button
+        onClick={handleExtractJob}
+        disabled={extractLoading}
+        style={{
+          padding: "10px 18px",
+          borderRadius: 8,
+          border: "none",
+          background: extractLoading ? "#9ca3af" : S.primary,
+          color: "#fff",
+          fontWeight: 600
+        }}
+      >
+        {extractLoading ? "Extracting..." : "Extract"}
+      </button>
+    </div>
+  )}
+
+  {/* 🔥 TEXT MODE */}
+  {extractMode === "text" && (
+    <div>
+      <textarea
+        value={extractText}
+        onChange={(e) => setExtractText(e.target.value)}
+        placeholder="Paste full job description here..."
+        rows={5}
+        style={{
+          width: "100%",
+          padding: "10px 14px",
+          borderRadius: 8,
+          border: "1.5px solid #e2e8f0",
+          background: "#fafafa",
+          fontSize: 13.5,
+          color: "#111827",
+          outline: "none",
+          resize: "vertical"
+        }}
+      />
+
+      <button
+        onClick={handleExtractText}
+        disabled={extractLoading}
+        style={{
+          marginTop: 10,
+          padding: "10px 18px",
+          borderRadius: 8,
+          border: "none",
+          background: extractLoading ? "#9ca3af" : S.primary,
+          color: "#fff",
+          fontWeight: 600
+        }}
+      >
+        {extractLoading ? "Extracting..." : "Extract from Text"}
+      </button>
+    </div>
+  )}
+
+  {/* MESSAGE */}
   {extractMessage && (
     <p style={{
       marginTop: 8,
