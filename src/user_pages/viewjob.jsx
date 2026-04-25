@@ -1542,7 +1542,7 @@ export default function ViewJob() {
                 className="btn-apply"
                 style={{ flexShrink: 0 }}
               >
-                Apply on {job.company?.split(",")[0]} →
+                Apply now →
               </a>
             </div>
             <div style={{ marginTop: 12, fontSize: 12, color: C.muted, display: "flex", alignItems: "center", gap: 5 }}>
