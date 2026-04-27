@@ -169,6 +169,9 @@ const [extractLoading, setExtractLoading] = useState(false);
 const [extractMessage, setExtractMessage] = useState("");
 const [extractMode, setExtractMode] = useState("url"); // "url" | "text"
 const [extractText, setExtractText] = useState("");
+const [similarJobs, setSimilarJobs] = useState([]);
+const [checkingDuplicate, setCheckingDuplicate] = useState(false);
+const [duplicateWarning, setDuplicateWarning] = useState("");
   const generateShareMessage = () => {
   return `🚀 Job Opportunity Alert!
 
@@ -310,6 +313,94 @@ const handleExtractText = async () => {
   setExtractLoading(false);
 };
 
+const checkDuplicateJobs = async (
+  companyName,
+  jobTitle,
+  location
+) => {
+
+  if (!companyName || !jobTitle) {
+    setSimilarJobs([]);
+    setDuplicateWarning("");
+    return;
+  }
+
+  try {
+
+    setCheckingDuplicate(true);
+
+    const res = await fetch(
+      `${API_BASE_URL}/api/admin/check-duplicate`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${
+            JSON.parse(
+              localStorage.getItem("adminInfo")
+            )?.token
+          }`
+        },
+        body: JSON.stringify({
+          companyName,
+          jobTitle,
+          location
+        })
+      }
+    );
+
+    const data = await res.json();
+
+    if (
+      data.success &&
+      data.duplicateFound
+    ) {
+
+      setSimilarJobs(data.similarJobs);
+
+      setDuplicateWarning(
+        `⚠️ Similar jobs already exist`
+      );
+
+    } else {
+
+      setSimilarJobs([]);
+      setDuplicateWarning("");
+
+    }
+
+  } catch (error) {
+
+    console.error(
+      "Duplicate check error",
+      error
+    );
+
+  } finally {
+
+    setCheckingDuplicate(false);
+
+  }
+};
+useEffect(() => {
+
+  const timer = setTimeout(() => {
+
+    checkDuplicateJobs(
+      f.companyName,
+      f.jobTitle,
+      f.location
+    );
+
+  }, 700);
+
+  return () => clearTimeout(timer);
+
+}, [
+  f.companyName,
+  f.jobTitle,
+  f.location
+]);
 const searchCompanies = async (query) => {
   if (!query.trim()) {
     setCompanyResults([]);
@@ -787,6 +878,130 @@ if (data.success) {
             isDisabled={f.jobType==="NON_IT" && !f.jobCategory}
           />
           <ErrMsg msg={errors.jobTitle} />
+          {/* DUPLICATE CHECK */}
+
+{checkingDuplicate && (
+  <p
+    style={{
+      fontSize: 12,
+      color: "#9ca3af",
+      marginTop: 6
+    }}
+  >
+    Checking similar jobs...
+  </p>
+)}
+
+{duplicateWarning && (
+  <div
+    style={{
+      marginTop: 10,
+      background: "#fff7ed",
+      border: "1px solid #fdba74",
+      borderRadius: 10,
+      padding: 12
+    }}
+  >
+
+    <p
+      style={{
+        color: "#c2410c",
+        fontSize: 13,
+        fontWeight: 700,
+        marginBottom: 10
+      }}
+    >
+      {duplicateWarning}
+    </p>
+
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 10
+      }}
+    >
+
+      {similarJobs.map((job) => (
+
+        <div
+          key={job.jobId}
+          style={{
+            background: "#fff",
+            border: "1px solid #fed7aa",
+            borderRadius: 8,
+            padding: 10
+          }}
+        >
+
+          <div
+            style={{
+              fontSize: 13,
+              fontWeight: 700,
+              color: "#1e293b"
+            }}
+          >
+            {job.jobTitle}
+          </div>
+
+          <div
+            style={{
+              fontSize: 12,
+              color: "#64748b",
+              marginTop: 4
+            }}
+          >
+            {job.companyName}
+          </div>
+
+          <div
+            style={{
+              fontSize: 12,
+              color: "#64748b"
+            }}
+          >
+            {job.location}
+          </div>
+
+          <div
+            style={{
+              marginTop: 6,
+              fontSize: 11,
+              color:
+                job.confidence === "high"
+                  ? "#dc2626"
+                  : "#d97706",
+              fontWeight: 700
+            }}
+          >
+            {job.confidence.toUpperCase()}
+            {" "}MATCH
+          </div>
+
+          <a
+            href={`https://dailyjobopenings.online/view-job/${job.slug}`}
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              display: "inline-block",
+              marginTop: 8,
+              fontSize: 12,
+              color: S.primary,
+              fontWeight: 600,
+              textDecoration: "none"
+            }}
+          >
+            View Existing Job →
+          </a>
+
+        </div>
+
+      ))}
+
+    </div>
+
+  </div>
+)}
         </Field>
               <Field label="Job Role / Department" required>
           <CreatableSelect
