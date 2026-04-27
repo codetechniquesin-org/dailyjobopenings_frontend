@@ -1521,7 +1521,7 @@ export default function ViewJob() {
           <Card style={{ marginBottom: 14, background: "linear-gradient(135deg,#f0f7ff,#e8f4fd)", borderColor: "#bdd6f0" }}>
             <SectionTitle text="How to Apply" />
             <p style={{ fontSize: 13.5, color: C.muted, marginBottom: 14 }}>
-              Click the button below to visit the official {job.company} careers page. Make sure your resume is updated before applying.
+              Click the button below to visit the official {job.companyName} careers page. Make sure your resume is updated before applying.
             </p>
             <div style={{
               background: "#fff", border: `1.5px solid ${C.border}`,
