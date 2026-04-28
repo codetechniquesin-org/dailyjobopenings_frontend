@@ -586,7 +586,7 @@ export default function ExamsPage() {
                   <strong style={{ fontSize: 14, display: "block" }}>Never miss an exam deadline!</strong>
                   <span style={{ fontSize: 12, color: S.muted }}>Join our WhatsApp group for instant exam alerts, admit cards & results.</span>
                 </div>
-                <a href="https://whatsapp.com/channel/0029Vb7fjzJK0IBayWJ7mv0I" style={{ background: "#16a34a", color: "#fff", padding: "9px 20px", borderRadius: 8, fontWeight: 700, fontSize: 13, textDecoration: "none", whiteSpace: "nowrap" }}>
+                <a href="#" style={{ background: "#16a34a", color: "#fff", padding: "9px 20px", borderRadius: 8, fontWeight: 700, fontSize: 13, textDecoration: "none", whiteSpace: "nowrap" }}>
                   Join WhatsApp →
                 </a>
               </div>
