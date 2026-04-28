@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../../config";
 
 const S = {
   white: "#ffffff",
@@ -323,7 +324,7 @@ export default function ExamCard() {
       setLoading(true);
 
       const { data } = await axios.get(
-        "http://localhost:5000/api/exams/get-all-exams"
+        `${API_BASE_URL}/api/exams/get-all-exams`
       );
 
       if (data?.success) {
