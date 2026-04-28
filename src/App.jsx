@@ -548,7 +548,7 @@ export default function App() {
                 <div style={{ fontSize: 36, marginBottom: 6 }}>📱</div>
                 <h6 className="syne" style={{ fontSize: 14, fontWeight: 800, marginBottom: 6, color: "#fff" }}>Get Job Alerts on WhatsApp</h6>
                 <p style={{ fontSize: 12, opacity: .75, marginBottom: 14 }}>Join 5 Lakh+ freshers getting daily updates</p>
-                <a href="https://whatsapp.com/channel/0029Vb7fjzJK0IBayWJ7mv0I" style={{ background: "linear-gradient(90deg,#e8472a,#f5a623)", color: "#fff", padding: "8px 18px", borderRadius: 7, fontWeight: 700, fontSize: 12.5, display: "inline-block" }}>Join Free Group →</a>
+                <a href="#" style={{ background: "linear-gradient(90deg,#e8472a,#f5a623)", color: "#fff", padding: "8px 18px", borderRadius: 7, fontWeight: 700, fontSize: 12.5, display: "inline-block" }}>Join Free Group →</a>
               </div>
 
 <JobsByLocation 
