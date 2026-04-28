@@ -21,6 +21,8 @@ import WalkInDrivesPage from './user_pages/walk_in_jobs.jsx'
 import ManageResources from './admin/pages/manageResources.jsx'
 import InterviewQues from './admin/pages/manageInterQues.jsx'
 import ResetPassword from './admin/pages/resetPassword.jsx'
+import ExamsPage from './user_pages/Exams.jsx'
+import ViewExam from './user_pages/viewexam.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -28,6 +30,7 @@ createRoot(document.getElementById('root')).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/view-job/:slug" element={<ViewJob />} />
+        <Route path="/user/view-exams/:slug" element={<ViewExam />} />
         <Route path="/about-us" element={<About />} />
         <Route path="/contact-us" element={<Contact />} />
         <Route path="/privacy" element={<Privacy />} />
@@ -37,6 +40,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/users/view-courses" element={<InterviewQuestionsPage />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/walk-in-drive" element={<WalkInDrivesPage/>}/>
+        <Route path="/user/view-exams" element={<ExamsPage />} />
         <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
         <Route path="/admin/manage-jobs" element={<ProtectedRoute><ManageJobs /></ProtectedRoute>} />
         <Route path="/admin/manage-admins" element={<ProtectedRoute><Admins /></ProtectedRoute>} />
