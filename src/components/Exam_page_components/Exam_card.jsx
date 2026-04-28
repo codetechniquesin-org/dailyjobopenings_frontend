@@ -289,7 +289,7 @@ function ExamCardItem({ exam, onBookmark }) {
 
         {/* Apply Button */}
         <a
-          href={`http://localhost:5173/user/view-exams/${exam.slug}`}
+          href={`${window.location.origin}/user/view-exams/${exam.slug}`}
           target="_blank"
           rel="noopener noreferrer"
           style={{
