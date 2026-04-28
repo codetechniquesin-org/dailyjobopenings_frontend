@@ -30,11 +30,12 @@ const NAV_ITEMS = [
       { icon: "📚", label: "GOVT Internships", key: "govt-internship", desc: "Build experience" },
     ],
   },
-  {label: "Exams",dropdown: [
-      { icon: "🎓", label: "Government Exams", key: "govt", desc: "" },
-      { icon: "💼", label: "IT Exams", key: "experienced", desc: "" },    
-      { icon: "🌍", label: "Non-IT Exams", key: "abroad", desc: "" },
-    ], page: "exams"},
+  // {label: "Exams",dropdown: [
+  //     { icon: "🎓", label: "Government Exams", key: "govt", desc: "" },
+  //     { icon: "💼", label: "IT Exams", key: "experienced", desc: "" },    
+  //     { icon: "🌍", label: "Non-IT Exams", key: "abroad", desc: "" },
+  //   ], page: "exams"},
+  {label: "Exams", page: "user/view-exams"},
   { label: "Courses" , page: "users/view-courses" },
   { label: "Resources", page: "resources" },
   { label: "Resume Builder", page: "resume", external: "https://resumes-by-hirely.onrender.com/" },
