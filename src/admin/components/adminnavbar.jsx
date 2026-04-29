@@ -3,10 +3,12 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const LINKS = [
   { to: "/admin/dashboard",                   label: "Dashboard"           },
-  { to: "/admin/manage-jobs",                 label: "Manage Jobs"         },
-  { to: "/admin/manage-admins",               label: "Manage Admins",       superOnly: true },
+  { to: "/admin/manage-jobs",                 label: "Jobs"         },
+  { to: "/admin/manage-admins",               label: "Admins",       superOnly: true },
   { to: "/admin/manage-resources",            label: "Resources"           },
   { to: "/admin/manage-interview-questions",  label: "Courses"        },
+  { to: "/admin/manage-walkins",                 label: "Walk-Ins"      },
+  { to: "/admin/manage-exams",                 label: "Exams"      },
 ];
 
 export default function AdminNavbar() {

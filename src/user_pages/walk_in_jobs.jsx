@@ -3,6 +3,7 @@ import AlertBar from "../components/alertbar";
 import TopTicker from "../components/topticker";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
+import WalkInJobCard from "../components/walkin_page_components/walkin_job_card";
 
 const C = {
   primary: "#0a2540",
@@ -173,189 +174,189 @@ function useBreakpoint() {
 }
 
 /* ── JOB CARD ── */
-function JobCard({ job, saved, onSave, isMobile }) {
-  const bc =
-    job.badge === "hot" ? C.accent : job.badge === "new" ? C.purple : C.gold;
-  return (
-    <div
-      style={{
-        background: "#fff",
-        borderRadius: 14,
-        border: `1px solid ${C.border}`,
-        padding: isMobile ? 14 : 20,
-        marginBottom: 14,
-        borderLeft: `4px solid ${bc}`,
-        transition: "box-shadow .2s, transform .18s",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.boxShadow = "0 8px 28px rgba(124,58,237,.12)";
-        e.currentTarget.style.transform = "translateY(-2px)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.boxShadow = "none";
-        e.currentTarget.style.transform = "translateY(0)";
-      }}
-    >
-      {/* Top row */}
-      <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-        <div
-          style={{
-            width: isMobile ? 46 : 58,
-            height: isMobile ? 46 : 58,
-            borderRadius: 12,
-            background: job.logoBg,
-            color: job.logoColor,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontWeight: 800,
-            fontSize: isMobile ? 20 : 26,
-            border: `1px solid ${C.border}`,
-            flexShrink: 0,
-          }}
-        >
-          {job.logo}
-        </div>
+// function JobCard({ job, saved, onSave, isMobile }) {
+//   const bc =
+//     job.badge === "hot" ? C.accent : job.badge === "new" ? C.purple : C.gold;
+//   return (
+//     <div
+//       style={{
+//         background: "#fff",
+//         borderRadius: 14,
+//         border: `1px solid ${C.border}`,
+//         padding: isMobile ? 14 : 20,
+//         marginBottom: 14,
+//         borderLeft: `4px solid ${bc}`,
+//         transition: "box-shadow .2s, transform .18s",
+//       }}
+//       onMouseEnter={(e) => {
+//         e.currentTarget.style.boxShadow = "0 8px 28px rgba(124,58,237,.12)";
+//         e.currentTarget.style.transform = "translateY(-2px)";
+//       }}
+//       onMouseLeave={(e) => {
+//         e.currentTarget.style.boxShadow = "none";
+//         e.currentTarget.style.transform = "translateY(0)";
+//       }}
+//     >
+//       {/* Top row */}
+//       <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
+//         <div
+//           style={{
+//             width: isMobile ? 46 : 58,
+//             height: isMobile ? 46 : 58,
+//             borderRadius: 12,
+//             background: job.logoBg,
+//             color: job.logoColor,
+//             display: "flex",
+//             alignItems: "center",
+//             justifyContent: "center",
+//             fontWeight: 800,
+//             fontSize: isMobile ? 20 : 26,
+//             border: `1px solid ${C.border}`,
+//             flexShrink: 0,
+//           }}
+//         >
+//           {job.logo}
+//         </div>
 
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginBottom: 7 }}>
-            <span
-              style={{
-                ...BADGE_STYLES[job.badge],
-                fontSize: 10.5,
-                fontWeight: 700,
-                padding: "2px 9px",
-                borderRadius: 4,
-              }}
-            >
-              {job.badgeLabel}
-            </span>
-            {job.verified && (
-              <span
-                style={{
-                  background: "#dcfce7",
-                  color: "#15803d",
-                  fontSize: 10.5,
-                  fontWeight: 700,
-                  padding: "2px 9px",
-                  borderRadius: 4,
-                }}
-              >
-                ✅ Verified
-              </span>
-            )}
-          </div>
+//         <div style={{ flex: 1, minWidth: 0 }}>
+//           <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginBottom: 7 }}>
+//             <span
+//               style={{
+//                 ...BADGE_STYLES[job.badge],
+//                 fontSize: 10.5,
+//                 fontWeight: 700,
+//                 padding: "2px 9px",
+//                 borderRadius: 4,
+//               }}
+//             >
+//               {job.badgeLabel}
+//             </span>
+//             {job.verified && (
+//               <span
+//                 style={{
+//                   background: "#dcfce7",
+//                   color: "#15803d",
+//                   fontSize: 10.5,
+//                   fontWeight: 700,
+//                   padding: "2px 9px",
+//                   borderRadius: 4,
+//                 }}
+//               >
+//                 ✅ Verified
+//               </span>
+//             )}
+//           </div>
 
-          <h3
-            style={{
-              fontSize: isMobile ? 15 : 17,
-              fontWeight: 700,
-              color: C.primary,
-              marginBottom: 4,
-              lineHeight: 1.3,
-            }}
-          >
-            {job.title}
-          </h3>
-          <div style={{ fontSize: 13.5, fontWeight: 600, color: C.purple, marginBottom: 9 }}>
-            {job.company}
-          </div>
+//           <h3
+//             style={{
+//               fontSize: isMobile ? 15 : 17,
+//               fontWeight: 700,
+//               color: C.primary,
+//               marginBottom: 4,
+//               lineHeight: 1.3,
+//             }}
+//           >
+//             {job.title}
+//           </h3>
+//           <div style={{ fontSize: 13.5, fontWeight: 600, color: C.purple, marginBottom: 9 }}>
+//             {job.company}
+//           </div>
 
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-            {[
-              { icon: "📍", val: job.location },
-              { icon: "🏠", val: job.workMode },
-              { icon: "📅", val: job.postedAgo },
-              ...(!isMobile ? [{ icon: "🎓", val: job.batch }] : []),
-            ].map((t) => (
-              <span
-                key={t.val}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 4,
-                  fontSize: 11.5,
-                  color: C.muted,
-                  background: C.light,
-                  padding: "4px 10px",
-                  borderRadius: 6,
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {t.icon} {t.val}
-              </span>
-            ))}
-          </div>
-        </div>
+//           <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+//             {[
+//               { icon: "📍", val: job.location },
+//               { icon: "🏠", val: job.workMode },
+//               { icon: "📅", val: job.postedAgo },
+//               ...(!isMobile ? [{ icon: "🎓", val: job.batch }] : []),
+//             ].map((t) => (
+//               <span
+//                 key={t.val}
+//                 style={{
+//                   display: "inline-flex",
+//                   alignItems: "center",
+//                   gap: 4,
+//                   fontSize: 11.5,
+//                   color: C.muted,
+//                   background: C.light,
+//                   padding: "4px 10px",
+//                   borderRadius: 6,
+//                   whiteSpace: "nowrap",
+//                 }}
+//               >
+//                 {t.icon} {t.val}
+//               </span>
+//             ))}
+//           </div>
+//         </div>
 
-        {/* Salary box — desktop */}
-        {!isMobile && (
-          <div
-            style={{
-              background: PAGE.salaryGrad,
-              border: `1.5px solid ${PAGE.salaryBorder}`,
-              borderRadius: 12,
-              padding: "13px 18px",
-              textAlign: "center",
-              flexShrink: 0,
-            }}
-          >
-            <div style={{ fontSize: 9.5, color: C.muted, marginBottom: 3, fontWeight: 700 }}>SALARY</div>
-            <div style={{ fontSize: 16, fontWeight: 800, color: PAGE.salaryColor }}>{job.salary}</div>
-          </div>
-        )}
-      </div>
+//         {/* Salary box — desktop */}
+//         {!isMobile && (
+//           <div
+//             style={{
+//               background: PAGE.salaryGrad,
+//               border: `1.5px solid ${PAGE.salaryBorder}`,
+//               borderRadius: 12,
+//               padding: "13px 18px",
+//               textAlign: "center",
+//               flexShrink: 0,
+//             }}
+//           >
+//             <div style={{ fontSize: 9.5, color: C.muted, marginBottom: 3, fontWeight: 700 }}>SALARY</div>
+//             <div style={{ fontSize: 16, fontWeight: 800, color: PAGE.salaryColor }}>{job.salary}</div>
+//           </div>
+//         )}
+//       </div>
 
-      {/* Salary — mobile */}
-      {isMobile && (
-        <div
-          style={{
-            marginTop: 10,
-            background: PAGE.salaryGrad,
-            border: `1.5px solid ${PAGE.salaryBorder}`,
-            borderRadius: 9,
-            padding: "9px 13px",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <span style={{ fontSize: 10, color: C.muted, fontWeight: 700 }}>SALARY</span>
-          <span style={{ fontSize: 15, fontWeight: 800, color: PAGE.salaryColor }}>{job.salary}</span>
-        </div>
-      )}
+//       {/* Salary — mobile */}
+//       {isMobile && (
+//         <div
+//           style={{
+//             marginTop: 10,
+//             background: PAGE.salaryGrad,
+//             border: `1.5px solid ${PAGE.salaryBorder}`,
+//             borderRadius: 9,
+//             padding: "9px 13px",
+//             display: "flex",
+//             justifyContent: "space-between",
+//             alignItems: "center",
+//           }}
+//         >
+//           <span style={{ fontSize: 10, color: C.muted, fontWeight: 700 }}>SALARY</span>
+//           <span style={{ fontSize: 15, fontWeight: 800, color: PAGE.salaryColor }}>{job.salary}</span>
+//         </div>
+//       )}
 
-      <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.75, margin: "13px 0 12px" }}>{job.desc}</p>
+//       <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.75, margin: "13px 0 12px" }}>{job.desc}</p>
 
-      {/* Skills */}
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 14 }}>
-        {job.skills.slice(0, isMobile ? 3 : 5).map((s) => (
-          <span
-            key={s}
-            style={{
-              background: PAGE.skillBg,
-              color: PAGE.skillColor,
-              fontSize: 11.5,
-              padding: "4px 10px",
-              borderRadius: 5,
-              fontWeight: 500,
-              whiteSpace: "nowrap",
-            }}
-          >
-            {s}
-          </span>
-        ))}
-        {job.skills.length > (isMobile ? 3 : 5) && (
-          <span style={{ fontSize: 11.5, color: C.muted, alignSelf: "center" }}>
-            +{job.skills.length - (isMobile ? 3 : 5)} more
-          </span>
-        )}
-      </div>
+//       {/* Skills */}
+//       <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 14 }}>
+//         {job.skills.slice(0, isMobile ? 3 : 5).map((s) => (
+//           <span
+//             key={s}
+//             style={{
+//               background: PAGE.skillBg,
+//               color: PAGE.skillColor,
+//               fontSize: 11.5,
+//               padding: "4px 10px",
+//               borderRadius: 5,
+//               fontWeight: 500,
+//               whiteSpace: "nowrap",
+//             }}
+//           >
+//             {s}
+//           </span>
+//         ))}
+//         {job.skills.length > (isMobile ? 3 : 5) && (
+//           <span style={{ fontSize: 11.5, color: C.muted, alignSelf: "center" }}>
+//             +{job.skills.length - (isMobile ? 3 : 5)} more
+//           </span>
+//         )}
+//       </div>
 
-      {/* Footer */}
-    </div>
-  );
-}
+//       {/* Footer */}
+//     </div>
+//   );
+// }
 
 /* ── SIDEBAR ── */
 function Sidebar() {
@@ -915,17 +916,8 @@ export default function WalkInDrivesPage() {
                 Try adjusting your filters.
               </div>
             </div>
-          ) : (
-            jobs.map((j) => (
-              <JobCard
-                key={j.id}
-                job={j}
-                saved={!!savedJobs[j.id]}
-                onSave={toggleSave}
-                isMobile={isMobile}
-              />
-            ))
-          )}
+          ) : 
+          <WalkInJobCard isMobile={isMobile} />}
 
           {jobs.length > 0 && (
             <div style={{ textAlign: "center", marginTop: 28 }}>
