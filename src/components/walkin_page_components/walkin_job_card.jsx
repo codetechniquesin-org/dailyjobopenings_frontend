@@ -6,6 +6,7 @@ import React, {
 import axios from "axios";
 
 import { Link } from "react-router-dom";
+import API_BASE_URL from "../../config/api";
 
 
 
@@ -75,7 +76,7 @@ export default function WalkInJobCard({
       setLoading(true);
 
       const res = await axios.get(
-        "http://localhost:5000/api/walkins/get-all-walkins"
+        `${API_BASE_URL}/api/walkins/get-all-walkins`
       );
 
       if (res.data.success) {
