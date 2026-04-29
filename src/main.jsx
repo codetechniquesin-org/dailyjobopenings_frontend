@@ -23,6 +23,9 @@ import InterviewQues from './admin/pages/manageInterQues.jsx'
 import ResetPassword from './admin/pages/resetPassword.jsx'
 import ExamsPage from './user_pages/Exams.jsx'
 import ViewExam from './user_pages/viewexam.jsx'
+import WalkInJobDetail from './user_pages/viewWalkins.jsx'
+import WalkInAdmin from './admin/pages/managewalkin.jsx';
+import ManageExams from './admin/pages/manageExams.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -31,6 +34,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/" element={<App />} />
         <Route path="/view-job/:slug" element={<ViewJob />} />
         <Route path="/user/view-exams/:slug" element={<ViewExam />} />
+        <Route path="/user/walkins/view-walkin/:walkinslug" element={<WalkInJobDetail />} />
         <Route path="/about-us" element={<About />} />
         <Route path="/contact-us" element={<Contact />} />
         <Route path="/privacy" element={<Privacy />} />
@@ -47,6 +51,8 @@ createRoot(document.getElementById('root')).render(
         <Route path="/admin/manage-resources" element={<ProtectedRoute><ManageResources /></ProtectedRoute>} />
         <Route path="/admin/manage-interview-questions" element={<ProtectedRoute><InterviewQues /></ProtectedRoute>} />
         <Route path="/admin/reset-password" element={<ProtectedRoute><ResetPassword /></ProtectedRoute>} />
+        <Route path="/admin/manage-walkins" element={<ProtectedRoute><WalkInAdmin /></ProtectedRoute>} />
+        <Route path="/admin/manage-exams" element={<ProtectedRoute><ManageExams /></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
   </StrictMode>
