@@ -26,6 +26,7 @@ import ViewExam from './user_pages/viewexam.jsx'
 import WalkInJobDetail from './user_pages/viewWalkins.jsx'
 import WalkInAdmin from './admin/pages/managewalkin.jsx';
 import ManageExams from './admin/pages/manageExams.jsx';
+import VerifyJobAlert from './components/common_components/verify_job_alert.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -45,6 +46,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/walk-in-drive" element={<WalkInDrivesPage/>}/>
         <Route path="/user/view-exams" element={<ExamsPage />} />
+        <Route path="/user/verify-job-alert" element={<VerifyJobAlert />} />
         <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
         <Route path="/admin/manage-jobs" element={<ProtectedRoute><ManageJobs /></ProtectedRoute>} />
         <Route path="/admin/manage-admins" element={<ProtectedRoute><Admins /></ProtectedRoute>} />
