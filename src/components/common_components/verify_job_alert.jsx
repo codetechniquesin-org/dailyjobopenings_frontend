@@ -128,7 +128,7 @@ export default function VerifyJobAlert() {
               We'll notify you the moment a matching job drops. Keep an eye on your inbox!
             </p>
             <button
-              onClick={() => navigate("/jobs")}
+              onClick={() => navigate("/")}
               style={{
                 background: `linear-gradient(135deg, ${green}, #2fb37a)`,
                 color: "#fff", border: "none",
