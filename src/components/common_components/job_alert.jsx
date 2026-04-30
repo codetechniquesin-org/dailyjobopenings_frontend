@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import API_BASE_URL  from "../../config/api";
+import API_BASE_URL from "../../config/api";
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 const CATEGORIES = ["IT", "Non-IT", "Government", "Internship"];
@@ -25,7 +25,7 @@ const SUB_CATEGORIES = {
   ],
 };
 
-const BATCHES = ["2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027","2028", "2029", "2030"];
+const BATCHES = ["2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"];
 
 const LOCATIONS = [
   "Hyderabad", "Bengaluru", "Chennai", "Mumbai", "Pune",
@@ -75,7 +75,7 @@ function MultiDropdown({ label, options, selected, onChange, color = "#e05a5a" }
         {displayLabel}
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
           style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)", transition: "0.2s", opacity: 0.7 }}>
-          <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
         </svg>
       </button>
 
@@ -110,7 +110,7 @@ function MultiDropdown({ label, options, selected, onChange, color = "#e05a5a" }
                 }}>
                   {active && (
                     <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
-                      <path d="M1.5 4L3.2 5.8L6.5 2.5" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M1.5 4L3.2 5.8L6.5 2.5" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   )}
                 </div>
@@ -132,62 +132,58 @@ export default function JobAlertSubscribe() {
   const [location, setLocation] = useState([]);
   const [workMode, setWorkMode] = useState([]);
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState("idle"); // idle | success | error
+  const [status, setStatus] = useState("idle"); // idle | loading | success | error | emailError
+  const [errorMsg, setErrorMsg] = useState("");
 
-  // Derive available sub-categories from selected categories
   const availableSubCats = [...new Set(category.flatMap((c) => SUB_CATEGORIES[c] || []))];
 
-  // Reset sub-category when category changes
   const handleCategoryChange = (val) => {
     setCategory(val);
     setSubCategory((prev) => prev.filter((s) => val.flatMap((c) => SUB_CATEGORIES[c] || []).includes(s)));
   };
 
-const handleSubscribe = async () => {
-  if (!email || !/\S+@\S+\.\S+/.test(email)) {
-    setStatus("error");
-    setTimeout(() => setStatus("idle"), 2500);
-    return;
-  }
+  const handleSubscribe = async () => {
+    const normalizedEmail = email.toLowerCase().trim();
 
-  try {
-    const res = await fetch(`${API_BASE_URL}/api/job-alerts/subscribe-to-job-alerts`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        jobCategory: category,
-        jobRole: subCategory,
-        location,
-        workMode,
-        eligibleBatches: batch,
-      }),
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.message || "Something went wrong");
+    if (!normalizedEmail || !/\S+@\S+\.\S+/.test(normalizedEmail)) {
+      setStatus("emailError");
+      return;
     }
 
-    setStatus("success");
+    setStatus("loading");
+    setErrorMsg("");
 
-    // optional: clear form after success
-    setCategory([]);
-    setSubCategory([]);
-    setBatch([]);
-    setLocation([]);
-    setWorkMode([]);
-    setEmail("");
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/job-alerts/subscribe-to-job-alerts`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: normalizedEmail,
+          jobCategory: category,
+          jobRole: subCategory,
+          location,
+          workMode,
+          eligibleBatches: batch,
+        }),
+      });
 
-  } catch (err) {
-    console.error(err);
-    setStatus("error");
-  }
-};
+      const data = await res.json();
 
+      if (!res.ok) {
+        throw new Error(data.message || "Something went wrong");
+      }
+
+      setStatus("success");
+      // DO NOT clear form — user may want to re-check what they submitted
+
+    } catch (err) {
+      console.error(err);
+      setErrorMsg(err.message || "Something went wrong. Please try again.");
+      setStatus("error");
+    }
+  };
+
+  const isLoading = status === "loading";
   const accentColor = "#e05a5a";
 
   return (
@@ -231,15 +227,13 @@ const handleSubscribe = async () => {
       </div>
 
       {/* Dropdowns row */}
-      <div style={{
-        display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 18,
-      }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 18 }}>
         <MultiDropdown label="Category" options={CATEGORIES} selected={category} onChange={handleCategoryChange} />
         <MultiDropdown
           label="Role / Domain"
           options={availableSubCats.length > 0 ? availableSubCats : ["Select a category first"]}
           selected={subCategory}
-          onChange={availableSubCats.length > 0 ? setSubCategory : () => {}}
+          onChange={availableSubCats.length > 0 ? setSubCategory : () => { }}
         />
         <MultiDropdown label="Batch Year" options={BATCHES} selected={batch} onChange={setBatch} />
         <MultiDropdown label="Location" options={LOCATIONS} selected={location} onChange={setLocation} />
@@ -252,80 +246,126 @@ const handleSubscribe = async () => {
       {/* Email + Subscribe */}
       {status === "success" ? (
         <div style={{
-          display: "flex", alignItems: "center", gap: 10,
-          padding: "12px 16px", borderRadius: 10,
-          background: "rgba(72,199,142,0.1)", border: "1.5px solid rgba(72,199,142,0.25)",
+          display: "flex", alignItems: "flex-start", gap: 12,
+          padding: "14px 16px", borderRadius: 10,
+          background: "rgba(72,199,142,0.08)", border: "1.5px solid rgba(72,199,142,0.22)",
           animation: "fadeIn 0.3s ease",
         }}>
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <circle cx="9" cy="9" r="9" fill="rgba(72,199,142,0.2)"/>
-            <path d="M5.5 9L7.8 11.3L12.5 6.5" stroke="#48c78e" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
+          <div style={{
+            width: 32, height: 32, borderRadius: "50%",
+            background: "rgba(72,199,142,0.15)",
+            display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+          }}>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M2 8L6.5 12.5L14 4" stroke="#48c78e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
           <div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: "#48c78e" }}>You're all set for job alerts! 🎯</div>
-            <div style={{ fontSize: 11, color: "#7a8fa6", marginTop: 2 }}>
-              We'll ping you the moment a matching role goes live.
+            <div style={{ fontSize: 13, fontWeight: 700, color: "#48c78e", marginBottom: 3 }}>
+              Check your inbox to verify 📩
             </div>
+            <div style={{ fontSize: 11.5, color: "#7a8fa6", lineHeight: 1.6 }}>
+              We sent a verification link to <strong style={{ color: "#94a3b8" }}>{email}</strong>.<br />
+              Click the link in your email to activate your job alerts.
+            </div>
+            <button
+              onClick={() => { setStatus("idle"); setEmail(""); }}
+              style={{
+                marginTop: 8, background: "none", border: "none",
+                color: "#48c78e", fontSize: 11, cursor: "pointer",
+                padding: 0, fontFamily: "inherit", opacity: 0.8,
+                textDecoration: "underline",
+              }}
+            >
+              Use a different email
+            </button>
           </div>
         </div>
       ) : (
-        <div style={{ display: "flex", alignItems: "center", gap: 0, maxWidth: 420 }}>
-          <div style={{ position: "relative", flex: 1 }}>
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-              style={{ position: "absolute", left: 11, top: "50%", transform: "translateY(-50%)", opacity: 0.4 }}>
-              <path d="M1 3.5L7 8L13 3.5" stroke="#94a3b8" strokeWidth="1.3" strokeLinecap="round"/>
-              <rect x="1" y="2" width="12" height="10" rx="2" stroke="#94a3b8" strokeWidth="1.3"/>
-            </svg>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => { setEmail(e.target.value); setStatus("idle"); }}
+        <>
+          <div style={{ display: "flex", alignItems: "center", gap: 0, maxWidth: 420 }}>
+            <div style={{ position: "relative", flex: 1 }}>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+                style={{ position: "absolute", left: 11, top: "50%", transform: "translateY(-50%)", opacity: 0.4 }}>
+                <path d="M1 3.5L7 8L13 3.5" stroke="#94a3b8" strokeWidth="1.3" strokeLinecap="round" />
+                <rect x="1" y="2" width="12" height="10" rx="2" stroke="#94a3b8" strokeWidth="1.3" />
+              </svg>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                disabled={isLoading}
+                onChange={(e) => { setEmail(e.target.value); if (status === "emailError" || status === "error") setStatus("idle"); }}
+                style={{
+                  width: "100%", boxSizing: "border-box",
+                  background: status === "emailError" ? "rgba(224,90,90,0.06)" : "rgba(255,255,255,0.05)",
+                  border: status === "emailError" ? "1.5px solid rgba(224,90,90,0.5)" : "1.5px solid rgba(255,255,255,0.1)",
+                  borderRight: "none",
+                  color: "#edf2f8", fontSize: 12,
+                  borderRadius: "8px 0 0 8px",
+                  padding: "10px 12px 10px 32px",
+                  outline: "none", fontFamily: "inherit",
+                  transition: "border-color 0.2s",
+                  opacity: isLoading ? 0.6 : 1,
+                }}
+              />
+            </div>
+            <button
+              onClick={handleSubscribe}
+              disabled={isLoading}
               style={{
-                width: "100%", boxSizing: "border-box",
-                background: status === "error" ? "rgba(224,90,90,0.06)" : "rgba(255,255,255,0.05)",
-                border: status === "error" ? "1.5px solid rgba(224,90,90,0.5)" : "1.5px solid rgba(255,255,255,0.1)",
-                borderRight: "none",
-                color: "#edf2f8", fontSize: 12,
-                borderRadius: "8px 0 0 8px",
-                padding: "10px 12px 10px 32px",
-                outline: "none", fontFamily: "inherit",
-                transition: "border-color 0.2s",
+                background: isLoading
+                  ? "rgba(224,90,90,0.5)"
+                  : `linear-gradient(135deg, ${accentColor}, #c0392b)`,
+                color: "#fff", border: "none",
+                padding: "10px 18px",
+                borderRadius: "0 8px 8px 0",
+                fontWeight: 700, fontSize: 12,
+                cursor: isLoading ? "not-allowed" : "pointer",
+                whiteSpace: "nowrap",
+                fontFamily: "inherit", letterSpacing: "0.03em",
+                boxShadow: isLoading ? "none" : "0 4px 14px rgba(224,90,90,0.35)",
+                transition: "opacity 0.15s, transform 0.1s",
+                display: "flex", alignItems: "center", gap: 6, minWidth: 110,
+                justifyContent: "center",
               }}
-            />
+              onMouseEnter={(e) => { if (!isLoading) { e.currentTarget.style.opacity = "0.88"; e.currentTarget.style.transform = "translateY(-1px)"; } }}
+              onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = "translateY(0)"; }}
+            >
+              {isLoading ? (
+                <>
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ animation: "spin 0.8s linear infinite" }}>
+                    <circle cx="6" cy="6" r="5" stroke="rgba(255,255,255,0.3)" strokeWidth="2" />
+                    <path d="M6 1 A5 5 0 0 1 11 6" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+                  </svg>
+                  Sending...
+                </>
+              ) : "Subscribe →"}
+            </button>
           </div>
-          <button
-            onClick={handleSubscribe}
-            style={{
-              background: `linear-gradient(135deg, ${accentColor}, #c0392b)`,
-              color: "#fff", border: "none",
-              padding: "10px 18px",
-              borderRadius: "0 8px 8px 0",
-              fontWeight: 700, fontSize: 12,
-              cursor: "pointer", whiteSpace: "nowrap",
-              fontFamily: "inherit", letterSpacing: "0.03em",
-              boxShadow: "0 4px 14px rgba(224,90,90,0.35)",
-              transition: "opacity 0.15s, transform 0.1s",
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.88"; e.currentTarget.style.transform = "translateY(-1px)"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = "translateY(0)"; }}
-          >
-            Subscribe →
-          </button>
-        </div>
-      )}
 
-      {status === "error" && (
-        <p style={{ margin: "6px 0 0", fontSize: 11, color: accentColor }}>
-          Please enter a valid email address.
-        </p>
+          {status === "emailError" && (
+            <p style={{ margin: "6px 0 0", fontSize: 11, color: accentColor }}>
+              Please enter a valid email address.
+            </p>
+          )}
+
+          {status === "error" && (
+            <p style={{ margin: "6px 0 0", fontSize: 11, color: accentColor }}>
+              {errorMsg || "Something went wrong. Please try again."}
+            </p>
+          )}
+        </>
       )}
 
       <p style={{ margin: "10px 0 0", fontSize: 10, color: "#4a5c70" }}>
         No spam, ever. Unsubscribe anytime. Alerts sent only for matching jobs.
       </p>
 
-      <style>{`@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }`}</style>
+      <style>{`
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+      `}</style>
     </div>
   );
 }
