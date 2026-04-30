@@ -8,46 +8,110 @@ const SUB_CATEGORIES = {
   IT: [
     "Software Engineer", "Full Stack Developer", "Frontend Developer",
     "Backend Developer", "Data Engineer", "Data Scientist", "ML Engineer",
-    "DevOps Engineer", "Cloud Engineer", "Cybersecurity Analyst",
-    "Mobile Developer", "QA Engineer", "Product Manager",
+    "AI/LLM Engineer", "DevOps Engineer", "Cloud Engineer", "Site Reliability Engineer",
+    "Cybersecurity Analyst", "Penetration Tester", "Mobile Developer (Android)",
+    "Mobile Developer (iOS)", "Flutter Developer", "React Native Developer",
+    "QA Engineer", "Automation Test Engineer", "Embedded Systems Engineer",
+    "Blockchain Developer", "AR/VR Developer", "Game Developer",
+    "Database Administrator", "ETL Developer", "Business Intelligence Analyst",
+    "Scrum Master", "Product Manager", "Technical Writer", "IT Support Engineer",
+    "Network Engineer", "System Administrator",
   ],
   "Non-IT": [
-    "Marketing", "Sales", "Finance & Accounting", "HR & Recruitment",
-    "Operations", "Content Writing", "Design", "Legal", "Teaching",
+    "Marketing Executive", "Digital Marketing", "SEO Specialist", "Social Media Manager",
+    "Content Writer", "Copywriter", "Video Editor", "Graphic Designer", "UI/UX Designer",
+    "Sales Executive", "Business Development", "Account Manager", "Customer Support",
+    "Finance & Accounting", "CA / CMA", "Financial Analyst", "Audit Associate",
+    "HR Executive", "HR Recruiter", "Talent Acquisition", "Payroll Specialist",
+    "Operations Manager", "Supply Chain", "Logistics Coordinator",
+    "Legal Associate", "Compliance Officer",
+    "Teacher / Lecturer", "Education Counselor",
+    "Civil Engineer", "Mechanical Engineer", "Electrical Engineer", "Chemical Engineer",
+    "Architecture", "Interior Design",
+    "Healthcare / Nursing", "Pharmacist", "Lab Technician",
+    "Journalist", "PR Executive", "Event Manager",
   ],
   Government: [
-    "Banking (IBPS/SBI)", "Railway (RRB)", "SSC", "UPSC", "State PSC",
-    "Defense", "Police", "Teaching (TET/TGT/PGT)", "Postal Services",
+    "Banking – IBPS PO", "Banking – IBPS Clerk", "Banking – SBI PO", "Banking – SBI Clerk",
+    "Banking – RBI Grade B", "Banking – NABARD",
+    "Railway – RRB NTPC", "Railway – RRB Group D", "Railway – RRB JE", "Railway – RPF",
+    "SSC – CGL", "SSC – CHSL", "SSC – MTS", "SSC – GD", "SSC – CPO",
+    "UPSC – Civil Services (IAS/IPS/IFS)", "UPSC – CDS", "UPSC – NDA", "UPSC – CAPF",
+    "State PSC – General", "State PSC – Engineering Services",
+    "Defense – Indian Army", "Defense – Indian Navy", "Defense – Indian Air Force",
+    "Police – Constable", "Police – Sub-Inspector",
+    "Teaching – CTET", "Teaching – TET", "Teaching – TGT", "Teaching – PGT", "Teaching – NET/SET",
+    "Postal Services – GDS", "Postal Services – PA/SA",
+    "Municipal Corporation", "Public Sector (PSU – BHEL/ONGC/NTPC/ISRO etc.)",
+    "High Court / Judiciary", "Income Tax / Customs",
   ],
   Internship: [
-    "Tech Internship", "Marketing Internship", "Research Internship",
-    "Design Internship", "Finance Internship", "HR Internship",
+    "Software Development Internship", "Web Development Internship",
+    "App Development Internship", "Data Science Internship",
+    "Machine Learning Internship", "AI Research Internship",
+    "Cybersecurity Internship", "Cloud / DevOps Internship",
+    "Marketing Internship", "Digital Marketing Internship",
+    "Content Writing Internship", "Graphic Design Internship",
+    "UI/UX Design Internship", "Video Editing Internship",
+    "Finance Internship", "Accounting Internship",
+    "HR Internship", "Business Development Internship",
+    "Operations Internship", "Legal Internship",
+    "Research Internship", "Civil Engineering Internship",
+    "Mechanical Engineering Internship", "Electrical Engineering Internship",
+    "Teaching / EdTech Internship", "Social Media Internship",
+    "Event Management Internship", "Journalism Internship",
   ],
 };
 
-const BATCHES = ["2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"];
+const BATCHES = [
+  "2018", "2019", "2020", "2021", "2022",
+  "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030",
+];
 
 const LOCATIONS = [
   "Hyderabad", "Bengaluru", "Chennai", "Mumbai", "Pune",
-  "Delhi NCR", "Kolkata", "Ahmedabad", "Remote / Pan India",
+  "Delhi NCR", "Noida", "Gurugram", "Kolkata", "Ahmedabad",
+  "Jaipur", "Lucknow", "Bhopal", "Indore", "Chandigarh",
+  "Kochi", "Coimbatore", "Vizag", "Nagpur", "Surat",
+  "Mysuru", "Bhubaneswar", "Patna", "Guwahati", "Dehradun",
+  "Remote / Pan India", "Work From Home",
 ];
 
-const WORK_MODES = ["Remote", "WFH", "On-site", "Hybrid"];
+const WORK_MODES = ["Remote", "Work From Home (WFH)", "On-site", "Hybrid", "Flexible"];
 
-// ── MultiSelect Dropdown ───────────────────────────────────────────────────────
-function MultiDropdown({ label, options, selected, onChange, color = "#e05a5a" }) {
+// ── MultiSelect Dropdown with Search + Scroll ─────────────────────────────────
+function MultiDropdown({ label, options, selected, onChange, color = "#e05a5a", disabled = false }) {
   const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
   const ref = useRef(null);
+  const searchRef = useRef(null);
 
   useEffect(() => {
-    const handler = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    const handler = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) {
+        setOpen(false);
+        setSearch("");
+      }
+    };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
+  useEffect(() => {
+    if (open && searchRef.current) {
+      setTimeout(() => searchRef.current?.focus(), 50);
+    }
+    if (!open) setSearch("");
+  }, [open]);
+
   const toggle = (val) => {
+    if (disabled) return;
     onChange(selected.includes(val) ? selected.filter((v) => v !== val) : [...selected, val]);
   };
+
+  const filteredOptions = options.filter((o) =>
+    o.toLowerCase().includes(search.toLowerCase())
+  );
 
   const displayLabel =
     selected.length === 0
@@ -59,65 +123,158 @@ function MultiDropdown({ label, options, selected, onChange, color = "#e05a5a" }
   return (
     <div ref={ref} style={{ position: "relative" }}>
       <button
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => { if (!disabled) setOpen((o) => !o); }}
+        title={selected.length > 1 ? selected.join(", ") : undefined}
         style={{
           display: "flex", alignItems: "center", gap: 6,
-          background: selected.length > 0 ? "rgba(224,90,90,0.12)" : "rgba(255,255,255,0.06)",
-          border: selected.length > 0 ? `1.5px solid ${color}55` : "1.5px solid rgba(255,255,255,0.12)",
-          color: selected.length > 0 ? color : "#c8d0dc",
+          background: disabled
+            ? "rgba(255,255,255,0.03)"
+            : selected.length > 0
+            ? "rgba(224,90,90,0.12)"
+            : "rgba(255,255,255,0.06)",
+          border: selected.length > 0 && !disabled
+            ? `1.5px solid ${color}55`
+            : "1.5px solid rgba(255,255,255,0.1)",
+          color: disabled ? "#3a4a5c" : selected.length > 0 ? color : "#c8d0dc",
           borderRadius: 8, padding: "8px 13px",
-          fontSize: 12, fontWeight: 600, cursor: "pointer",
+          fontSize: 12, fontWeight: 600, cursor: disabled ? "not-allowed" : "pointer",
           whiteSpace: "nowrap", letterSpacing: "0.02em",
           transition: "all 0.18s",
           fontFamily: "inherit",
+          opacity: disabled ? 0.5 : 1,
+          maxWidth: 180, overflow: "hidden", textOverflow: "ellipsis",
         }}
       >
-        {displayLabel}
+        <span style={{ overflow: "hidden", textOverflow: "ellipsis", maxWidth: 130 }}>
+          {displayLabel}
+        </span>
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
-          style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)", transition: "0.2s", opacity: 0.7 }}>
+          style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)", transition: "0.2s", opacity: 0.6, flexShrink: 0 }}>
           <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
         </svg>
       </button>
 
-      {open && (
+      {open && !disabled && (
         <div style={{
-          position: "absolute", top: "calc(100% + 6px)", left: 0, zIndex: 50,
-          background: "#1a2535", border: "1.5px solid rgba(255,255,255,0.1)",
-          borderRadius: 10, minWidth: 180, padding: "6px 0",
-          boxShadow: "0 16px 40px rgba(0,0,0,0.5)",
+          position: "absolute", top: "calc(100% + 6px)", left: 0, zIndex: 999,
+          background: "#141f2e",
+          border: "1.5px solid rgba(255,255,255,0.1)",
+          borderRadius: 10, minWidth: 210, width: "max-content", maxWidth: 260,
+          boxShadow: "0 20px 50px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04)",
+          overflow: "hidden",
         }}>
-          {options.map((opt) => {
-            const active = selected.includes(opt);
-            return (
-              <div key={opt} onClick={() => toggle(opt)}
+          {/* Search bar */}
+          <div style={{
+            padding: "8px 10px",
+            borderBottom: "1px solid rgba(255,255,255,0.07)",
+            background: "#0f1c2a",
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 7,
+              background: "rgba(255,255,255,0.06)", borderRadius: 6, padding: "6px 9px" }}>
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ opacity: 0.4, flexShrink: 0 }}>
+                <circle cx="5" cy="5" r="4" stroke="#94a3b8" strokeWidth="1.3" />
+                <path d="M8.5 8.5L11 11" stroke="#94a3b8" strokeWidth="1.3" strokeLinecap="round" />
+              </svg>
+              <input
+                ref={searchRef}
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search..."
                 style={{
-                  display: "flex", alignItems: "center", gap: 10,
-                  padding: "8px 14px", cursor: "pointer",
-                  background: active ? "rgba(224,90,90,0.1)" : "transparent",
-                  transition: "background 0.13s",
-                  fontSize: 12, color: active ? "#f87a7a" : "#b0bac8",
-                  fontWeight: active ? 600 : 400,
+                  background: "none", border: "none", outline: "none",
+                  color: "#edf2f8", fontSize: 11.5, fontFamily: "inherit",
+                  width: "100%", caretColor: color,
                 }}
-                onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = "rgba(255,255,255,0.04)"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = active ? "rgba(224,90,90,0.1)" : "transparent"; }}
+              />
+              {search && (
+                <button onClick={() => setSearch("")} style={{
+                  background: "none", border: "none", cursor: "pointer",
+                  color: "#4a5c70", padding: 0, fontSize: 14, lineHeight: 1, flexShrink: 0,
+                }}>×</button>
+              )}
+            </div>
+          </div>
+
+          {/* Selected count badge */}
+          {selected.length > 0 && (
+            <div style={{
+              padding: "5px 12px",
+              fontSize: 10, color: color, fontWeight: 600,
+              background: "rgba(224,90,90,0.07)",
+              borderBottom: "1px solid rgba(255,255,255,0.05)",
+              display: "flex", justifyContent: "space-between", alignItems: "center",
+            }}>
+              <span>{selected.length} selected</span>
+              <button
+                onClick={() => onChange([])}
+                style={{ background: "none", border: "none", cursor: "pointer",
+                  color: "#4a5c70", fontSize: 10, fontFamily: "inherit", padding: 0 }}
               >
-                <div style={{
-                  width: 14, height: 14, borderRadius: 4,
-                  border: active ? `2px solid ${color}` : "2px solid rgba(255,255,255,0.2)",
-                  background: active ? color : "transparent",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  flexShrink: 0, transition: "all 0.15s",
-                }}>
-                  {active && (
-                    <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
-                      <path d="M1.5 4L3.2 5.8L6.5 2.5" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  )}
-                </div>
-                {opt}
+                Clear all
+              </button>
+            </div>
+          )}
+
+          {/* Scrollable options */}
+          <div style={{
+            maxHeight: 220,
+            overflowY: "auto",
+            overflowX: "hidden",
+            scrollbarWidth: "thin",
+            scrollbarColor: "rgba(255,255,255,0.12) transparent",
+          }}>
+            {filteredOptions.length === 0 ? (
+              <div style={{ padding: "14px 14px", fontSize: 11.5, color: "#3a4a5c", textAlign: "center" }}>
+                No results found
               </div>
-            );
-          })}
+            ) : (
+              filteredOptions.map((opt) => {
+                const active = selected.includes(opt);
+                return (
+                  <div
+                    key={opt}
+                    onClick={() => toggle(opt)}
+                    style={{
+                      display: "flex", alignItems: "center", gap: 10,
+                      padding: "7px 12px", cursor: "pointer",
+                      background: active ? "rgba(224,90,90,0.1)" : "transparent",
+                      transition: "background 0.1s",
+                      fontSize: 12, color: active ? "#f87a7a" : "#b0bac8",
+                      fontWeight: active ? 600 : 400,
+                      userSelect: "none",
+                    }}
+                    onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = "rgba(255,255,255,0.04)"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = active ? "rgba(224,90,90,0.1)" : "transparent"; }}
+                  >
+                    <div style={{
+                      width: 14, height: 14, borderRadius: 4, flexShrink: 0,
+                      border: active ? `2px solid ${color}` : "2px solid rgba(255,255,255,0.18)",
+                      background: active ? color : "transparent",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      transition: "all 0.15s",
+                    }}>
+                      {active && (
+                        <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+                          <path d="M1.5 4L3.2 5.8L6.5 2.5" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      )}
+                    </div>
+                    <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                      {opt}
+                    </span>
+                  </div>
+                );
+              })
+            )}
+          </div>
+
+          {/* Webkit scrollbar styling */}
+          <style>{`
+            div::-webkit-scrollbar { width: 4px; }
+            div::-webkit-scrollbar-track { background: transparent; }
+            div::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+            div::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+          `}</style>
         </div>
       )}
     </div>
@@ -132,27 +289,29 @@ export default function JobAlertSubscribe() {
   const [location, setLocation] = useState([]);
   const [workMode, setWorkMode] = useState([]);
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState("idle"); // idle | loading | success | error | emailError
+  const [status, setStatus] = useState("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
-  const availableSubCats = [...new Set(category.flatMap((c) => SUB_CATEGORIES[c] || []))];
+  // ✅ Fix: merge all sub-categories from ALL selected categories (deduped, sorted)
+  const availableSubCats = [
+    ...new Set(category.flatMap((c) => SUB_CATEGORIES[c] || [])),
+  ];
 
   const handleCategoryChange = (val) => {
     setCategory(val);
-    setSubCategory((prev) => prev.filter((s) => val.flatMap((c) => SUB_CATEGORIES[c] || []).includes(s)));
+    // Keep only sub-cats that still exist in the new combined list
+    const newAvailable = new Set(val.flatMap((c) => SUB_CATEGORIES[c] || []));
+    setSubCategory((prev) => prev.filter((s) => newAvailable.has(s)));
   };
 
   const handleSubscribe = async () => {
     const normalizedEmail = email.toLowerCase().trim();
-
     if (!normalizedEmail || !/\S+@\S+\.\S+/.test(normalizedEmail)) {
       setStatus("emailError");
       return;
     }
-
     setStatus("loading");
     setErrorMsg("");
-
     try {
       const res = await fetch(`${API_BASE_URL}/api/job-alerts/subscribe-to-job-alerts`, {
         method: "POST",
@@ -166,16 +325,9 @@ export default function JobAlertSubscribe() {
           eligibleBatches: batch,
         }),
       });
-
       const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || "Something went wrong");
-      }
-
+      if (!res.ok) throw new Error(data.message || "Something went wrong");
       setStatus("success");
-      // DO NOT clear form — user may want to re-check what they submitted
-
     } catch (err) {
       console.error(err);
       setErrorMsg(err.message || "Something went wrong. Please try again.");
@@ -190,58 +342,90 @@ export default function JobAlertSubscribe() {
     <div style={{
       background: "linear-gradient(135deg, #12202f 0%, #1a2d42 60%, #16253a 100%)",
       borderRadius: 16,
-      padding: "28px 28px 24px",
+      padding: "24px 24px 20px",
       border: "1.5px solid rgba(255,255,255,0.08)",
       boxShadow: "0 8px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05)",
       maxWidth: 780,
       fontFamily: "'DM Sans', 'Segoe UI', sans-serif",
       position: "relative",
-      overflow: "hidden",
+      overflow: "visible",  // ✅ allow dropdowns to overflow the card
     }}>
       {/* Subtle glow accent */}
       <div style={{
-        position: "absolute", top: -40, right: -40,
+        position: "absolute", top: -40, right: -40, pointerEvents: "none",
         width: 200, height: 200, borderRadius: "50%",
         background: "radial-gradient(circle, rgba(224,90,90,0.12) 0%, transparent 70%)",
-        pointerEvents: "none",
       }} />
 
       {/* Header */}
-      <div style={{ marginBottom: 18, position: "relative" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 5 }}>
+      <div style={{ marginBottom: 16, position: "relative" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
           <div style={{
             width: 6, height: 6, borderRadius: "50%",
-            background: accentColor,
-            boxShadow: `0 0 8px ${accentColor}`,
+            background: accentColor, boxShadow: `0 0 8px ${accentColor}`,
           }} />
           <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", color: accentColor, textTransform: "uppercase" }}>
             Job Alerts
           </span>
         </div>
-        <h3 style={{ margin: 0, fontSize: 17, fontWeight: 700, color: "#edf2f8", lineHeight: 1.3 }}>
-          Never Miss Your Dream Job — <span style={{ color: accentColor }}>Personalize Your Alerts</span>
+        <h3 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: "#edf2f8", lineHeight: 1.3 }}>
+          Never Miss Your Dream Job —{" "}
+          <span style={{ color: accentColor }}>Personalize Your Alerts</span>
         </h3>
-        <p style={{ margin: "5px 0 0", fontSize: 12, color: "#7a8fa6", lineHeight: 1.5 }}>
+        <p style={{ margin: "4px 0 0", fontSize: 11.5, color: "#7a8fa6", lineHeight: 1.5 }}>
           Pick your preferences and get notified the moment a matching role drops.
         </p>
       </div>
 
-      {/* Dropdowns row */}
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 18 }}>
-        <MultiDropdown label="Category" options={CATEGORIES} selected={category} onChange={handleCategoryChange} />
+      {/* Dropdowns — wrap into 2 rows of chips */}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 7, marginBottom: 16 }}>
+        <MultiDropdown
+          label="Category"
+          options={CATEGORIES}
+          selected={category}
+          onChange={handleCategoryChange}
+          color={accentColor}
+        />
         <MultiDropdown
           label="Role / Domain"
-          options={availableSubCats.length > 0 ? availableSubCats : ["Select a category first"]}
+          options={availableSubCats.length > 0 ? availableSubCats : []}
           selected={subCategory}
-          onChange={availableSubCats.length > 0 ? setSubCategory : () => { }}
+          onChange={setSubCategory}
+          color={accentColor}
+          disabled={availableSubCats.length === 0}
         />
-        <MultiDropdown label="Batch Year" options={BATCHES} selected={batch} onChange={setBatch} />
-        <MultiDropdown label="Location" options={LOCATIONS} selected={location} onChange={setLocation} />
-        <MultiDropdown label="Work Mode" options={WORK_MODES} selected={workMode} onChange={setWorkMode} />
+        <MultiDropdown
+          label="Batch Year"
+          options={BATCHES}
+          selected={batch}
+          onChange={setBatch}
+          color={accentColor}
+        />
+        <MultiDropdown
+          label="Location"
+          options={LOCATIONS}
+          selected={location}
+          onChange={setLocation}
+          color={accentColor}
+        />
+        <MultiDropdown
+          label="Work Mode"
+          options={WORK_MODES}
+          selected={workMode}
+          onChange={setWorkMode}
+          color={accentColor}
+        />
       </div>
 
+      {/* Hint when Role/Domain is disabled */}
+      {availableSubCats.length === 0 && (
+        <p style={{ margin: "-10px 0 12px", fontSize: 10.5, color: "#3a4a5c", fontStyle: "italic" }}>
+          ↑ Select a category above to unlock Role / Domain options
+        </p>
+      )}
+
       {/* Divider */}
-      <div style={{ height: 1, background: "rgba(255,255,255,0.06)", marginBottom: 16 }} />
+      <div style={{ height: 1, background: "rgba(255,255,255,0.06)", marginBottom: 14 }} />
 
       {/* Email + Subscribe */}
       {status === "success" ? (
@@ -249,7 +433,6 @@ export default function JobAlertSubscribe() {
           display: "flex", alignItems: "flex-start", gap: 12,
           padding: "14px 16px", borderRadius: 10,
           background: "rgba(72,199,142,0.08)", border: "1.5px solid rgba(72,199,142,0.22)",
-          animation: "fadeIn 0.3s ease",
         }}>
           <div style={{
             width: 32, height: 32, borderRadius: "50%",
@@ -265,7 +448,8 @@ export default function JobAlertSubscribe() {
               Check your inbox to verify 📩
             </div>
             <div style={{ fontSize: 11.5, color: "#7a8fa6", lineHeight: 1.6 }}>
-              We sent a verification link to <strong style={{ color: "#94a3b8" }}>{email}</strong>.<br />
+              We sent a verification link to{" "}
+              <strong style={{ color: "#94a3b8" }}>{email}</strong>.<br />
               Click the link in your email to activate your job alerts.
             </div>
             <button
@@ -295,11 +479,16 @@ export default function JobAlertSubscribe() {
                 placeholder="Enter your email"
                 value={email}
                 disabled={isLoading}
-                onChange={(e) => { setEmail(e.target.value); if (status === "emailError" || status === "error") setStatus("idle"); }}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (status === "emailError" || status === "error") setStatus("idle");
+                }}
                 style={{
                   width: "100%", boxSizing: "border-box",
                   background: status === "emailError" ? "rgba(224,90,90,0.06)" : "rgba(255,255,255,0.05)",
-                  border: status === "emailError" ? "1.5px solid rgba(224,90,90,0.5)" : "1.5px solid rgba(255,255,255,0.1)",
+                  border: status === "emailError"
+                    ? "1.5px solid rgba(224,90,90,0.5)"
+                    : "1.5px solid rgba(255,255,255,0.1)",
                   borderRight: "none",
                   color: "#edf2f8", fontSize: 12,
                   borderRadius: "8px 0 0 8px",
@@ -334,7 +523,8 @@ export default function JobAlertSubscribe() {
             >
               {isLoading ? (
                 <>
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ animation: "spin 0.8s linear infinite" }}>
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                    style={{ animation: "spin 0.8s linear infinite" }}>
                     <circle cx="6" cy="6" r="5" stroke="rgba(255,255,255,0.3)" strokeWidth="2" />
                     <path d="M6 1 A5 5 0 0 1 11 6" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
                   </svg>
@@ -349,7 +539,6 @@ export default function JobAlertSubscribe() {
               Please enter a valid email address.
             </p>
           )}
-
           {status === "error" && (
             <p style={{ margin: "6px 0 0", fontSize: 11, color: accentColor }}>
               {errorMsg || "Something went wrong. Please try again."}
