@@ -191,7 +191,7 @@ export default function AdminNavbar() {
         <nav className="an-pill">
           {/* Brand */}
           <span style={{ fontFamily: "'Cormorant Garamond',serif", color: "#EDE2D0", fontWeight: 500, fontSize: 16, padding: "4px 14px", marginRight: 2, letterSpacing: "1px", whiteSpace: "nowrap" }}>
-            Apex <em style={{ fontWeight: 300, fontStyle: "italic", color: "#C2AF97" }}>Admin</em>
+            {isSuperAdmin ? "SUPER ADMIN" : "ADMIN"} <em style={{ fontWeight: 300, fontStyle: "italic", color: "#C2AF97" }}></em>
           </span>
 
           <span className="an-sep" />
@@ -205,7 +205,7 @@ export default function AdminNavbar() {
           <span className="an-sep" />
 
           <span className={`an-badge ${isSuperAdmin ? "super" : "admin"}`}>
-            {isSuperAdmin ? "SUPER" : "ADMIN"}
+            {isSuperAdmin ? "SUPER ADMIN" : "ADMIN"}
           </span>
 
           <button className="an-logout" onClick={logout} style={{ marginLeft: 4 }}>Logout</button>
@@ -214,11 +214,11 @@ export default function AdminNavbar() {
         {/* ── Mobile top bar ── */}
         <div className="an-mobile-bar">
           <span style={{ fontFamily: "'Cormorant Garamond',serif", color: "#EDE2D0", fontWeight: 500, fontSize: 17, letterSpacing: "1px" }}>
-            Apex <em style={{ fontWeight: 300, fontStyle: "italic", color: "#C2AF97" }}>Admin</em>
+            {isSuperAdmin ? "SUPER ADMIN" : "ADMIN"}
           </span>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <span className={`an-badge ${isSuperAdmin ? "super" : "admin"}`}>
-              {isSuperAdmin ? "SUPER" : "ADMIN"}
+              {isSuperAdmin ? "SUPER ADMIN" : "ADMIN"}
             </span>
             <button className={`an-burger ${open ? "open" : ""}`} onClick={() => setOpen(o => !o)} aria-label="Menu">
               <span /><span /><span />
@@ -238,7 +238,7 @@ export default function AdminNavbar() {
         <div className="an-drawer" ref={drawerRef}>
           <div className="an-drawer-hdr">
             <span style={{ fontFamily: "'Cormorant Garamond',serif", color: "#EDE2D0", fontWeight: 500, fontSize: 18, letterSpacing: "1px" }}>
-              Apex <em style={{ fontWeight: 300, fontStyle: "italic", color: "#C2AF97" }}>Admin</em>
+               {isSuperAdmin ? "SUPER ADMIN" : "ADMIN"}
             </span>
             <button className="an-close-btn" onClick={() => setOpen(false)}>✕</button>
           </div>
