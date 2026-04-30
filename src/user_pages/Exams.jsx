@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import AlertBar from "../components/alertbar";
 import Navbar from "../components/navbar";
-import TopTicker from "../components/topticker";
+// import TopTicker from "../components/topticker";
 import Footer from "../components/footer";
 import QuickCategories from "../components/home_page_components/quick_categories";
 import TopCompanies from "../components/home_page_components/topcompanies";
@@ -451,7 +451,7 @@ export default function ExamsPage() {
 
       {/* TopTicker */}
       <div className="section-full">
-        <TopTicker isMobile={isMobile} isDesktop={isDesktop} C={{ primary: S.primary, accent: S.accent, gold: S.gold, light: S.light, text: S.text }} gutter="16px" />
+        {/* <TopTicker isMobile={isMobile} isDesktop={isDesktop} C={{ primary: S.primary, accent: S.accent, gold: S.gold, light: S.light, text: S.text }} gutter="16px" /> */}
       </div>
 
       {/* Navbar */}
