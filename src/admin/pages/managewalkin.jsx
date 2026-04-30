@@ -842,13 +842,53 @@ export default function WalkInAdmin() {
                       placeholder="walk-in, bpo, bangalore jobs, freshers..." style={inp} />
                   </Field>
 
-                  {/* ── Visibility & Badges ── */}
-                  <SectionHead title="Visibility & Badges" icon="✨" />
-                  <div style={{ display: "flex", gap: 32, marginBottom: 32, flexWrap: "wrap" }}>
-                    <Toggle name="isFeatured" label="⭐ Featured"  onColor="#f59e0b" />
-                    <Toggle name="isHot"      label="🔥 Hot Job"   onColor={S.accent} />
-                    <Toggle name="isVerified" label="✅ Verified"  onColor={S.green} />
-                  </div>
+{/* ── Visibility & Labels ── */}
+<SectionHead title="Visibility & Labels" icon="✨" />
+
+<div style={{ display: "flex", gap: 20, marginBottom: 32, flexWrap: "wrap" }}>
+
+  {/* 🔹 Dropdown 1: Highlight Type */}
+  <div style={{ flex: 1, minWidth: 220 }}>
+    <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: "block" }}>
+      Highlight Type
+    </label>
+
+    <select
+      value={form.highlight || ""}
+      onChange={(e) =>
+        setForm(prev => ({ ...prev, highlight: e.target.value }))
+      }
+      style={{ ...inp, cursor: "pointer" }}
+    >
+      <option value="">Select Highlight</option>
+      <option value="featured">⭐ Featured</option>
+      <option value="hot">🔥 Hot Job</option>
+      <option value="trending">📈 Trending</option>
+    </select>
+  </div>
+
+  {/* 🔹 Dropdown 2: Walk-in Type */}
+  <div style={{ flex: 1, minWidth: 220 }}>
+    <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: "block" }}>
+      Walk-in Type
+    </label>
+
+    <select
+      value={form.walkInType || ""}
+      onChange={(e) =>
+        setForm(prev => ({ ...prev, walkInType: e.target.value }))
+      }
+      style={{ ...inp, cursor: "pointer" }}
+    >
+      <option value="">Select Type</option>
+      <option value="urgent">🚨 Urgent Walk-in</option>
+      <option value="walkin">📍 Walk-in Drive</option>
+      <option value="mass_hiring">👥 Mass Hiring</option>
+      <option value="fresher">🎓 Fresher Friendly</option>
+    </select>
+  </div>
+
+</div>
 
                   <button
                     type="submit"
