@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import TopTicker from "../components/topticker";
+// import TopTicker from "../components/topticker";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import AlertBar from "../components/alertbar";
@@ -517,12 +517,12 @@ export default function ViewExam() {
       `}</style>
 
       <AlertBar isMobile={false} C={{ accent: "#ff4d4f" }} />
-      <TopTicker
+      {/* <TopTicker
         isMobile={isMobile}
         isDesktop={isDesktop}
         C={C}
         gutter="16px"
-      />
+      /> */}
       <Navbar bp={bp} onMenuOpen={() => {}} />
 
       {/* BREADCRUMB */}
