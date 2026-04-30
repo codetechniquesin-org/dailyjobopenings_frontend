@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import AdminNavbar from "../components/adminnavbar";
 import API_BASE_URL from "../../config/api";
+import JobExtractor from "../components/extract_job_details";
 
 /* ── Design tokens ── */
 const S = {
@@ -416,7 +417,70 @@ export default function ManageExams() {
 
               <div style={{ background:S.white, borderRadius:14, border:`1px solid ${S.border}`, padding:"clamp(20px,3vw,36px)", boxShadow:"0 2px 20px rgba(61,26,71,.07)" }}>
                 <form onSubmit={handleSubmit}>
+<JobExtractor
+  API_BASE_URL={API_BASE_URL}
+  S={S}
+  onExtract={(d) => {
+    setForm(prev => ({
+      ...prev,
 
+      // 🧠 Core mapping
+      title: d.jobTitle || prev.title,
+      shortTitle: d.jobTitle
+        ? d.jobTitle.slice(0, 30)
+        : prev.shortTitle,
+
+      organization: d.companyName || prev.organization,
+      location: d.location || prev.location,
+
+      // 🧠 Description fields
+      description: d.description || prev.description,
+      overview:
+        d.responsibilities ||
+        d.description ||
+        prev.overview,
+
+      eligibility:
+        d.qualifications ||
+        d.education ||
+        prev.eligibility,
+
+      qualification:
+        d.education ||
+        d.qualifications ||
+        prev.qualification,
+
+      // 🧠 Tags auto-generate
+      tags: (() => {
+        const skills = Array.isArray(d.skills)
+          ? d.skills
+          : (d.skills ? d.skills.split(",") : []);
+        const base = [d.companyName, d.jobTitle, ...skills]
+          .filter(Boolean)
+          .join(", ");
+        return base || prev.tags;
+      })(),
+
+      // 🧠 Smart defaults (IMPORTANT)
+      examType: prev.examType || "Recruitment",
+      category: prev.category || "Notification",
+      examMode: prev.examMode || "Online",
+
+      // 🧠 Dates
+      applicationEndDate:
+        d.expiryDate || prev.applicationEndDate,
+
+      // 🧠 Optional enrichment
+      applicationFee: prev.applicationFee || "Check Official Notification",
+      ageLimit: prev.ageLimit || "As per rules",
+
+      // 🧠 Links (fallback if URL extraction used)
+      officialWebsite: prev.officialWebsite || "",
+      applyUrl: prev.applyUrl || "",
+
+    }));
+  }}
+/>
                   {/* ── Section 1: Basic Info ── */}
                   <SectionHead title="Basic Information" icon="📋" />
                   <div className="form-grid-2">

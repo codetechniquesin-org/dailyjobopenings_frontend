@@ -4,7 +4,7 @@ import axios from "axios";
 import API_BASE_URL from "../config/api";
 import AlertBar from "../components/alertbar";
 import Navbar from "../components/navbar";
-import TopTicker from "../components/topticker";
+// import TopTicker from "../components/topticker";
 import Footer from "../components/footer";
 
 /* ─────────────────────────────────────────────
@@ -302,7 +302,7 @@ export default function WalkInJobDetail() {
   if (loading) return (
     <div style={{ fontFamily: "'DM Sans',sans-serif", background: C.light, minHeight: "100vh" }}>
       <AlertBar isMobile={false} C={{ accent: "#ff4d4f" }} />
-      <TopTicker isMobile={isMobile} isDesktop={isDesktop} C={C} gutter="16px" />
+      {/* <TopTicker isMobile={isMobile} isDesktop={isDesktop} C={C} gutter="16px" /> */}
       <Navbar bp={bp} onMenuOpen={() => {}} />
       <h2 style={{ textAlign: "center", marginTop: 100, color: C.muted }}>Loading...</h2>
     </div>
@@ -311,7 +311,7 @@ export default function WalkInJobDetail() {
   if (error || !job) return (
     <div style={{ fontFamily: "'DM Sans',sans-serif", background: C.light, minHeight: "100vh" }}>
       <AlertBar isMobile={false} C={{ accent: "#ff4d4f" }} />
-      <TopTicker isMobile={isMobile} isDesktop={isDesktop} C={C} gutter="16px" />
+      {/* <TopTicker isMobile={isMobile} isDesktop={isDesktop} C={C} gutter="16px" /> */}
       <Navbar bp={bp} onMenuOpen={() => {}} />
       <h2 style={{ textAlign: "center", marginTop: 100, color: C.accent }}>{error || "No walk-in data"}</h2>
       <Footer bp={bp} gutter="16px" />
@@ -399,7 +399,7 @@ export default function WalkInJobDetail() {
 
       {/* ── GLOBAL BARS ── */}
       <AlertBar isMobile={false} C={{ accent: "#ff4d4f" }} />
-      <TopTicker isMobile={isMobile} isDesktop={isDesktop} C={C} gutter="16px" />
+      {/* <TopTicker isMobile={isMobile} isDesktop={isDesktop} C={C} gutter="16px" /> */}
       <Navbar bp={bp} onMenuOpen={() => {}} />
 
       {/* ── HERO ── */}
@@ -449,12 +449,43 @@ export default function WalkInJobDetail() {
                 </div>
 
                 <div>
-                  <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 7 }}>
-                    {job.isFeatured     && <span className="badge b-feat">⭐ Featured</span>}
+                  {/* <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 7 }}>
+                    {job.highlight_type_label     && <span className="badge b-feat">⭐ Featured</span>}
                     <span className="badge b-ok">✅ Verified</span>
                     {job.employmentType && <span className="badge b-type">{job.employmentType}</span>}
                     {job.roleCategory   && <span className="badge b-role">{job.roleCategory}</span>}
-                  </div>
+                  </div> */}
+                  <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 7 }}>
+
+  {/* 🔹 Highlight Label */}
+  {job.highlight_type_label && (
+    <span className="badge b-feat">
+      {job.highlight_type_label === "featured" && "⭐ Featured"}
+      {job.highlight_type_label === "hot" && "🔥 Hot Job"}
+      {job.highlight_type_label === "trending" && "📈 Trending"}
+    </span>
+  )}
+
+  {/* 🔹 Walk-in Label */}
+  {job.walkin_type_label && (
+    <span className="badge b-walkin">
+      {job.walkin_type_label === "urgent" && "🚨 Urgent Walk-in"}
+      {job.walkin_type_label === "walkin" && "📍 Walk-in Drive"}
+      {job.walkin_type_label === "mass_hiring" && "👥 Mass Hiring"}
+      {job.walkin_type_label === "fresher" && "🎓 Fresher Friendly"}
+    </span>
+  )}
+
+  {/* 🔹 Other badges (unchanged) */}
+  {job.employmentType && (
+    <span className="badge b-type">{job.employmentType}</span>
+  )}
+
+  {job.roleCategory && (
+    <span className="badge b-role">{job.roleCategory}</span>
+  )}
+
+</div>
                   <h1 style={{ fontFamily: "'Syne',sans-serif", fontSize: isMobile ? 19 : 22, fontWeight: 800, color: C.text, marginBottom: 3, lineHeight: 1.2 }}>
                     {job.walkintitle}
                   </h1>

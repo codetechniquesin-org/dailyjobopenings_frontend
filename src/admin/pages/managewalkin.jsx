@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import AdminNavbar from "../components/adminnavbar";
 import API_BASE_URL from "../../config/api";
+import JobExtractor from "../components/extract_job_details";
 
 /* ── Design tokens ── */
 const S = {
@@ -186,89 +187,89 @@ export default function WalkInAdmin() {
     } catch (err) { console.error("Search error", err); }
   };
 
-  /* ── Auto Extract from URL ── */
-  const handleExtractJob = async () => {
-    if (!extractUrl.trim()) { setExtractMessage("❌ Please enter a valid URL"); return; }
-    setExtractLoading(true);
-    setExtractMessage("");
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/admin/extract-job-using-link`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${getToken()}` },
-        body: JSON.stringify({ url: extractUrl }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        const d = data.data;
-        setForm(prev => ({
-          ...prev,
-          walkintitle:      d.jobTitle || prev.walkintitle,
-          jobTitle:         d.jobTitle || prev.jobTitle,
-          companyName:      d.companyName || prev.companyName,
-          location:         d.location || prev.location,
-          description:      d.description || prev.description,
-          responsibilities: Array.isArray(d.responsibilities)
-            ? d.responsibilities.join("\n")
-            : (d.responsibilities || prev.responsibilities),
-          eligibility:      Array.isArray(d.qualifications)
-            ? d.qualifications.join("\n")
-            : (d.qualifications || prev.eligibility),
-          experience:       d.experienceLevel || prev.experience,
-          salary:           d.salary || prev.salary,
-          skills:           Array.isArray(d.skills) ? d.skills.join(", ") : (d.skills || prev.skills),
-        }));
-        setExtractMessage("✅ Job details extracted successfully");
-      } else {
-        setExtractMessage("❌ " + data.message);
-      }
-    } catch (err) {
-      console.error(err);
-      setExtractMessage("❌ Extraction failed");
-    }
-    setExtractLoading(false);
-  };
+  // /* ── Auto Extract from URL ── */
+  // const handleExtractJob = async () => {
+  //   if (!extractUrl.trim()) { setExtractMessage("❌ Please enter a valid URL"); return; }
+  //   setExtractLoading(true);
+  //   setExtractMessage("");
+  //   try {
+  //     const res = await fetch(`${API_BASE_URL}/api/admin/extract-job-using-link`, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json", Authorization: `Bearer ${getToken()}` },
+  //       body: JSON.stringify({ url: extractUrl }),
+  //     });
+  //     const data = await res.json();
+  //     if (data.success) {
+  //       const d = data.data;
+  //       setForm(prev => ({
+  //         ...prev,
+  //         walkintitle:      d.jobTitle || prev.walkintitle,
+  //         jobTitle:         d.jobTitle || prev.jobTitle,
+  //         companyName:      d.companyName || prev.companyName,
+  //         location:         d.location || prev.location,
+  //         description:      d.description || prev.description,
+  //         responsibilities: Array.isArray(d.responsibilities)
+  //           ? d.responsibilities.join("\n")
+  //           : (d.responsibilities || prev.responsibilities),
+  //         eligibility:      Array.isArray(d.qualifications)
+  //           ? d.qualifications.join("\n")
+  //           : (d.qualifications || prev.eligibility),
+  //         experience:       d.experienceLevel || prev.experience,
+  //         salary:           d.salary || prev.salary,
+  //         skills:           Array.isArray(d.skills) ? d.skills.join(", ") : (d.skills || prev.skills),
+  //       }));
+  //       setExtractMessage("✅ Job details extracted successfully");
+  //     } else {
+  //       setExtractMessage("❌ " + data.message);
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //     setExtractMessage("❌ Extraction failed");
+  //   }
+  //   setExtractLoading(false);
+  // };
 
-  /* ── Auto Extract from Text ── */
-  const handleExtractText = async () => {
-    if (!extractText.trim()) { setExtractMessage("❌ Please paste job description"); return; }
-    setExtractLoading(true);
-    setExtractMessage("");
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/admin/extract-job-using-text`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${getToken()}` },
-        body: JSON.stringify({ text: extractText }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        const d = data.data;
-        setForm(prev => ({
-          ...prev,
-          walkintitle:      d.jobTitle || prev.walkintitle,
-          jobTitle:         d.jobTitle || prev.jobTitle,
-          companyName:      d.companyName || prev.companyName,
-          location:         d.location || prev.location,
-          description:      d.description || prev.description,
-          responsibilities: Array.isArray(d.responsibilities)
-            ? d.responsibilities.join("\n")
-            : (d.responsibilities || prev.responsibilities),
-          eligibility:      Array.isArray(d.qualifications)
-            ? d.qualifications.join("\n")
-            : (d.qualifications || prev.eligibility),
-          experience:       d.experienceLevel || prev.experience,
-          salary:           d.salary || prev.salary,
-          skills:           Array.isArray(d.skills) ? d.skills.join(", ") : (d.skills || prev.skills),
-        }));
-        setExtractMessage("✅ Text extracted successfully");
-      } else {
-        setExtractMessage("❌ " + data.message);
-      }
-    } catch (err) {
-      console.error(err);
-      setExtractMessage("❌ Extraction failed");
-    }
-    setExtractLoading(false);
-  };
+  // /* ── Auto Extract from Text ── */
+  // const handleExtractText = async () => {
+  //   if (!extractText.trim()) { setExtractMessage("❌ Please paste job description"); return; }
+  //   setExtractLoading(true);
+  //   setExtractMessage("");
+  //   try {
+  //     const res = await fetch(`${API_BASE_URL}/api/admin/extract-job-using-text`, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json", Authorization: `Bearer ${getToken()}` },
+  //       body: JSON.stringify({ text: extractText }),
+  //     });
+  //     const data = await res.json();
+  //     if (data.success) {
+  //       const d = data.data;
+  //       setForm(prev => ({
+  //         ...prev,
+  //         walkintitle:      d.jobTitle || prev.walkintitle,
+  //         jobTitle:         d.jobTitle || prev.jobTitle,
+  //         companyName:      d.companyName || prev.companyName,
+  //         location:         d.location || prev.location,
+  //         description:      d.description || prev.description,
+  //         responsibilities: Array.isArray(d.responsibilities)
+  //           ? d.responsibilities.join("\n")
+  //           : (d.responsibilities || prev.responsibilities),
+  //         eligibility:      Array.isArray(d.qualifications)
+  //           ? d.qualifications.join("\n")
+  //           : (d.qualifications || prev.eligibility),
+  //         experience:       d.experienceLevel || prev.experience,
+  //         salary:           d.salary || prev.salary,
+  //         skills:           Array.isArray(d.skills) ? d.skills.join(", ") : (d.skills || prev.skills),
+  //       }));
+  //       setExtractMessage("✅ Text extracted successfully");
+  //     } else {
+  //       setExtractMessage("❌ " + data.message);
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //     setExtractMessage("❌ Extraction failed");
+  //   }
+  //   setExtractLoading(false);
+  // };
 
   const buildPayload = () => ({
     ...form,
@@ -615,68 +616,34 @@ export default function WalkInAdmin() {
               }}>
 
                 {/* ⚡ AUTO EXTRACT BOX */}
-                <div style={{
-                  border: `1px solid ${S.border}`, borderRadius: 12, padding: 16,
-                  marginBottom: 24, background: S.cream,
-                  boxShadow: "0 2px 10px rgba(61,26,71,0.06)",
-                }}>
-                  <h3 style={{ fontSize: 15, fontWeight: 700, marginBottom: 12, color: S.plum }}>
-                    ⚡ Auto Extract Walk-In Details
-                  </h3>
+<JobExtractor
+  API_BASE_URL={API_BASE_URL}
+  S={S}
+  onExtract={(d) => {
+    // 🔥 Map extracted data to THIS PAGE fields (walk-in specific)
 
-                  {/* Mode switch */}
-                  <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
-                    {["url", "text"].map(mode => (
-                      <button key={mode} onClick={() => setExtractMode(mode)} style={{
-                        padding: "6px 14px", borderRadius: 20, fontSize: 12.5, cursor: "pointer",
-                        border: extractMode === mode ? `1.5px solid ${S.plum}` : `1.5px solid ${S.border}`,
-                        background: extractMode === mode ? S.plum : S.white,
-                        color: extractMode === mode ? S.cream : S.muted,
-                        fontFamily: "inherit",
-                      }}>
-                        {mode === "url" ? "From URL" : "From Text"}
-                      </button>
-                    ))}
-                  </div>
+    setForm(prev => ({
+      ...prev,
 
-                  {extractMode === "url" && (
-                    <div style={{ display: "flex", gap: 10 }}>
-                      <input value={extractUrl} onChange={e => setExtractUrl(e.target.value)}
-                        placeholder="Paste original walk-in job link here..."
-                        style={{ ...inp, flex: 1 }} />
-                      <button onClick={handleExtractJob} disabled={extractLoading} style={{
-                        padding: "10px 18px", borderRadius: 8, border: "none",
-                        background: extractLoading ? "#9ca3af" : S.plum,
-                        color: S.cream, fontWeight: 600, cursor: extractLoading ? "not-allowed" : "pointer",
-                        fontFamily: "inherit", whiteSpace: "nowrap",
-                      }}>
-                        {extractLoading ? "Extracting…" : "Extract"}
-                      </button>
-                    </div>
-                  )}
+      // common fields
+      jobTitle: d.jobTitle || "",
+      companyName: d.companyName || prev.companyName,
+      location: d.location || "",
+      description: d.description || "",
 
-                  {extractMode === "text" && (
-                    <div>
-                      <textarea value={extractText} onChange={e => setExtractText(e.target.value)}
-                        placeholder="Paste full walk-in job description here..."
-                        rows={5} style={{ ...inp, resize: "vertical" }} />
-                      <button onClick={handleExtractText} disabled={extractLoading} style={{
-                        marginTop: 10, padding: "10px 18px", borderRadius: 8, border: "none",
-                        background: extractLoading ? "#9ca3af" : S.plum,
-                        color: S.cream, fontWeight: 600, cursor: extractLoading ? "not-allowed" : "pointer",
-                        fontFamily: "inherit",
-                      }}>
-                        {extractLoading ? "Extracting…" : "Extract from Text"}
-                      </button>
-                    </div>
-                  )}
+      // walk-in specific fields (adjust based on your schema)
+      walkInDate: d.walkInDate || "",
+      walkInTime: d.walkInTime || "",
+      venue: d.venue || "",
+      contactDetails: d.contactDetails || "",
 
-                  {extractMessage && (
-                    <p style={{ marginTop: 8, fontSize: 12, color: extractMessage.includes("❌") ? "red" : "green" }}>
-                      {extractMessage}
-                    </p>
-                  )}
-                </div>
+      // optional
+      skills: Array.isArray(d.skills) ? d.skills.join(", ") : "",
+      experience: d.experienceLevel || "",
+      salary: d.salary || ""
+    }));
+  }}
+/>
 
                 <form onSubmit={handleSubmit}>
 
@@ -875,13 +842,53 @@ export default function WalkInAdmin() {
                       placeholder="walk-in, bpo, bangalore jobs, freshers..." style={inp} />
                   </Field>
 
-                  {/* ── Visibility & Badges ── */}
-                  <SectionHead title="Visibility & Badges" icon="✨" />
-                  <div style={{ display: "flex", gap: 32, marginBottom: 32, flexWrap: "wrap" }}>
-                    <Toggle name="isFeatured" label="⭐ Featured"  onColor="#f59e0b" />
-                    <Toggle name="isHot"      label="🔥 Hot Job"   onColor={S.accent} />
-                    <Toggle name="isVerified" label="✅ Verified"  onColor={S.green} />
-                  </div>
+{/* ── Visibility & Labels ── */}
+<SectionHead title="Visibility & Labels" icon="✨" />
+
+<div style={{ display: "flex", gap: 20, marginBottom: 32, flexWrap: "wrap" }}>
+
+  {/* 🔹 Dropdown 1: Highlight Type */}
+  <div style={{ flex: 1, minWidth: 220 }}>
+    <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: "block" }}>
+      Highlight Type
+    </label>
+
+    <select
+      value={form.highlight || ""}
+      onChange={(e) =>
+        setForm(prev => ({ ...prev, highlight: e.target.value }))
+      }
+      style={{ ...inp, cursor: "pointer" }}
+    >
+      <option value="">Select Highlight</option>
+      <option value="featured">⭐ Featured</option>
+      <option value="hot">🔥 Hot Job</option>
+      <option value="trending">📈 Trending</option>
+    </select>
+  </div>
+
+  {/* 🔹 Dropdown 2: Walk-in Type */}
+  <div style={{ flex: 1, minWidth: 220 }}>
+    <label style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: "block" }}>
+      Walk-in Type
+    </label>
+
+    <select
+      value={form.walkInType || ""}
+      onChange={(e) =>
+        setForm(prev => ({ ...prev, walkInType: e.target.value }))
+      }
+      style={{ ...inp, cursor: "pointer" }}
+    >
+      <option value="">Select Type</option>
+      <option value="urgent">🚨 Urgent Walk-in</option>
+      <option value="walkin">📍 Walk-in Drive</option>
+      <option value="mass_hiring">👥 Mass Hiring</option>
+      <option value="fresher">🎓 Fresher Friendly</option>
+    </select>
+  </div>
+
+</div>
 
                   <button
                     type="submit"
