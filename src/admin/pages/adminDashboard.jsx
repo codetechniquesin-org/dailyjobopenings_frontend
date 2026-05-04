@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import AdminNavbar from "../components/AdminNavbar";
+import AdminNavbar from "../components/adminnavbar";
 import useAutoLogout from "../services/useAutoLogout";
 
 /* ── Design tokens ── */
