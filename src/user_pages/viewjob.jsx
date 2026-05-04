@@ -1247,9 +1247,9 @@ export default function ViewJob() {
 
             {/* Action buttons */}
             <div className="action-row" style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
-              <a href={job.jobLink} target="_blank" rel="noreferrer" className="btn-apply">
+              {/* <a href={job.jobLink} target="_blank" rel="noreferrer" className="btn-apply">
                 Apply Now →
-              </a>
+              </a> */}
               <button className="btn-save" onClick={() => setSaved(!saved)}>
                 {saved ? "✅ Saved" : "🔖 Save Job"}
               </button>
