@@ -265,9 +265,9 @@ export default function InterviewQues() {
       {/* Hero */}
       <div style={{ background: S.plum, color: S.cream, padding: "clamp(24px,4vw,40px) clamp(16px,4vw,40px)", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", top: -60, right: -60, width: 220, height: 220, borderRadius: "50%", background: "rgba(255,255,255,0.03)", pointerEvents: "none" }} />
-        <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: "2.5px", textTransform: "uppercase", color: S.creamDeep, marginBottom: 8 }}>Admin · Interview Prep</p>
+        <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: "2.5px", textTransform: "uppercase", color: S.creamDeep, marginBottom: 8 }}>Admin · Manage courses</p>
         <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(1.6rem,3.5vw,2.4rem)", fontWeight: 400, letterSpacing: "-0.3px", lineHeight: 1.1, color: S.cream }}>
-          Interview <em style={{ fontStyle: "italic", fontWeight: 300, color: S.creamDeep }}>Questions</em>
+          Manage <em style={{ fontStyle: "italic", fontWeight: 300, color: S.creamDeep }}>Courses</em>
         </h1>
         <p style={{ marginTop: 10, fontSize: 13, color: "rgba(237,226,208,0.55)" }}>
           {items.length} set{items.length !== 1 ? "s" : ""} available
@@ -281,11 +281,11 @@ export default function InterviewQues() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28 }}>
           <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "2.5px", textTransform: "uppercase", color: S.muted, display: "flex", alignItems: "center", gap: 10 }}>
             <span style={{ width: 20, height: "1.5px", background: S.plumLight, display: "inline-block" }} />
-            Question Sets
+            Courses Sets
           </div>
           <button onClick={() => setCreateOpen(true)}
             style={{ background: S.plum, color: S.cream, border: "none", padding: "10px 22px", borderRadius: 10, fontWeight: 600, fontSize: 13, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.5px", display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ fontSize: 16, lineHeight: 1 }}>+</span> New Question Set
+            <span style={{ fontSize: 16, lineHeight: 1 }}>+</span> Add a course
           </button>
         </div>
 

@@ -10,7 +10,7 @@ const C = {
 };
 
 const NAV_ITEMS = [
-  { label: "Home" },
+  { label: "Home", page: "home" },
   {
     label: "Jobs",
     dropdown: [
@@ -22,7 +22,7 @@ const NAV_ITEMS = [
       { icon: "🌍", label: "Abroad Jobs", key: "abroad", desc: "International roles" },
     ],
   },
-  { label: "Walk in Drive" },
+  { label: "Walk in Drive", page: "walk-in-drive" },
   {
     label: "Internships",
     dropdown: [
@@ -30,9 +30,15 @@ const NAV_ITEMS = [
       { icon: "📚", label: "GOVT Internships", key: "govt-internship", desc: "Build experience" },
     ],
   },
-  { label: "interview Questions" , page: "interview-questions" },
+  // {label: "Exams",dropdown: [
+  //     { icon: "🎓", label: "Government Exams", key: "govt", desc: "" },
+  //     { icon: "💼", label: "IT Exams", key: "experienced", desc: "" },    
+  //     { icon: "🌍", label: "Non-IT Exams", key: "abroad", desc: "" },
+  //   ], page: "exams"},
+  {label: "Exams", page: "user/view-exams"},
+  { label: "Courses" , page: "users/view-courses" },
   { label: "Resources", page: "resources" },
-  { label: "Resume Builder", page: "resume", external: "https://resumecraft.site" },
+  { label: "Resume Builder", page: "resume", external: "https://resumes-by-hirely.onrender.com/" },
 ];
 
 /* ── Desktop Dropdown ─────────────────────────────────────── */
@@ -86,53 +92,214 @@ function DropdownMenu({ items }) {
 }
 
 /* ── Desktop Nav Link ─────────────────────────────────────── */
-function NavLink({ item, index, onNavigate, activePage }) {
+function NavLink({ item, index, activePage }) {
   const [open, setOpen] = useState(false);
   const timerRef = useRef(null);
   const hasDropdown = !!item.dropdown;
   const isActive = item.page && activePage === item.page;
 
-  const show = () => { clearTimeout(timerRef.current); setOpen(true); };
-  const hide = () => { timerRef.current = setTimeout(() => setOpen(false), 150); };
-
-  const handleClick = (e) => {
-    if (item.page) {
-      e.preventDefault();
-      if (item.external) {
-        window.open(item.external, "_blank", "noopener,noreferrer");
-      } else if (onNavigate) {
-        onNavigate(item.page);
-      }
-    }
+  const show = () => {
+    clearTimeout(timerRef.current);
+    setOpen(true);
   };
 
-  return (
-    <div style={{ position: "relative" }} onMouseEnter={show} onMouseLeave={hide}>
-      <a
-        href={item.external || "#"}
-        onClick={handleClick}
-        style={{
-          fontSize: 13,
-          padding: "7px 11px",
-          borderRadius: 7,
-          color: isActive ? C.accent : index === 0 ? C.primary : C.text,
-          background: isActive ? "#fff0f0" : index === 0 ? C.light : "transparent",
-          display: "flex",
-          alignItems: "center",
-          gap: 4,
-          textDecoration: "none",
-          fontWeight: isActive ? 700 : 500,
-          borderBottom: isActive ? `2px solid ${C.accent}` : "2px solid transparent",
-          transition: "color .15s",
-        }}
+  const hide = () => {
+    timerRef.current = setTimeout(() => setOpen(false), 150);
+  };
+
+  return ( // ✅ INSIDE function
+    <>
+      <div
+        style={{ position: "relative" }}
+        onMouseEnter={show}
+        onMouseLeave={hide}
       >
-        {item.label}
-        {hasDropdown && <span style={{ fontSize: 8 }}>▼</span>}
-      </a>
-      {hasDropdown && open && <DropdownMenu items={item.dropdown} />}
-    </div>
+        {/* <Link
+          to={item.page ? (item.page === "home" ? "/" : `/${item.page}`) : "#"}
+          style={{
+            fontSize: 13,
+            padding: "7px 11px",
+            borderRadius: 7,
+            color: isActive ? C.accent : index === 0 ? C.primary : C.text,
+            background:
+              isActive ? "#fff0f0" : index === 0 ? C.light : "transparent",
+            display: "flex",
+            alignItems: "center",
+            gap: 4,
+            textDecoration: "none",
+            fontWeight: isActive ? 700 : 500,
+            borderBottom: isActive
+              ? `2px solid ${C.accent}`
+              : "2px solid transparent",
+            transition: "color .15s",
+          }}
+        > */}
+        {item.external ? (
+  <a
+    href={item.external}
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{
+      fontSize: 13,
+      padding: "7px 11px",
+      borderRadius: 7,
+      color: isActive ? C.accent : index === 0 ? C.primary : C.text,
+      background:
+        isActive ? "#fff0f0" : index === 0 ? C.light : "transparent",
+      display: "flex",
+      alignItems: "center",
+      gap: 4,
+      textDecoration: "none",
+      fontWeight: isActive ? 700 : 500,
+    }}
+  >
+    {item.label}
+  </a>
+) : (
+  <Link
+  to={item.page ? (item.page === "home" ? "/" : `/${item.page}`) : "#"}
+  style={{
+    fontSize: 13,
+    padding: "7px 11px",
+    borderRadius: 7,
+    color: isActive ? C.accent : index === 0 ? C.primary : C.text,
+    background:
+      isActive ? "#fff0f0" : index === 0 ? C.light : "transparent",
+    display: "flex",
+    alignItems: "center",
+    gap: 6,
+    textDecoration: "none",
+    fontWeight: isActive ? 700 : 500,
+  }}
+>
+  {item.label}
+
+  {hasDropdown && (
+    <span
+      style={{
+        fontSize: 8,
+        color: "#000",
+        marginTop: 1,
+      }}
+    >
+      ▼
+    </span>
+  )}
+</Link>
+)}
+          {/* {item.label}
+          {hasDropdown && <span style={{ fontSize: 8 }}>▼</span>}
+        </Link> */}
+
+        {hasDropdown && open && (
+          <DropdownMenu items={item.dropdown} />
+        )}
+      </div>
+    </>
   );
 }
+
+  // const handleClick = (e) => {
+  //   if (item.page) {
+  //     e.preventDefault();
+  //     if (item.external) {
+  //       window.open(item.external, "_blank", "noopener,noreferrer");
+  //     } else if (onNavigate) {
+  //       onNavigate(item.page);
+  //     }
+  //   }
+  // };
+
+// return (
+//   <>
+//     {/* <div style={{ position: "relative" }} onMouseEnter={show} onMouseLeave={hide}> */}
+//     {/* <a
+//       href={item.external || "#"}
+//       onClick={handleClick}
+//       style={{
+//         fontSize: 13,
+//         padding: "7px 11px",
+//         borderRadius: 7,
+//         color: isActive ? C.accent : index === 0 ? C.primary : C.text,
+//         background: isActive ? "#fff0f0" : index === 0 ? C.light : "transparent",
+//         display: "flex",
+//         alignItems: "center",
+//         gap: 4,
+//         textDecoration: "none",
+//         fontWeight: isActive ? 700 : 500,
+//         borderBottom: isActive ? `2px solid ${C.accent}` : "2px solid transparent",
+//         transition: "color .15s",
+//       }}
+//     >
+//       {item.label}
+//       {hasDropdown && <span style={{ fontSize: 8 }}>▼</span>}
+//     </a> */}
+//     {/* <Link
+//     to={
+//       item.external
+//         ? "#" 
+//         : item.page
+//         ? item.page === "home"
+//           ? "/"
+//           : `/${item.page}`
+//         : "#"
+//     }
+//     onClick={(e) => {
+//       if (item.external) {
+//         e.preventDefault();
+//         window.open(item.external, "_blank", "noopener,noreferrer");
+//       }
+//     }}
+//     style={{
+//       fontSize: 13,
+//       padding: "7px 11px",
+//       borderRadius: 7,
+//       color: isActive ? C.accent : index === 0 ? C.primary : C.text,
+//       background: isActive ? "#fff0f0" : index === 0 ? C.light : "transparent",
+//       display: "flex",
+//       alignItems: "center",
+//       gap: 4,
+//       textDecoration: "none",
+//       fontWeight: isActive ? 700 : 500,
+//       borderBottom: isActive ? `2px solid ${C.accent}` : "2px solid transparent",
+//       transition: "color .15s",
+//     }}
+//   ></Link> */} 
+
+//     <div
+//       style={{ position: "relative" }}
+//       onMouseEnter={show}
+//       onMouseLeave={hide}
+//     >
+//       <Link
+//         to={item.page ? (item.page === "home" ? "/" : `/${item.page}`) : "#"}
+//         style={{
+//           fontSize: 13,
+//           padding: "7px 11px",
+//           borderRadius: 7,
+//           color: isActive ? C.accent : index === 0 ? C.primary : C.text,
+//           background: isActive ? "#fff0f0" : index === 0 ? C.light : "transparent",
+//           display: "flex",
+//           alignItems: "center",
+//           gap: 4,
+//           textDecoration: "none",
+//           fontWeight: isActive ? 700 : 500,
+//           borderBottom: isActive ? `2px solid ${C.accent}` : "2px solid transparent",
+//           transition: "color .15s",
+//         }}
+//       >
+//         {item.label}
+//         {hasDropdown && <span style={{ fontSize: 8 }}>▼</span>}
+//       </Link>
+
+//       {hasDropdown && open && <DropdownMenu items={item.dropdown} />}
+//     </div>
+//   </>
+// );
+//       {/* {hasDropdown && open && <DropdownMenu items={item.dropdown} />}
+//     </div>
+//   );
+// } */}
 
 /* ── Apply with AI Button ─────────────────────────────────── */
 function ApplyWithAIButton({ fullWidth = false }) {
@@ -145,7 +312,7 @@ function ApplyWithAIButton({ fullWidth = false }) {
           100% { transform: translateX(100%); }
         }
       `}</style>
-      <button
+      {/* <button
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         style={{
@@ -184,34 +351,34 @@ function ApplyWithAIButton({ fullWidth = false }) {
           />
         )}
         <span style={{ position: "relative", zIndex: 1000 }}>✨ Apply with AI</span>
-      </button>
+      </button> */}
     </>
   );
 }
 
 /* ── Mobile Accordion Item ────────────────────────────────── */
-function MobileNavItem({ item, onNavigate, closeMenu }) {
+function MobileNavItem({ item,  closeMenu }) {
   const [expanded, setExpanded] = useState(false);
   const hasDropdown = !!item.dropdown;
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    if (hasDropdown) {
-      setExpanded((v) => !v);
-    } else if (item.external) {
-      window.open(item.external, "_blank", "noopener,noreferrer");
-      closeMenu();
-    } else if (item.page && onNavigate) {
-      onNavigate(item.page);
-      closeMenu();
-    } else {
-      closeMenu();
-    }
-  };
+  // const handleClick = (e) => {
+  //   e.preventDefault();
+  //   if (hasDropdown) {
+  //     setExpanded((v) => !v);
+  //   } else if (item.external) {
+  //     window.open(item.external, "_blank", "noopener,noreferrer");
+  //     closeMenu();
+  //   } else if (item.page && onNavigate) {
+  //     onNavigate(item.page);
+  //     closeMenu();
+  //   } else {
+  //     closeMenu();
+  //   }
+  // };
 
   return (
     <div>
-      <a
+      {/* <a
         href="#"
         onClick={handleClick}
         style={{
@@ -240,7 +407,73 @@ function MobileNavItem({ item, onNavigate, closeMenu }) {
             ▼
           </span>
         )}
-      </a>
+      </a> */}
+      {hasDropdown ? (
+  <div
+    onClick={() => setExpanded((v) => !v)}
+    style={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      padding: "13px 20px",
+      fontSize: 14,
+      fontWeight: 600,
+      color: C.primary,
+      borderBottom: `1px solid ${C.border}`,
+      background: "#fff",
+      cursor: "pointer",
+    }}
+  >
+    {item.label}
+    <span
+      style={{
+        fontSize: 10,
+        transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
+        transition: "transform .2s",
+      }}
+    >
+      ▼
+    </span>
+  </div>
+) : item.external ? (
+  <a
+    href={item.external}
+    target="_blank"
+    rel="noopener noreferrer"
+    onClick={closeMenu}
+    style={{
+      display: "flex",
+      padding: "13px 20px",
+      fontSize: 14,
+      fontWeight: 600,
+      color: C.primary,
+      textDecoration: "none",
+      borderBottom: `1px solid ${C.border}`,
+      background: "#fff",
+    }}
+  >
+    {item.label}
+  </a>
+) : (
+  <Link
+    to={item.page === "home" ? "/" : `/${item.page}`}
+    onClick={closeMenu}
+    style={{
+      display: "flex",
+      padding: "13px 20px",
+      fontSize: 14,
+      fontWeight: 600,
+      color: C.primary,
+      textDecoration: "none",
+      borderBottom: `1px solid ${C.border}`,
+      background: "#fff",
+    }}
+  >
+    {item.label}
+  </Link>
+)}
+
+
 
 {hasDropdown && expanded && (
   <div style={{ background: "#f9fafb", borderBottom: `1px solid ${C.border}` }}>
@@ -309,15 +542,30 @@ function Navbar({ onNavigate = () => {}, activePage = "" }) {
 
   // Close on outside click
   const drawerRef = useRef(null);
+  // useEffect(() => {
+  //   const handler = (e) => {
+  //     if (drawerRef.current && !drawerRef.current.contains(e.target)) {
+  //       setMenuOpen(false);
+  //     }
+  //   };
+  //   if (menuOpen) document.addEventListener("mousedown", handler);
+  //   return () => document.removeEventListener("mousedown", handler);
+  // }, [menuOpen]);
   useEffect(() => {
-    const handler = (e) => {
-      if (drawerRef.current && !drawerRef.current.contains(e.target)) {
-        setMenuOpen(false);
-      }
-    };
-    if (menuOpen) document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, [menuOpen]);
+  const handler = (e) => {
+    // ✅ allow clicks on button
+    if (
+      drawerRef.current &&
+      !drawerRef.current.contains(e.target) &&
+      !e.target.closest("button")   // <-- ADD THIS
+    ) {
+      setMenuOpen(false);
+    }
+  };
+
+  if (menuOpen) document.addEventListener("mousedown", handler);
+  return () => document.removeEventListener("mousedown", handler);
+}, [menuOpen]);
 
   return (
     <>
@@ -326,7 +574,7 @@ function Navbar({ onNavigate = () => {}, activePage = "" }) {
           position: fixed; inset: 0;
           background: rgba(0,0,0,0.25);
           z-index: 198;
-          backdrop-filter: blur(2px);
+          // backdrop-filter: blur(2px);
         }
         .ct-drawer {
           position: absolute;
@@ -368,20 +616,41 @@ function Navbar({ onNavigate = () => {}, activePage = "" }) {
           }}
         >
           {/* Brand */}
-          <a
+          {/* <a
             href="#"
             onClick={(e) => { e.preventDefault(); onNavigate("home"); setMenuOpen(false); }}
             style={{ display: "flex", alignItems: "center", gap: 9, textDecoration: "none", flexShrink: 0 }}
           >
             <img
-              src="https://res.cloudinary.com/dd3niyhrb/image/upload/v1773481829/WhatsApp_Image_2026-03-14_at_3.18.14_PM_o5drwx.jpg"
+              src="/favicon.svg"
               alt="Logo"
               style={{ width: 40, height: 40, borderRadius: 9 }}
             />
             <span style={{ fontWeight: 800, color: C.primary, fontSize: 15 }}>
               Daily<span style={{ color: C.accent }}>Job Openings</span>
             </span>
-          </a>
+          </a> */}
+          <Link
+  to="/"
+  onClick={() => setMenuOpen(false)}
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: 9,
+    textDecoration: "none",
+    flexShrink: 0
+  }}
+>
+  <img
+    src="/favicon.svg"
+    alt="Logo"
+    style={{ width: 65, height: 65, borderRadius: 9 }}
+  />
+  <span style={{ fontWeight: 800, color: C.primary, fontSize: 15 }}>
+    Daily<span style={{ color: C.accent }}>Job Openings</span>
+  </span>
+</Link>
+          
 
           {/* Desktop Links */}
           {isDesktop && (

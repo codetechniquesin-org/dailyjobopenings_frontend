@@ -15,13 +15,13 @@ const useAutoLogout = (timeout = 5 * 60 * 1000) => {
     const resetTimer = () => {
       clearTimeout(timer);
 
-      console.log("Activity detected → resetting timer");
+      // console.log("Activity detected → resetting timer");
 
       timer = setTimeout(() => {
         const token = getToken();
 
         if (token) {
-          console.log("Auto logout triggered");
+          // console.log("Auto logout triggered");
 
           localStorage.removeItem("adminToken");
           localStorage.removeItem("adminInfo");

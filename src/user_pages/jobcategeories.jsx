@@ -168,7 +168,10 @@ useEffect(() => {
       `}</style>
 
       <AlertBar C={{ accent:"#ff4d4f" }} />
-      <TopTicker C={C} gutter={g} isMobile={isMobile} isDesktop={isDesktop} />
+      {/* <TopTicker C={C} gutter={g} isMobile={isMobile} isDesktop={isDesktop} /> */}
+            <div className="section-full">
+        <TopTicker isMobile={isMobile} isDesktop={isDesktop} C={C} gutter="16px" />
+      </div>
       <Navbar bp={bp} onMenuOpen={() => {}} />
 
       {/* Hero strip */}
