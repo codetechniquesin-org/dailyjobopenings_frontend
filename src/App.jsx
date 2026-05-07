@@ -1,5 +1,6 @@
 import { useState, useEffect, use } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import {Helmet} from 'react-helmet-async';
 import AlertBar from "./components/alertbar";
 import Navbar from "./components/navbar";
 import TopTicker from "./components/topticker";
@@ -179,6 +180,41 @@ export default function App() {
   }, []);
 
   return (
+    <>
+    <Helmet>
+
+  <title>
+    Daily Job Openings | Latest Fresher Jobs, IT Jobs & Walk-ins
+  </title>
+
+  <meta
+    name="description"
+    content="Explore latest fresher jobs, software jobs, internships, walk-in drives, off-campus hiring, and IT opportunities across India."
+  />
+
+  <meta
+    name="keywords"
+    content="fresher jobs, software jobs, walkin jobs, off campus drives, internships, latest IT jobs"
+  />
+
+  <link
+    rel="canonical"
+    href={window.location.origin}
+  />
+
+  <meta property="og:type" content="website" />
+
+  <meta
+    property="og:title"
+    content="Daily Job Openings"
+  />
+
+  <meta
+    property="og:description"
+    content="Latest fresher jobs, software jobs, internships and walk-ins across India."
+  />
+
+</Helmet>
     /* ── ROOT: must be 100% width, no max-width here ── */
     <div style={{
       width: "100%",
@@ -575,5 +611,6 @@ export default function App() {
       </div>
 
     </div>
+    </>
   );
 }

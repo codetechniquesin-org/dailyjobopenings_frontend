@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { Helmet } from "react-helmet-async";
 import AlertBar from "../components/alertbar";
 import TopTicker from "../components/topticker";
 import Navbar from "../components/navbar";
@@ -567,6 +568,71 @@ export default function WalkInDrivesPage() {
   if (sort === "Salary") jobs = [...jobs].sort((a, b) => b.salary.localeCompare(a.salary));
 
   return (
+    <>
+      <Helmet>
+
+      <title>
+        Latest Walk-In Drives 2026 | Freshers & Experienced Hiring
+      </title>
+
+      <meta
+        name="description"
+        content="Explore latest walk-in drives, direct interview jobs, mass hiring opportunities, fresher walk-ins, and IT hiring drives across India."
+      />
+
+      <meta
+        name="keywords"
+        content="walkin jobs, walkin drives 2026, fresher walkins, direct interview jobs, mass hiring, IT walkins, software walkins"
+      />
+
+      <meta
+        name="robots"
+        content="index, follow"
+      />
+
+      <link
+        rel="canonical"
+        href={`${window.location.origin}/walk-in-drive`}
+      />
+
+      {/* OpenGraph */}
+      <meta
+        property="og:type"
+        content="website"
+      />
+
+      <meta
+        property="og:title"
+        content="Latest Walk-In Drives 2026"
+      />
+
+      <meta
+        property="og:description"
+        content="Find latest walk-in jobs, fresher hiring drives, direct interview opportunities and mass hiring across India."
+      />
+
+      <meta
+        property="og:url"
+        content={`${window.location.origin}/walk-in-drive`}
+      />
+
+      {/* Twitter */}
+      <meta
+        name="twitter:card"
+        content="summary_large_image"
+      />
+
+      <meta
+        name="twitter:title"
+        content="Latest Walk-In Drives 2026"
+      />
+
+      <meta
+        name="twitter:description"
+        content="Explore latest walk-in jobs and direct interview opportunities across India."
+      />
+
+    </Helmet>
     <div
       style={{
         fontFamily:
@@ -957,5 +1023,6 @@ export default function WalkInDrivesPage() {
       {/* ── FOOTER ── */}
       <Footer bp={bp} gutter={gutter} />
     </div>
+    </>
   );
 }
