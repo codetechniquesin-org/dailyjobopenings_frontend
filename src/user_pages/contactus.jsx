@@ -74,7 +74,7 @@ const CONTACT_CARDS = [
   {
     icon: "📧",
     title: "Email Us",
-    lines: ["hello@codetechniques.in", "support@codetechniques.in"],
+    lines: ["codetechniques.in@gmail.com"],
     sub: "We reply within 24 hours",
     bg: "#e8f4fd", border: "#bdd6f0", iconBg: "#0f4c81",
   },
@@ -84,13 +84,6 @@ const CONTACT_CARDS = [
     lines: ["+91 98765 43210"],
     sub: "Mon – Sat, 9 AM – 7 PM IST",
     bg: "#f0fff4", border: "#86efac", iconBg: "#16a34a",
-  },
-  {
-    icon: "📍",
-    title: "Office",
-    lines: ["3rd Floor, Tech Park,", "Hitech City, Hyderabad — 500081"],
-    sub: "By appointment only",
-    bg: "#fff7ed", border: "#fcd9aa", iconBg: "#c2410c",
   },
 ];
 
@@ -275,6 +268,14 @@ export default function Contact() {
 
         <div style={{ width: "100%", padding: `0 ${gutter}`, boxSizing: "border-box" }}>
           <Reveal>
+            <div style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      textAlign: "center",
+      width: "100%",
+    }}
+  >
             {/* Breadcrumb */}
             <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginBottom: 18, display: "flex", alignItems: "center", gap: 6 }}>
               <a href="/" style={{ color: "rgba(255,255,255,0.5)" }}>Home</a>
@@ -289,12 +290,13 @@ export default function Contact() {
 
             <h1 className="hero-heading" style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, lineHeight: 1.15, marginBottom: 14 }}>
               Get in Touch with<br />
-              <span style={{ color: C.gold }}>CodeTechniques</span>
+              <span style={{ color: C.gold }}>Daily Job Openings</span>
             </h1>
 
             <p style={{ fontSize: isMobile ? 13.5 : 15, opacity: 0.82, lineHeight: 1.75, maxWidth: 520 }}>
               Have a question, want to advertise, report a listing, or just say hello? We're a small team and we read every message personally.
             </p>
+            </div>
           </Reveal>
         </div>
       </section>
@@ -529,32 +531,7 @@ export default function Contact() {
       {/* ════════════════════════════════════
           MAP / OFFICE STRIP
       ════════════════════════════════════ */}
-      <section style={{ width: "100%", background: "#fff", borderTop: `1px solid ${C.border}`, padding: isMobile ? "40px 0" : "60px 0" }}>
-        <div style={{ width: "100%", padding: `0 ${gutter}`, boxSizing: "border-box" }}>
-          <Reveal>
-            <SectionLabel>Find Us</SectionLabel>
-            <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: isMobile ? 22 : 30, fontWeight: 800, color: C.text, marginBottom: 24 }}>
-              Our Office
-            </h2>
-          </Reveal>
-          {/* Map embed placeholder — replace src with your Google Maps embed URL */}
-          <Reveal delay={0.1}>
-            <div style={{ borderRadius: 16, overflow: "hidden", border: `1px solid ${C.border}`, background: C.light, height: isMobile ? 220 : 320, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 12 }}>
-              <span style={{ fontSize: 40 }}>🗺️</span>
-              <p style={{ fontSize: 13.5, color: C.muted, textAlign: "center", maxWidth: 320, lineHeight: 1.7 }}>
-                Replace this div with a Google Maps <code style={{ background: "#e2e8f0", padding: "1px 5px", borderRadius: 3 }}>&lt;iframe&gt;</code> embed for your office location.
-              </p>
-              <a
-                href="https://maps.google.com/?q=Hitech+City+Hyderabad"
-                target="_blank" rel="noreferrer"
-                style={{ background: C.primary, color: "#fff", padding: "8px 18px", borderRadius: 8, fontSize: 13, fontFamily: "'Syne', sans-serif", fontWeight: 600 }}
-              >
-                Open in Google Maps →
-              </a>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      
 
       {/* ── Footer ── */}
       <Footer bp={bp} gutter={gutter} />

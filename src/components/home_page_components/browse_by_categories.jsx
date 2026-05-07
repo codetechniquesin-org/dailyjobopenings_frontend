@@ -9,11 +9,11 @@ const CategorySection = ({ styles, activeCat, setActiveCat, onCategorySelect }) 
     const fetchCategories = async () => {
       setLoading(true);
       try {
-        console.log("Fetching categories from:", `${API_BASE_URL}/api/browse-by-categories`);
+        //console.log("Fetching categories from:", `${API_BASE_URL}/api/browse-by-categories`);
         const res = await fetch(`${API_BASE_URL}/api/browse-by-categories`);
         const data = await res.json();
-        
-        console.log("Full API Response:", data);
+
+        //console.log("Full API Response:", data);
 
         const parsedCategories = 
           Array.isArray(data) ? data :
@@ -21,7 +21,7 @@ const CategorySection = ({ styles, activeCat, setActiveCat, onCategorySelect }) 
           Array.isArray(data.data) ? data.data :
           [];
 
-        console.log("Parsed Categories:", parsedCategories);
+        //console.log("Parsed Categories:", parsedCategories);
         setCategories(parsedCategories);
       } catch (err) {
         console.error("Error fetching categories:", err);
