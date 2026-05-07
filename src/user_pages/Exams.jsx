@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import AlertBar from "../components/alertbar";
 import Navbar from "../components/navbar";
 // import TopTicker from "../components/topticker";
@@ -415,6 +416,95 @@ export default function ExamsPage() {
   };
 
   return (
+    <>
+    <Helmet>
+
+      <title>
+        Latest Government Exams 2026 | Banking, UPSC, SSC, Railway & More
+      </title>
+
+      <meta
+        name="description"
+        content="Explore latest government exams, banking exams, SSC, UPSC, railway recruitment, engineering entrance tests, admit cards and exam notifications for 2025-26."
+      />
+
+      <meta
+        name="keywords"
+        content="government exams 2026, SSC exams, UPSC exams, banking exams, railway exams, engineering entrance exams, latest exam notifications"
+      />
+
+      <meta
+        name="robots"
+        content="index, follow"
+      />
+
+      <link
+        rel="canonical"
+        href={`${window.location.origin}/user/view-exams`}
+      />
+
+      {/* OpenGraph */}
+      <meta
+        property="og:type"
+        content="website"
+      />
+
+      <meta
+        property="og:title"
+        content="Latest Government Exams 2026"
+      />
+
+      <meta
+        property="og:description"
+        content="Get latest exam notifications, admit cards, eligibility details and important exam dates across India."
+      />
+
+      <meta
+        property="og:url"
+        content={`${window.location.origin}/user/view-exams`}
+      />
+
+      {/* Twitter */}
+      <meta
+        name="twitter:card"
+        content="summary_large_image"
+      />
+
+      <meta
+        name="twitter:title"
+        content="Latest Government Exams 2026"
+      />
+
+      <meta
+        name="twitter:description"
+        content="Explore latest competitive exams, banking exams, SSC, UPSC, railway and engineering exam updates."
+      />
+
+      {/* Structured Data */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+
+          name: "Latest Government Exams 2026",
+
+          description:
+            "Explore latest government exams, banking exams, SSC, UPSC, railway recruitment and engineering entrance exams.",
+
+          url: `${window.location.origin}/user/view-exams`,
+
+          keywords: [
+            "government exams",
+            "banking exams",
+            "SSC",
+            "UPSC",
+            "railway exams",
+            "engineering entrance exams",
+          ],
+        })}
+      </script>
+
+    </Helmet>
     <div style={{ width: "100%", minHeight: "100vh", fontFamily: "'DM Sans', sans-serif", background: S.light, color: S.text, overflowX: "hidden" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
@@ -626,5 +716,6 @@ export default function ExamsPage() {
         <Footer bp={bp} gutter="16px" />
       </div>
     </div>
+    </>
   );
 }

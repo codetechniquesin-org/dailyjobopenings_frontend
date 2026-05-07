@@ -93,7 +93,7 @@ function JobCard({ job }) {
           <div style={{ fontWeight:700, color:C.green, fontSize:13.5 }}>{job.salary}</div>
           <div style={{ fontSize:11, color:C.muted }}>{posted}</div>
         </div>
-        <a href={`/view-job/${job.slug || job._id}`}
+        <a href={`/jobs/${job.slug || job._id}`}
           style={{ background:C.primary, color:"#fff", padding:"7px 18px", borderRadius:7, fontSize:12.5, fontWeight:600, textDecoration:"none" }}>
           Apply Now →
         </a>

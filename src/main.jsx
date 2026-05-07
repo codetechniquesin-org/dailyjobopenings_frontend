@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import {HelmetProvider} from 'react-helmet-async';
 import './index.css'
 import App from './App.jsx'
 // import JobPostForm from './admin_pages/job_posting.jsx'
@@ -31,10 +32,11 @@ import EditJobAlert from './components/common_components/edit_job_alert.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <HelmetProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/view-job/:slug" element={<ViewJob />} />
+        <Route path="/jobs/:slug" element={<ViewJob />} />
         <Route path="/user/view-exams/:slug" element={<ViewExam />} />
         <Route path="/user/walkins/view-walkin/:walkinslug" element={<WalkInJobDetail />} />
         <Route path="/about-us" element={<About />} />
@@ -59,5 +61,6 @@ createRoot(document.getElementById('root')).render(
         <Route path="/admin/manage-exams" element={<ProtectedRoute><ManageExams /></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
+    </HelmetProvider>
   </StrictMode>
 )

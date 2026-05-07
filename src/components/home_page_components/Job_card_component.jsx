@@ -224,7 +224,7 @@ function JobCard({ job }) {
                     </div>
                     <div style={{ fontSize: 11, color: S.muted }}>{posted}</div>
                 </div>
-                <a href={slug ? `/view-job/${slug}` : jobLink} style={{
+                <a href={slug ? `/jobs/${slug}` : jobLink} style={{
                     background: S.primary,
                     color: "#fff",
                     padding: "7px 18px",

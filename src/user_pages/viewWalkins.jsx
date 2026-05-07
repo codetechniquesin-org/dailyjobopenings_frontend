@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import axios from "axios";
 import API_BASE_URL from "../config/api";
 import AlertBar from "../components/alertbar";
@@ -319,6 +320,143 @@ export default function WalkInJobDetail() {
   );
 
   return (
+    <>
+  <Helmet>
+
+    <title>
+      {`${job.companyName} ${job.walkintitle} Walk-In Drive in ${job.location?.split(",")[0]} | Daily Job Openings`}
+    </title>
+
+    <meta
+      name="description"
+      content={`${job.companyName} is conducting a walk-in drive for ${job.walkintitle} in ${job.location}. ${job.experience || "Freshers"} candidates can apply now.`}
+    />
+
+    <meta
+      name="keywords"
+      content={job.tags?.join(", ")}
+    />
+
+    <meta
+      name="robots"
+      content="index, follow"
+    />
+
+    <link
+      rel="canonical"
+      href={`${window.location.origin}/user/walkins/view-walkin/${job.walkinslug}`}
+    />
+
+    {/* OpenGraph */}
+    <meta
+      property="og:type"
+      content="website"
+    />
+
+    <meta
+      property="og:title"
+      content={`${job.companyName} ${job.walkintitle} Walk-In Drive`}
+    />
+
+    <meta
+      property="og:description"
+      content={`${job.companyName} walk-in drive in ${job.location}. Apply now for ${job.experience || "fresher"} candidates.`}
+    />
+
+    <meta
+      property="og:image"
+      content={job.companyLogo}
+    />
+
+    <meta
+      property="og:url"
+      content={`${window.location.origin}/user/walkins/view-walkin/${job.walkinslug}`}
+    />
+
+    {/* Twitter */}
+    <meta
+      name="twitter:card"
+      content="summary_large_image"
+    />
+
+    <meta
+      name="twitter:title"
+      content={`${job.companyName} ${job.walkintitle} Walk-In Drive`}
+    />
+
+    <meta
+      name="twitter:description"
+      content={`${job.companyName} is hiring through walk-in drive in ${job.location}.`}
+    />
+
+    <meta
+      name="twitter:image"
+      content={job.companyLogo}
+    />
+
+    {/* Walk-In Structured Data */}
+    <script type="application/ld+json">
+      {JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "JobPosting",
+
+        title: job.walkintitle,
+
+        description: job.description,
+
+        identifier: {
+          "@type": "PropertyValue",
+          name: job.companyName,
+          value: job.walkinslug,
+        },
+
+        datePosted: job.createdAt,
+
+        validThrough: job.walkInDetails?.endDate,
+
+        employmentType: job.employmentType || "FULL_TIME",
+
+        hiringOrganization: {
+          "@type": "Organization",
+          name: job.companyName,
+          sameAs: job.companyWebsite,
+          logo: job.companyLogo,
+        },
+
+        jobLocation: {
+          "@type": "Place",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: job.location,
+            addressCountry: "India",
+          },
+        },
+
+        baseSalary: {
+          "@type": "MonetaryAmount",
+          currency: "INR",
+          value: {
+            "@type": "QuantitativeValue",
+            value: job.salary || "Not Specified",
+            unitText: "YEAR",
+          },
+        },
+
+        qualifications: Array.isArray(job.qualification)
+          ? job.qualification.join(", ")
+          : job.qualification,
+
+        skills: Array.isArray(job.skills)
+          ? job.skills.join(", ")
+          : "",
+
+        industry: job.roleCategory,
+
+        url: `${window.location.origin}/user/walkins/view-walkin/${job.walkinslug}`,
+      })}
+    </script>
+
+  </Helmet>
     <div style={{ fontFamily: "'DM Sans', sans-serif", background: C.light, color: C.text, minHeight: "100vh", width: "100%", overflowX: "hidden" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
@@ -769,5 +907,6 @@ export default function WalkInJobDetail() {
 
       <Footer bp={bp} gutter="16px" />
     </div>
+    </>
   );
 }

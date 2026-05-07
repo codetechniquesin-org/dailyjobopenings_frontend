@@ -547,7 +547,7 @@ https://t.me/codetechniques
         }
 
         const url = job?.slug
-          ? `${window.location.origin}/view-job/${job.slug}`
+          ? `${window.location.origin}/jobs/${job.slug}`
           : "";
 
         setJobUrl(url);
@@ -994,7 +994,7 @@ https://t.me/codetechniques
                     </div>
 
                     <a
-                      href={`https://dailyjobopenings.online/view-job/${job.slug}`}
+                      href={`https://dailyjobopenings.online/jobs/${job.slug}`}
                       target="_blank"
                       rel="noreferrer"
                       style={{

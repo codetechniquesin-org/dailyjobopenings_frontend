@@ -159,7 +159,7 @@ function TopTicker({ isMobile, isDesktop, C, gutter }) {
                 tickerJobs.map((job, index) => (
                   <React.Fragment key={job.slug}>
                     <Link
-                      to={`/view-job/${job.slug}`}
+                      to={`/jobs/${job.slug}`}
                       style={{
                         color: "#fff",
                         textDecoration: "none",
