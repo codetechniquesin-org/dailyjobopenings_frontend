@@ -54,12 +54,12 @@ function Reveal({ children, delay = 0, style = {} }) {
 }
 
 /* ── Data ── */
-const STATS = [
-  { value: "12,400+", label: "Active Job Listings",  icon: "💼" },
-  { value: "850+",    label: "Hiring Companies",      icon: "🏢" },
-  { value: "2.3L+",   label: "Freshers Hired",        icon: "🎓" },
-  { value: "98%",     label: "Satisfaction Rate",     icon: "⭐" },
-];
+// const STATS = [
+//   { value: "12,400+", label: "Active Job Listings",  icon: "💼" },
+//   { value: "850+",    label: "Hiring Companies",      icon: "🏢" },
+//   { value: "2.3L+",   label: "Freshers Hired",        icon: "🎓" },
+//   { value: "98%",     label: "Satisfaction Rate",     icon: "⭐" },
+// ];
 
 const TEAM = [
   { name: "Ravi Kumar",    role: "Founder & CEO",         initials: "RK", bg: "#e8f4fd", color: "#0f4c81" },
@@ -78,16 +78,14 @@ const VALUES = [
 ];
 
 const MILESTONES = [
-  { year: "2019", event: "CodeTechniques launched with just 50 job listings from 10 local companies." },
-  { year: "2020", event: "Expanded to 10 cities. Hit 10,000 active users during the pandemic job crisis." },
-  { year: "2021", event: "Launched WhatsApp alerts — 1 lakh subscribers in 90 days." },
-  { year: "2022", event: "Crossed 500+ hiring company partnerships including TCS, Infosys, Wipro." },
-  { year: "2023", event: "Introduced AI-powered job matching. Placed 50,000 freshers in a single year." },
-  { year: "2024", event: "2.3 lakh total hires. Recognized as India's #1 fresher job portal." },
+  { year: "1", event: "Daily Job Openings started providing job updates for freshers, experienced professionals, and candidates across various roles and industries." },
+  { year: "2", event: "Launched WhatsApp alerts." },
+  { year: "3", event: "Crossed 50+ hiring companies including TCS, Infosys, Wipro." },
+  { year: "4", event: "2.3 lakh total hires. Recognized as India's #1 fresher job portal." },
 ];
 
 const FAQS = [
-  { q: "Is CodeTechniques free to use?",              a: "100% free for all job seekers. We never charge candidates for applying, creating a profile, or accessing any feature." },
+  { q: "Is Daily Job Openings free to use?",          a: "100% free for all job seekers. We never charge candidates for applying, creating a profile, or accessing any feature." },
   { q: "How are job listings verified?",              a: "Every listing goes through a manual review by our team before it goes live. We verify company registration, contact details, and role authenticity." },
   { q: "Can companies post jobs for free?",           a: "Companies get 2 free listings per month. Premium plans unlock unlimited postings, priority placement, and analytics dashboards." },
   { q: "How do I get WhatsApp job alerts?",           a: "Click 'Join Free Group' in the sidebar or footer. You'll receive curated alerts based on your profile — no spam, unsubscribe anytime." },
@@ -189,7 +187,17 @@ export default function About() {
 
         <div style={{ width: "100%", padding: `0 ${gutter}`, boxSizing: "border-box" }}>
           <Reveal>
-            <div style={{ maxWidth: 720 }}>
+           <div
+            style={{
+              width: "100%",
+              maxWidth: 1200,
+              margin: "0 auto",
+              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
               {/* Breadcrumb */}
               <div style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", marginBottom: 20, display: "flex", alignItems: "center", gap: 6 }}>
                 <a href="/" style={{ color: "rgba(255,255,255,0.55)" }}>Home</a>
@@ -202,13 +210,13 @@ export default function About() {
                 <span style={{ fontSize: 11.5, fontWeight: 600, letterSpacing: "0.06em" }}>India's #1 Fresher Job Portal</span>
               </div>
 
-              <h1 className="hero-heading" style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, lineHeight: 1.15, marginBottom: 18 }}>
+              <h1 className="hero-heading" style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, lineHeight: 1.15, marginBottom: 18,maxWidth: 1000, }}>
                 Connecting India's Freshers<br />
                 to Their <span style={{ color: C.gold }}>Dream Careers</span>
               </h1>
 
-              <p style={{ fontSize: isMobile ? 14 : 15.5, opacity: 0.85, lineHeight: 1.8, marginBottom: 32, maxWidth: 580 }}>
-                CodeTechniques was built with one mission — to make the job search easier, faster and completely free for every fresher in India. No premium walls. No fake listings. Just real opportunities, updated every day.
+              <p style={{ fontSize: isMobile ? 14 : 15.5, opacity: 0.85, lineHeight: 1.8, marginBottom: 32, maxWidth: 900 }}>
+                Daily Job Openings was built with one mission — to make the job search easier, faster and completely free for every fresher in India. No premium walls. No fake listings. Just real opportunities, updated every day.
               </p>
 
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
@@ -227,7 +235,7 @@ export default function About() {
       {/* ════════════════════════════════════
           STATS
       ════════════════════════════════════ */}
-      <section style={{ width: "100%", background: "#fff", borderBottom: `1px solid ${C.border}` }}>
+      {/* <section style={{ width: "100%", background: "#fff", borderBottom: `1px solid ${C.border}` }}>
         <div style={{ width: "100%", padding: `0 ${gutter}`, boxSizing: "border-box" }}>
           <div className="stats-grid" style={{ display: "grid", gap: 0 }}>
             {STATS.map((s, i) => (
@@ -245,7 +253,7 @@ export default function About() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* ════════════════════════════════════
           OUR STORY
@@ -261,10 +269,10 @@ export default function About() {
                   Built by freshers,<br /><span style={{ color: C.primary }}>for freshers.</span>
                 </h2>
                 <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.85, marginBottom: 16 }}>
-                  In 2019, our founder Ravi Kumar graduated with an engineering degree and spent 4 months applying to jobs on portals that showed outdated listings, charged for "premium access" and never replied. He built CodeTechniques in his hostel room to solve exactly that problem.
+                  In 2019, our founder Ravi Kumar graduated with an engineering degree and spent 4 months applying to jobs on portals that showed outdated listings, charged for "premium access" and never replied. He built Daily Job Openings  in his hostel room to solve exactly that problem.
                 </p>
                 <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.85, marginBottom: 16 }}>
-                  Today, CodeTechniques is India's most-trusted fresher job portal — powered by a small, passionate team and trusted by over 2.3 lakh candidates who landed their first jobs through us.
+                  Today, Daily Job Openings is India's most-trusted fresher job portal — powered by a small, passionate team and trusted by over 2.3 lakh candidates who landed their first jobs through us.
                 </p>
                 <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.85 }}>
                   We list only verified jobs from real companies. Every posting is reviewed manually before it goes live. We don't sell your data. We don't charge you anything. Ever.
@@ -322,7 +330,7 @@ export default function About() {
       {/* ════════════════════════════════════
           TEAM
       ════════════════════════════════════ */}
-      <section style={{ width: "100%", padding: isMobile ? "52px 0" : "80px 0" }}>
+      {/* <section style={{ width: "100%", padding: isMobile ? "52px 0" : "80px 0" }}>
         <div style={{ width: "100%", padding: `0 ${gutter}`, boxSizing: "border-box" }}>
           <Reveal>
             <SectionLabel>The People Behind It</SectionLabel>
@@ -344,7 +352,7 @@ export default function About() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* ════════════════════════════════════
           WHY CODETECHNIQUES — dark banner
@@ -366,7 +374,7 @@ export default function About() {
             <Reveal delay={0.1}>
               <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                 {[
-                  ["✅", "100% manually verified listings — no bots, no scrapers"],
+                  ["✅", "100% manually verified listings"],
                   ["📱", "WhatsApp & email alerts the moment a new job drops"],
                   ["🆓", "Completely free — no premium tier, no hidden fees"],
                   ["🎯", "Filtered for freshers — 0 to 3 years experience only"],
@@ -430,7 +438,7 @@ export default function About() {
               Ready to find your first job?
             </h2>
             <p style={{ fontSize: 14, color: "rgba(255,255,255,0.85)", marginBottom: 28 }}>
-              Join 2.3 lakh+ freshers who found their careers through CodeTechniques — completely free.
+              Join 2.3 lakh+ freshers who found their careers through Daily Job Openings — completely free.
             </p>
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
               <a href="/jobs" style={{ background: "#fff", color: C.accent, padding: isMobile ? "11px 24px" : "13px 32px", borderRadius: 9, fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 13 }} className="cta-btn">

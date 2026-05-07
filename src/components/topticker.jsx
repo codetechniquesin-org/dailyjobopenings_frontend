@@ -199,7 +199,7 @@ function TopTicker({ isMobile, isDesktop, C, gutter }) {
               </Link>
             ))}
 
-            <Link
+            {/* <Link
               to="/advertise-with-us"
               style={{
                 color: C.gold,
@@ -208,7 +208,7 @@ function TopTicker({ isMobile, isDesktop, C, gutter }) {
               }}
             >
               Advertise With Us
-            </Link>
+            </Link> */}
           </div>
         )}
       </div>

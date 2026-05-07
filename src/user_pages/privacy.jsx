@@ -151,8 +151,8 @@ export default function Privacy() {
       <style>{`
        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { width: 100% !important; margin: 0 !important; overflow-x: hidden !important; background: ${C.light} !important; }
-        #root { width: 100% !important; overflow-x: hidden !important; }
+        html, body { width: 100% !important; margin: 0 !important; background: ${C.light} !important; }
+        #root { width: 100% !important;}
         a { text-decoration: none; color: inherit; }
 
         .toc-link { transition: color 0.18s, padding-left 0.18s; cursor: pointer; }
@@ -179,6 +179,15 @@ export default function Privacy() {
 
         <div style={{ width: "100%", padding: `0 ${gutter}`, boxSizing: "border-box" }}>
           <Reveal>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                textAlign: "center",
+                width: "100%",
+              }}
+  >
             <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginBottom: 16, display: "flex", alignItems: "center", gap: 6 }}>
               <a href="/" style={{ color: "rgba(255,255,255,0.5)" }}>Home</a>
               <span>›</span>
@@ -197,6 +206,7 @@ export default function Privacy() {
             <p style={{ fontSize: isMobile ? 13.5 : 15, opacity: 0.82, lineHeight: 1.75, maxWidth: 560 }}>
               We believe privacy is a right, not a feature. This policy explains exactly what data we collect, why we collect it, and how you can control it — in plain English, not legalese.
             </p>
+            </div>
           </Reveal>
         </div>
       </section>
@@ -236,14 +246,14 @@ export default function Privacy() {
             <div style={{ background: "#fff", borderRadius: 16, border: `1px solid ${C.border}`, padding: isMobile ? 22 : 36 }}>
               <SectionLabel>Privacy Policy</SectionLabel>
               <p style={{ fontSize: 13.5, color: C.muted, lineHeight: 1.8, marginBottom: 32 }}>
-                This Privacy Policy applies to <strong style={{ color: C.text }}>CodeTechniques</strong> ("we", "our", "us") and covers all services accessible at codetechniques.in and our mobile applications. By using our platform, you agree to the practices described here.
+                This Privacy Policy applies to <strong style={{ color: C.text }}>Daily Job Openings</strong> ("we", "our", "us") and covers all services accessible at Daily Job Openings.in and our mobile applications. By using our platform, you agree to the practices described here.
               </p>
 
               {/* 1. OVERVIEW */}
               <Reveal>
                 <SectionTitle id="overview">1. Overview</SectionTitle>
                 <Para>
-                  CodeTechniques is a free job portal for freshers in India. Our core mission is to connect job-seekers with verified opportunities — and doing that well requires collecting some basic information. We take our responsibility to handle that information carefully very seriously.
+                  Daily Job Openings is a free job portal for freshers in India. Our core mission is to connect job-seekers with verified opportunities — and doing that well requires collecting some basic information. We take our responsibility to handle that information carefully very seriously.
                 </Para>
                 <InfoBox icon="✅" title="Our core commitment" bg="#f0fff4" border="#86efac" color={C.green}>
                   We will never sell, rent, or trade your personal data to third parties for commercial or advertising purposes. Period.
@@ -397,7 +407,7 @@ export default function Privacy() {
               <Reveal>
                 <SectionTitle id="third-parties">8. Third-Party Links</SectionTitle>
                 <Para>
-                  Our platform contains links to external job listings on company career pages, LinkedIn, Naukri, and other sites. Once you leave CodeTechniques, this Privacy Policy no longer applies.
+                  Our platform contains links to external job listings on company career pages, LinkedIn, Naukri, and other sites. Once you leave Daily Job Openings, this Privacy Policy no longer applies.
                 </Para>
                 <Para>
                   We are not responsible for the privacy practices of third-party websites. We recommend reviewing the privacy policy of any external site you visit through our platform.
@@ -409,7 +419,7 @@ export default function Privacy() {
               <Reveal>
                 <SectionTitle id="children">9. Children's Privacy</SectionTitle>
                 <Para>
-                  CodeTechniques is intended for users who are 18 years of age or older. We do not knowingly collect personal data from anyone under 18. If you are a parent or guardian and believe your child has provided us with personal information, please contact us at privacy@codetechniques.in and we will delete that information promptly.
+                  Daily Job Openings is intended for users who are 18 years of age or older. We do not knowingly collect personal data from anyone under 18. If you are a parent or guardian and believe your child has provided us with personal information, please contact us at privacy@codetechniques.in and we will delete that information promptly.
                 </Para>
                 <Divider />
               </Reveal>
@@ -426,7 +436,7 @@ export default function Privacy() {
                   "Display a prominent notice on our homepage for 30 days",
                 ]} />
                 <Para>
-                  Your continued use of CodeTechniques after the effective date of any changes constitutes your acceptance of the revised policy. We encourage you to review this page periodically.
+                  Your continued use of Daily Job Openings after the effective date of any changes constitutes your acceptance of the revised policy. We encourage you to review this page periodically.
                 </Para>
                 <Divider />
               </Reveal>
