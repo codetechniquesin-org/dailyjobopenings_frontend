@@ -1,6 +1,10 @@
 import React from "react";
 import Select from "react-select";
+import {Link} from "react-router-dom";
 import JobAlertSubscribe from "./common_components/job_alert";
+import About from "../user_pages/about";
+import Contact from "../user_pages/contactus";
+import Privacy from "../user_pages/privacy";
 
 // ✅ Default colors (prevents crash if not passed)
 const defaultColors = {
@@ -83,11 +87,41 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
                   <h6 style={{ fontSize: 12, fontWeight: 700, color: "#fff", marginBottom: 8, marginTop: 0 }}>
                     Company
                   </h6>
-                  {["About Us", "Contact Us", "Privacy Policy"].map((l) => (
-                    <a key={l} href="#" style={{ display: "block", fontSize: 11.5, color: "#8a9bb5", marginBottom: 4 }}>
-                      {l}
-                    </a>
-                  ))}
+                                <Link
+                  to="/about-us"
+                  style={{
+                    display: "block",
+                    fontSize: 11.5,
+                    color: "#8a9bb5",
+                    marginBottom: 4,
+                  }}
+                >
+                  About Us
+                </Link>
+
+                <Link
+                  to="/contact-us"
+                  style={{
+                    display: "block",
+                    fontSize: 11.5,
+                    color: "#8a9bb5",
+                    marginBottom: 4,
+                  }}
+                >
+                  Contact Us
+                </Link>
+
+                <Link
+                  to="/privacy"
+                  style={{
+                    display: "block",
+                    fontSize: 11.5,
+                    color: "#8a9bb5",
+                    marginBottom: 4,
+                  }}
+                >
+                Privacy Policy
+              </Link>
                 </div>
               </div>
             )}
@@ -110,11 +144,41 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
                   <h6 style={{ fontSize: 12, fontWeight: 700, color: "#fff", marginBottom: 10 }}>
                     Company
                   </h6>
-                  {["About", "Contact", "Privacy"].map((l) => (
-                    <a key={l} href="#" style={{ display: "block", fontSize: 12, color: "#8a9bb5", marginBottom: 6 }}>
-                      {l}
-                    </a>
-                  ))}
+                <Link
+                to="/about"
+                style={{
+                  display: "block",
+                  fontSize: 12,
+                  color: "#8a9bb5",
+                  marginBottom: 6,
+                }}
+              >
+                About
+              </Link>
+
+              <Link
+                to="/contact"
+                style={{
+                  display: "block",
+                  fontSize: 12,
+                  color: "#8a9bb5",
+                  marginBottom: 6,
+                }}
+              >
+                Contact
+              </Link>
+
+              <Link
+                to="/privacy-policy"
+                style={{
+                  display: "block",
+                  fontSize: 12,
+                  color: "#8a9bb5",
+                  marginBottom: 6,
+                }}
+              >
+                Privacy
+              </Link>
                 </div>
               </div>
             )}
@@ -133,21 +197,13 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
             paddingTop: 14,
             display: "flex",
             flexWrap: "wrap",
-            justifyContent: "space-between",
+            justifyContent: "center",
             alignItems: "center",
           }}
         >
           <p style={{ fontSize: 11.5, opacity: 0.5 }}>
             © 2026 CodeTechniques India. All rights reserved.
           </p>
-
-          <div style={{ display: "flex", gap: 14 }}>
-            {["Privacy", "Terms", "Cookies"].map((l) => (
-              <a key={l} href="#" style={{ fontSize: 11.5, color: "#8a9bb5" }}>
-                {l}
-              </a>
-            ))}
-          </div>
         </div>
       </div>
     </footer>

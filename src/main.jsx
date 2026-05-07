@@ -28,6 +28,7 @@ import WalkInAdmin from './admin/pages/managewalkin.jsx';
 import ManageExams from './admin/pages/manageExams.jsx';
 import VerifyJobAlert from './components/common_components/verify_job_alert.jsx';
 import EditJobAlert from './components/common_components/edit_job_alert.jsx';
+import TopTicker from './components/topticker.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
