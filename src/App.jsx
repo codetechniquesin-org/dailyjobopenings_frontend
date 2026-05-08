@@ -215,7 +215,6 @@ export default function App() {
   />
 
 </Helmet>
-    /* ── ROOT: must be 100% width, no max-width here ── */
     <div style={{
       width: "100%",
       minHeight: "100vh",

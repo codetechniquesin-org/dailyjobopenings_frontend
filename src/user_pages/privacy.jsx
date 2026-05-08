@@ -3,6 +3,7 @@ import AlertBar from "../components/alertbar";
 import TopTicker from "../components/topticker";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
+import { Helmet } from "react-helmet-async";
 
 /* ── Theme ── */
 const C = {
@@ -147,6 +148,92 @@ export default function Privacy() {
   };
 
   return (
+    <>
+      <Helmet>
+
+      <title>
+        Privacy Policy | Daily Job Openings
+      </title>
+
+      <meta
+        name="description"
+        content="Read the Privacy Policy of Daily Job Openings to understand how we collect, use, store, and protect your personal information and job application data."
+      />
+
+      <meta
+        name="keywords"
+        content="privacy policy, data protection, Daily Job Openings privacy, user data policy, job portal privacy"
+      />
+
+      <meta
+        name="robots"
+        content="index, follow"
+      />
+
+      <link
+        rel="canonical"
+        href={`${window.location.origin}/privacy`}
+      />
+
+      {/* OpenGraph */}
+      <meta
+        property="og:type"
+        content="website"
+      />
+
+      <meta
+        property="og:title"
+        content="Privacy Policy | Daily Job Openings"
+      />
+
+      <meta
+        property="og:description"
+        content="Learn how Daily Job Openings protects your data, privacy, and personal information."
+      />
+
+      <meta
+        property="og:url"
+        content={`${window.location.origin}/privacy`}
+      />
+
+      {/* Twitter */}
+      <meta
+        name="twitter:card"
+        content="summary_large_image"
+      />
+
+      <meta
+        name="twitter:title"
+        content="Privacy Policy | Daily Job Openings"
+      />
+
+      <meta
+        name="twitter:description"
+        content="Read the privacy practices and data protection policies of Daily Job Openings."
+      />
+
+      {/* Structured Data */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+
+          name: "Privacy Policy",
+
+          description:
+            "Privacy Policy of Daily Job Openings explaining how user data is collected, stored and protected.",
+
+          url: `${window.location.origin}/privacy`,
+
+          publisher: {
+            "@type": "Organization",
+            name: "Daily Job Openings",
+            url: window.location.origin,
+          },
+        })}
+      </script>
+
+    </Helmet>
     <div style={{ width: "100%", overflowX: "hidden", fontFamily: "'DM Sans', sans-serif", background: C.light, color: C.text, minHeight: "100vh" }}>
       <style>{`
        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap');
@@ -540,5 +627,6 @@ export default function Privacy() {
       {/* ── Footer ── */}
       <Footer bp={bp} gutter={gutter} />
     </div>
+    </>
   );
 }
