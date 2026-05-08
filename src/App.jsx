@@ -287,11 +287,12 @@ export default function App() {
         /* ── Hero search card stacks on mobile ── */
         .hero-flex {
           display: flex;
-          align-items: center;
+          align-items: flex-start;
+          justify-content:space-between;
           gap: 32px;
           flex-wrap: wrap;
         }
-        .hero-left  { flex: 1; min-width: 260px; }
+        .hero-left  { flex: 1; min-width: 260px; display: flex;  flex-direction: column;  align-items: flex-start;  text-align: left; }
         .hero-card  { flex: 0 0 340px; min-width: 260px; }
 
         /* ── Buttons ── */
@@ -310,7 +311,7 @@ export default function App() {
         .btn-save:hover { background: ${C.light}; }
 
         /* ── Hero stats wrap on small screens ── */
-        .hero-stats { display: flex; gap: 16px; flex-wrap: wrap; }
+        .hero-stats {  display: flex;  gap: 16px;  flex-wrap: wrap;  justify-content: flex-start;  align-items: stretch; }
         .stat-box { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); border-radius: 10px; padding: 12px 20px; text-align: center; }
 
         /* ── Pagination ── */
@@ -389,10 +390,10 @@ export default function App() {
           <div className="hero-flex">
             {/* Left */}
             <div className="hero-left">
-              <h1 className="syne" style={{ fontSize: "clamp(1.5rem,4vw,2.4rem)", fontWeight: 800, lineHeight: 1.2, marginBottom: 10 }}>
+              <h1 className="syne" style={{ fontSize: "clamp(1.8rem,4vw,2.8rem)", fontWeight: 800, lineHeight: 1.15, marginBottom: 14,textAlign:"left",width:"100%", }}>
                 Find Your Dream Job<br />As a <span style={{ color: S.gold }}>Fresher in India</span>
               </h1>
-              <p style={{ fontSize: 14.5, opacity: .88, marginBottom: 24, maxWidth: 480 }}>
+              <p style={{ fontSize: 15, opacity: 0.88, marginBottom: 24, maxWidth: 520,lineHeight:1.7,textAlign:"left", }}>
                 100% verified job postings from top IT, government &amp; startup companies. Updated daily for 2025 &amp; 2026 batch graduates.
               </p>
               {/* <div className="hero-stats">
