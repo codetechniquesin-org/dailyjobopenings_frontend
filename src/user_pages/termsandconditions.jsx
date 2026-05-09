@@ -395,97 +395,382 @@ export default function TermsAndConditionsPage() {
       />
 
       {/* ── HERO ── */}
-      <div
-        style={{
-          background: C.primary,
-          padding: isMobile ? "36px 16px 32px" : "56px 24px 48px",
-          textAlign: "center",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        {/* Grid texture overlay */}
+      <section
+  style={{
+    width: "100%",
+    position: "relative",
+    overflow: "hidden",
+    background: "#f7f8fc",
+    padding: isMobile ? "60px 16px 50px" : "90px 24px 80px",
+  }}
+>
+  {/* Background Shapes */}
+  <div
+    style={{
+      position: "absolute",
+      top: -120,
+      right: -100,
+      width: 340,
+      height: 340,
+      borderRadius: "40%",
+      background: "linear-gradient(135deg,#dbeafe,#bfdbfe)",
+      transform: "rotate(25deg)",
+      opacity: 0.6,
+    }}
+  />
+
+  <div
+    style={{
+      position: "absolute",
+      bottom: -100,
+      left: -80,
+      width: 280,
+      height: 280,
+      borderRadius: "50%",
+      background: "linear-gradient(135deg,#fde68a,#fca5a5)",
+      opacity: 0.45,
+      filter: "blur(20px)",
+    }}
+  />
+
+    <div
+      style={{
+        width: "100%",
+        maxWidth: 1250,
+        margin: "0 auto",
+        display: "grid",
+        gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+        gap: isMobile ? 40 : 70,
+        alignItems: "center",
+        position: "relative",
+        zIndex: 2,
+      }}
+    >
+      {/* LEFT CONTENT */}
+      <div>
+        {/* Breadcrumb */}
         <div
           style={{
-            position: "absolute",
-            inset: 0,
-            backgroundImage:
-              "repeating-linear-gradient(45deg, rgba(124,58,237,.04) 0px, rgba(124,58,237,.04) 1px, transparent 1px, transparent 40px)",
-            pointerEvents: "none",
-          }}
-        />
-        <div
-          style={{
-            fontSize: 11,
-            fontWeight: 700,
-            letterSpacing: "2.5px",
-            textTransform: "uppercase",
-            color: "#c4b5fd",
-            marginBottom: 14,
-            position: "relative",
+            fontSize: 12,
+            color: "#6b7280",
+            marginBottom: 20,
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
           }}
         >
-          Legal
+          <a
+            href="/"
+            style={{
+              color: "#6b7280",
+              textDecoration: "none",
+            }}
+          >
+            Home
+          </a>
+
+          <span>›</span>
+
+          <span
+            style={{
+              color: "#111827",
+              fontWeight: 600,
+            }}
+          >
+            Terms & Conditions
+          </span>
         </div>
+
+        {/* Badge */}
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 10,
+            background: "#ffffff",
+            border: "1px solid #e5e7eb",
+            padding: "8px 16px",
+            borderRadius: 999,
+            marginBottom: 28,
+            boxShadow: "0 4px 20px rgba(0,0,0,0.04)",
+          }}
+        >
+          <div
+            style={{
+              width: 10,
+              height: 10,
+              borderRadius: "50%",
+              background: "#f59e0b",
+            }}
+          />
+
+          <span
+            style={{
+              fontSize: 12,
+              fontWeight: 700,
+              color: "#111827",
+              letterSpacing: "0.05em",
+            }}
+          >
+            LEGAL INFORMATION
+          </span>
+        </div>
+
+        {/* Heading */}
         <h1
           style={{
-            fontFamily: "'Playfair Display', serif",
-            fontSize: isMobile ? 28 : 42,
-            fontWeight: 700,
-            color: "#fff",
-            margin: "0 0 14px",
-            lineHeight: 1.15,
-            position: "relative",
+            fontFamily: "'Syne', sans-serif",
+            fontWeight: 800,
+            fontSize: isMobile ? "2.5rem" : "4.7rem",
+            lineHeight: 1,
+            color: "#111827",
+            marginBottom: 24,
+            letterSpacing: "-0.05em",
           }}
         >
-          Terms &{" "}
-          <span style={{ color: "#a78bfa" }}>Conditions</span>
+          Terms & <br />
+          <span
+            style={{
+              color: "#f59e0b",
+            }}
+          >
+            Conditions
+          </span>
         </h1>
+
+        {/* Description */}
         <p
           style={{
-            color: "rgba(255,255,255,.55)",
-            fontSize: isMobile ? 13 : 15,
-            margin: "0 auto",
-            maxWidth: 500,
-            lineHeight: 1.75,
-            position: "relative",
+            fontSize: isMobile ? 15 : 17,
+            lineHeight: 1.9,
+            color: "#4b5563",
+            maxWidth: 580,
+            marginBottom: 36,
           }}
         >
-          Please read these terms carefully before using Daily Job Openings. By accessing our platform,
-          you agree to be bound by these terms.
+          Please review these terms carefully before using Daily Job Openings.
+          By accessing or browsing our platform, you agree to follow the
+          policies, guidelines, and conditions mentioned here.
         </p>
 
-        {/* Meta pills */}
+        {/* Buttons */}
         <div
           style={{
             display: "flex",
-            gap: 12,
-            justifyContent: "center",
             flexWrap: "wrap",
-            marginTop: 24,
-            position: "relative",
+            gap: 16,
+            marginBottom: 45,
+          }}
+        >
+          <a
+            href="/privacy"
+            style={{
+              background: "#111827",
+              color: "#fff",
+              padding: isMobile ? "12px 24px" : "15px 34px",
+              borderRadius: 14,
+              fontWeight: 700,
+              fontSize: 14,
+              textDecoration: "none",
+              boxShadow: "0 10px 30px rgba(17,24,39,0.18)",
+            }}
+          >
+            Privacy Policy
+          </a>
+
+          <a
+            href="/contact"
+            style={{
+              background: "#fff",
+              border: "1px solid #d1d5db",
+              color: "#111827",
+              padding: isMobile ? "12px 24px" : "15px 34px",
+              borderRadius: 14,
+              fontWeight: 600,
+              fontSize: 14,
+              textDecoration: "none",
+            }}
+          >
+            Contact Us
+          </a>
+        </div>
+
+        {/* Stats */}
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: isMobile ? 20 : 40,
           }}
         >
           {[
-            "📅 Effective: January 1, 2026",
-            "🔄 Last updated: May 7, 2026",
-          ].map((pill) => (
-            <span
-              key={pill}
-              style={{
-                background: "rgba(255,255,255,.08)",
-                border: "1px solid rgba(255,255,255,.15)",
-                borderRadius: 20,
-                padding: "6px 16px",
-                fontSize: 12,
-                color: "rgba(255,255,255,.7)",
-              }}
-            >
-              {pill}
-            </span>
+            ["2026", "Effective Since"],
+            ["24/7", "Platform Access"],
+            ["100%", "Transparent Policies"],
+          ].map(([num, label]) => (
+            <div key={label}>
+              <div
+                style={{
+                  fontSize: isMobile ? 26 : 34,
+                  fontWeight: 800,
+                  color: "#111827",
+                  fontFamily: "'Syne', sans-serif",
+                }}
+              >
+                {num}
+              </div>
+
+              <div
+                style={{
+                  marginTop: 4,
+                  color: "#6b7280",
+                  fontSize: 13,
+                }}
+              >
+                {label}
+              </div>
+            </div>
           ))}
         </div>
       </div>
+
+      {/* RIGHT SIDE CARD */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          position: "relative",
+        }}
+      >
+        <div
+          style={{
+            width: "100%",
+            maxWidth: 460,
+            background: "#ffffff",
+            borderRadius: 30,
+            padding: isMobile ? 24 : 34,
+            boxShadow: "0 25px 60px rgba(0,0,0,0.08)",
+          }}
+        >
+          {/* Top Highlight */}
+          <div
+            style={{
+              background: "#f9fafb",
+              borderRadius: 20,
+              padding: 22,
+              marginBottom: 22,
+              border: "1px solid #f1f5f9",
+            }}
+          >
+            <div
+              style={{
+                width: 58,
+                height: 58,
+                borderRadius: 18,
+                background: "#fef3c7",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 24,
+                marginBottom: 18,
+              }}
+            >
+              📜
+            </div>
+
+            <h3
+              style={{
+                margin: 0,
+                fontSize: 22,
+                color: "#111827",
+                fontWeight: 800,
+                marginBottom: 10,
+              }}
+            >
+              Usage Guidelines
+            </h3>
+
+            <p
+              style={{
+                margin: 0,
+                color: "#6b7280",
+                lineHeight: 1.7,
+                fontSize: 14,
+              }}
+            >
+              These terms define how users can safely access and interact with
+              our platform and services.
+            </p>
+          </div>
+
+          {/* Info Blocks */}
+          {[
+            {
+              title: "Effective Date",
+              value: "January 1, 2026",
+              bg: "#dbeafe",
+            },
+            {
+              title: "Last Updated",
+              value: "May 7, 2026",
+              bg: "#fef3c7",
+            },
+            {
+              title: "Coverage",
+              value: "All Website Services",
+              bg: "#ede9fe",
+            },
+          ].map((item, i) => (
+            <div
+              key={i}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 16,
+                padding: "18px",
+                borderRadius: 18,
+                background: "#fafafa",
+                marginBottom: 16,
+                border: "1px solid #f3f4f6",
+              }}
+            >
+              <div
+                style={{
+                  width: 50,
+                  height: 50,
+                  borderRadius: 16,
+                  background: item.bg,
+                }}
+              />
+
+              <div>
+                <div
+                  style={{
+                    fontSize: 13,
+                    color: "#6b7280",
+                    marginBottom: 4,
+                  }}
+                >
+                  {item.title}
+                </div>
+
+                <div
+                  style={{
+                    fontSize: 15,
+                    color: "#111827",
+                    fontWeight: 700,
+                  }}
+                >
+                  {item.value}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+</section>
 
       {/* ── MAIN LAYOUT ── */}
       <div

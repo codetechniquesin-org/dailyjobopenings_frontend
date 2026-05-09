@@ -83,7 +83,6 @@ const MILESTONES = [
   { year: "1", event: "Daily Job Openings started providing job updates for freshers, experienced professionals, and candidates across various roles and industries." },
   { year: "2", event: "Launched WhatsApp alerts." },
   { year: "3", event: "Crossed 50+ hiring companies including TCS, Infosys, Wipro." },
-  { year: "4", event: "2.3 lakh total hires. Recognized as India's #1 fresher job portal." },
 ];
 
 const FAQS = [
@@ -274,57 +273,391 @@ useLayoutEffect(() => {
       {/* ════════════════════════════════════
           HERO
       ════════════════════════════════════ */}
-      <section style={{ width: "100%", background: `linear-gradient(135deg, ${C.primary} 0%, #1565c0 55%, #0d47a1 100%)`, color: "#fff", padding: isMobile ? "52px 0 44px" : "72px 0 60px", position: "relative", overflow: "hidden" }}>
-        {/* Decorative circles */}
-        <div style={{ position: "absolute", top: -60, right: -60, width: 260, height: 260, borderRadius: "50%", background: "rgba(255,255,255,0.04)", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", bottom: -80, left: -40, width: 320, height: 320, borderRadius: "50%", background: "rgba(255,255,255,0.03)", pointerEvents: "none" }} />
+      <section
+  style={{
+    width: "100%",
+    position: "relative",
+    overflow: "hidden",
+    background: "#f7f8fc",
+    padding: isMobile ? "60px 0 50px" : "90px 0 80px",
+  }}
+>
+  {/* Abstract Background Shapes */}
+  <div
+    style={{
+      position: "absolute",
+      top: -120,
+      right: -100,
+      width: 340,
+      height: 340,
+      borderRadius: "40%",
+      background: "linear-gradient(135deg,#dbeafe,#bfdbfe)",
+      transform: "rotate(25deg)",
+      opacity: 0.6,
+    }}
+  />
 
-        <div style={{ width: "100%", padding: `0 ${gutter}`, boxSizing: "border-box" }}>
-          <Reveal>
-           <div
+  <div
+    style={{
+      position: "absolute",
+      bottom: -100,
+      left: -80,
+      width: 280,
+      height: 280,
+      borderRadius: "50%",
+      background: "linear-gradient(135deg,#fde68a,#fca5a5)",
+      opacity: 0.45,
+      filter: "blur(20px)",
+    }}
+  />
+
+  <div
+    style={{
+      width: "100%",
+      maxWidth: 1250,
+      margin: "0 auto",
+      padding: `0 ${gutter}`,
+      boxSizing: "border-box",
+      position: "relative",
+      zIndex: 2,
+    }}
+  >
+    <Reveal>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+          gap: isMobile ? 50 : 70,
+          alignItems: "center",
+        }}
+      >
+        {/* LEFT SIDE */}
+        <div>
+          {/* Small Label */}
+          <div
             style={{
-              width: "100%",
-              maxWidth: 1200,
-              margin: "0 auto",
-              textAlign: "center",
-              display: "flex",
-              flexDirection: "column",
+              display: "inline-flex",
               alignItems: "center",
+              gap: 10,
+              background: "#ffffff",
+              border: "1px solid #e5e7eb",
+              padding: "8px 16px",
+              borderRadius: 999,
+              marginBottom: 28,
+              boxShadow: "0 4px 20px rgba(0,0,0,0.04)",
             }}
           >
-              {/* Breadcrumb */}
-              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", marginBottom: 20, display: "flex", alignItems: "center", gap: 6 }}>
-                <a href="/" style={{ color: "rgba(255,255,255,0.55)" }}>Home</a>
-                <span>›</span>
-                <span style={{ color: "#fff" }}>About Us</span>
+            <div
+              style={{
+                width: 10,
+                height: 10,
+                borderRadius: "50%",
+                background: "#7c3aed",
+              }}
+            />
+
+            <span
+              style={{
+                fontSize: 12,
+                fontWeight: 700,
+                color: "#111827",
+                letterSpacing: "0.05em",
+              }}
+            >
+              SMART CAREER PLATFORM
+            </span>
+          </div>
+
+          {/* Main Heading */}
+          <h1
+            style={{
+              fontFamily: "'Syne', sans-serif",
+              fontWeight: 800,
+              fontSize: isMobile ? "2.5rem" : "4.7rem",
+              lineHeight: 1,
+              color: "#111827",
+              marginBottom: 24,
+              letterSpacing: "-0.05em",
+            }}
+          >
+            Find Your <br />
+            Next Big <br />
+            <span
+              style={{
+                color: "#7c3aed",
+              }}
+            >
+              Opportunity
+            </span>
+          </h1>
+
+          {/* Description */}
+          <p
+            style={{
+              fontSize: isMobile ? 15 : 17,
+              lineHeight: 1.9,
+              color: "#4b5563",
+              maxWidth: 580,
+              marginBottom: 36,
+            }}
+          >
+            Explore fresher jobs, internships, and off-campus drives from top
+            companies across India — all curated in one modern platform built
+            for students and graduates.
+          </p>
+
+          {/* Buttons */}
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 16,
+              marginBottom: 45,
+            }}
+          >
+            <a
+              href="/jobs"
+              style={{
+                background: "#111827",
+                color: "#fff",
+                padding: isMobile ? "12px 24px" : "15px 34px",
+                borderRadius: 14,
+                fontWeight: 700,
+                fontSize: 14,
+                textDecoration: "none",
+                boxShadow: "0 10px 30px rgba(17,24,39,0.18)",
+              }}
+            >
+              Get Started
+            </a>
+
+            <a
+              href="/contact"
+              style={{
+                background: "#fff",
+                border: "1px solid #d1d5db",
+                color: "#111827",
+                padding: isMobile ? "12px 24px" : "15px 34px",
+                borderRadius: 14,
+                fontWeight: 600,
+                fontSize: 14,
+                textDecoration: "none",
+              }}
+            >
+              Contact Team
+            </a>
+          </div>
+
+          {/* Mini Stats */}
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: isMobile ? 20 : 40,
+            }}
+          >
+            {[
+              ["12K+", "Active Openings"],
+              ["850+", "Hiring Companies"],
+              ["24/7", "Daily Updates"],
+            ].map(([num, label]) => (
+              <div key={label}>
+                <div
+                  style={{
+                    fontSize: isMobile ? 26 : 34,
+                    fontWeight: 800,
+                    color: "#111827",
+                    fontFamily: "'Syne', sans-serif",
+                  }}
+                >
+                  {num}
+                </div>
+
+                <div
+                  style={{
+                    marginTop: 4,
+                    color: "#6b7280",
+                    fontSize: 13,
+                  }}
+                >
+                  {label}
+                </div>
               </div>
-
-              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "5px 14px", marginBottom: 20 }}>
-                <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e" }} />
-                <span style={{ fontSize: 11.5, fontWeight: 600, letterSpacing: "0.06em" }}>India's #1 Fresher Job Portal</span>
-              </div>
-
-              <h1 className="hero-heading" style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, lineHeight: 1.15, marginBottom: 18,maxWidth: 1000, }}>
-                Connecting India's Freshers<br />
-                to Their <span style={{ color: C.gold }}>Dream Careers</span>
-              </h1>
-
-              <p style={{ fontSize: isMobile ? 14 : 15.5, opacity: 0.85, lineHeight: 1.8, marginBottom: 32, maxWidth: 900 }}>
-                Daily Job Openings was built with one mission — to make the job search easier, faster and completely free for every fresher in India. No premium walls. No fake listings. Just real opportunities, updated every day.
-              </p>
-
-              <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                <a href="/jobs" style={{ background: C.accent, color: "#fff", padding: isMobile ? "10px 22px" : "12px 28px", borderRadius: 9, fontWeight: 700, fontFamily: "'Syne', sans-serif", fontSize: 13 }} className="cta-btn">
-                  Browse Jobs →
-                </a>
-                <a href="/contact" style={{ background: "rgba(255,255,255,0.12)", color: "#fff", padding: isMobile ? "10px 22px" : "12px 28px", borderRadius: 9, fontWeight: 600, fontSize: 13, border: "1px solid rgba(255,255,255,0.25)" }} className="cta-btn-sec">
-                  Contact Us
-                </a>
-              </div>
-            </div>
-          </Reveal>
+            ))}
+          </div>
         </div>
-      </section>
+
+        {/* RIGHT SIDE DESIGN */}
+        <div
+          style={{
+            position: "relative",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          {/* Main Card */}
+          {/* <div
+            style={{
+              width: "100%",
+              maxWidth: 470,
+              background: "#ffffff",
+              borderRadius: 30,
+              padding: isMobile ? 24 : 34,
+              boxShadow: "0 25px 60px rgba(0,0,0,0.08)",
+              position: "relative",
+              zIndex: 2,
+            }}
+          > */}
+            {/* Top Search */}
+            {/* <div
+              style={{
+                background: "#f3f4f6",
+                borderRadius: 14,
+                padding: "14px 18px",
+                marginBottom: 28,
+                color: "#6b7280",
+                fontSize: 14,
+              }}
+            >
+              🔍 Search jobs, companies, skills...
+            </div> */}
+
+            {/* Cards */}
+            {/* {[
+              {
+                role: "Frontend Developer",
+                company: "Remote • Full Time",
+                color: "#ede9fe",
+              },
+              {
+                role: "Graduate Engineer Trainee",
+                company: "Hyderabad • Fresher",
+                color: "#dbeafe",
+              },
+              {
+                role: "Data Analyst Intern",
+                company: "Bangalore • Internship",
+                color: "#fef3c7",
+              },
+            ].map((job, i) => (
+              <div
+                key={i}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: "18px",
+                  borderRadius: 18,
+                  background: "#fafafa",
+                  marginBottom: 16,
+                  border: "1px solid #f1f1f1",
+                }}
+              >
+                <div style={{ display: "flex", gap: 14 }}>
+                  <div
+                    style={{
+                      width: 48,
+                      height: 48,
+                      borderRadius: 14,
+                      background: job.color,
+                    }}
+                  />
+
+                  <div>
+                    <h3
+                      style={{
+                        margin: 0,
+                        fontSize: 15,
+                        color: "#111827",
+                        fontWeight: 700,
+                      }}
+                    >
+                      {job.role}
+                    </h3>
+
+                    <p
+                      style={{
+                        margin: "6px 0 0",
+                        fontSize: 13,
+                        color: "#6b7280",
+                      }}
+                    >
+                      {job.company}
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    background: "#111827",
+                    color: "#fff",
+                    fontSize: 12,
+                    fontWeight: 700,
+                    padding: "8px 14px",
+                    borderRadius: 999,
+                  }}
+                >
+                  Apply
+                </div>
+              </div>
+            ))} *}
+          </div>
+
+          {/* Floating Elements */}
+          {/* <div
+            style={{
+              position: "absolute",
+              top: -20,
+              right: -10,
+              background: "#7c3aed",
+              color: "#fff",
+              padding: "14px 18px",
+              borderRadius: 18,
+              fontWeight: 700,
+              fontSize: 13,
+              boxShadow: "0 12px 30px rgba(124,58,237,0.3)",
+            }}
+          >
+            🚀 Daily Updates
+          </div> */}
+
+          {/* <div
+            style={{
+              position: "absolute",
+              bottom: -15,
+              left: -15,
+              background: "#fff",
+              padding: "16px 20px",
+              borderRadius: 18,
+              boxShadow: "0 15px 35px rgba(0,0,0,0.08)",
+            }}
+          >
+            <div
+              style={{
+                fontSize: 24,
+                fontWeight: 800,
+                color: "#111827",
+                lineHeight: 1,
+              }}
+            >
+              100%
+            </div>
+
+            <div
+              style={{
+                fontSize: 12,
+                marginTop: 4,
+                color: "#6b7280",
+              }}
+            >
+              Free Platform
+            </div>
+          </div> */}
+        </div>
+      </div>
+    </Reveal>
+  </div>
+</section>
 
       {/* ════════════════════════════════════
           STATS
@@ -535,10 +868,10 @@ useLayoutEffect(() => {
               Join 2.3 lakh+ freshers who found their careers through Daily Job Openings — completely free.
             </p>
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-              <a href="/jobs" style={{ background: "#fff", color: C.accent, padding: isMobile ? "11px 24px" : "13px 32px", borderRadius: 9, fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 13 }} className="cta-btn">
+              <a href="/" style={{ background: "#fff", color: C.accent, padding: isMobile ? "11px 24px" : "13px 32px", borderRadius: 9, fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 13 }} className="cta-btn">
                 Browse Jobs →
               </a>
-              <a href="#" style={{ background: "rgba(255,255,255,0.15)", color: "#fff", padding: isMobile ? "11px 24px" : "13px 32px", borderRadius: 9, fontWeight: 600, fontSize: 13, border: "1px solid rgba(255,255,255,0.3)" }} className="cta-btn-sec">
+              <a href="https://whatsapp.com/channel/0029Vb7fjzJK0IBayWJ7mv0I" style={{ background: "rgba(255,255,255,0.15)", color: "#fff", padding: isMobile ? "11px 24px" : "13px 32px", borderRadius: 9, fontWeight: 600, fontSize: 13, border: "1px solid rgba(255,255,255,0.3)" }} className="cta-btn-sec">
                 📱 Get WhatsApp Alerts
               </a>
             </div>
