@@ -266,44 +266,391 @@ useLayoutEffect(() => {
       {/* ════════════════════════════════════
           HERO
       ════════════════════════════════════ */}
-      <section style={{ width: "100%", background: `linear-gradient(135deg, ${C.primary} 0%, #1565c0 55%, #0d47a1 100%)`, color: "#fff", padding: isMobile ? "48px 0 40px" : "64px 0 52px", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", top: -60, right: -60, width: 260, height: 260, borderRadius: "50%", background: "rgba(255,255,255,0.04)", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", bottom: -80, left: -40, width: 300, height: 300, borderRadius: "50%", background: "rgba(255,255,255,0.03)", pointerEvents: "none" }} />
+      <section
+  style={{
+    width: "100%",
+    position: "relative",
+    overflow: "hidden",
+    background: "#f7f8fc",
+    padding: isMobile ? "60px 0 50px" : "90px 0 80px",
+  }}
+>
+  {/* Abstract Background Shapes */}
+  <div
+    style={{
+      position: "absolute",
+      top: -120,
+      right: -100,
+      width: 340,
+      height: 340,
+      borderRadius: "40%",
+      background: "linear-gradient(135deg,#dbeafe,#bfdbfe)",
+      transform: "rotate(25deg)",
+      opacity: 0.6,
+    }}
+  />
 
-        <div style={{ width: "100%", padding: `0 ${gutter}`, boxSizing: "border-box" }}>
-          <Reveal>
+  <div
+    style={{
+      position: "absolute",
+      bottom: -100,
+      left: -80,
+      width: 280,
+      height: 280,
+      borderRadius: "50%",
+      background: "linear-gradient(135deg,#fde68a,#fca5a5)",
+      opacity: 0.45,
+      filter: "blur(20px)",
+    }}
+  />
+
+  <div
+    style={{
+      width: "100%",
+      maxWidth: 1250,
+      margin: "0 auto",
+      padding: `0 ${gutter}`,
+      boxSizing: "border-box",
+      position: "relative",
+      zIndex: 2,
+    }}
+  >
+    <Reveal>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+          gap: isMobile ? 40 : 70,
+          alignItems: "center",
+        }}
+      >
+        {/* LEFT SIDE */}
+        <div>
+          {/* Breadcrumb */}
+          <div
+            style={{
+              fontSize: 12,
+              color: "#6b7280",
+              marginBottom: 20,
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+            }}
+          >
+            <a
+              href="/"
+              style={{
+                color: "#6b7280",
+                textDecoration: "none",
+              }}
+            >
+              Home
+            </a>
+
+            <span>›</span>
+
+            <span
+              style={{
+                color: "#111827",
+                fontWeight: 600,
+              }}
+            >
+              Privacy Policy
+            </span>
+          </div>
+
+          {/* Small Label */}
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 10,
+              background: "#ffffff",
+              border: "1px solid #e5e7eb",
+              padding: "8px 16px",
+              borderRadius: 999,
+              marginBottom: 28,
+              boxShadow: "0 4px 20px rgba(0,0,0,0.04)",
+            }}
+          >
             <div
               style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                textAlign: "center",
-                width: "100%",
+                width: 10,
+                height: 10,
+                borderRadius: "50%",
+                background: "#10b981",
               }}
-  >
-            <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginBottom: 16, display: "flex", alignItems: "center", gap: 6 }}>
-              <a href="/" style={{ color: "rgba(255,255,255,0.5)" }}>Home</a>
-              <span>›</span>
-              <span style={{ color: "#fff" }}>Privacy Policy</span>
-            </div>
+            />
 
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "5px 14px", marginBottom: 18 }}>
-              <span style={{ fontSize: 14 }}>🔒</span>
-              <span style={{ fontSize: 11.5, fontWeight: 600, letterSpacing: "0.06em" }}>Last updated: March 2026</span>
-            </div>
+            <span
+              style={{
+                fontSize: 12,
+                fontWeight: 700,
+                color: "#111827",
+                letterSpacing: "0.05em",
+              }}
+            >
+              LAST UPDATED : MARCH 2026
+            </span>
+          </div>
 
-            <h1 style={{ fontFamily: "'Syne', sans-serif", fontSize: isMobile ? "clamp(26px,8vw,36px)" : "clamp(36px,4vw,52px)", fontWeight: 800, lineHeight: 1.15, marginBottom: 14 }}>
-              Privacy Policy
-            </h1>
+          {/* Heading */}
+          <h1
+            style={{
+              fontFamily: "'Syne', sans-serif",
+              fontWeight: 800,
+              fontSize: isMobile ? "2.5rem" : "4.7rem",
+              lineHeight: 1,
+              color: "#111827",
+              marginBottom: 24,
+              letterSpacing: "-0.05em",
+            }}
+          >
+            Your Privacy <br />
+            Matters <br />
+            <span
+              style={{
+                color: "#10b981",
+              }}
+            >
+              To Us
+            </span>
+          </h1>
 
-            <p style={{ fontSize: isMobile ? 13.5 : 15, opacity: 0.82, lineHeight: 1.75, maxWidth: 560 }}>
-              We believe privacy is a right, not a feature. This policy explains exactly what data we collect, why we collect it, and how you can control it — in plain English, not legalese.
-            </p>
-            </div>
-          </Reveal>
+          {/* Description */}
+          <p
+            style={{
+              fontSize: isMobile ? 15 : 17,
+              lineHeight: 1.9,
+              color: "#4b5563",
+              maxWidth: 580,
+              marginBottom: 36,
+            }}
+          >
+            We believe privacy should be transparent and easy to understand.
+            This policy explains what information we collect, how we use it,
+            and the choices you have to stay in control of your data.
+          </p>
+
+          {/* Buttons */}
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 16,
+              marginBottom: 45,
+            }}
+          >
+            <a
+              href="/contact-us"
+              style={{
+                background: "#111827",
+                color: "#fff",
+                padding: isMobile ? "12px 24px" : "15px 34px",
+                borderRadius: 14,
+                fontWeight: 700,
+                fontSize: 14,
+                textDecoration: "none",
+                boxShadow: "0 10px 30px rgba(17,24,39,0.18)",
+              }}
+            >
+              Contact Support
+            </a>
+
+            <a
+              href="/jobs"
+              style={{
+                background: "#fff",
+                border: "1px solid #d1d5db",
+                color: "#111827",
+                padding: isMobile ? "12px 24px" : "15px 34px",
+                borderRadius: 14,
+                fontWeight: 600,
+                fontSize: 14,
+                textDecoration: "none",
+              }}
+            >
+              Browse Jobs
+            </a>
+          </div>
+
+          {/* Mini Stats */}
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: isMobile ? 20 : 40,
+            }}
+          >
+            {[
+              ["100%", "Secure Access"],
+              ["0 Spam", "No Fake Alerts"],
+              ["24/7", "Protection Monitoring"],
+            ].map(([num, label]) => (
+              <div key={label}>
+                <div
+                  style={{
+                    fontSize: isMobile ? 26 : 34,
+                    fontWeight: 800,
+                    color: "#111827",
+                    fontFamily: "'Syne', sans-serif",
+                  }}
+                >
+                  {num}
+                </div>
+
+                <div
+                  style={{
+                    marginTop: 4,
+                    color: "#6b7280",
+                    fontSize: 13,
+                  }}
+                >
+                  {label}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      </section>
 
+        {/* RIGHT SIDE */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            position: "relative",
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              maxWidth: 460,
+              background: "#ffffff",
+              borderRadius: 30,
+              padding: isMobile ? 24 : 34,
+              boxShadow: "0 25px 60px rgba(0,0,0,0.08)",
+            }}
+          >
+            {/* Top Card */}
+            <div
+              style={{
+                background: "#f9fafb",
+                borderRadius: 20,
+                padding: 22,
+                marginBottom: 22,
+                border: "1px solid #f1f5f9",
+              }}
+            >
+              <div
+                style={{
+                  width: 58,
+                  height: 58,
+                  borderRadius: 18,
+                  background: "#d1fae5",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 24,
+                  marginBottom: 18,
+                }}
+              >
+                🔒
+              </div>
+
+              <h3
+                style={{
+                  margin: 0,
+                  fontSize: 22,
+                  color: "#111827",
+                  fontWeight: 800,
+                  marginBottom: 10,
+                }}
+              >
+                Privacy First
+              </h3>
+
+              <p
+                style={{
+                  margin: 0,
+                  color: "#6b7280",
+                  lineHeight: 1.7,
+                  fontSize: 14,
+                }}
+              >
+                Your personal information stays protected with transparent
+                practices and secure handling policies.
+              </p>
+            </div>
+
+            {/* Privacy Highlights */}
+            {[
+              {
+                title: "Data Collection",
+                value: "Minimal & Transparent",
+                bg: "#dbeafe",
+              },
+              {
+                title: "User Control",
+                value: "Manage Your Preferences",
+                bg: "#fef3c7",
+              },
+              {
+                title: "Security Standards",
+                value: "Protected & Encrypted",
+                bg: "#d1fae5",
+              },
+            ].map((item, i) => (
+              <div
+                key={i}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 16,
+                  padding: "18px",
+                  borderRadius: 18,
+                  background: "#fafafa",
+                  marginBottom: 16,
+                  border: "1px solid #f3f4f6",
+                }}
+              >
+                <div
+                  style={{
+                    width: 50,
+                    height: 50,
+                    borderRadius: 16,
+                    background: item.bg,
+                  }}
+                />
+
+                <div>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      color: "#6b7280",
+                      marginBottom: 4,
+                    }}
+                  >
+                    {item.title}
+                  </div>
+
+                  <div
+                    style={{
+                      fontSize: 15,
+                      color: "#111827",
+                      fontWeight: 700,
+                    }}
+                  >
+                    {item.value}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </Reveal>
+  </div>
+</section>
       {/* ════════════════════════════════════
           QUICK SUMMARY CARDS
       ════════════════════════════════════ */}

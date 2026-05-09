@@ -388,87 +388,408 @@ export default function App() {
 */}
 
       {/* ── Hero: full width ── */}
-      <div className="section-full" style={{ background: "linear-gradient(135deg,#0f4c81 0%,#1565c0 60%,#0d47a1 100%)", color: "#fff", padding: "48px 0 40px" }}>
-        <div className="section-inner">
-          <div className="hero-flex">
-            {/* Left */}
-            <div className="hero-left">
-              <h1 className="syne" style={{ fontSize: "clamp(1.8rem,4vw,2.8rem)", fontWeight: 800, lineHeight: 1.15, marginBottom: 14,textAlign:"left",width:"100%", }}>
-                Find Your Dream Job<br />As a <span style={{ color: S.gold }}>Fresher in India</span>
-              </h1>
-              <p style={{ fontSize: 15, opacity: 0.88, marginBottom: 24, maxWidth: 520,lineHeight:1.7,textAlign:"left", }}>
-                100% verified job postings from top IT, government &amp; startup companies. Updated daily for 2025 &amp; 2026 batch graduates.
-              </p>
-              {/* <div className="hero-stats">
-                {[["12,400+", "Active Jobs"], ["850+", "Companies"], ["2.3L+", "Hired"]].map(([n, l]) => (
-                  <div key={l} className="stat-box">
-                    <strong className="syne" style={{ display: "block", fontSize: "1.3rem", fontWeight: 800 }}>{n}</strong>
-                    <small style={{ fontSize: 11.5, opacity: .8 }}>{l}</small>
-                  </div>
-                ))}
-              </div> */}
-{/* 🔥 HERO STATS SECTION */}
-<div className="hero-stats">
-  {[
-    [stats?.activeJobs, "Active Jobs"],
-    [stats?.companies, "Companies"],
-    [stats?.newJobs, "New This Week"]
-  ].map(([value, label]) => (
-    <div key={label} className="stat-box">
-      {value == null ? (
-  <span
+      <section
+  style={{
+    width: "100%",
+    position: "relative",
+    overflow: "hidden",
+    background: "#f7f8fc",
+    padding: isMobile ? "60px 0 50px" : "10px 0 60px",
+  }}
+>
+  {/* Background Shapes */}
+  <div
     style={{
-      display: "block",
-      width: "60px",
-      height: "22px",
-      borderRadius: "6px",
-      background: "linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.1) 75%)",
-      backgroundSize: "200% 100%",
-      animation: "shimmer 1.4s infinite",
-      marginBottom: "6px"
+      position: "absolute",
+      top: -120,
+      right: -100,
+      width: 340,
+      height: 340,
+      borderRadius: "40%",
+      background: "linear-gradient(135deg,#dbeafe,#bfdbfe)",
+      transform: "rotate(25deg)",
+      opacity: 0.6,
     }}
   />
-) : (
-  <strong
-    className="syne"
+
+  <div
     style={{
-      display: "block",
-      fontSize: "1.3rem",
-      fontWeight: 800
+      position: "absolute",
+      bottom: -100,
+      left: -80,
+      width: 280,
+      height: 280,
+      borderRadius: "50%",
+      background: "linear-gradient(135deg,#fde68a,#fca5a5)",
+      opacity: 0.45,
+      filter: "blur(20px)",
+    }}
+  />
+
+  <div
+    className="section-inner"
+    style={{
+      position: "relative",
+      zIndex: 2,
     }}
   >
-    {value}+
-  </strong>
-)}
-      <small style={{ fontSize: 11.5, opacity: 0.8 }}>{label}</small>
-    </div>
-  ))}
-</div>
+    <div
+      className="hero-flex"
+      style={{
+        display: "grid",
+        gridTemplateColumns: isMobile ? "1fr" : "1.1fr 0.9fr",
+        gap: isMobile ? 45 : 70,
+        alignItems: "center",
+      }}
+    >
+      {/* LEFT SIDE */}
+      <div>
+        {/* Badge */}
+        {/* <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 10,
+            background: "#ffffff",
+            border: "1px solid #e5e7eb",
+            padding: "8px 16px",
+            borderRadius: 999,
+            marginBottom: 28,
+            boxShadow: "0 4px 20px rgba(0,0,0,0.04)",
+          }}
+        >
+          <div
+            style={{
+              width: 10,
+              height: 10,
+              borderRadius: "50%",
+              background: "#7c3aed",
+            }}
+          />
+
+          <span
+            style={{
+              fontSize: 12,
+              fontWeight: 700,
+              color: "#111827",
+              letterSpacing: "0.05em",
+            }}
+          >
+            INDIA'S TRUSTED FRESHER JOB PLATFORM
+          </span>
+        </div> */}
+
+        {/* Heading */}
+        <h1
+          className="syne"
+          style={{
+            fontSize: isMobile ? "2.8rem" : "5rem",
+            fontWeight: 800,
+            lineHeight: 0.98,
+            marginBottom: 24,
+            color: "#111827",
+            letterSpacing: "-0.05em",
+            textAlign: "left",
+            width: "100%",
+          }}
+        >
+          Launch Your Career With <br />
+          <span
+            style={{
+              color: "#7c3aed",
+            }}
+          >
+            Real Opportunities
+          </span>
+        </h1>
+
+        {/* Description */}
+        <p
+          style={{
+            fontSize: isMobile ? 15 : 17,
+            color: "#4b5563",
+            marginBottom: 36,
+            maxWidth: 600,
+            lineHeight: 1.9,
+            textAlign: "left",
+          }}
+        >
+          Discover verified fresher jobs, internships, walk-ins, and off-campus
+          drives from top IT companies, startups, and government organizations
+          across India.
+        </p>
+
+        {/* Buttons */}
+        <div
+          style={{
+            display: "flex",
+            gap: 16,
+            flexWrap: "wrap",
+            marginBottom: 45,
+          }}
+        >
+          <button
+            onClick={handleSearch}
+            style={{
+              background: "#111827",
+              color: "#fff",
+              border: "none",
+              padding: isMobile ? "12px 24px" : "15px 34px",
+              borderRadius: 14,
+              fontWeight: 700,
+              fontSize: 14,
+              fontFamily: "'Syne',sans-serif",
+              cursor: "pointer",
+              boxShadow: "0 10px 30px rgba(17,24,39,0.18)",
+            }}
+          >
+            {searchTriggered ? "Searching..." : "Explore Jobs →"}
+          </button>
+
+          <a
+            href="/about"
+            style={{
+              background: "#fff",
+              border: "1px solid #d1d5db",
+              color: "#111827",
+              padding: isMobile ? "12px 24px" : "15px 34px",
+              borderRadius: 14,
+              fontWeight: 600,
+              fontSize: 14,
+              textDecoration: "none",
+            }}
+          >
+            Learn More
+          </a>
+        </div>
+
+        {/* Stats */}
+        <div
+          className="hero-stats"
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: isMobile ? 22 : 40,
+          }}
+        >
+          {[
+            [stats?.activeJobs, "Active Jobs"],
+            [stats?.companies, "Companies"],
+            [stats?.newJobs, "New This Week"],
+          ].map(([value, label]) => (
+            <div key={label}>
+              {value == null ? (
+                <span
+                  style={{
+                    display: "block",
+                    width: "60px",
+                    height: "22px",
+                    borderRadius: "6px",
+                    background:
+                      "linear-gradient(90deg,#e5e7eb 25%,#f3f4f6 50%,#e5e7eb 75%)",
+                    backgroundSize: "200% 100%",
+                    animation: "shimmer 1.4s infinite",
+                    marginBottom: "8px",
+                  }}
+                />
+              ) : (
+                <strong
+                  className="syne"
+                  style={{
+                    display: "block",
+                    fontSize: isMobile ? "1.6rem" : "2rem",
+                    fontWeight: 800,
+                    color: "#111827",
+                  }}
+                >
+                  {value}+
+                </strong>
+              )}
+
+              <small
+                style={{
+                  fontSize: 13,
+                  color: "#6b7280",
+                }}
+              >
+                {label}
+              </small>
             </div>
-            {/* Search Card */}
-            <div className="hero-card" style={{ background: "rgba(255,255,255,.12)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,.2)", borderRadius: 14, padding: 22 }}>
-              <h6 style={{ fontSize: 14, fontWeight: 600, marginBottom: 14 }}>🔍 Quick Job Search</h6>
-              <input
-                value={searchVal} onChange={e => setSearchVal(e.target.value)}
-                placeholder="Job title or company name"
-                style={{ width: "100%", padding: "10px 14px", borderRadius: 8, border: "none", background: "rgba(255,255,255,.95)", fontSize: 13.5, fontFamily: "'DM Sans',sans-serif", color: S.text, marginBottom: 10, outline: "none" }}
-              />
-              <select style={{ width: "100%", padding: "10px 14px", borderRadius: 8, border: "none", background: "rgba(255,255,255,.95)", fontSize: 13.5, fontFamily: "'DM Sans',sans-serif", color: S.text, marginBottom: 10, outline: "none" }}>
-                <option>All Locations</option>
-                {["Bangalore", "Hyderabad", "Pune", "Mumbai", "Chennai", "Work From Home"].map(l => <option key={l}>{l}</option>)}
-              </select>
-              <select style={{ width: "100%", padding: "10px 14px", borderRadius: 8, border: "none", background: "rgba(255,255,255,.95)", fontSize: 13.5, fontFamily: "'DM Sans',sans-serif", color: S.text, marginBottom: 12, outline: "none" }}>
-                <option>All Categories</option>
-                {["Software / IT", "Government Jobs", "MBA Jobs", "Internships", "Data Analyst"].map(c => <option key={c}>{c}</option>)}
-              </select>
-              <button onClick={handleSearch} style={{ width: "100%", background: S.accent, color: "#fff", border: "none", padding: 11, borderRadius: 8, fontWeight: 700, fontSize: 14, fontFamily: "'Syne',sans-serif", cursor: "pointer" }}>
-                {searchTriggered ? "Searching..." : "Search Jobs →"}
-              </button>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
+      {/* RIGHT SEARCH CARD */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          className="hero-card"
+          style={{
+            width: "100%",
+            maxWidth: 430,
+            background: "#ffffff",
+            borderRadius: 30,
+            padding: isMobile ? 24 : 34,
+            boxShadow: "0 25px 60px rgba(0,0,0,0.08)",
+          }}
+        >
+          {/* Top Header */}
+          <div
+            style={{
+              background: "#f9fafb",
+              borderRadius: 20,
+              padding: 22,
+              marginBottom: 24,
+              border: "1px solid #f1f5f9",
+            }}
+          >
+            <div
+              style={{
+                width: 58,
+                height: 58,
+                borderRadius: 18,
+                background: "#ede9fe",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 24,
+                marginBottom: 18,
+              }}
+            >
+              🔍
+            </div>
+
+            <h3
+              style={{
+                margin: 0,
+                fontSize: 24,
+                color: "#111827",
+                fontWeight: 800,
+                marginBottom: 10,
+              }}
+            >
+              Quick Job Search
+            </h3>
+
+            <p
+              style={{
+                margin: 0,
+                color: "#6b7280",
+                lineHeight: 1.7,
+                fontSize: 14,
+              }}
+            >
+              Search jobs instantly by title, company, location, or category.
+            </p>
+          </div>
+
+          {/* Search Input */}
+          <input
+            value={searchVal}
+            onChange={(e) => setSearchVal(e.target.value)}
+            placeholder="Job title or company name"
+            style={{
+              width: "100%",
+              padding: "14px 16px",
+              borderRadius: 14,
+              border: "1px solid #e5e7eb",
+              background: "#f9fafb",
+              fontSize: 14,
+              fontFamily: "'DM Sans',sans-serif",
+              color: "#111827",
+              marginBottom: 14,
+              outline: "none",
+              boxSizing: "border-box",
+            }}
+          />
+
+          {/* Location Select */}
+          <select
+            style={{
+              width: "100%",
+              padding: "14px 16px",
+              borderRadius: 14,
+              border: "1px solid #e5e7eb",
+              background: "#f9fafb",
+              fontSize: 14,
+              fontFamily: "'DM Sans',sans-serif",
+              color: "#111827",
+              marginBottom: 14,
+              outline: "none",
+              boxSizing: "border-box",
+            }}
+          >
+            <option>All Locations</option>
+
+            {[
+              "Bangalore",
+              "Hyderabad",
+              "Pune",
+              "Mumbai",
+              "Chennai",
+              "Work From Home",
+            ].map((l) => (
+              <option key={l}>{l}</option>
+            ))}
+          </select>
+
+          {/* Category Select */}
+          <select
+            style={{
+              width: "100%",
+              padding: "14px 16px",
+              borderRadius: 14,
+              border: "1px solid #e5e7eb",
+              background: "#f9fafb",
+              fontSize: 14,
+              fontFamily: "'DM Sans',sans-serif",
+              color: "#111827",
+              marginBottom: 18,
+              outline: "none",
+              boxSizing: "border-box",
+            }}
+          >
+            <option>All Categories</option>
+
+            {[
+              "Software / IT",
+              "Government Jobs",
+              "MBA Jobs",
+              "Internships",
+              "Data Analyst",
+            ].map((c) => (
+              <option key={c}>{c}</option>
+            ))}
+          </select>
+
+          {/* Search Button */}
+          <button
+            onClick={handleSearch}
+            style={{
+              width: "100%",
+              background: "#7c3aed",
+              color: "#fff",
+              border: "none",
+              padding: "15px",
+              borderRadius: 14,
+              fontWeight: 700,
+              fontSize: 14,
+              fontFamily: "'Syne',sans-serif",
+              cursor: "pointer",
+              boxShadow: "0 12px 30px rgba(124,58,237,0.25)",
+            }}
+          >
+            {searchTriggered ? "Searching..." : "Search Jobs →"}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
       {/* ── Top Ad ── */}
       <div className="section-full" style={{ background: S.light }}>
         <div className="section-inner" style={{ paddingTop: 16, paddingBottom: 0 }}>
