@@ -434,7 +434,7 @@ if (!loading && sets.length === 0) {
       </div>
 
       {/* ── Content ── */}
-      <div style={{ maxWidth: "100%", margin: "0 auto", padding: "36px 20px" }}>
+      <div style={{ width: "100%",maxWidth: "1400px", margin: "0 auto", padding: "36px 20px", boxSizing: "border-box" }}>
         <StatsBar sets={sets} />
 
         {/* Filters Row */}
@@ -529,7 +529,7 @@ if (!loading && sets.length === 0) {
           </div>
         </div>
 
-        <Footer style={{ marginTop: 60, padding: "24px 20px", textAlign: "center", fontSize: 12, color: C.muted, width: "100%" }}>
+        <Footer style={{ marginTop: 60, width: "100%" }}>
           &copy; 2026 Daily Job Openings. All rights reserved.
         </Footer>
       </div>

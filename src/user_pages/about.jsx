@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef,useLayoutEffect } from "react";
+import { useLocation } from "react-router-dom";
 import AlertBar from "../components/alertbar";
 import TopTicker from "../components/topticker";
 import Navbar from "../components/navbar";
@@ -119,6 +120,11 @@ export default function About() {
   const { isMobile, isTablet, isDesktop, w } = bp;
   const gutter = isMobile ? "16px" : isTablet ? "20px" : "32px";
   const [openFaq, setOpenFaq] = useState(null);
+  const location = useLocation();
+
+useLayoutEffect(() => {
+  window.scrollTo(0, 0);
+}, [location.pathname]);
 
   return (
     <>
@@ -260,7 +266,7 @@ export default function About() {
       <AlertBar C={{ accent: "#ff4d4f" }} />
 
       {/* ── TopTicker ── */}
-      <TopTicker C={C} gutter={gutter} isMobile={isMobile} isDesktop={isDesktop} />
+      {/* <TopTicker C={C} gutter={gutter} isMobile={isMobile} isDesktop={isDesktop} /> */}
 
       {/* ── Navbar ── */}
       <Navbar bp={bp} onMenuOpen={() => {}} />

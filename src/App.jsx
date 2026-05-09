@@ -1,4 +1,4 @@
-import { useState, useEffect, use } from "react";
+import { useState, useEffect, useLayoutEffect} from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {Helmet} from 'react-helmet-async';
 import AlertBar from "./components/alertbar";
@@ -152,6 +152,9 @@ export default function App() {
   const { isMobile, isTablet, isDesktop, showSidebar } = bp;
   const navigate = useNavigate();
   const location = useLocation();
+  useLayoutEffect(() => {
+  window.scrollTo(0,0);
+}, [location.pathname]);
 
   const handleSearch = () => {
     setSearchTriggered(true);
