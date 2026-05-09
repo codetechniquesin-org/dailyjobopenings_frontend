@@ -30,6 +30,8 @@ import ManageExams from './admin/pages/manageExams.jsx';
 import VerifyJobAlert from './components/common_components/verify_job_alert.jsx';
 import EditJobAlert from './components/common_components/edit_job_alert.jsx';
 import TopTicker from './components/topticker.jsx'
+import TermsAndConditionsPage from './user_pages/termsandconditions.jsx';
+import DisclaimerPage from './user_pages/disclaimerpage.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -60,6 +62,8 @@ createRoot(document.getElementById('root')).render(
         <Route path="/admin/reset-password" element={<ProtectedRoute><ResetPassword /></ProtectedRoute>} />
         <Route path="/admin/manage-walkins" element={<ProtectedRoute><WalkInAdmin /></ProtectedRoute>} />
         <Route path="/admin/manage-exams" element={<ProtectedRoute><ManageExams /></ProtectedRoute>} />
+        <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
+        <Route path="disclaimer-page" element={<DisclaimerPage/>}/>
       </Routes>
     </BrowserRouter>
     </HelmetProvider>

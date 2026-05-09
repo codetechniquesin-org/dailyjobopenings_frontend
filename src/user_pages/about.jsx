@@ -4,6 +4,7 @@ import AlertBar from "../components/alertbar";
 import TopTicker from "../components/topticker";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
+import { Helmet } from "react-helmet-async";
 
 /* ── Theme (matches site-wide palette) ── */
 const C = {
@@ -126,6 +127,93 @@ useLayoutEffect(() => {
 }, [location.pathname]);
 
   return (
+    <>
+      <Helmet>
+
+      <title>
+        About Us | Daily Job Openings
+      </title>
+
+      <meta
+        name="description"
+        content="Learn about Daily Job Openings — India's fresher-focused job portal helping candidates discover verified IT jobs, walk-ins, internships and career opportunities."
+      />
+
+      <meta
+        name="keywords"
+        content="about Daily Job Openings, fresher jobs portal, verified job listings, IT jobs India, walkin jobs, internship portal"
+      />
+
+      <meta
+        name="robots"
+        content="index, follow"
+      />
+
+      <link
+        rel="canonical"
+        href={`${window.location.origin}/about-us`}
+      />
+
+      {/* OpenGraph */}
+      <meta
+        property="og:type"
+        content="website"
+      />
+
+      <meta
+        property="og:title"
+        content="About Us | Daily Job Openings"
+      />
+
+      <meta
+        property="og:description"
+        content="Discover the story behind Daily Job Openings and our mission to help freshers across India find real job opportunities."
+      />
+
+      <meta
+        property="og:url"
+        content={`${window.location.origin}/about-us`}
+      />
+
+      {/* Twitter */}
+      <meta
+        name="twitter:card"
+        content="summary_large_image"
+      />
+
+      <meta
+        name="twitter:title"
+        content="About Us | Daily Job Openings"
+      />
+
+      <meta
+        name="twitter:description"
+        content="India's fresher-focused job portal built to provide verified job opportunities and career support."
+      />
+
+      {/* Structured Data */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "AboutPage",
+
+          name: "About Daily Job Openings",
+
+          description:
+            "Daily Job Openings is a fresher-focused job portal providing verified jobs, internships and walk-in opportunities across India.",
+
+          url: `${window.location.origin}/about-us`,
+
+          publisher: {
+            "@type": "Organization",
+            name: "Daily Job Openings",
+            url: window.location.origin,
+          },
+        })}
+      </script>
+
+    </Helmet>
+
     <div style={{ width: "100%", overflowX: "hidden", fontFamily: "'DM Sans', sans-serif", background: C.light, color: C.text, minHeight: "100vh" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
@@ -461,5 +549,6 @@ useLayoutEffect(() => {
       {/* ── Footer ── */}
       <Footer bp={bp} gutter={gutter} />
     </div>
+    </>
   );
 }

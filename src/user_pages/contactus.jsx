@@ -4,7 +4,7 @@ import AlertBar from "../components/alertbar";
 import TopTicker from "../components/topticker";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
-
+import { Helmet } from "react-helmet-async";
 
 
 /* ─────────────────────────────────────────────
@@ -223,6 +223,92 @@ useLayoutEffect(() => {
   };
 
   return (
+    <>
+    <Helmet>
+
+      <title>
+        Contact Us | Daily Job Openings
+      </title>
+
+      <meta
+        name="description"
+        content="Contact Daily Job Openings for job listing support, partnerships, advertising, technical issues, or general inquiries. We usually respond within 24 hours."
+      />
+
+      <meta
+        name="keywords"
+        content="contact Daily Job Openings, support, partnerships, job portal contact, advertising inquiries, technical support"
+      />
+
+      <meta
+        name="robots"
+        content="index, follow"
+      />
+
+      <link
+        rel="canonical"
+        href={`${window.location.origin}/contact-us`}
+      />
+
+      {/* OpenGraph */}
+      <meta
+        property="og:type"
+        content="website"
+      />
+
+      <meta
+        property="og:title"
+        content="Contact Us | Daily Job Openings"
+      />
+
+      <meta
+        property="og:description"
+        content="Get in touch with Daily Job Openings for support, partnerships, advertising and general inquiries."
+      />
+
+      <meta
+        property="og:url"
+        content={`${window.location.origin}/contact-us`}
+      />
+
+      {/* Twitter */}
+      <meta
+        name="twitter:card"
+        content="summary_large_image"
+      />
+
+      <meta
+        name="twitter:title"
+        content="Contact Us | Daily Job Openings"
+      />
+
+      <meta
+        name="twitter:description"
+        content="Reach out to Daily Job Openings for support, business inquiries and technical assistance."
+      />
+
+      {/* Structured Data */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+
+          name: "Contact Us",
+
+          description:
+            "Official contact page for Daily Job Openings.",
+
+          url: `${window.location.origin}/contact-us`,
+
+          publisher: {
+            "@type": "Organization",
+            name: "Daily Job Openings",
+            url: window.location.origin,
+          },
+        })}
+      </script>
+
+    </Helmet>
     <div style={{ width: "100%", overflowX: "hidden", fontFamily: "'DM Sans', sans-serif", background: C.light, color: C.text, minHeight: "100vh" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
@@ -543,5 +629,6 @@ useLayoutEffect(() => {
       {/* ── Footer ── */}
       <Footer bp={bp} gutter={gutter} />
     </div>
+    </>
   );
 }
