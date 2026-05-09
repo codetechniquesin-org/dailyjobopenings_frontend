@@ -183,34 +183,6 @@ function TopTicker({ isMobile, isDesktop, C, gutter }) {
         </div>
 
         {/* Right Section */}
-        {isDesktop && (
-          <div style={{ display: "flex", gap: 16, flexShrink: 0 }}>
-            {[
-              { label: "About", path: "/about-us" },
-              { label: "Contact", path: "/contact-us" },
-              { label: "Privacy", path: "/privacy" },
-            ].map((item) => (
-              <Link
-                key={item.label}
-                to={item.path}
-                style={{ color: "#c8d8ea", textDecoration: "none" }}
-              >
-                {item.label}
-              </Link>
-            ))}
-
-            {/* <Link
-              to="/advertise-with-us"
-              style={{
-                color: C.gold,
-                fontWeight: 600,
-                textDecoration: "none",
-              }}
-            >
-              Advertise With Us
-            </Link> */}
-          </div>
-        )}
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef ,useLayoutEffect} from "react";
+import { useLocation } from "react-router-dom";
 import AlertBar from "../components/alertbar";
 import TopTicker from "../components/topticker";
 import Navbar from "../components/navbar";
@@ -70,22 +71,22 @@ function Reveal({ children, delay = 0, style = {} }) {
 }
 
 /* ── Contact info cards ── */
-const CONTACT_CARDS = [
-  {
-    icon: "📧",
-    title: "Email Us",
-    lines: ["codetechniques.in@gmail.com"],
-    sub: "We reply within 24 hours",
-    bg: "#e8f4fd", border: "#bdd6f0", iconBg: "#0f4c81",
-  },
-  {
-    icon: "📱",
-    title: "WhatsApp",
-    lines: ["+91 98765 43210"],
-    sub: "Mon – Sat, 9 AM – 7 PM IST",
-    bg: "#f0fff4", border: "#86efac", iconBg: "#16a34a",
-  },
-];
+// const CONTACT_CARDS = [
+//   {
+//     icon: "📧",
+//     title: "Email Us",
+//     lines: ["codetechniques.in@gmail.com"],
+//     sub: "We reply within 24 hours",
+//     bg: "#e8f4fd", border: "#bdd6f0", iconBg: "#0f4c81",
+//   },
+//   {
+//     icon: "📱",
+//     title: "WhatsApp",
+//     lines: ["+91 98765 43210"],
+//     sub: "Mon – Sat, 9 AM – 7 PM IST",
+//     bg: "#f0fff4", border: "#86efac", iconBg: "#16a34a",
+//   },
+// ];
 
 const INQUIRY_TYPES = [
   "General Inquiry",
@@ -141,6 +142,11 @@ export default function Contact() {
   const bp = useBreakpoint();
   const { isMobile, isTablet, isDesktop } = bp;
   const gutter = isMobile ? "16px" : isTablet ? "20px" : "32px";
+  const location = useLocation();
+
+useLayoutEffect(() => {
+  window.scrollTo(0, 0);
+}, [location.pathname]);
 
   /* ── Form state ── */
   const [form, setForm] = useState({
@@ -256,7 +262,7 @@ export default function Contact() {
 
       {/* ── Top components ── */}
       <AlertBar C={{ accent: "#ff4d4f" }} />
-      <TopTicker C={C} gutter={gutter} isMobile={isMobile} isDesktop={isDesktop} />
+      {/* <TopTicker C={C} gutter={gutter} isMobile={isMobile} isDesktop={isDesktop} /> */}
       <Navbar bp={bp} onMenuOpen={() => {}} />
 
       {/* ════════════════════════════════════
@@ -295,6 +301,7 @@ export default function Contact() {
 
             <p style={{ fontSize: isMobile ? 13.5 : 15, opacity: 0.82, lineHeight: 1.75, maxWidth: 520 }}>
               Have a question, want to advertise, report a listing, or just say hello? We're a small team and we read every message personally.
+              Feel free to contact with us codetechniques.in@gmail.com
             </p>
             </div>
           </Reveal>
@@ -304,7 +311,7 @@ export default function Contact() {
       {/* ════════════════════════════════════
           CONTACT CARDS
       ════════════════════════════════════ */}
-      <section style={{ width: "100%", background: "#fff", borderBottom: `1px solid ${C.border}` }}>
+      {/* <section style={{ width: "100%", background: "#fff", borderBottom: `1px solid ${C.border}` }}>
         <div style={{ width: "100%", padding: `36px ${gutter}`, boxSizing: "border-box" }}>
           <div className="cards-grid" style={{ display: "grid", gap: 16 }}>
             {CONTACT_CARDS.map((card, i) => (
@@ -325,7 +332,7 @@ export default function Contact() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* ════════════════════════════════════
           MAIN: FORM + SIDEBAR
@@ -492,14 +499,14 @@ export default function Contact() {
                   <div style={{ fontSize: 36, marginBottom: 10 }}>📱</div>
                   <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: 15, marginBottom: 8 }}>Get Faster Help on WhatsApp</div>
                   <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.65)", marginBottom: 16, lineHeight: 1.6 }}>For urgent queries, WhatsApp is the fastest way to reach us.</p>
-                  <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer" style={{ display: "inline-block", background: "#25D366", color: "#fff", padding: "10px 22px", borderRadius: 9, fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 13 }}>
+                  <a href="https://whatsapp.com/channel/0029Vb7fjzJK0IBayWJ7mv0I" target="_blank" rel="noreferrer" style={{ display: "inline-block", background: "#25D366", color: "#fff", padding: "10px 22px", borderRadius: 9, fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 13 }}>
                     Chat on WhatsApp →
                   </a>
                 </div>
               </Reveal>
 
               {/* Formspree setup guide */}
-              <Reveal delay={0.2}>
+              {/* <Reveal delay={0.2}>
                 <div style={{ background: "linear-gradient(135deg,#f0f7ff,#e8f4fd)", border: `1.5px solid #bdd6f0`, borderRadius: 14, padding: 22 }}>
                   <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 13.5, color: C.primary, marginBottom: 14 }}>
                     🔧 Formspree Setup Guide
@@ -521,7 +528,7 @@ export default function Contact() {
                     Go to Formspree →
                   </a>
                 </div>
-              </Reveal>
+              </Reveal> */}
             </div>
 
           </div>

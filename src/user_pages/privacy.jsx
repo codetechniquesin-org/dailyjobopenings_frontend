@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef ,useLayoutEffect} from "react";
+import { useLocation } from "react-router-dom";
 import AlertBar from "../components/alertbar";
 import TopTicker from "../components/topticker";
 import Navbar from "../components/navbar";
@@ -126,6 +127,11 @@ export default function Privacy() {
   const { isMobile, isTablet, isDesktop } = bp;
   const gutter = isMobile ? "16px" : isTablet ? "20px" : "32px";
   const [activeSection, setActiveSection] = useState("overview");
+  const location = useLocation();
+
+useLayoutEffect(() => {
+  window.scrollTo(0, 0);
+}, [location.pathname]);
 
   /* Highlight active ToC item on scroll */
   useEffect(() => {
@@ -167,7 +173,7 @@ export default function Privacy() {
 
       {/* ── Top components ── */}
       <AlertBar C={{ accent: "#ff4d4f" }} />
-      <TopTicker C={C} gutter={gutter} isMobile={isMobile} isDesktop={isDesktop} />
+      {/* <TopTicker C={C} gutter={gutter} isMobile={isMobile} isDesktop={isDesktop} /> */}
       <Navbar bp={bp} onMenuOpen={() => {}} />
 
       {/* ════════════════════════════════════
@@ -448,9 +454,8 @@ export default function Privacy() {
 
                 <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
                   {[
-                    { icon: "📧", label: "Privacy email", value: "privacy@codetechniques.in" },
-                    { icon: "📧", label: "General contact", value: "hello@codetechniques.in" },
-                    { icon: "📍", label: "Postal address", value: "3rd Floor, Tech Park, Hitech City, Hyderabad — 500081, Telangana, India" },
+                    { icon: "📧", label: "Privacy email", value: "codetechniques.in@gmail.com" },
+                    { icon: "📧", label: "General contact", value: "codetechniques.in@gmail.com" },
                   ].map(c => (
                     <div key={c.label} style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "12px 16px", background: "#e8f4fd", borderRadius: 10, border: "1px solid #bdd6f0" }}>
                       <span style={{ fontSize: 18, flexShrink: 0 }}>{c.icon}</span>
@@ -526,7 +531,7 @@ export default function Privacy() {
               Questions about how we handle your data? Our team is happy to walk you through anything in this policy.
             </p>
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-              <a href="/contact" style={{ background: C.accent, color: "#fff", padding: "12px 28px", borderRadius: 9, fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 13 }}>
+              <a href="/contact-us" style={{ background: C.accent, color: "#fff", padding: "12px 28px", borderRadius: 9, fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 13 }}>
                 Contact Us →
               </a>
               <a href="mailto:privacy@codetechniques.in" style={{ background: "rgba(255,255,255,0.1)", color: "#fff", padding: "12px 28px", borderRadius: 9, fontWeight: 600, fontSize: 13, border: "1px solid rgba(255,255,255,0.2)" }}>
