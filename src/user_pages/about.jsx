@@ -86,9 +86,8 @@ const MILESTONES = [
 ];
 
 const FAQS = [
-  { q: "Is Daily Job Openings free to use?",          a: "100% free for all job seekers. We never charge candidates for applying, creating a profile, or accessing any feature." },
+  { q: "Is Daily Job Openings free to use?",          a: "100% free for all job seekers. We never charge candidates for applying" },
   { q: "How are job listings verified?",              a: "Every listing goes through a manual review by our team before it goes live. We verify company registration, contact details, and role authenticity." },
-  { q: "Can companies post jobs for free?",           a: "Companies get 2 free listings per month. Premium plans unlock unlimited postings, priority placement, and analytics dashboards." },
   { q: "How do I get WhatsApp job alerts?",           a: "Click 'Join Free Group' in the sidebar or footer. You'll receive curated alerts based on your profile — no spam, unsubscribe anytime." },
   { q: "Do you post government job notifications?",   a: "Yes! We cover SSC, UPSC, Banking, Railway, Defence, and all major state PSC notifications with eligibility details and direct links." },
 ];
@@ -416,7 +415,7 @@ useLayoutEffect(() => {
             }}
           >
             <a
-              href="/jobs"
+              href="/"
               style={{
                 background: "#111827",
                 color: "#fff",
@@ -432,7 +431,7 @@ useLayoutEffect(() => {
             </a>
 
             <a
-              href="/contact"
+              href="/contact-us"
               style={{
                 background: "#fff",
                 border: "1px solid #d1d5db",
@@ -691,19 +690,46 @@ useLayoutEffect(() => {
             {/* Left */}
             <Reveal delay={0}>
               <div>
-                <SectionLabel>Our Story</SectionLabel>
+                <div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: 12,
+    marginBottom: 18,
+  }}
+>
+  <div
+    style={{
+      width: 4,
+      height: 24,
+      borderRadius: 10,
+      background: C.accent,
+    }}
+  />
+
+  <span
+    style={{
+      fontSize: 15,
+      fontWeight: 800,
+      letterSpacing: "0.18em",
+      textTransform: "uppercase",
+      color: C.accent,
+      fontFamily: "'DM Sans', sans-serif",
+    }}
+  >
+    Our Story
+  </span>
+</div>
                 <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: isMobile ? 26 : 36, fontWeight: 800, lineHeight: 1.2, marginBottom: 18, color: C.text }}>
-                  Built by freshers,<br /><span style={{ color: C.primary }}>for freshers.</span>
+                  Built by freshers,<br /><span style={{ color: C.primary }}>for everyone</span>
                 </h2>
                 <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.85, marginBottom: 16 }}>
-                  In 2019, our founder Ravi Kumar graduated with an engineering degree and spent 4 months applying to jobs on portals that showed outdated listings, charged for "premium access" and never replied. He built Daily Job Openings  in his hostel room to solve exactly that problem.
+                  Daily Job Openings was created with one simple goal — to help job seekers stay updated with the latest job opportunities across India.
                 </p>
                 <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.85, marginBottom: 16 }}>
-                  Today, Daily Job Openings is India's most-trusted fresher job portal — powered by a small, passionate team and trusted by over 2.3 lakh candidates who landed their first jobs through us.
-                </p>
+                We provide daily updates on fresher jobs, experienced professional jobs, internships, walk-in drives, off-campus drives, work-from-home opportunities, and government jobs from trusted companies and organizations.                </p>
                 <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.85 }}>
-                  We list only verified jobs from real companies. Every posting is reviewed manually before it goes live. We don't sell your data. We don't charge you anything. Ever.
-                </p>
+                Our platform is designed to make job searching simple, fast, and accessible for everyone. We regularly collect and update job openings from various industries so candidates can find opportunities that match their skills, qualification, and experience level.                </p>
               </div>
             </Reveal>
 
@@ -735,7 +761,36 @@ useLayoutEffect(() => {
       <section style={{ width: "100%", background: "#fff", padding: isMobile ? "52px 0" : "80px 0" }}>
         <div style={{ width: "100%", padding: `0 ${gutter}`, boxSizing: "border-box" }}>
           <Reveal>
-            <SectionLabel>What We Stand For</SectionLabel>
+            <div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: 12,
+    marginBottom: 18,
+  }}
+>
+  <div
+    style={{
+      width: 4,
+      height: 24,
+      borderRadius: 10,
+      background: C.accent,
+    }}
+  />
+
+  <span
+    style={{
+      fontSize: 15,
+      fontWeight: 800,
+      letterSpacing: "0.18em",
+      textTransform: "uppercase",
+      color: C.accent,
+      fontFamily: "'DM Sans', sans-serif",
+    }}
+  >
+    What we stand for
+  </span>
+</div>
             <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: isMobile ? 24 : 34, fontWeight: 800, color: C.text, marginBottom: 36 }}>
               Our Core Values
             </h2>
@@ -789,7 +844,36 @@ useLayoutEffect(() => {
           <div className="two-col" style={{ display: "grid", gap: isMobile ? 36 : 60, alignItems: "center" }}>
             <Reveal>
               <div>
-                <SectionLabel>Why Choose Us</SectionLabel>
+               <div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: 12,
+    marginBottom: 18,
+  }}
+>
+  <div
+    style={{
+      width: 4,
+      height: 24,
+      borderRadius: 10,
+      background: C.accent,
+    }}
+  />
+
+  <span
+    style={{
+      fontSize: 14,
+      fontWeight: 800,
+      letterSpacing: "0.18em",
+      textTransform: "uppercase",
+      color: C.accent,
+      fontFamily: "'DM Sans', sans-serif",
+    }}
+  >
+    Why choose us
+  </span>
+</div>
                 <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: isMobile ? 24 : 34, fontWeight: 800, lineHeight: 1.2, marginBottom: 18 }}>
                   We're different from<br /><span style={{ color: C.gold }}>every other portal.</span>
                 </h2>
@@ -825,7 +909,36 @@ useLayoutEffect(() => {
       <section style={{ width: "100%", background: "#fff", padding: isMobile ? "52px 0" : "80px 0" }}>
         <div style={{ width: "100%", padding: `0 ${gutter}`, boxSizing: "border-box" }}>
           <Reveal>
-            <SectionLabel>Got Questions?</SectionLabel>
+            <div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: 12,
+    marginBottom: 18,
+  }}
+>
+  <div
+    style={{
+      width: 4,
+      height: 24,
+      borderRadius: 10,
+      background: C.accent,
+    }}
+  />
+
+  <span
+    style={{
+      fontSize: 14,
+      fontWeight: 800,
+      letterSpacing: "0.18em",
+      textTransform: "uppercase",
+      color: C.accent,
+      fontFamily: "'DM Sans', sans-serif",
+    }}
+  >
+   Got Questions?
+  </span>
+</div>
             <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: isMobile ? 24 : 34, fontWeight: 800, color: C.text, marginBottom: 32 }}>
               Frequently Asked Questions
             </h2>

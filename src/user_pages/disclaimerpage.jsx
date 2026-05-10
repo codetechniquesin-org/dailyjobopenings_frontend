@@ -532,7 +532,7 @@ export default function DisclaimerPage() {
         }}
       >
         <a
-          href="/terms"
+          href="/terms-and-conditions"
           style={{
             background: "#111827",
             color: "#fff",
@@ -548,7 +548,7 @@ export default function DisclaimerPage() {
         </a>
 
         <a
-          href="/contact"
+          href="/contact-us"
           style={{
             background: "#fff",
             border: "1px solid #d1d5db",
@@ -626,12 +626,12 @@ export default function DisclaimerPage() {
           style={{
             background: "#f9fafb",
             borderRadius: 20,
-            padding: 22,
-            marginBottom: 22,
+            padding: 5,
+            marginBottom: 0,
             border: "1px solid #f1f5f9",
           }}
         >
-          <div
+          {/* <div
             style={{
               width: 58,
               height: 58,
@@ -645,7 +645,7 @@ export default function DisclaimerPage() {
             }}
           >
             ⚠️
-          </div>
+          </div> */}
 
           <h3
             style={{
@@ -678,17 +678,14 @@ export default function DisclaimerPage() {
           {
             title: "Effective Date",
             value: "January 1, 2026",
-            bg: "#dbeafe",
           },
           {
             title: "Last Updated",
             value: "May 7, 2026",
-            bg: "#fef3c7",
           },
           {
             title: "Purpose",
             value: "General Information Only",
-            bg: "#fee2e2",
           },
         ].map((item, i) => (
           <div

@@ -48,7 +48,7 @@ const SECTIONS = [
           By using Daily Job Openings (“Platform”, “Website”, “we”, or “our”), you agree to follow these Terms & Conditions.
         </p>
         <p>
-          These Terms apply to all users who visit, browse, register, apply for jobs, or use any services on our platform.
+          These Terms apply to all users who visit, browse, apply for jobs, or use any services on our platform.
         </p>
         <div className="tnc-highlight">
           We may update these Terms anytime without prior notice. Continued use of the Platform after changes means you accept the updated Terms.
@@ -56,35 +56,35 @@ const SECTIONS = [
       </>
     ),
   },
-  {
-    num: "02",
-    id: "use",
-    icon: "💻",
-    title: "Use of Platform",
-    content: (
-      <>
-        <p>
-          You agree to use Daily Job Openings only for legal and genuine purposes.
-          The following activities are strictly prohibited:
-                  </p>
-        <ul className="tnc-list">
-          {[
-            "Posting false, misleading, or fraudulent job listings or applications",
-            "Harvesting or scraping user data, email addresses, or contact information without consent",
-            "Attempting to gain unauthorised access to any part of the Platform or its infrastructure",
-            "Using automated bots, crawlers, or scripts to access the Platform",
-            "Impersonating any person, company, or organisation",
-            "Transmitting viruses, malware, or any other harmful or disruptive code",
-          ].map((item) => (
-            <li key={item}>
-              <span className="tnc-dot" />
-              {item}
-            </li>
-          ))}
-        </ul>
-      </>
-    ),
-  },
+//   {
+//     num: "02",
+//     id: "use",
+//     icon: "💻",
+//     title: "Use of Platform",
+//     content: (
+//       <>
+//         <p>
+//           You agree to use Daily Job Openings only for legal and genuine purposes.
+//           The following activities are strictly prohibited:
+//                   </p>
+//         <ul className="tnc-list">
+//           {[
+//             "Posting false, misleading, or fraudulent job listings or applications",
+//             "Harvesting or scraping user data, email addresses, or contact information without consent",
+//             "Attempting to gain unauthorised access to any part of the Platform or its infrastructure",
+//             "Using automated bots, crawlers, or scripts to access the Platform",
+//             "Impersonating any person, company, or organisation",
+//             "Transmitting viruses, malware, or any other harmful or disruptive code",
+//           ].map((item) => (
+//             <li key={item}>
+//               <span className="tnc-dot" />
+//               {item}
+//             </li>
+//           ))}
+//         </ul>
+//       </>
+//     ),
+//   },
 //   {
 //     num: "03",
 //     id: "accounts",
@@ -117,7 +117,7 @@ const SECTIONS = [
 //     ),
 //   },
   {
-    num: "03",
+    num: "02",
     id: "listings",
     icon: "💼",
     title: "Job Listings & Walk-In Drives",
@@ -133,16 +133,11 @@ const SECTIONS = [
           party asks you to pay money as part of an application process, please report it to us immediately at{" "}
           <strong>codetechniques.in@gmail.com</strong>
         </div>
-        <p>
-          Employers who post listings on the Platform agree that all postings are accurate, non-discriminatory,
-          and comply with applicable employment laws. CodeTechniques reserves the right to remove any listing
-          that violates these Terms or our community standards.
-        </p>
       </>
     ),
   },
   {
-    num: "04",
+    num: "03",
     id: "ip",
     icon: "©️",
     title: "Intellectual Property",
@@ -170,7 +165,7 @@ const SECTIONS = [
     ),
   },
   {
-    num: "05",
+    num: "04",
     id: "privacy",
     icon: "🔒",
     title: "Privacy Policy",
@@ -182,16 +177,15 @@ const SECTIONS = [
           practices described in our Privacy Policy.
         </p>
         <p>
-          We collect information such as your name, email address, resume data, and usage analytics to improve
+          We collect information such as usage analytics to improve
           our services and match you with relevant opportunities. We do not sell your personal data to third
-          parties. Data is stored securely on servers located within India in compliance with applicable data
-          protection regulations.
+          parties.
         </p>
       </>
     ),
   },
   {
-    num: "06",
+    num: "05",
     id: "disclaimers",
     icon: "⚠️",
     title: "Disclaimers",
@@ -210,30 +204,30 @@ const SECTIONS = [
       </>
     ),
   },
-  {
-    num: "07",
-    id: "liability",
-    icon: "⚖️",
-    title: "Limitation of Liability",
-    content: (
-      <>
-        <p>
-          To the fullest extent permitted by applicable law, Daily Job Openings India shall not be liable for any
-          indirect, incidental, special, consequential, or punitive damages, including but not limited to loss
-          of profits, data, or goodwill arising from your use of the Platform.
-        </p>
-        <div className="tnc-highlight">
-          In no event shall Daily Job Openings' total liability to you for all claims arising out of or relating to
-          these Terms or the Platform exceed the amount paid by you, if any, to Daily Job Openings in the twelve (12)
-          months preceding the claim.
-        </div>
-        <p>
-          These limitations apply regardless of the legal theory on which the claim is based and even if
-          Daily Job Openings has been advised of the possibility of such damages.
-        </p>
-      </>
-    ),
-  },
+//   {
+//     num: "07",
+//     id: "liability",
+//     icon: "⚖️",
+//     title: "Limitation of Liability",
+//     content: (
+//       <>
+//         <p>
+//           To the fullest extent permitted by applicable law, Daily Job Openings India shall not be liable for any
+//           indirect, incidental, special, consequential, or punitive damages, including but not limited to loss
+//           of profits, data, or goodwill arising from your use of the Platform.
+//         </p>
+//         <div className="tnc-highlight">
+//           In no event shall Daily Job Openings' total liability to you for all claims arising out of or relating to
+//           these Terms or the Platform exceed the amount paid by you, if any, to Daily Job Openings in the twelve (12)
+//           months preceding the claim.
+//         </div>
+//         <p>
+//           These limitations apply regardless of the legal theory on which the claim is based and even if
+//           Daily Job Openings has been advised of the possibility of such damages.
+//         </p>
+//       </>
+//     ),
+//   },
 //   {
 //     num: "09",
 //     id: "termination",
@@ -268,7 +262,7 @@ const SECTIONS = [
 //     ),
 //   },
   {
-    num: "08",
+    num: "06",
     id: "contact",
     icon: "✉️",
     title: "Contact Us",
@@ -579,7 +573,7 @@ export default function TermsAndConditionsPage() {
           </a>
 
           <a
-            href="/contact"
+            href="/contact-us"
             style={{
               background: "#fff",
               border: "1px solid #d1d5db",
@@ -931,12 +925,11 @@ export default function TermsAndConditionsPage() {
               </h3>
               <p style={{ fontSize: 13, color: "rgba(255,255,255,.6)", lineHeight: 1.65, margin: 0 }}>
                 Our legal team is happy to clarify anything. Reach us at{" "}
-                <strong style={{ color: "#a78bfa" }}>codetechniques.in@gmail.com</strong> or write to
-                Daily Job Openings India, Hyderabad, Telangana — 500081.
+                <strong style={{ color: "#a78bfa" }}>codetechniques.in@gmail.com</strong>
               </p>
             </div>
             <a
-              href="codetechniques.in@gmail.com"
+              href="/contact-us"
               style={{
                 background: C.purple,
                 color: "#fff",

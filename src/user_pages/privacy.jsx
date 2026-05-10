@@ -62,9 +62,7 @@ const SECTIONS = [
   { id: "cookies",         label: "Cookies & Tracking" },
   { id: "sharing",         label: "Data Sharing" },
   { id: "security",        label: "Data Security" },
-  { id: "your-rights",     label: "Your Rights" },
   { id: "third-parties",   label: "Third-Party Links" },
-  { id: "children",        label: "Children's Privacy" },
   { id: "changes",         label: "Policy Changes" },
   { id: "contact",         label: "Contact Us" },
 ];
@@ -390,7 +388,7 @@ useLayoutEffect(() => {
                 letterSpacing: "0.05em",
               }}
             >
-              LAST UPDATED : MARCH 2026
+              LAST UPDATED : April 2026
             </span>
           </div>
 
@@ -458,7 +456,7 @@ useLayoutEffect(() => {
             </a>
 
             <a
-              href="/jobs"
+              href="/"
               style={{
                 background: "#fff",
                 border: "1px solid #d1d5db",
@@ -661,7 +659,6 @@ useLayoutEffect(() => {
               {[
                 { icon: "🚫", title: "We don't sell data", sub: "Never sold to advertisers" },
                 { icon: "🆓", title: "Always free", sub: "No paid data tiers" },
-                { icon: "✏️", title: "Edit anytime", sub: "Update or delete your info" },
                 { icon: "📧", title: "Opt-out easy", sub: "Unsubscribe in one click" },
               ].map(c => (
                 <div key={c.title} style={{ background: C.light, borderRadius: 10, padding: "14px 16px", border: `1px solid ${C.border}` }}>
@@ -737,12 +734,7 @@ useLayoutEffect(() => {
                 <BulletList items={[
                   "Show you personalised job recommendations matching your profile",
                   "Send job alert emails and WhatsApp notifications (only with your consent)",
-                  "Allow you to save jobs and track your applications",
-                  "Verify and improve the quality of our job listings",
                   "Respond to your support and contact form queries",
-                  "Prevent fraud, spam accounts, and fake job postings",
-                  "Analyse platform usage to fix bugs and improve features",
-                  "Comply with applicable Indian laws and regulations",
                 ]} />
                 <Para>
                   We use your data only for the purposes listed above. If we ever want to use it for anything new, we will update this policy and notify you before doing so.
@@ -782,14 +774,9 @@ useLayoutEffect(() => {
                 <SectionTitle id="sharing">5. Data Sharing</SectionTitle>
                 <Para>We do not sell your personal data. We share it only in the following limited, necessary circumstances:</Para>
                 <BulletList items={[
-                  "With employers — only your name and contact details when you explicitly click 'Apply Now' on a listing",
                   "With service providers — hosting (AWS), email delivery (SendGrid), analytics (Google). All are bound by strict data processing agreements",
-                  "With law enforcement — only when required by a valid court order or applicable Indian law",
                   "In a business transfer — if CodeTechniques is acquired, your data may transfer to the new owner under the same privacy terms",
                 ]} />
-                <InfoBox icon="🛡️" title="Your apply data is controlled" bg="#e8f4fd" border="#bdd6f0" color={C.primary}>
-                  When you apply to a job, only the data you choose to share with that employer is transmitted. We don't expose your full profile or search history to companies.
-                </InfoBox>
                 <Divider />
               </Reveal>
 
@@ -801,11 +788,7 @@ useLayoutEffect(() => {
                 </Para>
                 <BulletList items={[
                   "All data is transmitted over HTTPS / TLS 1.3 encryption",
-                  "Passwords are hashed using bcrypt with a salt factor of 12",
-                  "Databases are protected behind VPC with no public access",
-                  "Access to production data is restricted to 2 engineers and requires 2FA",
                   "We perform regular security audits and penetration tests",
-                  "Backups are encrypted and stored in a separate geographic region",
                 ]} />
                 <Para>
                   Despite these measures, no method of transmission over the internet is 100% secure. If you suspect any unauthorised access to your account, contact us immediately at security@codetechniques.in.
@@ -814,7 +797,7 @@ useLayoutEffect(() => {
               </Reveal>
 
               {/* 7. YOUR RIGHTS */}
-              <Reveal>
+              {/* <Reveal>
                 <SectionTitle id="your-rights">7. Your Rights</SectionTitle>
                 <Para>Under India's Digital Personal Data Protection Act 2023 (DPDPA) and general privacy principles, you have the following rights:</Para>
 
@@ -841,11 +824,11 @@ useLayoutEffect(() => {
                   To exercise any of these rights, email <strong style={{ color: C.primary }}>privacy@codetechniques.in</strong> with your registered email address. We will respond within 30 days.
                 </Para>
                 <Divider />
-              </Reveal>
+              </Reveal> */}
 
               {/* 8. THIRD PARTIES */}
               <Reveal>
-                <SectionTitle id="third-parties">8. Third-Party Links</SectionTitle>
+                <SectionTitle id="third-parties">7. Third-Party Links</SectionTitle>
                 <Para>
                   Our platform contains links to external job listings on company career pages, LinkedIn, Naukri, and other sites. Once you leave Daily Job Openings, this Privacy Policy no longer applies.
                 </Para>
@@ -856,24 +839,22 @@ useLayoutEffect(() => {
               </Reveal>
 
               {/* 9. CHILDREN */}
-              <Reveal>
+              {/* <Reveal>
                 <SectionTitle id="children">9. Children's Privacy</SectionTitle>
                 <Para>
                   Daily Job Openings is intended for users who are 18 years of age or older. We do not knowingly collect personal data from anyone under 18. If you are a parent or guardian and believe your child has provided us with personal information, please contact us at privacy@codetechniques.in and we will delete that information promptly.
                 </Para>
                 <Divider />
-              </Reveal>
+              </Reveal> */}
 
               {/* 10. CHANGES */}
               <Reveal>
-                <SectionTitle id="changes">10. Policy Changes</SectionTitle>
+                <SectionTitle id="changes">8. Policy Changes</SectionTitle>
                 <Para>
                   We may update this Privacy Policy from time to time to reflect changes in our practices, technology, legal requirements, or for other operational reasons. When we make material changes, we will:
                 </Para>
                 <BulletList items={[
                   "Update the 'Last Updated' date at the top of this page",
-                  "Send an email notification to all registered users",
-                  "Display a prominent notice on our homepage for 30 days",
                 ]} />
                 <Para>
                   Your continued use of Daily Job Openings after the effective date of any changes constitutes your acceptance of the revised policy. We encourage you to review this page periodically.
@@ -883,7 +864,7 @@ useLayoutEffect(() => {
 
               {/* 11. CONTACT */}
               <Reveal>
-                <SectionTitle id="contact">11. Contact Us</SectionTitle>
+                <SectionTitle id="contact">9. Contact Us</SectionTitle>
                 <Para>If you have any questions, concerns, or requests about this Privacy Policy or how we handle your data, you can reach us through any of the following channels:</Para>
 
                 <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
@@ -929,7 +910,7 @@ useLayoutEffect(() => {
                 {/* Last updated */}
                 <div style={{ marginTop: 16, padding: "10px 12px", background: C.light, borderRadius: 8, fontSize: 11.5, color: C.muted, textAlign: "center" }}>
                   Last updated<br />
-                  <strong style={{ color: C.text }}>March 18, 2026</strong>
+                  <strong style={{ color: C.text }}>April 18, 2026</strong>
                 </div>
               </div>
 
@@ -967,9 +948,6 @@ useLayoutEffect(() => {
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
               <a href="/contact-us" style={{ background: C.accent, color: "#fff", padding: "12px 28px", borderRadius: 9, fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 13 }}>
                 Contact Us →
-              </a>
-              <a href="mailto:privacy@codetechniques.in" style={{ background: "rgba(255,255,255,0.1)", color: "#fff", padding: "12px 28px", borderRadius: 9, fontWeight: 600, fontSize: 13, border: "1px solid rgba(255,255,255,0.2)" }}>
-                Email Privacy Team
               </a>
             </div>
           </Reveal>

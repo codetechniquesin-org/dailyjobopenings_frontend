@@ -184,7 +184,7 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
                     Company
                   </h6>
                 <Link
-                to="/about"
+                to="/about-us"
                 style={{
                   display: "block",
                   fontSize: 12,
@@ -196,7 +196,7 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
               </Link>
 
               <Link
-                to="/contact"
+                to="/contact-us"
                 style={{
                   display: "block",
                   fontSize: 12,
@@ -208,7 +208,7 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
               </Link>
 
               <Link
-                to="/privacy-policy"
+                to="/privacy"
                 style={{
                   display: "block",
                   fontSize: 12,
