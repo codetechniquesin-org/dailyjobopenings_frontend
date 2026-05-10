@@ -3,6 +3,7 @@ import AlertBar from "../components/alertbar";
 import TopTicker from "../components/topticker";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
+import { Helmet } from "react-helmet-async";
 
 const C = {
   primary: "#0a2540",
@@ -265,6 +266,93 @@ export default function DisclaimerPage() {
   };
 
   return (
+    <>
+    <Helmet>
+
+      <title>
+        Disclaimer | Daily Job Openings
+      </title>
+
+      <meta
+        name="description"
+        content="Read the official Disclaimer of Daily Job Openings regarding job listings, third-party information, external links, and platform usage responsibilities."
+      />
+
+      <meta
+        name="keywords"
+        content="disclaimer, Daily Job Openings disclaimer, job portal disclaimer, external links policy, informational purpose"
+      />
+
+      <meta
+        name="robots"
+        content="index, follow"
+      />
+
+      <link
+        rel="canonical"
+        href={`${window.location.origin}/disclaimer`}
+      />
+
+      {/* OpenGraph */}
+      <meta
+        property="og:type"
+        content="website"
+      />
+
+      <meta
+        property="og:title"
+        content="Disclaimer | Daily Job Openings"
+      />
+
+      <meta
+        property="og:description"
+        content="Understand the limitations, responsibilities and informational nature of the content published on Daily Job Openings."
+      />
+
+      <meta
+        property="og:url"
+        content={`${window.location.origin}/disclaimer`}
+      />
+
+      {/* Twitter */}
+      <meta
+        name="twitter:card"
+        content="summary_large_image"
+      />
+
+      <meta
+        name="twitter:title"
+        content="Disclaimer | Daily Job Openings"
+      />
+
+      <meta
+        name="twitter:description"
+        content="Official Disclaimer page for Daily Job Openings platform and published content."
+      />
+
+      {/* Structured Data */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+
+          name: "Disclaimer",
+
+          description:
+            "Official Disclaimer page of Daily Job Openings.",
+
+          url: `${window.location.origin}/disclaimer`,
+
+          publisher: {
+            "@type": "Organization",
+            name: "Daily Job Openings",
+            url: window.location.origin,
+          },
+        })}
+      </script>
+
+    </Helmet>
+
     <div
       style={{
         fontFamily:
@@ -944,5 +1032,6 @@ export default function DisclaimerPage() {
       {/* ── FOOTER ── */}
       <Footer bp={bp} gutter={gutter} />
     </div>
+    </>
   );
 }

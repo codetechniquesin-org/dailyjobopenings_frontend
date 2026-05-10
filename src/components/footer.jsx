@@ -269,7 +269,7 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
           }}
         >
           <p style={{ fontSize: 11.5, opacity: 0.5 }}>
-            © 2026 CodeTechniques India. All rights reserved.
+            © 2026 Daily Job Openings by CodeTechniques India. All rights reserved.
           </p>
         </div>
       </div>

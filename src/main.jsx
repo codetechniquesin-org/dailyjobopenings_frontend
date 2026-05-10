@@ -63,7 +63,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/admin/manage-walkins" element={<ProtectedRoute><WalkInAdmin /></ProtectedRoute>} />
         <Route path="/admin/manage-exams" element={<ProtectedRoute><ManageExams /></ProtectedRoute>} />
         <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
-        <Route path="disclaimer-page" element={<DisclaimerPage/>}/>
+        <Route path="/disclaimer-page" element={<DisclaimerPage/>}/>
       </Routes>
     </BrowserRouter>
     </HelmetProvider>
