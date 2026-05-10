@@ -59,7 +59,7 @@ const SECTIONS = [
   { id: "overview",        label: "Overview" },
   { id: "data-collected",  label: "Data We Collect" },
   { id: "how-we-use",      label: "How We Use It" },
-  { id: "cookies",         label: "Cookies & Tracking" },
+  // { id: "cookies",         label: "Cookies & Tracking" },
   { id: "sharing",         label: "Data Sharing" },
   { id: "security",        label: "Data Security" },
   { id: "third-parties",   label: "Third-Party Links" },
@@ -388,7 +388,7 @@ useLayoutEffect(() => {
                 letterSpacing: "0.05em",
               }}
             >
-              LAST UPDATED : April 2026
+              LAST UPDATED : May 2026
             </span>
           </div>
 
@@ -683,14 +683,14 @@ useLayoutEffect(() => {
             <div style={{ background: "#fff", borderRadius: 16, border: `1px solid ${C.border}`, padding: isMobile ? 22 : 36 }}>
               <SectionLabel>Privacy Policy</SectionLabel>
               <p style={{ fontSize: 13.5, color: C.muted, lineHeight: 1.8, marginBottom: 32 }}>
-                This Privacy Policy applies to <strong style={{ color: C.text }}>Daily Job Openings</strong> ("we", "our", "us") and covers all services accessible at Daily Job Openings.in and our mobile applications. By using our platform, you agree to the practices described here.
+                This Privacy Policy applies to <strong style={{ color: C.text }}>Daily Job Openings</strong> ("we", "our", "us") and covers all services accessible at dailyjobopenings.online. By using our platform, you agree to the practices described here.
               </p>
 
               {/* 1. OVERVIEW */}
               <Reveal>
-                <SectionTitle id="overview">1. Overview</SectionTitle>
+                <SectionTitle id="overview">Overview</SectionTitle>
                 <Para>
-                  Daily Job Openings is a free job portal for freshers in India. Our core mission is to connect job-seekers with verified opportunities — and doing that well requires collecting some basic information. We take our responsibility to handle that information carefully very seriously.
+                  Daily Job Openings is a free job portal for freshers in India. Our core mission is to connect job-seekers with verified opportunities — and doing that well requires collecting some basic information such as only your email if and only if you are opted in our job alert system. We take our responsibility to handle that information carefully very seriously.
                 </Para>
                 <InfoBox icon="✅" title="Our core commitment" bg="#f0fff4" border="#86efac" color={C.green}>
                   We will never sell, rent, or trade your personal data to third parties for commercial or advertising purposes. Period.
@@ -700,26 +700,22 @@ useLayoutEffect(() => {
 
               {/* 2. DATA COLLECTED */}
               <Reveal>
-                <SectionTitle id="data-collected">2. Data We Collect</SectionTitle>
+                <SectionTitle id="data-collected">Data We Collect</SectionTitle>
                 <Para>We collect only what we need to provide you with a useful, personalised job-search experience.</Para>
 
                 <h3 style={{ fontFamily: "'Syne', sans-serif", fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 10, marginTop: 20 }}>Information you provide directly</h3>
                 <BulletList items={[
-                  "Name and email address (when you sign up or submit the contact form)",
-                  "Phone number (optional — only if you provide it)",
-                  "Resume / CV (only if you choose to upload it)",
-                  "Job preferences: location, category, work mode, expected salary",
-                  "Profile information: education, graduation year, skills",
+                  "Email address (When you opted to the job alert system)",
+                  "Job preferences: location, category, work mode, batch year, role/domain which are required to send you relevant job alerts",
                 ]} />
-
+{/* 
                 <h3 style={{ fontFamily: "'Syne', sans-serif", fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 10, marginTop: 20 }}>Information collected automatically</h3>
                 <BulletList items={[
-                  "Device type, browser, and operating system",
                   "Pages visited, time spent, and clicks (via Google Analytics)",
                   "IP address and approximate city-level location",
                   "Referring URL (what site you came from)",
                   "Job listings you viewed, saved, or applied to",
-                ]} />
+                ]} /> */}
 
                 <InfoBox icon="📋" title="What we do NOT collect" bg="#fff8e1" border="#fcd9aa" color="#92400e">
                   We do not collect Aadhaar numbers, PAN details, bank account information, passwords from other sites, or any sensitive personal data under IT Act definitions.
@@ -729,7 +725,7 @@ useLayoutEffect(() => {
 
               {/* 3. HOW WE USE IT */}
               <Reveal>
-                <SectionTitle id="how-we-use">3. How We Use Your Data</SectionTitle>
+                <SectionTitle id="how-we-use">How We Use Your Data</SectionTitle>
                 <Para>Every piece of data we collect has a specific, limited purpose:</Para>
                 <BulletList items={[
                   "Show you personalised job recommendations matching your profile",
@@ -743,7 +739,7 @@ useLayoutEffect(() => {
               </Reveal>
 
               {/* 4. COOKIES */}
-              <Reveal>
+              {/* <Reveal>
                 <SectionTitle id="cookies">4. Cookies &amp; Tracking</SectionTitle>
                 <Para>
                   We use cookies and similar technologies to make the platform work properly and to understand how people use it.
@@ -751,7 +747,6 @@ useLayoutEffect(() => {
 
                 <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 12, marginBottom: 20 }}>
                   {[
-                    { type: "Essential Cookies", desc: "Required for login sessions, saved jobs, and security. Cannot be disabled.", color: C.primary, bg: "#e8f4fd" },
                     { type: "Analytics Cookies", desc: "Google Analytics — helps us understand which pages are most useful. Can be opted out.", color: "#7c3aed", bg: "#ede9fe" },
                     { type: "Preference Cookies", desc: "Remembers your location, category filters, and display preferences.", color: C.green, bg: "#f0fff4" },
                     { type: "Marketing Cookies", desc: "We do not use marketing / retargeting cookies. No ad networks track you here.", color: C.accent, bg: "#fff0f0" },
@@ -767,14 +762,14 @@ useLayoutEffect(() => {
                   You can disable non-essential cookies at any time through your browser settings. Note that disabling essential cookies may affect your ability to log in and use certain features.
                 </Para>
                 <Divider />
-              </Reveal>
+              </Reveal> */}
 
               {/* 5. SHARING */}
               <Reveal>
-                <SectionTitle id="sharing">5. Data Sharing</SectionTitle>
+                <SectionTitle id="sharing">Data Sharing</SectionTitle>
                 <Para>We do not sell your personal data. We share it only in the following limited, necessary circumstances:</Para>
                 <BulletList items={[
-                  "With service providers — hosting (AWS), email delivery (SendGrid), analytics (Google). All are bound by strict data processing agreements",
+                  // "With service providers — hosting (AWS), email delivery (SendGrid), analytics (Google). All are bound by strict data processing agreements",
                   "In a business transfer — if CodeTechniques is acquired, your data may transfer to the new owner under the same privacy terms",
                 ]} />
                 <Divider />
@@ -782,7 +777,7 @@ useLayoutEffect(() => {
 
               {/* 6. SECURITY */}
               <Reveal>
-                <SectionTitle id="security">6. Data Security</SectionTitle>
+                <SectionTitle id="security">Data Security</SectionTitle>
                 <Para>
                   We implement industry-standard technical and organisational measures to protect your personal data against unauthorised access, alteration, disclosure, or destruction.
                 </Para>
@@ -791,7 +786,7 @@ useLayoutEffect(() => {
                   "We perform regular security audits and penetration tests",
                 ]} />
                 <Para>
-                  Despite these measures, no method of transmission over the internet is 100% secure. If you suspect any unauthorised access to your account, contact us immediately at security@codetechniques.in.
+                  Despite these measures, no method of transmission over the internet is 100% secure. If you suspect any unauthorised access to your account, contact us immediately at codetechniques.in@gmail.com
                 </Para>
                 <Divider />
               </Reveal>
@@ -828,7 +823,7 @@ useLayoutEffect(() => {
 
               {/* 8. THIRD PARTIES */}
               <Reveal>
-                <SectionTitle id="third-parties">7. Third-Party Links</SectionTitle>
+                <SectionTitle id="third-parties">Third-Party Links</SectionTitle>
                 <Para>
                   Our platform contains links to external job listings on company career pages, LinkedIn, Naukri, and other sites. Once you leave Daily Job Openings, this Privacy Policy no longer applies.
                 </Para>
@@ -849,7 +844,7 @@ useLayoutEffect(() => {
 
               {/* 10. CHANGES */}
               <Reveal>
-                <SectionTitle id="changes">8. Policy Changes</SectionTitle>
+                <SectionTitle id="changes">Policy Changes</SectionTitle>
                 <Para>
                   We may update this Privacy Policy from time to time to reflect changes in our practices, technology, legal requirements, or for other operational reasons. When we make material changes, we will:
                 </Para>
@@ -864,7 +859,7 @@ useLayoutEffect(() => {
 
               {/* 11. CONTACT */}
               <Reveal>
-                <SectionTitle id="contact">9. Contact Us</SectionTitle>
+                <SectionTitle id="contact">Contact Us</SectionTitle>
                 <Para>If you have any questions, concerns, or requests about this Privacy Policy or how we handle your data, you can reach us through any of the following channels:</Para>
 
                 <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
@@ -910,7 +905,7 @@ useLayoutEffect(() => {
                 {/* Last updated */}
                 <div style={{ marginTop: 16, padding: "10px 12px", background: C.light, borderRadius: 8, fontSize: 11.5, color: C.muted, textAlign: "center" }}>
                   Last updated<br />
-                  <strong style={{ color: C.text }}>April 18, 2026</strong>
+                  <strong style={{ color: C.text }}>May 10, 2026</strong>
                 </div>
               </div>
 

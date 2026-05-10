@@ -77,7 +77,7 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
             {/* Desktop & Tablet: 3-column links below brand */}
             {!isMobile && (
               <div style={{ display: "grid",gridTemplateColumns:  isTablet ? "1fr 1fr" : "1fr 1fr 1fr", columnGap: 20, rowGap: 0 }}>
-                <div>
+                {/* <div>
                   <h6 style={{ fontSize: 12, fontWeight: 700, color: "#fff", marginBottom: 8, marginTop: 0 }}>
                     Fresher Jobs
                   </h6>
@@ -86,9 +86,9 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
                       {l}
                     </a>
                   ))}
-                </div>
+                </div> */}
 
-                <div>
+                {/* <div>
                   <h6 style={{ fontSize: 12, fontWeight: 700, color: "#fff", marginBottom: 8, marginTop: 0 }}>
                     Resources
                   </h6>
@@ -97,7 +97,7 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
                       {l}
                     </a>
                   ))}
-                </div>
+                </div> */}
 
                 <div>
                   <h6 style={{ fontSize: 12, fontWeight: 700, color: "#fff", marginBottom: 8, marginTop: 0 }}>
@@ -168,7 +168,7 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
             {/* Mobile: 2-column condensed links */}
             {isMobile && (
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-                <div>
+                {/* <div>
                   <h6 style={{ fontSize: 12, fontWeight: 700, color: "#fff", marginBottom: 10 }}>
                     Jobs
                   </h6>
@@ -177,7 +177,7 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
                       {l}
                     </a>
                   ))}
-                </div>
+                </div> */}
 
                 <div>
                   <h6 style={{ fontSize: 12, fontWeight: 700, color: "#fff", marginBottom: 10 }}>
