@@ -44,7 +44,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/user/walkins/view-walkin/:walkinslug" element={<WalkInJobDetail />} />
         <Route path="/about-us" element={<About />} />
         <Route path="/contact-us" element={<Contact />} />
-        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/privacy-policy" element={<Privacy />} />
         <Route path="/advertise-with-us" element={<Advertise />} />
         <Route path="/resources" element={<ResourcesPage />} />
         <Route path="/jobs/categories/:category" element={<Jobcategories />} />
