@@ -227,7 +227,7 @@ useLayoutEffect(() => {
           description:
             "Privacy Policy of Daily Job Openings explaining how user data is collected, stored and protected.",
 
-          url: `${window.location.origin}/privacy`,
+          url: `${window.location.origin}/privacy-policy`,
 
           publisher: {
             "@type": "Organization",
