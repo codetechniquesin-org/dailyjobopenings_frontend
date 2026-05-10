@@ -128,7 +128,7 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
                 </Link>
 
                 <Link
-                  to="/privacy-policy"
+                  to="/privacy"
                   style={{
                     display: "block",
                     fontSize: 11.5,
@@ -192,7 +192,7 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
                   marginBottom: 6,
                 }}
               >
-                About Us
+                About
               </Link>
 
               <Link
@@ -204,11 +204,11 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
                   marginBottom: 6,
                 }}
               >
-                Contact Us
+                Contact
               </Link>
 
               <Link
-                to="/privacy-policy"
+                to="/privacy"
                 style={{
                   display: "block",
                   fontSize: 12,
@@ -216,7 +216,7 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
                   marginBottom: 6,
                 }}
               >
-                Privacy Policy
+                Privacy
               </Link>
               <Link
                 to="/terms-and-conditions"
