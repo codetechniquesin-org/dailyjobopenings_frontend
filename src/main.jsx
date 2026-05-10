@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import {HelmetProvider} from 'react-helmet-async';
 import './index.css'
 import App from './App.jsx'
 // import JobPostForm from './admin_pages/job_posting.jsx'
@@ -29,13 +30,16 @@ import ManageExams from './admin/pages/manageExams.jsx';
 import VerifyJobAlert from './components/common_components/verify_job_alert.jsx';
 import EditJobAlert from './components/common_components/edit_job_alert.jsx';
 import TopTicker from './components/topticker.jsx'
+import TermsAndConditionsPage from './user_pages/termsandconditions.jsx';
+import DisclaimerPage from './user_pages/disclaimerpage.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <HelmetProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/view-job/:slug" element={<ViewJob />} />
+        <Route path="/jobs/:slug" element={<ViewJob />} />
         <Route path="/user/view-exams/:slug" element={<ViewExam />} />
         <Route path="/user/walkins/view-walkin/:walkinslug" element={<WalkInJobDetail />} />
         <Route path="/about-us" element={<About />} />
@@ -58,7 +62,10 @@ createRoot(document.getElementById('root')).render(
         <Route path="/admin/reset-password" element={<ProtectedRoute><ResetPassword /></ProtectedRoute>} />
         <Route path="/admin/manage-walkins" element={<ProtectedRoute><WalkInAdmin /></ProtectedRoute>} />
         <Route path="/admin/manage-exams" element={<ProtectedRoute><ManageExams /></ProtectedRoute>} />
+        <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
+        <Route path="/disclaimer-page" element={<DisclaimerPage/>}/>
       </Routes>
     </BrowserRouter>
+    </HelmetProvider>
   </StrictMode>
 )

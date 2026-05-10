@@ -6,6 +6,7 @@ import AlertBar from "../components/alertbar";
 import { useParams } from "react-router-dom";
 import SimilarJobs from "../components/viewjob_page_components/similar_jobs";
 import API_BASE_URL from "../config/api";
+import { Helmet } from "react-helmet-async";
 
 
 /* ─────────────────────────────────────────────
@@ -992,6 +993,134 @@ export default function ViewJob() {
 
 
   return (
+    <>
+    <Helmet>
+<title>
+{`${job.companyName} ${job.jobTitle} Jobs in ${job.location.split(",")[0]} | Daily Job Openings`}
+</title>
+
+        <meta
+          name="description"
+          content={`${job.companyName} is hiring ${job.jobTitle} in ${job.location}. Apply now for ${job.experienceLevel} experience candidates.`}
+        />
+
+        <link
+          rel="canonical"
+          href={`${window.location.origin}/jobs/${job.slug}`}
+        />
+
+        {/* OpenGraph */}
+        <meta
+          property="og:title"
+          content={`${job.companyName} ${job.jobTitle} Jobs`}
+        />
+
+        <meta
+          property="og:description"
+content={`${job.companyName} is hiring ${job.jobTitle} in ${job.location}. Freshers and candidates with ${job.experienceLevel} experience can apply now.`}
+        />
+
+        <meta
+          property="og:image"
+          content={job.companyLogo}
+        />
+
+        <meta
+          property="og:url"
+          content={`${window.location.origin}/jobs/${job.slug}`}
+        />
+
+        {/* Twitter */}
+        <meta
+          name="twitter:card"
+          content="summary_large_image"
+        />
+
+        <meta
+          name="twitter:title"
+          content={`${job.companyName} ${job.jobTitle}`}
+        />
+
+        <meta
+          name="twitter:description"
+          content={`${job.companyName} is hiring ${job.jobTitle} in ${job.location}. Freshers and candidates with ${job.experienceLevel} experience can apply now.`}
+        />
+
+        <meta
+          name="twitter:image"
+          content={job.companyLogo}
+        />
+
+        <meta name="robots" content="index, follow" />
+
+<meta
+  name="keywords"
+  content={job.tags?.join(", ")}
+/>
+
+<meta property="og:type" content="website" />
+<script type="application/ld+json">
+  {JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "JobPosting",
+
+    title: job.jobTitle,
+
+    description: job.jobDescription,
+
+    identifier: {
+      "@type": "PropertyValue",
+      name: job.companyName,
+      value: job.slug,
+    },
+
+    datePosted: job.postedDate,
+
+    validThrough: job.expiryDate,
+
+    // employmentType: "FULL_TIME",
+
+    hiringOrganization: {
+      "@type": "Organization",
+      name: job.companyName,
+      sameAs: job.companyWebsite,
+      logo: job.companyLogo,
+    },
+
+    jobLocation: {
+      "@type": "Place",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: job.location,
+        addressCountry: "India",
+      },
+    },
+
+    baseSalary: {
+      "@type": "MonetaryAmount",
+      currency: "INR",
+      value: {
+        "@type": "QuantitativeValue",
+        value: job.salary,
+        unitText: "YEAR",
+      },
+    },
+
+    applicantLocationRequirements: {
+      "@type": "Country",
+      name: "India",
+    },
+
+    qualifications: job.education,
+
+    skills: job.skills?.join(", "),
+
+    industry: job.jobCategory,
+
+    url: `${window.location.origin}/jobs/${job.slug}`,
+  })}
+</script>
+      </Helmet>
     <div style={{ fontFamily: "'DM Sans',sans-serif", background: C.light, color: C.text, minHeight: "100vh", width: "100%", overflowX: "hidden" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
@@ -1095,11 +1224,11 @@ export default function ViewJob() {
       {/* ────────────── BREADCRUMB ────────────── */}
       <div style={{ maxWidth: "100%", margin: "0 auto", padding: `12px ${gutter} 0` }}>
         <div style={{ fontSize: 12.5, color: C.muted, display: "flex", alignItems: "center", gap: 5, flexWrap: "wrap" }}>
-          <a href="http://localhost:5173" style={{ color: C.primary }}>Home</a>
+          <a href="/" style={{ color: C.primary }}>Home</a>
           <span>›</span>
           <a href="#" style={{ color: C.primary }}>Software / IT Jobs</a>
           <span>›</span>
-          <span style={{ color: C.text }}>{job.title}</span>
+          <span style={{ color: C.text }}>{job.jobTitle}</span>
         </div>
       </div>
 
@@ -1265,7 +1394,7 @@ export default function ViewJob() {
                     {/* Link Box */}
                     <input
                       type="text"
-                      value={`${window.location.origin}/view-job/${job.slug}`}
+                      value={`${window.location.origin}/jobs/${job.slug}`}
                       readOnly
                       style={{
                         width: "100%",
@@ -1279,7 +1408,7 @@ export default function ViewJob() {
                     {/* Copy Button */}
                     <button
                       onClick={() => {
-                        navigator.clipboard.writeText(`${window.location.origin}/view-job/${job.slug}`);
+                        navigator.clipboard.writeText(`${window.location.origin}/jobs/${job.slug}`);
                         alert("Link copied!");
                       }}
                       style={{
@@ -1298,7 +1427,7 @@ export default function ViewJob() {
 
                       {/* WhatsApp */}
                       <a
-                        href={`https://wa.me/?text=${window.location.origin}/view-job/${job.slug}`}
+                        href={`https://wa.me/?text=${window.location.origin}/jobs/${job.slug}`}
                         target="_blank"
                         style={iconBtn("#25D366")}
                       >
@@ -1309,7 +1438,7 @@ export default function ViewJob() {
 
                       {/* Twitter */}
                       <a
-                        href={`https://twitter.com/intent/tweet?url=${window.location.origin}/view-job/${job.slug}`}
+                        href={`https://twitter.com/intent/tweet?url=${window.location.origin}/jobs/${job.slug}`}
                         target="_blank"
                         style={iconBtn("#1DA1F2")}
                       >
@@ -1320,7 +1449,7 @@ export default function ViewJob() {
 
                       {/* LinkedIn */}
                       <a
-                        href={`https://www.linkedin.com/sharing/share-offsite/?url=${window.location.origin}/view-job/${job.slug}`}
+                        href={`https://www.linkedin.com/sharing/share-offsite/?url=${window.location.origin}/jobs/${job.slug}`}
                         target="_blank"
                         style={iconBtn("#0077B5")}
                       >
@@ -1332,7 +1461,7 @@ export default function ViewJob() {
                       {/* Copy */}
                       <div
                         onClick={() => {
-                          navigator.clipboard.writeText(`${window.location.origin}/view-job/${job.slug}`);
+                          navigator.clipboard.writeText(`${window.location.origin}/jobs/${job.slug}`);
                           alert("Copied!");
                         }}
                         style={iconBtn("#6b7280")}
@@ -1610,6 +1739,7 @@ export default function ViewJob() {
         gutter="16px"
       />
     </div>
+    </>
 
   );
 }

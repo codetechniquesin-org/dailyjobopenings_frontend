@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 // import TopTicker from "../components/topticker";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
@@ -478,6 +479,128 @@ export default function ViewExam() {
   const isUrgent = appEndDays !== null && appEndDays >= 0 && appEndDays <= 7;
 
   return (
+    <>
+     <Helmet>
+
+      <title>
+        {`${exam.shortTitle || exam.title} Exam 2026 | ${exam.organization}`}
+      </title>
+
+      <meta
+        name="description"
+        content={`${exam.organization} ${exam.shortTitle || exam.title} exam notification 2026. Check eligibility, exam dates, application process, syllabus, and official apply link.`}
+      />
+
+      <meta
+        name="keywords"
+        content={`
+          ${exam.title},
+          ${exam.shortTitle},
+          ${exam.organization},
+          ${exam.examType},
+          government exams,
+          competitive exams,
+          exam notification 2026
+        `}
+      />
+
+      <meta
+        name="robots"
+        content="index, follow"
+      />
+
+      <link
+        rel="canonical"
+        href={`${window.location.origin}/user/view-exams/${exam.slug}`}
+      />
+
+      {/* OpenGraph */}
+      <meta
+        property="og:type"
+        content="website"
+      />
+
+      <meta
+        property="og:title"
+        content={`${exam.shortTitle || exam.title} Exam 2026`}
+      />
+
+      <meta
+        property="og:description"
+        content={`${exam.organization} exam notification, eligibility, important dates and application process.`}
+      />
+
+      <meta
+        property="og:image"
+        content={exam.image}
+      />
+
+      <meta
+        property="og:url"
+        content={`${window.location.origin}/user/view-exams/${exam.slug}`}
+      />
+
+      {/* Twitter */}
+      <meta
+        name="twitter:card"
+        content="summary_large_image"
+      />
+
+      <meta
+        name="twitter:title"
+        content={`${exam.shortTitle || exam.title} Exam 2026`}
+      />
+
+      <meta
+        name="twitter:description"
+        content={`${exam.organization} exam notification and application details.`}
+      />
+
+      <meta
+        name="twitter:image"
+        content={exam.image}
+      />
+
+      {/* Structured Data */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "EducationalOccupationalProgram",
+
+          name: exam.title,
+
+          description: exam.description,
+
+          provider: {
+            "@type": "Organization",
+            name: exam.organization,
+            sameAs: exam.officialWebsite,
+          },
+
+          educationalProgramMode: exam.examMode,
+
+          occupationalCategory: exam.category,
+
+          applicationStartDate: exam.applicationStartDate,
+
+          applicationDeadline: exam.applicationEndDate,
+
+          startDate: exam.examDate,
+
+          url: `${window.location.origin}/user/view-exams/${exam.slug}`,
+
+          image: exam.image,
+
+          keywords: [
+            exam.title,
+            exam.shortTitle,
+            exam.organization,
+            exam.examType,
+          ],
+        })}
+      </script>
+
+    </Helmet>
     <div style={{ fontFamily: "'DM Sans',sans-serif", background: C.light, color: C.text, minHeight: "100vh", width: "100%", overflowX: "hidden" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
@@ -684,27 +807,27 @@ export default function ViewExam() {
                     <h3 style={{ marginBottom: "10px" }}>Share Exam</h3>
                     <input
                       type="text"
-                      value={`${window.location.origin}/view-exam/${exam.slug}`}
+                      value={`${window.location.origin}/user/view-exam/${exam.slug}`}
                       readOnly
                       style={{ width: "100%", padding: "8px", borderRadius: "8px", border: "1px solid #ddd", marginBottom: "12px" }}
                     />
                     <button
-                      onClick={() => { navigator.clipboard.writeText(`${window.location.origin}/view-exam/${exam.slug}`); alert("Link copied!"); }}
+                      onClick={() => { navigator.clipboard.writeText(`${window.location.origin}/user/view-exam/${exam.slug}`); alert("Link copied!"); }}
                       style={{ padding: "8px 14px", borderRadius: "8px", border: "none", background: "#0f4c81", color: "#fff", cursor: "pointer" }}
                     >
                       Copy Link
                     </button>
                     <div style={{ marginTop: "18px", display: "flex", justifyContent: "center", gap: "12px" }}>
-                      <a href={`https://wa.me/?text=${window.location.origin}/view-exam/${exam.slug}`} target="_blank" style={iconBtn("#25D366")}>
+                      <a href={`https://wa.me/?text=${window.location.origin}/user/view-exam/${exam.slug}`} target="_blank" style={iconBtn("#25D366")}>
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M20.52 3.48A11.94 11.94 0 0012.02 0C5.39 0 .02 5.37.02 12c0 2.12.55 4.18 1.6 6L0 24l6.17-1.62A11.96 11.96 0 0012.02 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.2-3.5-8.52zM12.02 22c-1.82 0-3.6-.48-5.17-1.38l-.37-.22-3.66.96.98-3.57-.24-.37A9.93 9.93 0 012.02 12c0-5.52 4.48-10 10-10s10 4.48 10 10-4.48 10-10 10zm5.49-7.32c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.07-.8.37-.27.3-1.05 1.02-1.05 2.5 0 1.47 1.08 2.9 1.23 3.1.15.2 2.13 3.25 5.16 4.56.72.31 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35z"/></svg>
                       </a>
-                      <a href={`https://twitter.com/intent/tweet?url=${window.location.origin}/view-exam/${exam.slug}`} target="_blank" style={iconBtn("#1DA1F2")}>
+                      <a href={`https://twitter.com/intent/tweet?url=${window.location.origin}/user/view-exam/${exam.slug}`} target="_blank" style={iconBtn("#1DA1F2")}>
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M22.46 6c-.77.35-1.6.58-2.46.69a4.3 4.3 0 001.88-2.37 8.6 8.6 0 01-2.72 1.04 4.28 4.28 0 00-7.3 3.9 12.14 12.14 0 01-8.82-4.47 4.28 4.28 0 001.32 5.7 4.24 4.24 0 01-1.94-.54v.05c0 2.06 1.46 3.78 3.4 4.17-.36.1-.74.15-1.13.15-.28 0-.55-.03-.81-.08.55 1.72 2.14 2.97 4.02 3a8.58 8.58 0 01-5.3 1.83c-.34 0-.68-.02-1.01-.06A12.1 12.1 0 006.56 21c7.88 0 12.2-6.53 12.2-12.2 0-.19 0-.39-.01-.58A8.72 8.72 0 0022.46 6z"/></svg>
                       </a>
-                      <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${window.location.origin}/view-exam/${exam.slug}`} target="_blank" style={iconBtn("#0077B5")}>
+                      <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${window.location.origin}/user/view-exam/${exam.slug}`} target="_blank" style={iconBtn("#0077B5")}>
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M4.98 3.5C4.98 5 3.88 6 2.49 6S0 5 0 3.5 1.1 1 2.49 1 4.98 2 4.98 3.5zM.24 8.98h4.5V24H.24V8.98zM8.98 8.98h4.31v2.05h.06c.6-1.14 2.07-2.34 4.27-2.34 4.56 0 5.4 3 5.4 6.89V24h-4.5v-7.53c0-1.8-.03-4.12-2.51-4.12-2.51 0-2.89 1.96-2.89 3.98V24h-4.5V8.98z"/></svg>
                       </a>
-                      <div onClick={() => { navigator.clipboard.writeText(`${window.location.origin}/view-exam/${exam.slug}`); alert("Copied!"); }} style={iconBtn("#6b7280")}>
+                      <div onClick={() => { navigator.clipboard.writeText(`${window.location.origin}/user/view-exam/${exam.slug}`); alert("Copied!"); }} style={iconBtn("#6b7280")}>
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M16 1H4C2.9 1 2 1.9 2 3v12h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
                       </div>
                     </div>
@@ -927,5 +1050,6 @@ export default function ViewExam() {
 
       <Footer bp={{ isMobile: false, isTablet: false, isDesktop: true }} gutter="16px" />
     </div>
+    </>
   );
 }

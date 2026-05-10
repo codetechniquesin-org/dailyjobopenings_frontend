@@ -1,8 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef ,useLayoutEffect} from "react";
+import { useLocation } from "react-router-dom";
 import AlertBar from "../components/alertbar";
 import TopTicker from "../components/topticker";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
+import { Helmet } from "react-helmet-async";
 
 /* ── Theme ── */
 const C = {
@@ -60,9 +62,7 @@ const SECTIONS = [
   { id: "cookies",         label: "Cookies & Tracking" },
   { id: "sharing",         label: "Data Sharing" },
   { id: "security",        label: "Data Security" },
-  { id: "your-rights",     label: "Your Rights" },
   { id: "third-parties",   label: "Third-Party Links" },
-  { id: "children",        label: "Children's Privacy" },
   { id: "changes",         label: "Policy Changes" },
   { id: "contact",         label: "Contact Us" },
 ];
@@ -126,6 +126,11 @@ export default function Privacy() {
   const { isMobile, isTablet, isDesktop } = bp;
   const gutter = isMobile ? "16px" : isTablet ? "20px" : "32px";
   const [activeSection, setActiveSection] = useState("overview");
+  const location = useLocation();
+
+useLayoutEffect(() => {
+  window.scrollTo(0, 0);
+}, [location.pathname]);
 
   /* Highlight active ToC item on scroll */
   useEffect(() => {
@@ -147,6 +152,92 @@ export default function Privacy() {
   };
 
   return (
+    <>
+      <Helmet>
+
+      <title>
+        Privacy Policy | Daily Job Openings
+      </title>
+
+      <meta
+        name="description"
+        content="Read the Privacy Policy of Daily Job Openings to understand how we collect, use, store, and protect your personal information and job application data."
+      />
+
+      <meta
+        name="keywords"
+        content="privacy policy, data protection, Daily Job Openings privacy, user data policy, job portal privacy"
+      />
+
+      <meta
+        name="robots"
+        content="index, follow"
+      />
+
+      <link
+        rel="canonical"
+        href={`${window.location.origin}/privacy`}
+      />
+
+      {/* OpenGraph */}
+      <meta
+        property="og:type"
+        content="website"
+      />
+
+      <meta
+        property="og:title"
+        content="Privacy Policy | Daily Job Openings"
+      />
+
+      <meta
+        property="og:description"
+        content="Learn how Daily Job Openings protects your data, privacy, and personal information."
+      />
+
+      <meta
+        property="og:url"
+        content={`${window.location.origin}/privacy`}
+      />
+
+      {/* Twitter */}
+      <meta
+        name="twitter:card"
+        content="summary_large_image"
+      />
+
+      <meta
+        name="twitter:title"
+        content="Privacy Policy | Daily Job Openings"
+      />
+
+      <meta
+        name="twitter:description"
+        content="Read the privacy practices and data protection policies of Daily Job Openings."
+      />
+
+      {/* Structured Data */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+
+          name: "Privacy Policy",
+
+          description:
+            "Privacy Policy of Daily Job Openings explaining how user data is collected, stored and protected.",
+
+          url: `${window.location.origin}/privacy`,
+
+          publisher: {
+            "@type": "Organization",
+            name: "Daily Job Openings",
+            url: window.location.origin,
+          },
+        })}
+      </script>
+
+    </Helmet>
     <div style={{ width: "100%", overflowX: "hidden", fontFamily: "'DM Sans', sans-serif", background: C.light, color: C.text, minHeight: "100vh" }}>
       <style>{`
        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap');
@@ -167,50 +258,397 @@ export default function Privacy() {
 
       {/* ── Top components ── */}
       <AlertBar C={{ accent: "#ff4d4f" }} />
-      <TopTicker C={C} gutter={gutter} isMobile={isMobile} isDesktop={isDesktop} />
+      {/* <TopTicker C={C} gutter={gutter} isMobile={isMobile} isDesktop={isDesktop} /> */}
       <Navbar bp={bp} onMenuOpen={() => {}} />
 
       {/* ════════════════════════════════════
           HERO
       ════════════════════════════════════ */}
-      <section style={{ width: "100%", background: `linear-gradient(135deg, ${C.primary} 0%, #1565c0 55%, #0d47a1 100%)`, color: "#fff", padding: isMobile ? "48px 0 40px" : "64px 0 52px", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", top: -60, right: -60, width: 260, height: 260, borderRadius: "50%", background: "rgba(255,255,255,0.04)", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", bottom: -80, left: -40, width: 300, height: 300, borderRadius: "50%", background: "rgba(255,255,255,0.03)", pointerEvents: "none" }} />
+      <section
+  style={{
+    width: "100%",
+    position: "relative",
+    overflow: "hidden",
+    background: "#f7f8fc",
+    padding: isMobile ? "60px 0 50px" : "90px 0 80px",
+  }}
+>
+  {/* Abstract Background Shapes */}
+  <div
+    style={{
+      position: "absolute",
+      top: -120,
+      right: -100,
+      width: 340,
+      height: 340,
+      borderRadius: "40%",
+      background: "linear-gradient(135deg,#dbeafe,#bfdbfe)",
+      transform: "rotate(25deg)",
+      opacity: 0.6,
+    }}
+  />
 
-        <div style={{ width: "100%", padding: `0 ${gutter}`, boxSizing: "border-box" }}>
-          <Reveal>
+  <div
+    style={{
+      position: "absolute",
+      bottom: -100,
+      left: -80,
+      width: 280,
+      height: 280,
+      borderRadius: "50%",
+      background: "linear-gradient(135deg,#fde68a,#fca5a5)",
+      opacity: 0.45,
+      filter: "blur(20px)",
+    }}
+  />
+
+  <div
+    style={{
+      width: "100%",
+      maxWidth: 1250,
+      margin: "0 auto",
+      padding: `0 ${gutter}`,
+      boxSizing: "border-box",
+      position: "relative",
+      zIndex: 2,
+    }}
+  >
+    <Reveal>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+          gap: isMobile ? 40 : 70,
+          alignItems: "center",
+        }}
+      >
+        {/* LEFT SIDE */}
+        <div>
+          {/* Breadcrumb */}
+          <div
+            style={{
+              fontSize: 12,
+              color: "#6b7280",
+              marginBottom: 20,
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+            }}
+          >
+            <a
+              href="/"
+              style={{
+                color: "#6b7280",
+                textDecoration: "none",
+              }}
+            >
+              Home
+            </a>
+
+            <span>›</span>
+
+            <span
+              style={{
+                color: "#111827",
+                fontWeight: 600,
+              }}
+            >
+              Privacy Policy
+            </span>
+          </div>
+
+          {/* Small Label */}
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 10,
+              background: "#ffffff",
+              border: "1px solid #e5e7eb",
+              padding: "8px 16px",
+              borderRadius: 999,
+              marginBottom: 28,
+              boxShadow: "0 4px 20px rgba(0,0,0,0.04)",
+            }}
+          >
             <div
               style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                textAlign: "center",
-                width: "100%",
+                width: 10,
+                height: 10,
+                borderRadius: "50%",
+                background: "#10b981",
               }}
-  >
-            <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginBottom: 16, display: "flex", alignItems: "center", gap: 6 }}>
-              <a href="/" style={{ color: "rgba(255,255,255,0.5)" }}>Home</a>
-              <span>›</span>
-              <span style={{ color: "#fff" }}>Privacy Policy</span>
-            </div>
+            />
 
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "5px 14px", marginBottom: 18 }}>
-              <span style={{ fontSize: 14 }}>🔒</span>
-              <span style={{ fontSize: 11.5, fontWeight: 600, letterSpacing: "0.06em" }}>Last updated: March 2026</span>
-            </div>
+            <span
+              style={{
+                fontSize: 12,
+                fontWeight: 700,
+                color: "#111827",
+                letterSpacing: "0.05em",
+              }}
+            >
+              LAST UPDATED : April 2026
+            </span>
+          </div>
 
-            <h1 style={{ fontFamily: "'Syne', sans-serif", fontSize: isMobile ? "clamp(26px,8vw,36px)" : "clamp(36px,4vw,52px)", fontWeight: 800, lineHeight: 1.15, marginBottom: 14 }}>
-              Privacy Policy
-            </h1>
+          {/* Heading */}
+          <h1
+            style={{
+              fontFamily: "'Syne', sans-serif",
+              fontWeight: 800,
+              fontSize: isMobile ? "2.5rem" : "4.7rem",
+              lineHeight: 1,
+              color: "#111827",
+              marginBottom: 24,
+              letterSpacing: "-0.05em",
+            }}
+          >
+            Your Privacy <br />
+            Matters <br />
+            <span
+              style={{
+                color: "#10b981",
+              }}
+            >
+              To Us
+            </span>
+          </h1>
 
-            <p style={{ fontSize: isMobile ? 13.5 : 15, opacity: 0.82, lineHeight: 1.75, maxWidth: 560 }}>
-              We believe privacy is a right, not a feature. This policy explains exactly what data we collect, why we collect it, and how you can control it — in plain English, not legalese.
-            </p>
-            </div>
-          </Reveal>
+          {/* Description */}
+          <p
+            style={{
+              fontSize: isMobile ? 15 : 17,
+              lineHeight: 1.9,
+              color: "#4b5563",
+              maxWidth: 580,
+              marginBottom: 36,
+            }}
+          >
+            We believe privacy should be transparent and easy to understand.
+            This policy explains what information we collect, how we use it,
+            and the choices you have to stay in control of your data.
+          </p>
+
+          {/* Buttons */}
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 16,
+              marginBottom: 45,
+            }}
+          >
+            <a
+              href="/contact-us"
+              style={{
+                background: "#111827",
+                color: "#fff",
+                padding: isMobile ? "12px 24px" : "15px 34px",
+                borderRadius: 14,
+                fontWeight: 700,
+                fontSize: 14,
+                textDecoration: "none",
+                boxShadow: "0 10px 30px rgba(17,24,39,0.18)",
+              }}
+            >
+              Contact Support
+            </a>
+
+            <a
+              href="/"
+              style={{
+                background: "#fff",
+                border: "1px solid #d1d5db",
+                color: "#111827",
+                padding: isMobile ? "12px 24px" : "15px 34px",
+                borderRadius: 14,
+                fontWeight: 600,
+                fontSize: 14,
+                textDecoration: "none",
+              }}
+            >
+              Browse Jobs
+            </a>
+          </div>
+
+          {/* Mini Stats */}
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: isMobile ? 20 : 40,
+            }}
+          >
+            {[
+              ["100%", "Secure Access"],
+              ["0 Spam", "No Fake Alerts"],
+              ["24/7", "Protection Monitoring"],
+            ].map(([num, label]) => (
+              <div key={label}>
+                <div
+                  style={{
+                    fontSize: isMobile ? 26 : 34,
+                    fontWeight: 800,
+                    color: "#111827",
+                    fontFamily: "'Syne', sans-serif",
+                  }}
+                >
+                  {num}
+                </div>
+
+                <div
+                  style={{
+                    marginTop: 4,
+                    color: "#6b7280",
+                    fontSize: 13,
+                  }}
+                >
+                  {label}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      </section>
 
+        {/* RIGHT SIDE */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            position: "relative",
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              maxWidth: 460,
+              background: "#ffffff",
+              borderRadius: 30,
+              padding: isMobile ? 24 : 34,
+              boxShadow: "0 25px 60px rgba(0,0,0,0.08)",
+            }}
+          >
+            {/* Top Card */}
+            <div
+              style={{
+                background: "#f9fafb",
+                borderRadius: 20,
+                padding: 22,
+                marginBottom: 22,
+                border: "1px solid #f1f5f9",
+              }}
+            >
+              <div
+                style={{
+                  width: 58,
+                  height: 58,
+                  borderRadius: 18,
+                  background: "#d1fae5",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 24,
+                  marginBottom: 18,
+                }}
+              >
+                🔒
+              </div>
+
+              <h3
+                style={{
+                  margin: 0,
+                  fontSize: 22,
+                  color: "#111827",
+                  fontWeight: 800,
+                  marginBottom: 10,
+                }}
+              >
+                Privacy First
+              </h3>
+
+              <p
+                style={{
+                  margin: 0,
+                  color: "#6b7280",
+                  lineHeight: 1.7,
+                  fontSize: 14,
+                }}
+              >
+                Your personal information stays protected with transparent
+                practices and secure handling policies.
+              </p>
+            </div>
+
+            {/* Privacy Highlights */}
+            {[
+              {
+                title: "Data Collection",
+                value: "Minimal & Transparent",
+                bg: "#dbeafe",
+              },
+              {
+                title: "User Control",
+                value: "Manage Your Preferences",
+                bg: "#fef3c7",
+              },
+              {
+                title: "Security Standards",
+                value: "Protected & Encrypted",
+                bg: "#d1fae5",
+              },
+            ].map((item, i) => (
+              <div
+                key={i}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 16,
+                  padding: "18px",
+                  borderRadius: 18,
+                  background: "#fafafa",
+                  marginBottom: 16,
+                  border: "1px solid #f3f4f6",
+                }}
+              >
+                <div
+                  style={{
+                    width: 50,
+                    height: 50,
+                    borderRadius: 16,
+                    background: item.bg,
+                  }}
+                />
+
+                <div>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      color: "#6b7280",
+                      marginBottom: 4,
+                    }}
+                  >
+                    {item.title}
+                  </div>
+
+                  <div
+                    style={{
+                      fontSize: 15,
+                      color: "#111827",
+                      fontWeight: 700,
+                    }}
+                  >
+                    {item.value}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </Reveal>
+  </div>
+</section>
       {/* ════════════════════════════════════
           QUICK SUMMARY CARDS
       ════════════════════════════════════ */}
@@ -221,7 +659,6 @@ export default function Privacy() {
               {[
                 { icon: "🚫", title: "We don't sell data", sub: "Never sold to advertisers" },
                 { icon: "🆓", title: "Always free", sub: "No paid data tiers" },
-                { icon: "✏️", title: "Edit anytime", sub: "Update or delete your info" },
                 { icon: "📧", title: "Opt-out easy", sub: "Unsubscribe in one click" },
               ].map(c => (
                 <div key={c.title} style={{ background: C.light, borderRadius: 10, padding: "14px 16px", border: `1px solid ${C.border}` }}>
@@ -297,12 +734,7 @@ export default function Privacy() {
                 <BulletList items={[
                   "Show you personalised job recommendations matching your profile",
                   "Send job alert emails and WhatsApp notifications (only with your consent)",
-                  "Allow you to save jobs and track your applications",
-                  "Verify and improve the quality of our job listings",
                   "Respond to your support and contact form queries",
-                  "Prevent fraud, spam accounts, and fake job postings",
-                  "Analyse platform usage to fix bugs and improve features",
-                  "Comply with applicable Indian laws and regulations",
                 ]} />
                 <Para>
                   We use your data only for the purposes listed above. If we ever want to use it for anything new, we will update this policy and notify you before doing so.
@@ -342,14 +774,9 @@ export default function Privacy() {
                 <SectionTitle id="sharing">5. Data Sharing</SectionTitle>
                 <Para>We do not sell your personal data. We share it only in the following limited, necessary circumstances:</Para>
                 <BulletList items={[
-                  "With employers — only your name and contact details when you explicitly click 'Apply Now' on a listing",
                   "With service providers — hosting (AWS), email delivery (SendGrid), analytics (Google). All are bound by strict data processing agreements",
-                  "With law enforcement — only when required by a valid court order or applicable Indian law",
                   "In a business transfer — if CodeTechniques is acquired, your data may transfer to the new owner under the same privacy terms",
                 ]} />
-                <InfoBox icon="🛡️" title="Your apply data is controlled" bg="#e8f4fd" border="#bdd6f0" color={C.primary}>
-                  When you apply to a job, only the data you choose to share with that employer is transmitted. We don't expose your full profile or search history to companies.
-                </InfoBox>
                 <Divider />
               </Reveal>
 
@@ -361,11 +788,7 @@ export default function Privacy() {
                 </Para>
                 <BulletList items={[
                   "All data is transmitted over HTTPS / TLS 1.3 encryption",
-                  "Passwords are hashed using bcrypt with a salt factor of 12",
-                  "Databases are protected behind VPC with no public access",
-                  "Access to production data is restricted to 2 engineers and requires 2FA",
                   "We perform regular security audits and penetration tests",
-                  "Backups are encrypted and stored in a separate geographic region",
                 ]} />
                 <Para>
                   Despite these measures, no method of transmission over the internet is 100% secure. If you suspect any unauthorised access to your account, contact us immediately at security@codetechniques.in.
@@ -374,7 +797,7 @@ export default function Privacy() {
               </Reveal>
 
               {/* 7. YOUR RIGHTS */}
-              <Reveal>
+              {/* <Reveal>
                 <SectionTitle id="your-rights">7. Your Rights</SectionTitle>
                 <Para>Under India's Digital Personal Data Protection Act 2023 (DPDPA) and general privacy principles, you have the following rights:</Para>
 
@@ -401,11 +824,11 @@ export default function Privacy() {
                   To exercise any of these rights, email <strong style={{ color: C.primary }}>privacy@codetechniques.in</strong> with your registered email address. We will respond within 30 days.
                 </Para>
                 <Divider />
-              </Reveal>
+              </Reveal> */}
 
               {/* 8. THIRD PARTIES */}
               <Reveal>
-                <SectionTitle id="third-parties">8. Third-Party Links</SectionTitle>
+                <SectionTitle id="third-parties">7. Third-Party Links</SectionTitle>
                 <Para>
                   Our platform contains links to external job listings on company career pages, LinkedIn, Naukri, and other sites. Once you leave Daily Job Openings, this Privacy Policy no longer applies.
                 </Para>
@@ -416,24 +839,22 @@ export default function Privacy() {
               </Reveal>
 
               {/* 9. CHILDREN */}
-              <Reveal>
+              {/* <Reveal>
                 <SectionTitle id="children">9. Children's Privacy</SectionTitle>
                 <Para>
                   Daily Job Openings is intended for users who are 18 years of age or older. We do not knowingly collect personal data from anyone under 18. If you are a parent or guardian and believe your child has provided us with personal information, please contact us at privacy@codetechniques.in and we will delete that information promptly.
                 </Para>
                 <Divider />
-              </Reveal>
+              </Reveal> */}
 
               {/* 10. CHANGES */}
               <Reveal>
-                <SectionTitle id="changes">10. Policy Changes</SectionTitle>
+                <SectionTitle id="changes">8. Policy Changes</SectionTitle>
                 <Para>
                   We may update this Privacy Policy from time to time to reflect changes in our practices, technology, legal requirements, or for other operational reasons. When we make material changes, we will:
                 </Para>
                 <BulletList items={[
                   "Update the 'Last Updated' date at the top of this page",
-                  "Send an email notification to all registered users",
-                  "Display a prominent notice on our homepage for 30 days",
                 ]} />
                 <Para>
                   Your continued use of Daily Job Openings after the effective date of any changes constitutes your acceptance of the revised policy. We encourage you to review this page periodically.
@@ -443,14 +864,13 @@ export default function Privacy() {
 
               {/* 11. CONTACT */}
               <Reveal>
-                <SectionTitle id="contact">11. Contact Us</SectionTitle>
+                <SectionTitle id="contact">9. Contact Us</SectionTitle>
                 <Para>If you have any questions, concerns, or requests about this Privacy Policy or how we handle your data, you can reach us through any of the following channels:</Para>
 
                 <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
                   {[
-                    { icon: "📧", label: "Privacy email", value: "privacy@codetechniques.in" },
-                    { icon: "📧", label: "General contact", value: "hello@codetechniques.in" },
-                    { icon: "📍", label: "Postal address", value: "3rd Floor, Tech Park, Hitech City, Hyderabad — 500081, Telangana, India" },
+                    { icon: "📧", label: "Privacy email", value: "codetechniques.in@gmail.com" },
+                    { icon: "📧", label: "General contact", value: "codetechniques.in@gmail.com" },
                   ].map(c => (
                     <div key={c.label} style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "12px 16px", background: "#e8f4fd", borderRadius: 10, border: "1px solid #bdd6f0" }}>
                       <span style={{ fontSize: 18, flexShrink: 0 }}>{c.icon}</span>
@@ -490,7 +910,7 @@ export default function Privacy() {
                 {/* Last updated */}
                 <div style={{ marginTop: 16, padding: "10px 12px", background: C.light, borderRadius: 8, fontSize: 11.5, color: C.muted, textAlign: "center" }}>
                   Last updated<br />
-                  <strong style={{ color: C.text }}>March 18, 2026</strong>
+                  <strong style={{ color: C.text }}>April 18, 2026</strong>
                 </div>
               </div>
 
@@ -526,11 +946,8 @@ export default function Privacy() {
               Questions about how we handle your data? Our team is happy to walk you through anything in this policy.
             </p>
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-              <a href="/contact" style={{ background: C.accent, color: "#fff", padding: "12px 28px", borderRadius: 9, fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 13 }}>
+              <a href="/contact-us" style={{ background: C.accent, color: "#fff", padding: "12px 28px", borderRadius: 9, fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 13 }}>
                 Contact Us →
-              </a>
-              <a href="mailto:privacy@codetechniques.in" style={{ background: "rgba(255,255,255,0.1)", color: "#fff", padding: "12px 28px", borderRadius: 9, fontWeight: 600, fontSize: 13, border: "1px solid rgba(255,255,255,0.2)" }}>
-                Email Privacy Team
               </a>
             </div>
           </Reveal>
@@ -540,5 +957,6 @@ export default function Privacy() {
       {/* ── Footer ── */}
       <Footer bp={bp} gutter={gutter} />
     </div>
+    </>
   );
 }

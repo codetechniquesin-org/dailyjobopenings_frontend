@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { Helmet } from "react-helmet-async";
 import AlertBar from "../components/alertbar";
 import TopTicker from "../components/topticker";
 import Navbar from "../components/navbar";
@@ -567,6 +568,71 @@ export default function WalkInDrivesPage() {
   if (sort === "Salary") jobs = [...jobs].sort((a, b) => b.salary.localeCompare(a.salary));
 
   return (
+    <>
+      <Helmet>
+
+      <title>
+        Latest Walk-In Drives 2026 | Freshers & Experienced Hiring
+      </title>
+
+      <meta
+        name="description"
+        content="Explore latest walk-in drives, direct interview jobs, mass hiring opportunities, fresher walk-ins, and IT hiring drives across India."
+      />
+
+      <meta
+        name="keywords"
+        content="walkin jobs, walkin drives 2026, fresher walkins, direct interview jobs, mass hiring, IT walkins, software walkins"
+      />
+
+      <meta
+        name="robots"
+        content="index, follow"
+      />
+
+      <link
+        rel="canonical"
+        href={`${window.location.origin}/walk-in-drive`}
+      />
+
+      {/* OpenGraph */}
+      <meta
+        property="og:type"
+        content="website"
+      />
+
+      <meta
+        property="og:title"
+        content="Latest Walk-In Drives 2026"
+      />
+
+      <meta
+        property="og:description"
+        content="Find latest walk-in jobs, fresher hiring drives, direct interview opportunities and mass hiring across India."
+      />
+
+      <meta
+        property="og:url"
+        content={`${window.location.origin}/walk-in-drive`}
+      />
+
+      {/* Twitter */}
+      <meta
+        name="twitter:card"
+        content="summary_large_image"
+      />
+
+      <meta
+        name="twitter:title"
+        content="Latest Walk-In Drives 2026"
+      />
+
+      <meta
+        name="twitter:description"
+        content="Explore latest walk-in jobs and direct interview opportunities across India."
+      />
+
+    </Helmet>
     <div
       style={{
         fontFamily:
@@ -613,136 +679,534 @@ export default function WalkInDrivesPage() {
       />
 
       {/* ── HERO ── */}
-      <div
-        style={{
-          background: PAGE.heroGradient,
-          color: "#fff",
-          padding: isMobile ? "30px 16px" : "52px 24px",
-          marginBottom: 32,
-        }}
-      >
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          {/* Breadcrumb */}
-          <div style={{ fontSize: 12, color: "rgba(255,255,255,.5)", marginBottom: 14 }}>
-            <a href="#" style={{ color: "rgba(255,255,255,.7)" }}>Home</a>
-            &nbsp;›&nbsp; Walk-In Drives
-          </div>
+      <section
+  style={{
+    width: "100%",
+    position: "relative",
+    overflow: "hidden",
+    background: "#f7f8fc",
+    padding: isMobile ? "60px 16px 50px" : "90px 24px 80px",
+    marginBottom: 40,
+  }}
+>
+  {/* Background Shapes */}
+  <div
+    style={{
+      position: "absolute",
+      top: -120,
+      right: -100,
+      width: 340,
+      height: 340,
+      borderRadius: "40%",
+      background: "linear-gradient(135deg,#dbeafe,#bfdbfe)",
+      transform: "rotate(25deg)",
+      opacity: 0.6,
+    }}
+  />
 
-          <div style={{ display: "flex", alignItems: "flex-start", gap: 24, flexWrap: "wrap" }}>
-            <div style={{ flex: 1, minWidth: 220 }}>
+  <div
+    style={{
+      position: "absolute",
+      bottom: -100,
+      left: -80,
+      width: 280,
+      height: 280,
+      borderRadius: "50%",
+      background: "linear-gradient(135deg,#fde68a,#fca5a5)",
+      opacity: 0.45,
+      filter: "blur(20px)",
+    }}
+  />
+
+  <div
+    style={{
+      maxWidth: 1280,
+      margin: "0 auto",
+      position: "relative",
+      zIndex: 2,
+    }}
+  >
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: isMobile ? "1fr" : "1.1fr 0.9fr",
+        gap: isMobile ? 45 : 70,
+        alignItems: "center",
+      }}
+    >
+      {/* LEFT CONTENT */}
+      <div>
+        {/* Breadcrumb */}
+        <div
+          style={{
+            fontSize: 12,
+            color: "#6b7280",
+            marginBottom: 22,
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+          }}
+        >
+          <a
+            href="/"
+            style={{
+              color: "#6b7280",
+              textDecoration: "none",
+            }}
+          >
+            Home
+          </a>
+
+          <span>›</span>
+
+          <span
+            style={{
+              color: "#111827",
+              fontWeight: 600,
+            }}
+          >
+            Walk-In Drives
+          </span>
+        </div>
+
+        {/* Badge */}
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 10,
+            background: "#ffffff",
+            border: "1px solid #e5e7eb",
+            padding: "8px 16px",
+            borderRadius: 999,
+            marginBottom: 28,
+            boxShadow: "0 4px 20px rgba(0,0,0,0.04)",
+          }}
+        >
+          <div
+            style={{
+              width: 10,
+              height: 10,
+              borderRadius: "50%",
+              background: "#2563eb",
+            }}
+          />
+
+          <span
+            style={{
+              fontSize: 12,
+              fontWeight: 700,
+              color: "#111827",
+              letterSpacing: "0.05em",
+            }}
+          >
+            {PAGE.badge}
+          </span>
+        </div>
+
+        {/* Heading */}
+        <h1
+          style={{
+            fontFamily: "'Syne', sans-serif",
+            fontWeight: 800,
+            fontSize: isMobile ? "2.7rem" : "5rem",
+            lineHeight: 0.98,
+            color: "#111827",
+            marginBottom: 24,
+            letterSpacing: "-0.05em",
+            maxWidth: 700,
+          }}
+        >
+          Walk-In <br />
+          <span
+            style={{
+              color: "#2563eb",
+            }}
+          >
+            Drives
+          </span>{" "}
+          Across India
+        </h1>
+
+        {/* Subtitle */}
+        <p
+          style={{
+            fontSize: isMobile ? 15 : 17,
+            lineHeight: 1.9,
+            color: "#4b5563",
+            maxWidth: 620,
+            marginBottom: 38,
+          }}
+        >
+          {PAGE.subtitle}
+        </p>
+
+        {/* Buttons */}
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 16,
+            marginBottom: 46,
+          }}
+        >
+          <a
+            href="#"
+            style={{
+              background: "#111827",
+              color: "#fff",
+              padding: isMobile ? "12px 24px" : "15px 34px",
+              borderRadius: 14,
+              fontWeight: 700,
+              fontSize: 14,
+              textDecoration: "none",
+              boxShadow: "0 10px 30px rgba(17,24,39,0.18)",
+            }}
+          >
+            {PAGE.cta1}
+          </a>
+
+          <a
+            href="#"
+            style={{
+              background: "#fff",
+              border: "1px solid #d1d5db",
+              color: "#111827",
+              padding: isMobile ? "12px 24px" : "15px 34px",
+              borderRadius: 14,
+              fontWeight: 600,
+              fontSize: 14,
+              textDecoration: "none",
+            }}
+          >
+            {PAGE.cta2}
+          </a>
+        </div>
+
+        {/* Stats */}
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: isMobile ? 22 : 40,
+          }}
+        >
+          {PAGE.stats.map((s) => (
+            <div key={s.l}>
               <div
                 style={{
-                  display: "inline-block",
-                  background: PAGE.badgeBg,
-                  border: `1px solid ${PAGE.badgeBorder}`,
-                  borderRadius: 20,
-                  padding: "4px 14px",
-                  fontSize: 12,
-                  fontWeight: 700,
-                  color: PAGE.badgeTextColor,
-                  marginBottom: 16,
-                }}
-              >
-                {PAGE.badge}
-              </div>
-              <h1
-                style={{
-                  fontSize: isMobile ? 28 : 38,
+                  fontSize: isMobile ? 28 : 36,
                   fontWeight: 800,
-                  lineHeight: 1.1,
-                  marginBottom: 14,
+                  color: "#111827",
+                  fontFamily: "'Syne', sans-serif",
                 }}
               >
-                {PAGE.title}
-              </h1>
-              <p
+                {s.n}
+              </div>
+
+              <div
                 style={{
-                  fontSize: isMobile ? 13.5 : 16,
-                  opacity: 0.82,
-                  lineHeight: 1.8,
-                  marginBottom: 24,
-                  maxWidth: 560,
+                  marginTop: 4,
+                  color: "#6b7280",
+                  fontSize: 13,
                 }}
               >
-                {PAGE.subtitle}
-              </p>
-              <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                <a
-                  href="#"
-                  style={{
-                    background: C.accent,
-                    color: "#fff",
-                    padding: "12px 28px",
-                    borderRadius: 9,
-                    fontWeight: 700,
-                    fontSize: 14,
-                  }}
-                >
-                  {PAGE.cta1}
-                </a>
-                <a
-                  href="#"
-                  style={{
-                    background: "rgba(255,255,255,.12)",
-                    border: "1px solid rgba(255,255,255,.28)",
-                    color: "#fff",
-                    padding: "12px 22px",
-                    borderRadius: 9,
-                    fontWeight: 600,
-                    fontSize: 13,
-                  }}
-                >
-                  {PAGE.cta2}
-                </a>
+                {s.l}
               </div>
             </div>
-
-            {/* Stats — desktop */}
-            {!isMobile && (
-              <div style={{ display: "flex", gap: 14, flexShrink: 0, alignSelf: "center" }}>
-                {PAGE.stats.map((s) => (
-                  <div
-                    key={s.l}
-                    style={{
-                      background: "rgba(255,255,255,.12)",
-                      border: "1px solid rgba(255,255,255,.2)",
-                      borderRadius: 14,
-                      padding: "18px 22px",
-                      textAlign: "center",
-                    }}
-                  >
-                    <div style={{ fontSize: 26, fontWeight: 800 }}>{s.n}</div>
-                    <div style={{ fontSize: 11.5, opacity: 0.65, marginTop: 4 }}>{s.l}</div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Stats — mobile */}
-          {isMobile && (
-            <div style={{ display: "flex", gap: 10, marginTop: 20 }}>
-              {PAGE.stats.map((s) => (
-                <div
-                  key={s.l}
-                  style={{
-                    flex: 1,
-                    background: "rgba(255,255,255,.12)",
-                    border: "1px solid rgba(255,255,255,.18)",
-                    borderRadius: 10,
-                    padding: "12px 8px",
-                    textAlign: "center",
-                  }}
-                >
-                  <div style={{ fontSize: 18, fontWeight: 800 }}>{s.n}</div>
-                  <div style={{ fontSize: 10, opacity: 0.65, marginTop: 3 }}>{s.l}</div>
-                </div>
-              ))}
-            </div>
-          )}
+          ))}
         </div>
       </div>
 
+      {/* RIGHT SIDE CARD */}
+      {/* RIGHT SIDE VISUAL DESIGN */}
+<div
+  style={{
+    position: "relative",
+    minHeight: isMobile ? 320 : 560,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  }}
+>
+  {/* Main Gradient Orb */}
+  <div
+    style={{
+      width: isMobile ? 240 : 420,
+      height: isMobile ? 240 : 420,
+      borderRadius: "50%",
+      background:
+        "linear-gradient(135deg,#2563eb 0%,#7c3aed 50%,#06b6d4 100%)",
+      filter: "blur(10px)",
+      opacity: 0.95,
+      position: "relative",
+      animation: "floatOrb 6s ease-in-out infinite",
+      boxShadow: "0 30px 80px rgba(37,99,235,.35)",
+    }}
+  />
+
+  {/* Ring 1 */}
+  <div
+    style={{
+      position: "absolute",
+      width: isMobile ? 260 : 470,
+      height: isMobile ? 260 : 470,
+      borderRadius: "50%",
+      border: "1px solid rgba(37,99,235,.18)",
+      animation: "spinSlow 18s linear infinite",
+    }}
+  />
+
+  {/* Ring 2 */}
+  <div
+    style={{
+      position: "absolute",
+      width: isMobile ? 310 : 560,
+      height: isMobile ? 310 : 560,
+      borderRadius: "50%",
+      border: "1px dashed rgba(124,58,237,.18)",
+      animation: "spinReverse 24s linear infinite",
+    }}
+  />
+
+  {/* Floating Mini Elements */}
+  {[
+    {
+      top: "12%",
+      left: "8%",
+      bg: "#ffffff",
+      text: "🚀",
+    },
+    {
+      top: "18%",
+      right: "12%",
+      bg: "#dbeafe",
+      text: "💼",
+    },
+    {
+      bottom: "14%",
+      left: "10%",
+      bg: "#ede9fe",
+      text: "📈",
+    },
+    {
+      bottom: "18%",
+      right: "8%",
+      bg: "#fef3c7",
+      text: "🏢",
+    },
+  ].map((item, i) => (
+    <div
+      key={i}
+      style={{
+        position: "absolute",
+        ...item,
+        width: isMobile ? 54 : 72,
+        height: isMobile ? 54 : 72,
+        borderRadius: 22,
+        background: item.bg,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: isMobile ? 22 : 30,
+        boxShadow: "0 20px 40px rgba(0,0,0,.08)",
+        backdropFilter: "blur(10px)",
+        animation: `floatMini ${4 + i}s ease-in-out infinite`,
+      }}
+    >
+      {item.text}
+    </div>
+  ))}
+
+  {/* Center Text */}
+  <div
+    style={{
+      position: "absolute",
+      textAlign: "center",
+      color: "#fff",
+    }}
+  >
+    <div
+      style={{
+        fontSize: isMobile ? 42 : 82,
+        fontWeight: 800,
+        fontFamily: "'Syne', sans-serif",
+        lineHeight: 1,
+      }}
+    >
+      180+
+    </div>
+
+    <div
+      style={{
+        marginTop: 8,
+        fontSize: isMobile ? 13 : 18,
+        fontWeight: 600,
+        letterSpacing: "0.08em",
+        opacity: 0.92,
+      }}
+    >
+      ACTIVE WALK-IN DRIVES
+    </div>
+  </div>
+</div>
+      {/* <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      > */}
+        {/* <div
+          style={{
+            width: "100%",
+            maxWidth: 470,
+            background: "#ffffff",
+            borderRadius: 30,
+            padding: isMobile ? 24 : 34,
+            boxShadow: "0 25px 60px rgba(0,0,0,0.08)",
+          }}
+        > */}
+          {/* Top Header */}
+          {/* <div
+            style={{
+              background: "#f9fafb",
+              borderRadius: 20,
+              padding: 22,
+              marginBottom: 24,
+              border: "1px solid #f1f5f9",
+            }}
+          >
+            <div
+              style={{
+                width: 58,
+                height: 58,
+                borderRadius: 18,
+                background: "#dbeafe",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 24,
+                marginBottom: 18,
+              }}
+            >
+              🚀
+            </div>
+
+            <h3
+              style={{
+                margin: 0,
+                fontSize: 24,
+                color: "#111827",
+                fontWeight: 800,
+                marginBottom: 10,
+              }}
+            >
+              Latest Walk-In Drives
+            </h3>
+
+            <p
+              style={{
+                margin: 0,
+                color: "#6b7280",
+                lineHeight: 1.7,
+                fontSize: 14,
+              }}
+            >
+              Explore company walk-ins, direct interviews, and fresher hiring
+              events updated daily.
+            </p>
+          </div> */}
+
+          {/* Drive Cards */}
+          {/* {[
+            {
+              role: "Software Engineer",
+              company: "Infosys • Bangalore",
+              color: "#dbeafe",
+            },
+            {
+              role: "Graduate Trainee",
+              company: "TCS • Hyderabad",
+              color: "#ede9fe",
+            },
+            {
+              role: "Data Analyst",
+              company: "Wipro • Pune",
+              color: "#fef3c7",
+            },
+          ].map((job, i) => (
+            <div
+              key={i}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "18px",
+                borderRadius: 18,
+                background: "#fafafa",
+                marginBottom: 16,
+                border: "1px solid #f3f4f6",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  gap: 14,
+                  alignItems: "center",
+                }}
+              >
+                <div
+                  style={{
+                    width: 52,
+                    height: 52,
+                    borderRadius: 16,
+                    background: job.color,
+                  }}
+                />
+
+                <div>
+                  <h3
+                    style={{
+                      margin: 0,
+                      fontSize: 15,
+                      color: "#111827",
+                      fontWeight: 700,
+                    }}
+                  >
+                    {job.role}
+                  </h3>
+
+                  <p
+                    style={{
+                      margin: "6px 0 0",
+                      fontSize: 13,
+                      color: "#6b7280",
+                    }}
+                  >
+                    {job.company}
+                  </p>
+                </div>
+              </div>
+
+              <div
+                style={{
+                  background: "#111827",
+                  color: "#fff",
+                  fontSize: 12,
+                  fontWeight: 700,
+                  padding: "8px 14px",
+                  borderRadius: 999,
+                }}
+              >
+                Apply
+              </div>
+            </div>
+          ))} */}
+        {/* </div> */}
+      {/* </div> */}
+    </div>
+  </div>
+</section>
       {/* ── MAIN CONTENT ── */}
       <div
         style={{
@@ -957,5 +1421,6 @@ export default function WalkInDrivesPage() {
       {/* ── FOOTER ── */}
       <Footer bp={bp} gutter={gutter} />
     </div>
+    </>
   );
 }

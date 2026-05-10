@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef ,useLayoutEffect} from "react";
+import { useLocation } from "react-router-dom";
 import AlertBar from "../components/alertbar";
 import TopTicker from "../components/topticker";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
-
+import { Helmet } from "react-helmet-async";
 
 
 /* ─────────────────────────────────────────────
@@ -70,22 +71,22 @@ function Reveal({ children, delay = 0, style = {} }) {
 }
 
 /* ── Contact info cards ── */
-const CONTACT_CARDS = [
-  {
-    icon: "📧",
-    title: "Email Us",
-    lines: ["codetechniques.in@gmail.com"],
-    sub: "We reply within 24 hours",
-    bg: "#e8f4fd", border: "#bdd6f0", iconBg: "#0f4c81",
-  },
-  {
-    icon: "📱",
-    title: "WhatsApp",
-    lines: ["+91 98765 43210"],
-    sub: "Mon – Sat, 9 AM – 7 PM IST",
-    bg: "#f0fff4", border: "#86efac", iconBg: "#16a34a",
-  },
-];
+// const CONTACT_CARDS = [
+//   {
+//     icon: "📧",
+//     title: "Email Us",
+//     lines: ["codetechniques.in@gmail.com"],
+//     sub: "We reply within 24 hours",
+//     bg: "#e8f4fd", border: "#bdd6f0", iconBg: "#0f4c81",
+//   },
+//   {
+//     icon: "📱",
+//     title: "WhatsApp",
+//     lines: ["+91 98765 43210"],
+//     sub: "Mon – Sat, 9 AM – 7 PM IST",
+//     bg: "#f0fff4", border: "#86efac", iconBg: "#16a34a",
+//   },
+// ];
 
 const INQUIRY_TYPES = [
   "General Inquiry",
@@ -141,6 +142,11 @@ export default function Contact() {
   const bp = useBreakpoint();
   const { isMobile, isTablet, isDesktop } = bp;
   const gutter = isMobile ? "16px" : isTablet ? "20px" : "32px";
+  const location = useLocation();
+
+useLayoutEffect(() => {
+  window.scrollTo(0, 0);
+}, [location.pathname]);
 
   /* ── Form state ── */
   const [form, setForm] = useState({
@@ -217,6 +223,92 @@ export default function Contact() {
   };
 
   return (
+    <>
+    <Helmet>
+
+      <title>
+        Contact Us | Daily Job Openings
+      </title>
+
+      <meta
+        name="description"
+        content="Contact Daily Job Openings for job listing support, partnerships, advertising, technical issues, or general inquiries. We usually respond within 24 hours."
+      />
+
+      <meta
+        name="keywords"
+        content="contact Daily Job Openings, support, partnerships, job portal contact, advertising inquiries, technical support"
+      />
+
+      <meta
+        name="robots"
+        content="index, follow"
+      />
+
+      <link
+        rel="canonical"
+        href={`${window.location.origin}/contact-us`}
+      />
+
+      {/* OpenGraph */}
+      <meta
+        property="og:type"
+        content="website"
+      />
+
+      <meta
+        property="og:title"
+        content="Contact Us | Daily Job Openings"
+      />
+
+      <meta
+        property="og:description"
+        content="Get in touch with Daily Job Openings for support, partnerships, advertising and general inquiries."
+      />
+
+      <meta
+        property="og:url"
+        content={`${window.location.origin}/contact-us`}
+      />
+
+      {/* Twitter */}
+      <meta
+        name="twitter:card"
+        content="summary_large_image"
+      />
+
+      <meta
+        name="twitter:title"
+        content="Contact Us | Daily Job Openings"
+      />
+
+      <meta
+        name="twitter:description"
+        content="Reach out to Daily Job Openings for support, business inquiries and technical assistance."
+      />
+
+      {/* Structured Data */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+
+          name: "Contact Us",
+
+          description:
+            "Official contact page for Daily Job Openings.",
+
+          url: `${window.location.origin}/contact-us`,
+
+          publisher: {
+            "@type": "Organization",
+            name: "Daily Job Openings",
+            url: window.location.origin,
+          },
+        })}
+      </script>
+
+    </Helmet>
     <div style={{ width: "100%", overflowX: "hidden", fontFamily: "'DM Sans', sans-serif", background: C.light, color: C.text, minHeight: "100vh" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
@@ -256,55 +348,400 @@ export default function Contact() {
 
       {/* ── Top components ── */}
       <AlertBar C={{ accent: "#ff4d4f" }} />
-      <TopTicker C={C} gutter={gutter} isMobile={isMobile} isDesktop={isDesktop} />
+      {/* <TopTicker C={C} gutter={gutter} isMobile={isMobile} isDesktop={isDesktop} /> */}
       <Navbar bp={bp} onMenuOpen={() => {}} />
 
       {/* ════════════════════════════════════
           HERO
       ════════════════════════════════════ */}
-      <section style={{ width: "100%", background: `linear-gradient(135deg, ${C.primary} 0%, #1565c0 55%, #0d47a1 100%)`, color: "#fff", padding: isMobile ? "48px 0 40px" : "68px 0 56px", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", top: -80, right: -80, width: 300, height: 300, borderRadius: "50%", background: "rgba(255,255,255,0.04)", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", bottom: -60, left: -40, width: 240, height: 240, borderRadius: "50%", background: "rgba(255,255,255,0.03)", pointerEvents: "none" }} />
+     <section
+  style={{
+    width: "100%",
+    position: "relative",
+    overflow: "hidden",
+    background: "#f7f8fc",
+    padding: isMobile ? "60px 0 50px" : "90px 0 80px",
+  }}
+>
+  {/* Abstract Background Shapes */}
+  <div
+    style={{
+      position: "absolute",
+      top: -120,
+      right: -100,
+      width: 340,
+      height: 340,
+      borderRadius: "40%",
+      background: "linear-gradient(135deg,#dbeafe,#bfdbfe)",
+      transform: "rotate(25deg)",
+      opacity: 0.6,
+    }}
+  />
 
-        <div style={{ width: "100%", padding: `0 ${gutter}`, boxSizing: "border-box" }}>
-          <Reveal>
-            <div style={{
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      textAlign: "center",
+  <div
+    style={{
+      position: "absolute",
+      bottom: -100,
+      left: -80,
+      width: 280,
+      height: 280,
+      borderRadius: "50%",
+      background: "linear-gradient(135deg,#fde68a,#fca5a5)",
+      opacity: 0.45,
+      filter: "blur(20px)",
+    }}
+  />
+
+  <div
+    style={{
       width: "100%",
+      maxWidth: 1250,
+      margin: "0 auto",
+      padding: `0 ${gutter}`,
+      boxSizing: "border-box",
+      position: "relative",
+      zIndex: 2,
     }}
   >
-            {/* Breadcrumb */}
-            <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginBottom: 18, display: "flex", alignItems: "center", gap: 6 }}>
-              <a href="/" style={{ color: "rgba(255,255,255,0.5)" }}>Home</a>
-              <span>›</span>
-              <span style={{ color: "#fff" }}>Contact Us</span>
-            </div>
+    <Reveal>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+          gap: isMobile ? 40 : 70,
+          alignItems: "center",
+        }}
+      >
+        {/* LEFT SIDE */}
+        <div>
+          {/* Breadcrumb */}
+          <div
+            style={{
+              fontSize: 12,
+              color: "#6b7280",
+              marginBottom: 20,
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+            }}
+          >
+            <a
+              href="/"
+              style={{
+                color: "#6b7280",
+                textDecoration: "none",
+              }}
+            >
+              Home
+            </a>
 
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "5px 14px", marginBottom: 18 }}>
-              <span style={{ fontSize: 14 }}>💬</span>
-              <span style={{ fontSize: 11.5, fontWeight: 600, letterSpacing: "0.06em" }}>We'd love to hear from you</span>
-            </div>
+            <span>›</span>
 
-            <h1 className="hero-heading" style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, lineHeight: 1.15, marginBottom: 14 }}>
-              Get in Touch with<br />
-              <span style={{ color: C.gold }}>Daily Job Openings</span>
-            </h1>
+            <span
+              style={{
+                color: "#111827",
+                fontWeight: 600,
+              }}
+            >
+              Contact Us
+            </span>
+          </div>
 
-            <p style={{ fontSize: isMobile ? 13.5 : 15, opacity: 0.82, lineHeight: 1.75, maxWidth: 520 }}>
-              Have a question, want to advertise, report a listing, or just say hello? We're a small team and we read every message personally.
-            </p>
-            </div>
-          </Reveal>
+          {/* Small Label */}
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 10,
+              background: "#ffffff",
+              border: "1px solid #e5e7eb",
+              padding: "8px 16px",
+              borderRadius: 999,
+              marginBottom: 28,
+              boxShadow: "0 4px 20px rgba(0,0,0,0.04)",
+            }}
+          >
+            <div
+              style={{
+                width: 10,
+                height: 10,
+                borderRadius: "50%",
+                background: "#7c3aed",
+              }}
+            />
+
+            <span
+              style={{
+                fontSize: 12,
+                fontWeight: 700,
+                color: "#111827",
+                letterSpacing: "0.05em",
+              }}
+            >
+              WE'D LOVE TO HEAR FROM YOU
+            </span>
+          </div>
+
+          {/* Heading */}
+          <h1
+            style={{
+              fontFamily: "'Syne', sans-serif",
+              fontWeight: 800,
+              fontSize: isMobile ? "2.5rem" : "4.7rem",
+              lineHeight: 1,
+              color: "#111827",
+              marginBottom: 24,
+              letterSpacing: "-0.05em",
+            }}
+          >
+            Let’s Build <br />
+            Something <br />
+            <span
+              style={{
+                color: "#7c3aed",
+              }}
+            >
+              Amazing Together
+            </span>
+          </h1>
+
+          {/* Description */}
+          <p
+            style={{
+              fontSize: isMobile ? 15 : 17,
+              lineHeight: 1.9,
+              color: "#4b5563",
+              maxWidth: 580,
+              marginBottom: 36,
+            }}
+          >
+            Have a question, business inquiry, feedback, or want to report a
+            listing? Our team personally reviews every message and responds as
+            quickly as possible.
+          </p>
+
+          {/* Buttons */}
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 16,
+              marginBottom: 45,
+            }}
+          >
+            <a
+              href="mailto:codetechniques.in@gmail.com"
+              style={{
+                background: "#111827",
+                color: "#fff",
+                padding: isMobile ? "12px 24px" : "15px 34px",
+                borderRadius: 14,
+                fontWeight: 700,
+                fontSize: 14,
+                textDecoration: "none",
+                boxShadow: "0 10px 30px rgba(17,24,39,0.18)",
+              }}
+            >
+              Email Us
+            </a>
+
+            <a
+              href="/"
+              style={{
+                background: "#fff",
+                border: "1px solid #d1d5db",
+                color: "#111827",
+                padding: isMobile ? "12px 24px" : "15px 34px",
+                borderRadius: 14,
+                fontWeight: 600,
+                fontSize: 14,
+                textDecoration: "none",
+              }}
+            >
+              Browse Jobs
+            </a>
+          </div>
+
+          {/* Mini Stats */}
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: isMobile ? 20 : 40,
+            }}
+          >
+            {[
+              ["24h", "Average Response"],
+              ["100%", "Free Support"],
+              ["7 Days", "Weekly Assistance"],
+            ].map(([num, label]) => (
+              <div key={label}>
+                <div
+                  style={{
+                    fontSize: isMobile ? 26 : 34,
+                    fontWeight: 800,
+                    color: "#111827",
+                    fontFamily: "'Syne', sans-serif",
+                  }}
+                >
+                  {num}
+                </div>
+
+                <div
+                  style={{
+                    marginTop: 4,
+                    color: "#6b7280",
+                    fontSize: 13,
+                  }}
+                >
+                  {label}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      </section>
 
+        {/* RIGHT SIDE */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            position: "relative",
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              maxWidth: 460,
+              background: "#ffffff",
+              borderRadius: 30,
+              padding: isMobile ? 24 : 34,
+              boxShadow: "0 25px 60px rgba(0,0,0,0.08)",
+            }}
+          >
+            {/* Top Card */}
+            <div
+              style={{
+                background: "#f9fafb",
+                borderRadius: 20,
+                padding: 22,
+                marginBottom: 22,
+                border: "1px solid #f1f5f9",
+              }}
+            >
+              {/* <div
+                style={{
+                  width: 58,
+                  height: 58,
+                  borderRadius: 18,
+                  background: "#ede9fe",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 24,
+                  marginBottom: 18,
+                }}
+              >
+                ✉️
+              </div> */}
+
+              <h3
+                style={{
+                  margin: 0,
+                  fontSize: 22,
+                  color: "#111827",
+                  fontWeight: 800,
+                  marginBottom: 10,
+                }}
+              >
+                Contact Support
+              </h3>
+
+              <p
+                style={{
+                  margin: 0,
+                  color: "#6b7280",
+                  lineHeight: 1.7,
+                  fontSize: 14,
+                }}
+              >
+                Reach out anytime regarding partnerships, advertisements,
+                listings, or general questions.
+              </p>
+            </div>
+
+            {/* Contact Info */}
+            {[
+              {
+                title: "Email Address",
+                value: "codetechniques.in@gmail.com",
+              },
+              // {
+              //   title: "Support Type",
+              //   value: "Jobs • Ads • Feedback",
+              //   bg: "#fef3c7",
+              // },
+              // {
+              //   title: "Availability",
+              //   value: "Monday - Sunday",
+              //   bg: "#ede9fe",
+              // },
+            ].map((item, i) => (
+              <div
+                key={i}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 16,
+                  padding: "18px",
+                  borderRadius: 18,
+                  background: "#fafafa",
+                  marginBottom: 16,
+                  border: "1px solid #f3f4f6",
+                }}
+              >
+                <div
+                  style={{
+                    width: 50,
+                    height: 50,
+                    borderRadius: 16,
+                    background: item.bg,
+                  }}
+                />
+
+                <div>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      color: "#6b7280",
+                      marginBottom: 4,
+                    }}
+                  >
+                    {item.title}
+                  </div>
+
+                  <div
+                    style={{
+                      fontSize: 15,
+                      color: "#111827",
+                      fontWeight: 700,
+                    }}
+                  >
+                    {item.value}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </Reveal>
+  </div>
+</section>
       {/* ════════════════════════════════════
           CONTACT CARDS
       ════════════════════════════════════ */}
-      <section style={{ width: "100%", background: "#fff", borderBottom: `1px solid ${C.border}` }}>
+      {/* <section style={{ width: "100%", background: "#fff", borderBottom: `1px solid ${C.border}` }}>
         <div style={{ width: "100%", padding: `36px ${gutter}`, boxSizing: "border-box" }}>
           <div className="cards-grid" style={{ display: "grid", gap: 16 }}>
             {CONTACT_CARDS.map((card, i) => (
@@ -325,7 +762,7 @@ export default function Contact() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* ════════════════════════════════════
           MAIN: FORM + SIDEBAR
@@ -337,7 +774,36 @@ export default function Contact() {
             {/* ── LEFT: FORM ── */}
             <Reveal delay={0}>
               <div style={{ background: "#fff", borderRadius: 16, border: `1px solid ${C.border}`, padding: isMobile ? 24 : 36, boxShadow: "0 4px 24px rgba(15,76,129,0.06)" }}>
-                <SectionLabel>Send a Message</SectionLabel>
+                <div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: 12,
+    marginBottom: 18,
+  }}
+>
+  <div
+    style={{
+      width: 4,
+      height: 24,
+      borderRadius: 10,
+      background: C.accent,
+    }}
+  />
+
+  <span
+    style={{
+      fontSize: 14,
+      fontWeight: 800,
+      letterSpacing: "0.18em",
+      textTransform: "uppercase",
+      color: C.accent,
+      fontFamily: "'DM Sans', sans-serif",
+    }}
+  >
+   SEND A MESSAGE
+  </span>
+</div>
                 <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: isMobile ? 20 : 26, fontWeight: 800, color: C.text, marginBottom: 6 }}>
                   Fill in the form below
                 </h2>
@@ -468,7 +934,7 @@ export default function Contact() {
             {/* ── RIGHT: SIDEBAR ── */}
             <div>
               {/* Response time */}
-              <Reveal delay={0.1}>
+              {/* <Reveal delay={0.1}>
                 <div style={{ background: "#fff", border: `1px solid ${C.border}`, borderRadius: 14, padding: 22, marginBottom: 16 }}>
                   <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 14, color: C.text, marginBottom: 16 }}>⏱ Response Times</div>
                   {[
@@ -484,7 +950,7 @@ export default function Contact() {
                     </div>
                   ))}
                 </div>
-              </Reveal>
+              </Reveal> */}
 
               {/* WhatsApp CTA */}
               <Reveal delay={0.15}>
@@ -492,14 +958,14 @@ export default function Contact() {
                   <div style={{ fontSize: 36, marginBottom: 10 }}>📱</div>
                   <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: 15, marginBottom: 8 }}>Get Faster Help on WhatsApp</div>
                   <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.65)", marginBottom: 16, lineHeight: 1.6 }}>For urgent queries, WhatsApp is the fastest way to reach us.</p>
-                  <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer" style={{ display: "inline-block", background: "#25D366", color: "#fff", padding: "10px 22px", borderRadius: 9, fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 13 }}>
+                  <a href="https://whatsapp.com/channel/0029Vb7fjzJK0IBayWJ7mv0I" target="_blank" rel="noreferrer" style={{ display: "inline-block", background: "#25D366", color: "#fff", padding: "10px 22px", borderRadius: 9, fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 13 }}>
                     Chat on WhatsApp →
                   </a>
                 </div>
               </Reveal>
 
               {/* Formspree setup guide */}
-              <Reveal delay={0.2}>
+              {/* <Reveal delay={0.2}>
                 <div style={{ background: "linear-gradient(135deg,#f0f7ff,#e8f4fd)", border: `1.5px solid #bdd6f0`, borderRadius: 14, padding: 22 }}>
                   <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 13.5, color: C.primary, marginBottom: 14 }}>
                     🔧 Formspree Setup Guide
@@ -521,7 +987,7 @@ export default function Contact() {
                     Go to Formspree →
                   </a>
                 </div>
-              </Reveal>
+              </Reveal> */}
             </div>
 
           </div>
@@ -536,5 +1002,6 @@ export default function Contact() {
       {/* ── Footer ── */}
       <Footer bp={bp} gutter={gutter} />
     </div>
+    </>
   );
 }

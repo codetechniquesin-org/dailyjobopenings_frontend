@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import AlertBar from "../components/alertbar";
 import Navbar from "../components/navbar";
 // import TopTicker from "../components/topticker";
@@ -415,6 +416,95 @@ export default function ExamsPage() {
   };
 
   return (
+    <>
+    <Helmet>
+
+      <title>
+        Latest Government Exams 2026 | Banking, UPSC, SSC, Railway & More
+      </title>
+
+      <meta
+        name="description"
+        content="Explore latest government exams, banking exams, SSC, UPSC, railway recruitment, engineering entrance tests, admit cards and exam notifications for 2025-26."
+      />
+
+      <meta
+        name="keywords"
+        content="government exams 2026, SSC exams, UPSC exams, banking exams, railway exams, engineering entrance exams, latest exam notifications"
+      />
+
+      <meta
+        name="robots"
+        content="index, follow"
+      />
+
+      <link
+        rel="canonical"
+        href={`${window.location.origin}/user/view-exams`}
+      />
+
+      {/* OpenGraph */}
+      <meta
+        property="og:type"
+        content="website"
+      />
+
+      <meta
+        property="og:title"
+        content="Latest Government Exams 2026"
+      />
+
+      <meta
+        property="og:description"
+        content="Get latest exam notifications, admit cards, eligibility details and important exam dates across India."
+      />
+
+      <meta
+        property="og:url"
+        content={`${window.location.origin}/user/view-exams`}
+      />
+
+      {/* Twitter */}
+      <meta
+        name="twitter:card"
+        content="summary_large_image"
+      />
+
+      <meta
+        name="twitter:title"
+        content="Latest Government Exams 2026"
+      />
+
+      <meta
+        name="twitter:description"
+        content="Explore latest competitive exams, banking exams, SSC, UPSC, railway and engineering exam updates."
+      />
+
+      {/* Structured Data */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+
+          name: "Latest Government Exams 2026",
+
+          description:
+            "Explore latest government exams, banking exams, SSC, UPSC, railway recruitment and engineering entrance exams.",
+
+          url: `${window.location.origin}/user/view-exams`,
+
+          keywords: [
+            "government exams",
+            "banking exams",
+            "SSC",
+            "UPSC",
+            "railway exams",
+            "engineering entrance exams",
+          ],
+        })}
+      </script>
+
+    </Helmet>
     <div style={{ width: "100%", minHeight: "100vh", fontFamily: "'DM Sans', sans-serif", background: S.light, color: S.text, overflowX: "hidden" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
@@ -463,45 +553,287 @@ export default function ExamsPage() {
       />
 
       {/* Hero Banner */}
-      <div className="section-full" style={{ background: "linear-gradient(135deg,#0f4c81 0%,#1565c0 60%,#0d47a1 100%)", color: "#fff", padding: isMobile ? "32px 0 28px" : "44px 0 36px" }}>
-        <div className="section-inner">
-          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: 20 }}>
-            <div style={{ flex: 1, minWidth: 260 }}>
-              <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "4px 12px", fontSize: 12, marginBottom: 14 }}>
-                📋 <span>Exam Alerts 2025–26</span>
-              </div>
-              <h1 style={{ fontSize: isMobile ? "1.6rem" : "2.2rem", fontWeight: 800, lineHeight: 1.2, marginBottom: 10 }}>
-                All Competitive Exams<br />
-                <span style={{ color: "#f5a623" }}>in One Place</span>
-              </h1>
-              <p style={{ fontSize: 14, opacity: 0.88, maxWidth: 480 }}>
-                Stay ahead with real-time exam notifications — UPSC, Banking, Engineering, State PSC, Railways & more. Never miss a deadline.
-              </p>
-            </div>
-            <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-              {[["📋", EXAMS.length + "+", "Total Exams"], ["✅", stats.open, "Open Now"]].map(([icon, val, label]) => (
-                <div key={label} style={{ background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 10, padding: "12px 18px", textAlign: "center", minWidth: 90 }}>
-                  <div style={{ fontSize: 20 }}>{icon}</div>
-                  <strong style={{ display: "block", fontSize: "1.3rem", fontWeight: 800 }}>{val}</strong>
-                  <small style={{ fontSize: 11, opacity: 0.8 }}>{label}</small>
-                </div>
-              ))}
-            </div>
+<div
+  className="section-full"
+  style={{
+    position: "relative",
+    overflow: "hidden",
+    background:
+      "linear-gradient(135deg,#f8fbff 0%,#eef4ff 45%,#f5f9ff 100%)",
+    padding: isMobile ? "56px 0 46px" : "84px 0 70px",
+  }}
+>
+  {/* Background Shapes */}
+  <div
+    style={{
+      position: "absolute",
+      top: -100,
+      right: -80,
+      width: 300,
+      height: 300,
+      borderRadius: "40%",
+      background: "linear-gradient(135deg,#dbeafe,#bfdbfe)",
+      opacity: 0.7,
+      transform: "rotate(22deg)",
+    }}
+  />
+
+  <div
+    style={{
+      position: "absolute",
+      bottom: -120,
+      left: -100,
+      width: 340,
+      height: 340,
+      borderRadius: "50%",
+      background: "linear-gradient(135deg,#fde68a,#fca5a5)",
+      opacity: 0.45,
+      filter: "blur(18px)",
+    }}
+  />
+
+  {/* Grid Overlay */}
+  <div
+    style={{
+      position: "absolute",
+      inset: 0,
+      backgroundImage:
+        "linear-gradient(rgba(37,99,235,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.04) 1px, transparent 1px)",
+      backgroundSize: "42px 42px",
+      pointerEvents: "none",
+    }}
+  />
+
+  <div
+    className="section-inner"
+    style={{
+      position: "relative",
+      zIndex: 2,
+    }}
+  >
+    {/* Top Section */}
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        flexWrap: "wrap",
+        gap: 36,
+      }}
+    >
+      {/* LEFT CONTENT */}
+      <div style={{ flex: 1, minWidth: 260 }}>
+        
+        {/* Badge */}
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 8,
+            background: "#ffffff",
+            border: "1px solid #dbeafe",
+            borderRadius: 999,
+            padding: "8px 16px",
+            marginBottom: 24,
+            boxShadow: "0 4px 20px rgba(0,0,0,0.04)",
+          }}
+        >
+          <div
+            style={{
+              width: 10,
+              height: 10,
+              borderRadius: "50%",
+              background: "#2563eb",
+            }}
+          />
+
+          <span
+            style={{
+              fontSize: 12,
+              fontWeight: 700,
+              color: "#111827",
+              letterSpacing: "0.04em",
+            }}
+          >
+            📋 Exam Alerts 2025–26
+          </span>
+        </div>
+
+        {/* Heading */}
+        <h1
+          style={{
+            fontFamily: "'Syne', sans-serif",
+            fontSize: isMobile ? "2.3rem" : "4.2rem",
+            fontWeight: 800,
+            lineHeight: 0.98,
+            color: "#111827",
+            marginBottom: 20,
+            letterSpacing: "-0.05em",
+            maxWidth: 700,
+          }}
+        >
+          All Competitive <br />
+          <span style={{ color: "#2563eb" }}>
+            Exams in India
+          </span>
+        </h1>
+
+        {/* Subtitle */}
+        <p
+          style={{
+            fontSize: isMobile ? 14 : 16,
+            lineHeight: 1.9,
+            color: "#4b5563",
+            maxWidth: 620,
+            marginBottom: 34,
+          }}
+        >
+          Stay ahead with real-time exam notifications — UPSC,
+          Banking, SSC, Engineering, Railways & State PSC updates
+          all in one place.
+        </p>
+
+        {/* Search Area */}
+        <div
+          style={{
+            display: "flex",
+            gap: 12,
+            flexWrap: "wrap",
+          }}
+        >
+          {/* Search */}
+          <div
+            style={{
+              flex: 1,
+              minWidth: 220,
+              position: "relative",
+            }}
+          >
+            <span
+              style={{
+                position: "absolute",
+                left: 14,
+                top: "50%",
+                transform: "translateY(-50%)",
+                fontSize: 16,
+                pointerEvents: "none",
+              }}
+            >
+              🔍
+            </span>
+
+            <input
+              value={searchVal}
+              onChange={(e) => setSearchVal(e.target.value)}
+              placeholder="Search exams, bodies or keywords..."
+              style={{
+                width: "100%",
+                padding: "14px 16px 14px 42px",
+                borderRadius: 14,
+                border: "1px solid #dbeafe",
+                background: "#fff",
+                fontSize: 14,
+                color: "#111827",
+                outline: "none",
+                boxShadow: "0 8px 24px rgba(0,0,0,0.04)",
+              }}
+            />
           </div>
-          <div style={{ marginTop: 24, display: "flex", gap: 10, flexWrap: "wrap" }}>
-            <div style={{ flex: 1, minWidth: 220, position: "relative" }}>
-              <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", fontSize: 16, pointerEvents: "none" }}>🔍</span>
-              <input value={searchVal} onChange={e => setSearchVal(e.target.value)}
-                placeholder="Search by exam name, body or keyword..."
-                style={{ width: "100%", padding: "11px 14px 11px 38px", borderRadius: 9, border: "none", background: "rgba(255,255,255,0.95)", fontSize: 13.5, fontFamily: "'DM Sans',sans-serif", color: "#1a1a2e", outline: "none" }} />
-            </div>
-            <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}
-              style={{ padding: "11px 14px", borderRadius: 9, border: "none", background: "rgba(255,255,255,0.95)", fontSize: 13.5, fontFamily: "'DM Sans',sans-serif", color: "#1a1a2e", outline: "none", minWidth: 130 }}>
-              {["All", "Open", "Upcoming", "Closed"].map(s => <option key={s}>{s}</option>)}
-            </select>
-          </div>
+
+          {/* Filter */}
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            style={{
+              padding: "14px 16px",
+              borderRadius: 14,
+              border: "1px solid #dbeafe",
+              background: "#fff",
+              fontSize: 14,
+              color: "#111827",
+              outline: "none",
+              minWidth: 160,
+              cursor: "pointer",
+              boxShadow: "0 8px 24px rgba(0,0,0,0.04)",
+            }}
+          >
+            {["All", "Open", "Upcoming", "Closed"].map((s) => (
+              <option key={s}>{s}</option>
+            ))}
+          </select>
         </div>
       </div>
+
+      {/* RIGHT STATS */}
+      <div
+        style={{
+          display: "flex",
+          gap: 16,
+          flexWrap: "wrap",
+          justifyContent: isMobile ? "flex-start" : "center",
+        }}
+      >
+        {[
+          ["📋", EXAMS.length + "+", "Total Exams"],
+          ["✅", stats.open, "Open Now"],
+        ].map(([icon, val, label]) => (
+          <div
+            key={label}
+            style={{
+              minWidth: 170,
+              background: "rgba(255,255,255,0.75)",
+              backdropFilter: "blur(12px)",
+              border: "1px solid #dbeafe",
+              borderRadius: 24,
+              padding: isMobile ? "22px 20px" : "28px 26px",
+              textAlign: "center",
+              boxShadow: "0 18px 45px rgba(37,99,235,0.08)",
+            }}
+          >
+            <div
+              style={{
+                width: 58,
+                height: 58,
+                borderRadius: 18,
+                background: "#eff6ff",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 24,
+                margin: "0 auto 16px",
+              }}
+            >
+              {icon}
+            </div>
+
+            <div
+              style={{
+                fontSize: isMobile ? "1.8rem" : "2.3rem",
+                fontWeight: 800,
+                color: "#111827",
+                fontFamily: "'Syne', sans-serif",
+                lineHeight: 1,
+              }}
+            >
+              {val}
+            </div>
+
+            <div
+              style={{
+                marginTop: 8,
+                color: "#6b7280",
+                fontSize: 13,
+                fontWeight: 500,
+              }}
+            >
+              {label}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
 
       {/* Category Pills Bar */}
       <div className="section-full" style={{ background: "#ffffff", borderBottom: "1px solid #e2e8f0" }}>
@@ -586,7 +918,7 @@ export default function ExamsPage() {
                   <strong style={{ fontSize: 14, display: "block" }}>Never miss an exam deadline!</strong>
                   <span style={{ fontSize: 12, color: S.muted }}>Join our WhatsApp group for instant exam alerts, admit cards & results.</span>
                 </div>
-                <a href="#" style={{ background: "#16a34a", color: "#fff", padding: "9px 20px", borderRadius: 8, fontWeight: 700, fontSize: 13, textDecoration: "none", whiteSpace: "nowrap" }}>
+                <a href="https://whatsapp.com/channel/0029Vb7fjzJK0IBayWJ7mv0I" style={{ background: "#16a34a", color: "#fff", padding: "9px 20px", borderRadius: 8, fontWeight: 700, fontSize: 13, textDecoration: "none", whiteSpace: "nowrap" }}>
                   Join WhatsApp →
                 </a>
               </div>
@@ -626,5 +958,6 @@ export default function ExamsPage() {
         <Footer bp={bp} gutter="16px" />
       </div>
     </div>
+    </>
   );
 }
