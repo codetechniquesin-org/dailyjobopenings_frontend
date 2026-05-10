@@ -3,6 +3,7 @@ import AlertBar from "../components/alertbar";
 import TopTicker from "../components/topticker";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
+import { Helmet } from "react-helmet-async";
 
 const C = {
   primary: "#0a2540",
@@ -300,6 +301,93 @@ export default function TermsAndConditionsPage() {
   const gutter = isMobile ? "14px" : "24px";
 
   return (
+    <>
+      <Helmet>
+
+      <title>
+        Terms & Conditions | Daily Job Openings
+      </title>
+
+      <meta
+        name="description"
+        content="Read the Terms & Conditions of Daily Job Openings to understand platform usage policies, user responsibilities, limitations, and legal agreements."
+      />
+
+      <meta
+        name="keywords"
+        content="terms and conditions, Daily Job Openings terms, legal policies, user agreement, platform rules"
+      />
+
+      <meta
+        name="robots"
+        content="index, follow"
+      />
+
+      <link
+        rel="canonical"
+        href={`${window.location.origin}/terms-and-conditions`}
+      />
+
+      {/* OpenGraph */}
+      <meta
+        property="og:type"
+        content="website"
+      />
+
+      <meta
+        property="og:title"
+        content="Terms & Conditions | Daily Job Openings"
+      />
+
+      <meta
+        property="og:description"
+        content="Understand the legal terms, policies, and usage conditions for accessing Daily Job Openings."
+      />
+
+      <meta
+        property="og:url"
+        content={`${window.location.origin}/terms-and-conditions`}
+      />
+
+      {/* Twitter */}
+      <meta
+        name="twitter:card"
+        content="summary_large_image"
+      />
+
+      <meta
+        name="twitter:title"
+        content="Terms & Conditions | Daily Job Openings"
+      />
+
+      <meta
+        name="twitter:description"
+        content="Review the official Terms & Conditions governing the use of Daily Job Openings."
+      />
+
+      {/* Structured Data */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+
+          name: "Terms & Conditions",
+
+          description:
+            "Official Terms & Conditions page for Daily Job Openings.",
+
+          url: `${window.location.origin}/terms-and-conditions`,
+
+          publisher: {
+            "@type": "Organization",
+            name: "Daily Job Openings",
+            url: window.location.origin,
+          },
+        })}
+      </script>
+
+    </Helmet>
+
     <div
       style={{
         fontFamily: "'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
@@ -957,5 +1045,6 @@ export default function TermsAndConditionsPage() {
       {/* ── FOOTER ── */}
       <Footer bp={bp} gutter={gutter} />
     </div>
+    </>
   );
 }

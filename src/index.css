@@ -161,3 +161,7 @@ code {
     background-position: 0% 50%;
   }
 }
+body {
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+  min-height: 100vh;
+}
