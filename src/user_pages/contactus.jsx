@@ -629,7 +629,7 @@ useLayoutEffect(() => {
                 border: "1px solid #f1f5f9",
               }}
             >
-              <div
+              {/* <div
                 style={{
                   width: 58,
                   height: 58,
@@ -643,7 +643,7 @@ useLayoutEffect(() => {
                 }}
               >
                 ✉️
-              </div>
+              </div> */}
 
               <h3
                 style={{
@@ -675,7 +675,6 @@ useLayoutEffect(() => {
               {
                 title: "Email Address",
                 value: "codetechniques.in@gmail.com",
-                bg: "#dbeafe",
               },
               // {
               //   title: "Support Type",
@@ -775,7 +774,36 @@ useLayoutEffect(() => {
             {/* ── LEFT: FORM ── */}
             <Reveal delay={0}>
               <div style={{ background: "#fff", borderRadius: 16, border: `1px solid ${C.border}`, padding: isMobile ? 24 : 36, boxShadow: "0 4px 24px rgba(15,76,129,0.06)" }}>
-                <SectionLabel>Send a Message</SectionLabel>
+                <div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: 12,
+    marginBottom: 18,
+  }}
+>
+  <div
+    style={{
+      width: 4,
+      height: 24,
+      borderRadius: 10,
+      background: C.accent,
+    }}
+  />
+
+  <span
+    style={{
+      fontSize: 14,
+      fontWeight: 800,
+      letterSpacing: "0.18em",
+      textTransform: "uppercase",
+      color: C.accent,
+      fontFamily: "'DM Sans', sans-serif",
+    }}
+  >
+   SEND A MESSAGE
+  </span>
+</div>
                 <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: isMobile ? 20 : 26, fontWeight: 800, color: C.text, marginBottom: 6 }}>
                   Fill in the form below
                 </h2>

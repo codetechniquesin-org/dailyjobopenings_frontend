@@ -390,48 +390,337 @@ if (!loading && sets.length === 0) {
 
       {/* ── Hero Banner ── */}
       <div
-        style={{
-          background: `linear-gradient(135deg, ${C.primary} 0%, #0f3460 100%)`,
-          padding: "52px 24px 48px", textAlign: "center",
-          position: "relative", overflow: "hidden",
-        }}
-      >
-        <div style={{ position: "absolute", top: -40, right: -40, width: 200, height: 200, borderRadius: "50%", background: "rgba(255,255,255,.04)" }} />
-        <div style={{ position: "absolute", bottom: -60, left: -30, width: 160, height: 160, borderRadius: "50%", background: "rgba(255,255,255,.04)" }} />
+  style={{
+    position: "relative",
+    overflow: "hidden",
+    background:
+      "linear-gradient(135deg,#f8fbff 0%,#eef4ff 45%,#f5f9ff 100%)",
+    padding: isMobile ? "58px 18px 52px" : "86px 24px 76px",
+  }}
+>
+  {/* Background Shapes */}
+  <div
+    style={{
+      position: "absolute",
+      top: -120,
+      right: -90,
+      width: 320,
+      height: 320,
+      borderRadius: "42%",
+      background: "linear-gradient(135deg,#dbeafe,#bfdbfe)",
+      opacity: 0.7,
+      transform: "rotate(24deg)",
+    }}
+  />
 
-        <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: 2, color: C.accent, textTransform: "uppercase", marginBottom: 12 }}>
-          Interview Prep
-        </div>
-        <h1 style={{ fontSize: 34, fontWeight: 900, color: "#fff", margin: "0 0 12px", lineHeight: 1.2 }}>
-          Crack Your Next <span style={{ color: C.accent }}>Interview</span>
-        </h1>
-        <p style={{ color: "#94a3b8", fontSize: 14, maxWidth: 480, margin: "0 auto 28px" }}>
-          Topic-wise interview questions curated for freshers & experienced developers. Practice, learn, and land the job.
-        </p>
+  <div
+    style={{
+      position: "absolute",
+      bottom: -120,
+      left: -100,
+      width: 340,
+      height: 340,
+      borderRadius: "50%",
+      background: "linear-gradient(135deg,#fca5a5,#fde68a)",
+      opacity: 0.4,
+      filter: "blur(18px)",
+    }}
+  />
 
-        {/* Search */}
-        <div style={{ display: "flex", maxWidth: 480, margin: "0 auto", gap: 0 }}>
-          <input
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            placeholder="Search questions or topics..."
+  {/* Grid Overlay */}
+  <div
+    style={{
+      position: "absolute",
+      inset: 0,
+      backgroundImage:
+        "linear-gradient(rgba(37,99,235,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.04) 1px, transparent 1px)",
+      backgroundSize: "42px 42px",
+      pointerEvents: "none",
+    }}
+  />
+
+  <div
+    style={{
+      maxWidth: 1180,
+      margin: "0 auto",
+      position: "relative",
+      zIndex: 2,
+    }}
+  >
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: isMobile ? "1fr" : "1.1fr 0.9fr",
+        gap: isMobile ? 40 : 70,
+        alignItems: "center",
+      }}
+    >
+      {/* LEFT CONTENT */}
+      <div>
+        {/* Badge */}
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 8,
+            background: "#fff",
+            border: "1px solid #dbeafe",
+            borderRadius: 999,
+            padding: "8px 16px",
+            marginBottom: 24,
+            boxShadow: "0 4px 20px rgba(0,0,0,0.04)",
+          }}
+        >
+          <div
             style={{
-              flex: 1, padding: "12px 16px", border: "none",
-              borderRadius: "10px 0 0 10px", fontSize: 13,
-              outline: "none", background: "#fff", color: C.primary,
+              width: 10,
+              height: 10,
+              borderRadius: "50%",
+              background: "#2563eb",
             }}
           />
-          <button
+
+          <span
             style={{
-              padding: "12px 20px", background: C.accent, color: "#fff",
-              border: "none", borderRadius: "0 10px 10px 0",
-              fontWeight: 700, fontSize: 13, cursor: "pointer",
+              fontSize: 12,
+              fontWeight: 700,
+              color: "#111827",
+              letterSpacing: "0.04em",
+            }}
+          >
+            Interview Prep
+          </span>
+        </div>
+
+        {/* Heading */}
+        <h1
+          style={{
+            fontFamily: "'Syne', sans-serif",
+            fontSize: isMobile ? "2.5rem" : "4.5rem",
+            fontWeight: 800,
+            lineHeight: 0.96,
+            color: "#111827",
+            marginBottom: 22,
+            letterSpacing: "-0.05em",
+            maxWidth: 720,
+          }}
+        >
+          Crack Your Next <br />
+          <span style={{ color: "#2563eb" }}>
+            Interview
+          </span>
+        </h1>
+
+        {/* Subtitle */}
+        <p
+          style={{
+            fontSize: isMobile ? 14 : 16,
+            lineHeight: 1.9,
+            color: "#4b5563",
+            maxWidth: 620,
+            marginBottom: 34,
+          }}
+        >
+          Topic-wise interview questions curated for freshers &
+          experienced developers. Practice smarter, build confidence,
+          and land your dream role faster.
+        </p>
+
+        {/* Search Box */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            background: "#fff",
+            border: "1px solid #dbeafe",
+            borderRadius: 18,
+            overflow: "hidden",
+            maxWidth: 560,
+            boxShadow: "0 14px 40px rgba(37,99,235,0.08)",
+          }}
+        >
+          <div
+            style={{
+              paddingLeft: 18,
+              fontSize: 18,
             }}
           >
             🔍
+          </div>
+
+          <input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search interview questions or topics..."
+            style={{
+              flex: 1,
+              padding: "16px 18px",
+              border: "none",
+              outline: "none",
+              fontSize: 14,
+              color: "#111827",
+              background: "transparent",
+            }}
+          />
+
+          <button
+            style={{
+              background: "#111827",
+              color: "#fff",
+              border: "none",
+              padding: isMobile ? "16px 20px" : "16px 28px",
+              fontWeight: 700,
+              fontSize: 13,
+              cursor: "pointer",
+            }}
+          >
+            Search
           </button>
         </div>
       </div>
+
+      {/* RIGHT SIDE DESIGN */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          position: "relative",
+        }}
+      >
+        <div
+          style={{
+            position: "relative",
+            width: isMobile ? 320 : 470,
+            height: isMobile ? 320 : 470,
+          }}
+        >
+          {/* Main Circle */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              borderRadius: "50%",
+              background:
+                "linear-gradient(135deg,#2563eb 0%,#1d4ed8 100%)",
+              opacity: 0.08,
+            }}
+          />
+
+          {/* Floating Cards */}
+          {[
+            {
+              title: "React.js",
+              icon: "⚛️",
+              top: 20,
+              left: 30,
+            },
+            {
+              title: "Java",
+              icon: "☕",
+              top: 70,
+              right: 0,
+            },
+            {
+              title: "SQL",
+              icon: "🛢️",
+              bottom: 90,
+              left: 0,
+            },
+            {
+              title: "HR Round",
+              icon: "💼",
+              bottom: 20,
+              right: 40,
+            },
+          ].map((card, i) => (
+            <div
+              key={i}
+              style={{
+                position: "absolute",
+                ...card,
+                background: "rgba(255,255,255,0.8)",
+                backdropFilter: "blur(12px)",
+                border: "1px solid #dbeafe",
+                borderRadius: 20,
+                padding: "16px 18px",
+                minWidth: 140,
+                boxShadow: "0 18px 40px rgba(0,0,0,0.06)",
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 24,
+                  marginBottom: 10,
+                }}
+              >
+                {card.icon}
+              </div>
+
+              <div
+                style={{
+                  fontSize: 15,
+                  fontWeight: 700,
+                  color: "#111827",
+                }}
+              >
+                {card.title}
+              </div>
+
+              <div
+                style={{
+                  fontSize: 12,
+                  color: "#6b7280",
+                  marginTop: 4,
+                }}
+              >
+                Top Questions
+              </div>
+            </div>
+          ))}
+
+          {/* Center Badge */}
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: isMobile ? 130 : 170,
+              height: isMobile ? 130 : 170,
+              borderRadius: "50%",
+              background: "#fff",
+              border: "1px solid #dbeafe",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              boxShadow: "0 20px 50px rgba(37,99,235,0.12)",
+            }}
+          >
+            <div style={{ fontSize: isMobile ? 36 : 52 }}>
+              🎯
+            </div>
+
+            <div
+              style={{
+                marginTop: 10,
+                fontWeight: 800,
+                color: "#111827",
+                fontSize: isMobile ? 14 : 16,
+                textAlign: "center",
+                lineHeight: 1.3,
+              }}
+            >
+              Interview
+              <br />
+              Success
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
       {/* ── Content ── */}
       <div style={{ width: "100%",maxWidth: "1400px", margin: "0 auto", padding: "36px 20px", boxSizing: "border-box" }}>

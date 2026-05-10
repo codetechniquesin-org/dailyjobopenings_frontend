@@ -170,26 +170,395 @@ useEffect(() => {
       <AlertBar C={{ accent:"#ff4d4f" }} />
       {/* <TopTicker C={C} gutter={g} isMobile={isMobile} isDesktop={isDesktop} /> */}
             <div className="section-full">
-        <TopTicker isMobile={isMobile} isDesktop={isDesktop} C={C} gutter="16px" />
+        {/* <TopTicker isMobile={isMobile} isDesktop={isDesktop} C={C} gutter="16px" /> */}
       </div>
       <Navbar bp={bp} onMenuOpen={() => {}} />
 
       {/* Hero strip */}
-      <div style={{ width:"100%", background:`linear-gradient(135deg,${C.primary},#1565c0)`, color:"#fff", padding:isMobile?"24px 0":"32px 0" }}>
-        <div style={{ width:"100%", padding:`0 ${g}`, boxSizing:"border-box" }}>
-          <div style={{ fontSize:12, color:"rgba(255,255,255,.5)", marginBottom:8, display:"flex", gap:6 }}>
-            <a href="/" style={{ color:"rgba(255,255,255,.5)" }}>Home</a><span>›</span>
-            <a href="/jobs" style={{ color:"rgba(255,255,255,.5)" }}>Jobs</a><span>›</span>
-            <span style={{ color:"#fff" }}>{title}</span>
-          </div>
-          <h1 style={{ fontSize:isMobile?"clamp(22px,6vw,30px)":"clamp(28px,3vw,38px)", fontWeight:800, marginBottom:6 }}>
+      <div
+  style={{
+    position: "relative",
+    overflow: "hidden",
+    background:
+      "linear-gradient(135deg,#f8fbff 0%,#eef4ff 45%,#f5f9ff 100%)",
+    padding: isMobile ? "52px 18px 48px" : "82px 24px 72px",
+    borderBottom: "1px solid #e5e7eb",
+  }}
+>
+  {/* Background Shapes */}
+  <div
+    style={{
+      position: "absolute",
+      top: -140,
+      right: -120,
+      width: 360,
+      height: 360,
+      borderRadius: "42%",
+      background: "linear-gradient(135deg,#dbeafe,#93c5fd)",
+      opacity: 0.7,
+      transform: "rotate(22deg)",
+    }}
+  />
+
+  <div
+    style={{
+      position: "absolute",
+      bottom: -140,
+      left: -120,
+      width: 340,
+      height: 340,
+      borderRadius: "50%",
+      background: "linear-gradient(135deg,#fde68a,#fca5a5)",
+      opacity: 0.35,
+      filter: "blur(24px)",
+    }}
+  />
+
+  {/* Grid Overlay */}
+  <div
+    style={{
+      position: "absolute",
+      inset: 0,
+      backgroundImage:
+        "linear-gradient(rgba(37,99,235,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.04) 1px, transparent 1px)",
+      backgroundSize: "42px 42px",
+      pointerEvents: "none",
+    }}
+  />
+
+  <div
+    style={{
+      maxWidth: 1240,
+      margin: "0 auto",
+      padding: `0 ${g}`,
+      position: "relative",
+      zIndex: 2,
+    }}
+  >
+    {/* Breadcrumb */}
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        flexWrap: "wrap",
+        marginBottom: 26,
+        fontSize: 12,
+      }}
+    >
+      <a
+        href="/"
+        style={{
+          color: "#6b7280",
+          textDecoration: "none",
+          fontWeight: 500,
+        }}
+      >
+        Home
+      </a>
+
+      <span style={{ color: "#9ca3af" }}>›</span>
+
+      <a
+        href="/jobs"
+        style={{
+          color: "#6b7280",
+          textDecoration: "none",
+          fontWeight: 500,
+        }}
+      >
+        Jobs
+      </a>
+
+      <span style={{ color: "#9ca3af" }}>›</span>
+
+      <span
+        style={{
+          color: "#111827",
+          fontWeight: 700,
+        }}
+      >
+        {title}
+      </span>
+    </div>
+
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: isMobile ? "1fr" : "1.1fr .9fr",
+        gap: isMobile ? 40 : 60,
+        alignItems: "center",
+      }}
+    >
+      {/* LEFT CONTENT */}
+      <div>
+        {/* Top Badge */}
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 10,
+            background: "#fff",
+            border: "1px solid #dbeafe",
+            borderRadius: 999,
+            padding: "8px 18px",
+            marginBottom: 26,
+            boxShadow: "0 4px 20px rgba(0,0,0,0.04)",
+          }}
+        >
+          <div
+            style={{
+              width: 10,
+              height: 10,
+              borderRadius: "50%",
+              background: "#2563eb",
+            }}
+          />
+
+          <span
+            style={{
+              fontSize: 12,
+              fontWeight: 700,
+              color: "#111827",
+              letterSpacing: ".04em",
+            }}
+          >
+            VERIFIED JOB LISTINGS
+          </span>
+        </div>
+
+        {/* Title */}
+        <h1
+          style={{
+            fontFamily: "'Syne', sans-serif",
+            fontSize: isMobile ? "2.6rem" : "4.6rem",
+            fontWeight: 800,
+            lineHeight: 0.95,
+            letterSpacing: "-0.05em",
+            color: "#111827",
+            marginBottom: 22,
+            maxWidth: 760,
+          }}
+        >
+          Discover <br />
+
+          <span style={{ color: "#2563eb" }}>
             {title}
-          </h1>
-          <p style={{ fontSize:13.5, opacity:.8 }}>
-            {loading ? "Loading..." : `${total} verified jobs found`}
-          </p>
+          </span>
+        </h1>
+
+        {/* Subtitle */}
+        <p
+          style={{
+            fontSize: isMobile ? 14 : 16,
+            lineHeight: 1.9,
+            color: "#4b5563",
+            maxWidth: 620,
+            marginBottom: 34,
+          }}
+        >
+          Browse verified fresher and experienced jobs from top companies
+          across India. Updated daily with the latest opportunities,
+          remote jobs, internships and walk-in drives.
+        </p>
+
+        {/* Stats */}
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: isMobile ? 14 : 18,
+          }}
+        >
+          {[
+            ["💼", loading ? "..." : total, "Jobs Found"],
+            ["⚡", "Daily", "Updates"],
+            ["🏢", "500+", "Companies"],
+          ].map(([icon, val, label]) => (
+            <div
+              key={label}
+              style={{
+                background: "rgba(255,255,255,.7)",
+                backdropFilter: "blur(10px)",
+                border: "1px solid #dbeafe",
+                borderRadius: 20,
+                padding: isMobile ? "16px 18px" : "18px 22px",
+                minWidth: isMobile ? 110 : 145,
+                boxShadow: "0 12px 30px rgba(0,0,0,.05)",
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 22,
+                  marginBottom: 8,
+                }}
+              >
+                {icon}
+              </div>
+
+              <div
+                style={{
+                  fontSize: isMobile ? 22 : 30,
+                  fontWeight: 800,
+                  lineHeight: 1,
+                  color: "#111827",
+                  fontFamily: "'Syne', sans-serif",
+                }}
+              >
+                {val}
+              </div>
+
+              <div
+                style={{
+                  marginTop: 6,
+                  fontSize: 12,
+                  color: "#6b7280",
+                }}
+              >
+                {label}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
+
+      {/* RIGHT SIDE DESIGN */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          position: "relative",
+        }}
+      >
+        <div
+          style={{
+            position: "relative",
+            width: isMobile ? 320 : 460,
+            height: isMobile ? 320 : 460,
+          }}
+        >
+          {/* Glow Circle */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              borderRadius: "50%",
+              background:
+                "linear-gradient(135deg,#2563eb 0%,#1d4ed8 100%)",
+              opacity: 0.08,
+            }}
+          />
+
+          {/* Floating Cards */}
+          {[
+            {
+              icon: "🚀",
+              title: "Freshers Jobs",
+              top: 18,
+              left: 12,
+            },
+            {
+              icon: "💻",
+              title: "IT Hiring",
+              top: 65,
+              right: 0,
+            },
+            {
+              icon: "🏠",
+              title: "Remote Jobs",
+              bottom: 90,
+              left: 0,
+            },
+            {
+              icon: "📄",
+              title: "Internships",
+              bottom: 18,
+              right: 40,
+            },
+          ].map((item, i) => (
+            <div
+              key={i}
+              style={{
+                position: "absolute",
+                ...item,
+                background: "rgba(255,255,255,.82)",
+                backdropFilter: "blur(14px)",
+                border: "1px solid #dbeafe",
+                borderRadius: 22,
+                padding: "16px 18px",
+                minWidth: 150,
+                boxShadow: "0 18px 40px rgba(0,0,0,0.06)",
+              }}
+            >
+              <div style={{ fontSize: 24, marginBottom: 10 }}>
+                {item.icon}
+              </div>
+
+              <div
+                style={{
+                  fontSize: 15,
+                  fontWeight: 700,
+                  color: "#111827",
+                }}
+              >
+                {item.title}
+              </div>
+
+              <div
+                style={{
+                  fontSize: 12,
+                  color: "#6b7280",
+                  marginTop: 4,
+                }}
+              >
+                Verified Openings
+              </div>
+            </div>
+          ))}
+
+          {/* Center Circle */}
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: isMobile ? 140  : 180,
+              height: isMobile ? 50 : 180,
+              borderRadius: "50%",
+              background: "#fff",
+              border: "1px solid #dbeafe",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              boxShadow: "0 20px 50px rgba(37,99,235,0.12)",
+            }}
+          >
+            <div style={{ fontSize: isMobile ? 40 : 56 }}>
+              💼
+            </div>
+
+            <div
+              style={{
+                marginTop: 10,
+                fontWeight: 800,
+                color: "#111827",
+                fontSize: isMobile ? 14 : 16,
+                textAlign: "center",
+                lineHeight: 1.3,
+              }}
+            >
+              Career
+              <br />
+              Opportunities
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
       {/* Main */}
       <div style={{ width:"100%", padding:`24px ${g} 60px`, boxSizing:"border-box", display:"flex", gap:24, alignItems:"flex-start" }}>
