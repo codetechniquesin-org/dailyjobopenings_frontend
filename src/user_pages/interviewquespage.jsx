@@ -28,7 +28,15 @@ const DIFF_COLOR = {
   Advanced:     { bg: "#fee2e2", text: "#dc2626" },
   Mixed:        { bg: "#ede9fe", text: "#7c3aed" },
 };
-
+function useBreakpoint() {
+  const [w, setW] = useState(typeof window !== "undefined" ? window.innerWidth : 1280);
+  useEffect(() => {
+    const h = () => setW(window.innerWidth);
+    window.addEventListener("resize", h);
+    return () => window.removeEventListener("resize", h);
+  }, []);
+  return { w, isMobile: w < 640, isTablet: w >= 640 && w < 1024, isDesktop: w >= 1024 };
+}
 
 
 /* ── Badge ────────────────────────────────────────────────── */
@@ -262,6 +270,8 @@ export default function InterviewQuestionsPage() {
 const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
 const navigate = useNavigate();
 const location = useLocation();
+  const bp = useBreakpoint();
+
 
 useEffect(() => {
   const handleResize = () => {
@@ -450,9 +460,10 @@ if (!loading && sets.length === 0) {
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: isMobile ? "1fr" : "1.1fr 0.9fr",
-        gap: isMobile ? 40 : 70,
-        alignItems: "center",
+        gridTemplateColumns: isMobile ? "1fr" : "1.4fr 1fr",
+        gap: isMobile ? 32 : 50,
+        alignItems: "start",
+        width:"100%",
       }}
     >
       {/* LEFT CONTENT */}
@@ -723,7 +734,7 @@ if (!loading && sets.length === 0) {
 </div>
 
       {/* ── Content ── */}
-      <div style={{ width: "100%",maxWidth: "1400px", margin: "0 auto", padding: "36px 20px", boxSizing: "border-box" }}>
+      <div style={{ width: "100%",maxWidth: "1400px", margin: "0 auto", padding: "0px 0px", boxSizing: "border-box" }}>
         <StatsBar sets={sets} />
 
         {/* Filters Row */}
@@ -818,9 +829,17 @@ if (!loading && sets.length === 0) {
           </div>
         </div>
 
-        <Footer style={{ marginTop: 60, width: "100%" }}>
-          &copy; 2026 Daily Job Openings. All rights reserved.
-        </Footer>
+        {/* ── Full Width Footer ── */}
+<div
+  style={{
+    width: "100vw",
+    marginLeft: "calc(50% - 50vw)",
+    background: "#041c35",
+    overflow: "hidden",
+  }}
+>
+<Footer bp={bp} gutter="16px" />
+</div>
       </div>
 
       {/* ── Modal ── */}
