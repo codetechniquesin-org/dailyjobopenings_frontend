@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React,{ useState, useEffect } from "react";
 import TopTicker from "../components/topticker";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
@@ -951,6 +951,121 @@ function Sidebar({ job }) {
     </div>
   );
 }
+function SwipeToApply({ link }) {
+  const [position, setPosition] = React.useState(0);
+  const [dragging, setDragging] = React.useState(false);
+
+  const containerRef = React.useRef(null);
+
+  const startDrag = () => {
+    setDragging(true);
+  };
+
+  const moveDrag = (clientX) => {
+    if (!dragging) return;
+
+    const rect = containerRef.current.getBoundingClientRect();
+
+    let newX = clientX - rect.left - 28;
+
+    const max = rect.width - 60;
+
+    if (newX < 0) newX = 0;
+    if (newX > max) newX = max;
+
+    setPosition(newX);
+
+    // success swipe
+    if (newX >= max - 5) {
+      window.open(link, "_blank");
+      setDragging(false);
+    }
+  };
+
+  const stopDrag = () => {
+    setDragging(false);
+
+    // return back if not completed
+    setPosition(0);
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      onMouseMove={(e) => moveDrag(e.clientX)}
+      onMouseUp={stopDrag}
+      onMouseLeave={stopDrag}
+      onTouchMove={(e) => moveDrag(e.touches[0].clientX)}
+      onTouchEnd={stopDrag}
+      style={{
+        position: "relative",
+        width: "100%",
+        maxWidth: 280,
+        height: 54,
+        borderRadius: 999,
+        background: "#0a2540",
+        overflow: "hidden",
+        userSelect: "none",
+      }}
+    >
+      {/* animated text */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "rgba(255,255,255,0.85)",
+          fontWeight: 600,
+          fontSize: 15,
+          letterSpacing: 1,
+          animation: "blink 1.5s infinite",
+        }}
+      >
+        swipe to apply →
+      </div>
+
+      {/* slider */}
+      <div
+        onMouseDown={startDrag}
+        onTouchStart={startDrag}
+        style={{
+          position: "absolute",
+          top: 4,
+          left: 4,
+          width: 46,
+          height: 46,
+          borderRadius: "50%",
+          background: "#fff",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: 22,
+          fontWeight: "bold",
+          color: "#0a2540",
+          transform: `translateX(${position}px)`,
+          transition: dragging ? "none" : "0.25s ease",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+          cursor: "grab",
+        }}
+      >
+        →
+      </div>
+
+      {/* blink animation */}
+      <style>
+        {`
+          @keyframes blink {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+          }
+        `}
+      </style>
+    </div>
+  );
+}
 
 /* ─────────────────────────────────────────────
    MAIN APP
@@ -1666,13 +1781,21 @@ content={`${job.companyName} is hiring ${job.jobTitle} in ${job.location}. Fresh
                   {job.jobLink}
                 </div>
               </div>
-              <a
-                href={job.jobLink} target="_blank" rel="noreferrer"
-                className="btn-apply"
-                style={{ flexShrink: 0 }}
-              >
-                Apply now →
-              </a>
+             {
+  isMobile ? (
+    <SwipeToApply link={job.jobLink} />
+  ) : (
+    <a
+      href={job.jobLink}
+      target="_blank"
+      rel="noreferrer"
+      className="btn-apply"
+      style={{ flexShrink: 0 }}
+    >
+      Apply now →
+    </a>
+  )
+}
             </div>
             <div style={{ marginTop: 12, fontSize: 12, color: C.muted, display: "flex", alignItems: "center", gap: 5 }}>
               ⚠️ CodeTechniques does not charge any fee for applying. This is a free listing.
