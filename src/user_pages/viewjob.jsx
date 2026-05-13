@@ -953,117 +953,179 @@ function Sidebar({ job }) {
 }
 function SwipeToApply({ link }) {
   const [position, setPosition] = React.useState(0);
-  const [dragging, setDragging] = React.useState(false);
+  const [isDragging, setIsDragging] = React.useState(false);
+  const [isCompleted, setIsCompleted] = React.useState(false);
 
   const containerRef = React.useRef(null);
 
-  const startDrag = () => {
-    setDragging(true);
+  const handleStart = () => {
+    if (isCompleted) return;
+    setIsDragging(true);
   };
 
-  const moveDrag = (clientX) => {
-    if (!dragging) return;
+  const handleMove = (clientX) => {
+    if (!isDragging || !containerRef.current) return;
 
     const rect = containerRef.current.getBoundingClientRect();
 
-    let newX = clientX - rect.left - 28;
+    const knobSize = 58;
+    const padding = 4;
 
-    const max = rect.width - 60;
+    let newX = clientX - rect.left - knobSize / 2;
+
+    const max = rect.width - knobSize - padding * 2;
 
     if (newX < 0) newX = 0;
     if (newX > max) newX = max;
 
     setPosition(newX);
 
-    // success swipe
-    if (newX >= max - 5) {
-      window.location.href = link;
-      setDragging(false);
+    // success
+if (newX >= max - 5) {
+  setPosition(max);
+  setIsDragging(false);
+  setIsCompleted(true);
+
+  window.location.href = link;
+}
+  };
+
+  const handleEnd = () => {
+    if (!isCompleted) {
+      setPosition(0);
     }
+
+    setIsDragging(false);
   };
 
-  const stopDrag = () => {
-    setDragging(false);
+  React.useEffect(() => {
+    const mouseMove = (e) => handleMove(e.clientX);
+    const touchMove = (e) => handleMove(e.touches[0].clientX);
 
-    // return back if not completed
-    setPosition(0);
-  };
+    const mouseUp = () => handleEnd();
+    const touchEnd = () => handleEnd();
+
+    window.addEventListener("mousemove", mouseMove);
+    window.addEventListener("mouseup", mouseUp);
+
+    window.addEventListener("touchmove", touchMove);
+    window.addEventListener("touchend", touchEnd);
+
+    return () => {
+      window.removeEventListener("mousemove", mouseMove);
+      window.removeEventListener("mouseup", mouseUp);
+
+      window.removeEventListener("touchmove", touchMove);
+      window.removeEventListener("touchend", touchEnd);
+    };
+  });
 
   return (
-    <div
-      ref={containerRef}
-      onMouseMove={(e) => moveDrag(e.clientX)}
-      onMouseUp={stopDrag}
-      onMouseLeave={stopDrag}
-      onTouchMove={(e) => moveDrag(e.touches[0].clientX)}
-      onTouchEnd={stopDrag}
-      style={{
-        position: "relative",
-        width: "100%",
-        maxWidth: 280,
-        height: 54,
-        borderRadius: 999,
-        background: "#0a2540",
-        overflow: "hidden",
-        userSelect: "none",
-      }}
-    >
-      {/* animated text */}
+    <>
       <div
+        ref={containerRef}
         style={{
-          position: "absolute",
-          inset: 0,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          color: "rgba(255,255,255,0.85)",
-          fontWeight: 600,
-          fontSize: 15,
-          letterSpacing: 1,
-          animation: "blink 1.5s infinite",
+          position: "relative",
+          width: "100%",
+          maxWidth: "320px",
+          height: "66px",
+          borderRadius: "999px",
+          background: isCompleted
+            ? "linear-gradient(135deg, #22c55e, #16a34a)"
+            : "linear-gradient(135deg, #1f2937, #111827)",
+          overflow: "hidden",
+          userSelect: "none",
+          boxShadow: isCompleted
+            ? "0 10px 25px rgba(34,197,94,0.35)"
+            : "0 10px 25px rgba(0,0,0,0.18)",
+          transition: "all 0.35s ease",
         }}
       >
-        swipe to apply →
+        {/* shimmer background */}
+        {!isCompleted && (
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: "-120%",
+              width: "120%",
+              height: "100%",
+              background:
+                "linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)",
+              animation: "swipeShine 2.5s infinite",
+            }}
+          />
+        )}
+
+        {/* text */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "16px",
+            fontWeight: "600",
+            color: "#fff",
+            letterSpacing: "0.4px",
+            opacity: isDragging ? 0.7 : 1,
+            transition: "0.3s ease",
+          }}
+        >
+          {isCompleted ? "Redirecting..." : "Slide to Apply"}
+        </div>
+
+        {/* draggable knob */}
+        <div
+          onMouseDown={handleStart}
+          onTouchStart={handleStart}
+          style={{
+            position: "absolute",
+            top: "4px",
+            left: "4px",
+            width: "58px",
+            height: "58px",
+            borderRadius: "50%",
+            background: "#fff",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            transform: `translateX(${position}px)`,
+            transition: isDragging
+              ? "none"
+              : "transform 0.35s cubic-bezier(0.22, 1, 0.36, 1)",
+            cursor: "grab",
+            boxShadow: "0 6px 18px rgba(0,0,0,0.22)",
+            zIndex: 2,
+          }}
+        >
+          <span
+            style={{
+              fontSize: "24px",
+              fontWeight: "700",
+              color: isCompleted ? "#16a34a" : "#111827",
+              transition: "0.3s ease",
+            }}
+          >
+            {isCompleted ? "✓" : "›"}
+          </span>
+        </div>
       </div>
 
-      {/* slider */}
-      <div
-        onMouseDown={startDrag}
-        onTouchStart={startDrag}
-        style={{
-          position: "absolute",
-          top: 4,
-          left: 4,
-          width: 46,
-          height: 46,
-          borderRadius: "50%",
-          background: "#fff",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: 22,
-          fontWeight: "bold",
-          color: "#0a2540",
-          transform: `translateX(${position}px)`,
-          transition: dragging ? "none" : "0.25s ease",
-          boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
-          cursor: "grab",
-        }}
-      >
-        →
-      </div>
-
-      {/* blink animation */}
       <style>
         {`
-          @keyframes blink {
-            0% { opacity: 0.4; }
-            50% { opacity: 1; }
-            100% { opacity: 0.4; }
+          @keyframes swipeShine {
+            0% {
+              left: -120%;
+            }
+            100% {
+              left: 120%;
+            }
           }
         `}
       </style>
-    </div>
+    </>
   );
 }
 
