@@ -977,7 +977,7 @@ function SwipeToApply({ link }) {
 
     // success swipe
     if (newX >= max - 5) {
-      window.open(link, "_blank");
+      window.location.href = link;
       setDragging(false);
     }
   };
