@@ -547,7 +547,7 @@ export default function App() {
           </button>
 
           <a
-            href="/about"
+            href="/about-us"
             style={{
               background: "#fff",
               border: "1px solid #d1d5db",
@@ -564,59 +564,104 @@ export default function App() {
         </div>
 
         {/* Stats */}
-        <div
-          className="hero-stats"
+{/* Stats */}
+<div
+  className="hero-stats"
+  style={{
+    display: "flex",
+    flexWrap: "wrap",
+    gap: isMobile ? 14 : 18,
+    marginTop: "10px",
+  }}
+>
+  {[
+    [stats?.activeJobs, "Active Jobs"],
+    [stats?.companies, "Companies"],
+    [stats?.newJobs, "New This Week"],
+  ].map(([value, label]) => (
+    <div
+      key={label}
+      style={{
+        position: "relative",
+        overflow: "hidden",
+
+        minWidth: isMobile ? "120px" : "150px",
+        maxWidth: isMobile ? "140px" : "170px",
+
+        padding: isMobile ? "16px 14px" : "18px 16px",
+
+        borderRadius: "18px",
+
+        background: "rgba(255, 255, 255, 0.6)",
+
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+
+        border: "1px solid rgba(255,255,255,0.15)",
+
+        boxShadow: "0 4px 20px rgba(0,0,0,0.06)",
+
+        transition: "all 0.3s ease",
+      }}
+    >
+      {/* Glow */}
+      <div
+        style={{
+          position: "absolute",
+          top: "-30px",
+          right: "-30px",
+          width: "80px",
+          height: "80px",
+          background: "rgba(59,130,246,0.12)",
+          filter: "blur(35px)",
+          borderRadius: "50%",
+        }}
+      />
+
+      {value == null ? (
+        <span
           style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: isMobile ? 22 : 40,
+            display: "block",
+            width: "60px",
+            height: "22px",
+            borderRadius: "6px",
+            background:
+              "linear-gradient(90deg,#e5e7eb 25%,#f3f4f6 50%,#e5e7eb 75%)",
+            backgroundSize: "200% 100%",
+            animation: "shimmer 1.4s infinite",
+            marginBottom: "8px",
+          }}
+        />
+      ) : (
+        <strong
+          className="syne"
+          style={{
+            display: "block",
+            fontSize: isMobile ? "1.5rem" : "1.8rem",
+            fontWeight: 800,
+            color: "#111827",
+            marginBottom: "4px",
+            position: "relative",
+            zIndex: 2,
           }}
         >
-          {[
-            [stats?.activeJobs, "Active Jobs"],
-            [stats?.companies, "Companies"],
-            [stats?.newJobs, "New This Week"],
-          ].map(([value, label]) => (
-            <div key={label}>
-              {value == null ? (
-                <span
-                  style={{
-                    display: "block",
-                    width: "60px",
-                    height: "22px",
-                    borderRadius: "6px",
-                    background:
-                      "linear-gradient(90deg,#e5e7eb 25%,#f3f4f6 50%,#e5e7eb 75%)",
-                    backgroundSize: "200% 100%",
-                    animation: "shimmer 1.4s infinite",
-                    marginBottom: "8px",
-                  }}
-                />
-              ) : (
-                <strong
-                  className="syne"
-                  style={{
-                    display: "block",
-                    fontSize: isMobile ? "1.6rem" : "2rem",
-                    fontWeight: 800,
-                    color: "#111827",
-                  }}
-                >
-                  {value}+
-                </strong>
-              )}
+          {value}+
+        </strong>
+      )}
 
-              <small
-                style={{
-                  fontSize: 13,
-                  color: "#6b7280",
-                }}
-              >
-                {label}
-              </small>
-            </div>
-          ))}
-        </div>
+      <small
+        style={{
+          fontSize: 12,
+          color: "#6b7280",
+          position: "relative",
+          zIndex: 2,
+        }}
+      >
+        {label}
+      </small>
+    </div>
+  ))}
+</div>
       </div>
 
       {/* RIGHT SEARCH CARD */}
