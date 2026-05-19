@@ -9,6 +9,7 @@ export default function TopCompanies({ SidebarWidget, S }) {
       try {
         const res = await fetch(`${API_BASE_URL}/api/top-hiring-companies`);
         const data = await res.json();
+        // console.log(data);
 
         setCompanies(data.data);
       } catch (error) {
