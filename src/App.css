@@ -183,7 +183,7 @@
   }
 }
 .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-.ticker-outer {
+/* .ticker-outer {
   overflow: hidden;
   white-space: nowrap;
 }
@@ -206,4 +206,8 @@
 @keyframes shimmer {
   0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
+} */
+body {
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+  min-height: 100vh;
 }

@@ -151,66 +151,39 @@ function TopTicker({ isMobile, isDesktop, C, gutter }) {
             🔥 HOT
           </span>
 
-          <div className="ticker-outer">
-            <div className="ticker-inner">
-              {loading ? (
-                <span>Loading latest jobs...</span>
-              ) : tickerJobs.length > 0 ? (
-                tickerJobs.map((job, index) => (
-                  <React.Fragment key={job.slug}>
-                    <Link
-                      to={`/view-job/${job.slug}`}
-                      style={{
-                        color: "#fff",
-                        textDecoration: "none",
-                        marginRight: "20px",
-                        whiteSpace: "nowrap",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {job.title}
-                    </Link>
-                    {index < tickerJobs.length - 1 && (
-                      <span style={{ marginRight: "20px" }}>|</span>
-                    )}
-                  </React.Fragment>
-                ))
-              ) : (
-                <span>No live hiring updates available</span>
-              )}
-            </div>
-          </div>
+<div className="ticker-outer">
+  <div className="ticker-inner">
+    {loading ? (
+      <span>Loading latest jobs...</span>
+    ) : tickerJobs.length > 0 ? (
+      <>
+        {[...tickerJobs, ...tickerJobs].map((job, index) => (
+          <React.Fragment key={`${job.slug}-${index}`}>
+            <Link
+              to={`/jobs/${job.slug}`}
+              style={{
+                color: "#fff",
+                textDecoration: "none",
+                marginRight: "20px",
+                whiteSpace: "nowrap",
+                fontWeight: 500,
+              }}
+            >
+              {job.title}
+            </Link>
+
+            <span style={{ marginRight: "5px" }}>|</span>
+          </React.Fragment>
+        ))}
+      </>
+    ) : (
+      <span>No live hiring updates available</span>
+    )}
+  </div>
+</div>
         </div>
 
         {/* Right Section */}
-        {isDesktop && (
-          <div style={{ display: "flex", gap: 16, flexShrink: 0 }}>
-            {[
-              { label: "About", path: "/about-us" },
-              { label: "Contact", path: "/contact-us" },
-              { label: "Privacy", path: "/privacy" },
-            ].map((item) => (
-              <Link
-                key={item.label}
-                to={item.path}
-                style={{ color: "#c8d8ea", textDecoration: "none" }}
-              >
-                {item.label}
-              </Link>
-            ))}
-
-            {/* <Link
-              to="/advertise-with-us"
-              style={{
-                color: C.gold,
-                fontWeight: 600,
-                textDecoration: "none",
-              }}
-            >
-              Advertise With Us
-            </Link> */}
-          </div>
-        )}
       </div>
     </div>
   );

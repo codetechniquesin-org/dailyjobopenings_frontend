@@ -1,5 +1,6 @@
-import { useState, useEffect, use } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { Helmet } from 'react-helmet-async';
 import AlertBar from "./components/alertbar";
 import Navbar from "./components/navbar";
 import TopTicker from "./components/topticker";
@@ -12,6 +13,8 @@ import API_BASE_URL from "./config/api";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import WalkInDrivesPage from "./user_pages/walk_in_jobs";
 import CategorySection from "./components/home_page_components/browse_by_categories";
+import MainLayout from "./components/common_components/MainLayout";
+import JobSearchCard from "./components/home_page_components/quick_job_search";
 
 
 const C = {
@@ -151,17 +154,45 @@ export default function App() {
   const { isMobile, isTablet, isDesktop, showSidebar } = bp;
   const navigate = useNavigate();
   const location = useLocation();
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
-  const handleSearch = () => {
-    setSearchTriggered(true);
-    setTimeout(() => setSearchTriggered(false), 1400);
-  };
+const handleSearch = ({
+  query,
+  category,
+  role,
+  location
+}) => {
+
+  const params = new URLSearchParams();
+
+  if (query)
+    params.append("query", query);
+
+  if (category)
+    params.append("category", category);
+
+  if (role)
+    params.append("role", role);
+
+  if (
+    location &&
+    location !== "All Locations"
+  ) {
+    params.append("location", location);
+  }
+
+  navigate(
+    `/jobs/search?${params.toString()}`
+  );
+};
   const [stats, setStats] = useState(null);
   useEffect(() => {
     const fetchStats = async () => {
       try {
         const res = await fetch(`${API_BASE_URL}/api/get-stats`);
- 
+
         // convert response to JSON
         const data = await res.json();
 
@@ -179,17 +210,52 @@ export default function App() {
   }, []);
 
   return (
-    /* ── ROOT: must be 100% width, no max-width here ── */
-    <div style={{
-      width: "100%",
-      minHeight: "100vh",
-      fontFamily: "'DM Sans', sans-serif",
-      background: S.light,
-      color: S.text,
-      fontSize: 15,
-      overflowX: "hidden",
-    }}>
-      <style>{`
+    <MainLayout isMobile={isMobile} isDesktop={isDesktop} C={C} bp={bp}>
+    <>
+      <Helmet>
+
+        <title>
+          Daily Job Openings | Latest Fresher Jobs, IT Jobs & Walk-ins
+        </title>
+
+        <meta
+          name="description"
+          content="Explore latest fresher jobs, software jobs, internships, walk-in drives, off-campus hiring, and IT opportunities across India."
+        />
+
+        <meta
+          name="keywords"
+          content="fresher jobs, software jobs, walkin jobs, off campus drives, internships, latest IT jobs"
+        />
+
+        <link
+          rel="canonical"
+          href={window.location.origin}
+        />
+
+        <meta property="og:type" content="website" />
+
+        <meta
+          property="og:title"
+          content="Daily Job Openings"
+        />
+
+        <meta
+          property="og:description"
+          content="Latest fresher jobs, software jobs, internships and walk-ins across India."
+        />
+
+      </Helmet>
+      <div style={{
+        width: "100%",
+        minHeight: "100vh",
+        fontFamily: "'DM Sans', sans-serif",
+        background: S.light,
+        color: S.text,
+        fontSize: 15,
+        overflowX: "hidden",
+      }}>
+        <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
 
         /* ── HARD RESET — prevents black side gaps ── */
@@ -302,24 +368,9 @@ export default function App() {
         }
       `}</style>
 
-      {/* ── AlertBar: full width ── */}
-      <div className="section-full">
-        <AlertBar isMobile={isMobile} C={{ accent: "#ff4d4f" }} />
-      </div>
-
-      {/* ── TopTicker: full width ── */}
-      <div className="section-full">
-        <TopTicker isMobile={isMobile} isDesktop={isDesktop} C={C} gutter="16px" />
-      </div>
-
-      {/* ── Navbar: full width ── */}
-<Navbar
-  bp={bp}
-  onMenuOpen={() => {}}
-  onNavigate={(page) => navigate(`/${page}`)}
-  activePage={location.pathname.split("/")[1]}
-/>
-{/* 
+        {/* ── AlertBar: full width ── */}
+       
+        {/* 
 <Routes>
 
   <Route
@@ -349,111 +400,315 @@ export default function App() {
 </Routes>
 */}
 
-      {/* ── Hero: full width ── */}
-      <div className="section-full" style={{ background: "linear-gradient(135deg,#0f4c81 0%,#1565c0 60%,#0d47a1 100%)", color: "#fff", padding: "48px 0 40px" }}>
-        <div className="section-inner">
-          <div className="hero-flex">
-            {/* Left */}
-            <div className="hero-left">
-              <h1 className="syne" style={{ fontSize: "clamp(1.8rem,4vw,2.8rem)", fontWeight: 800, lineHeight: 1.15, marginBottom: 14,textAlign:"left",width:"100%", }}>
-                Find Your Dream Job<br />As a <span style={{ color: S.gold }}>Fresher in India</span>
-              </h1>
-              <p style={{ fontSize: 15, opacity: 0.88, marginBottom: 24, maxWidth: 520,lineHeight:1.7,textAlign:"left", }}>
-                100% verified job postings from top IT, government &amp; startup companies. Updated daily for 2025 &amp; 2026 batch graduates.
-              </p>
-              {/* <div className="hero-stats">
-                {[["12,400+", "Active Jobs"], ["850+", "Companies"], ["2.3L+", "Hired"]].map(([n, l]) => (
-                  <div key={l} className="stat-box">
-                    <strong className="syne" style={{ display: "block", fontSize: "1.3rem", fontWeight: 800 }}>{n}</strong>
-                    <small style={{ fontSize: 11.5, opacity: .8 }}>{l}</small>
-                  </div>
-                ))}
-              </div> */}
-{/* 🔥 HERO STATS SECTION */}
-<div className="hero-stats">
-  {[
-    [stats?.activeJobs, "Active Jobs"],
-    [stats?.companies, "Companies"],
-    [stats?.newJobs, "New This Week"]
-  ].map(([value, label]) => (
-    <div key={label} className="stat-box">
-      {value == null ? (
-  <span
-    style={{
-      display: "block",
-      width: "60px",
-      height: "22px",
-      borderRadius: "6px",
-      background: "linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.1) 75%)",
-      backgroundSize: "200% 100%",
-      animation: "shimmer 1.4s infinite",
-      marginBottom: "6px"
-    }}
-  />
-) : (
-  <strong
-    className="syne"
-    style={{
-      display: "block",
-      fontSize: "1.3rem",
-      fontWeight: 800
-    }}
-  >
-    {value}+
-  </strong>
-)}
-      <small style={{ fontSize: 11.5, opacity: 0.8 }}>{label}</small>
-    </div>
-  ))}
+        {/* ── Hero: full width ── */}
+        <section
+          style={{
+            width: "100%",
+            position: "relative",
+            overflow: "hidden",
+            background: "#f7f8fc",
+            padding: isMobile ? "60px 0 50px" : "10px 0 60px",
+          }}
+        >
+          {/* Background Shapes */}
+          <div
+            style={{
+              position: "absolute",
+              top: -120,
+              right: -100,
+              width: 340,
+              height: 340,
+              borderRadius: "40%",
+              background: "linear-gradient(135deg,#dbeafe,#bfdbfe)",
+              transform: "rotate(25deg)",
+              opacity: 0.6,
+            }}
+          />
+
+          <div
+            style={{
+              position: "absolute",
+              bottom: -100,
+              left: -80,
+              width: 280,
+              height: 280,
+              borderRadius: "50%",
+              background: "linear-gradient(135deg,#fde68a,#fca5a5)",
+              opacity: 0.45,
+              filter: "blur(20px)",
+            }}
+          />
+
+          <div
+            className="section-inner"
+            style={{
+              position: "relative",
+              zIndex: 2,
+            }}
+          >
+            <div
+              className="hero-flex"
+              style={{
+                display: "grid",
+                gridTemplateColumns: isMobile ? "1fr" : "1.1fr 0.9fr",
+                gap: isMobile ? 45 : 70,
+                alignItems: "center",
+              }}
+            >
+              {/* LEFT SIDE */}
+              <div>
+                {/* Badge */}
+                {/* <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 10,
+            background: "#ffffff",
+            border: "1px solid #e5e7eb",
+            padding: "8px 16px",
+            borderRadius: 999,
+            marginBottom: 28,
+            boxShadow: "0 4px 20px rgba(0,0,0,0.04)",
+          }}
+        >
+          <div
+            style={{
+              width: 10,
+              height: 10,
+              borderRadius: "50%",
+              background: "#7c3aed",
+            }}
+          />
+
+          <span
+            style={{
+              fontSize: 12,
+              fontWeight: 700,
+              color: "#111827",
+              letterSpacing: "0.05em",
+            }}
+          >
+            INDIA'S TRUSTED FRESHER JOB PLATFORM
+          </span>
+        </div> */}
+
+                {/* Heading */}
+                <h1
+                  className="syne"
+                  style={{
+                    fontSize: isMobile ? "2.8rem" : "3.8rem",
+                    fontWeight: 800,
+                    lineHeight: 0.98,
+                    marginBottom: 10,
+                    color: "#111827",
+                    letterSpacing: "-0.05em",
+                    textAlign: "left",
+                    width: "100%",
+                  }}
+                >
+                  Launch Your Career With <br />
+                  <span
+                    style={{
+                      color: "#7c3aed",
+                    }}
+                  >
+                    Real Opportunities
+                  </span>
+                </h1>
+
+                {/* Description */}
+                <p
+                  style={{
+                    fontSize: isMobile ? 15 : 17,
+                    color: "#4b5563",
+                    marginBottom: 36,
+                    maxWidth: 600,
+                    lineHeight: 1.9,
+                    textAlign: "left",
+                  }}
+                >
+                  Discover verified fresher jobs, internships, walk-ins, and off-campus
+                  drives from top IT companies, startups, and government organizations
+                  across India.
+                </p>
+
+                {/* Buttons */}
+                <div
+                  style={{
+                    display: "flex",
+                    gap: 16,
+                    flexWrap: "wrap",
+                    marginBottom: 45,
+                  }}
+                >
+                  <button
+                    onClick={handleSearch}
+                    style={{
+                      background: "#111827",
+                      color: "#fff",
+                      border: "none",
+                      padding: isMobile ? "12px 24px" : "15px 34px",
+                      borderRadius: 14,
+                      fontWeight: 700,
+                      fontSize: 14,
+                      fontFamily: "'Syne',sans-serif",
+                      cursor: "pointer",
+                      boxShadow: "0 10px 30px rgba(17,24,39,0.18)",
+                    }}
+                  >
+                    {searchTriggered ? "Searching..." : "Explore Jobs →"}
+                  </button>
+
+                  <a
+                    href="/about-us"
+                    style={{
+                      background: "#fff",
+                      border: "1px solid #d1d5db",
+                      color: "#111827",
+                      padding: isMobile ? "12px 24px" : "10px 30px",
+                      borderRadius: 14,
+                      fontWeight: 600,
+                      fontSize: 14,
+                      textDecoration: "none",
+                    }}
+                  >
+                    Learn More
+                  </a>
+                </div>
+
+                {/* Stats */}
+                {/* Stats */}
+                <div
+                  className="hero-stats"
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: isMobile ? 14 : 18,
+                    marginTop: "10px",
+                  }}
+                >
+                  {[
+                    [stats?.activeJobs, "Active Jobs"],
+                    [stats?.companies, "Companies"],
+                    [stats?.newJobs, "New This Week"],
+                  ].map(([value, label]) => (
+                    <div
+                      key={label}
+                      style={{
+                        position: "relative",
+                        overflow: "hidden",
+
+                        minWidth: isMobile ? "120px" : "150px",
+                        maxWidth: isMobile ? "140px" : "170px",
+
+                        padding: isMobile ? "16px 14px" : "18px 16px",
+
+                        borderRadius: "18px",
+
+                        background: "rgba(255, 255, 255, 0.6)",
+
+                        backdropFilter: "blur(12px)",
+                        WebkitBackdropFilter: "blur(12px)",
+
+                        border: "1px solid rgba(255,255,255,0.15)",
+
+                        boxShadow: "0 4px 20px rgba(0,0,0,0.06)",
+
+                        transition: "all 0.3s ease",
+                      }}
+                    >
+                      {/* Glow */}
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: "-30px",
+                          right: "-30px",
+                          width: "80px",
+                          height: "80px",
+                          background: "rgba(59,130,246,0.12)",
+                          filter: "blur(35px)",
+                          borderRadius: "50%",
+                        }}
+                      />
+
+                      {value == null ? (
+                        <span
+                          style={{
+                            display: "block",
+                            width: "60px",
+                            height: "22px",
+                            borderRadius: "6px",
+                            background:
+                              "linear-gradient(90deg,#e5e7eb 25%,#f3f4f6 50%,#e5e7eb 75%)",
+                            backgroundSize: "200% 100%",
+                            animation: "shimmer 1.4s infinite",
+                            marginBottom: "8px",
+                          }}
+                        />
+                      ) : (
+                        <strong
+                          className="syne"
+                          style={{
+                            display: "block",
+                            fontSize: isMobile ? "1.5rem" : "1.8rem",
+                            fontWeight: 800,
+                            color: "#111827",
+                            marginBottom: "4px",
+                            position: "relative",
+                            zIndex: 2,
+                          }}
+                        >
+                          {value}+
+                        </strong>
+                      )}
+
+                      <small
+                        style={{
+                          fontSize: 12,
+                          color: "#6b7280",
+                          position: "relative",
+                          zIndex: 2,
+                        }}
+                      >
+                        {label}
+                      </small>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* RIGHT SEARCH CARD */}
+<div style={{ display: "flex", justifyContent: "center" }}>
+<JobSearchCard
+  onSearch={handleSearch}
+/>
 </div>
             </div>
-            {/* Search Card */}
-            <div className="hero-card" style={{ background: "rgba(255,255,255,.12)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,.2)", borderRadius: 14, padding: 22 }}>
-              <h6 style={{ fontSize: 14, fontWeight: 600, marginBottom: 14 }}>🔍 Quick Job Search</h6>
-              <input
-                value={searchVal} onChange={e => setSearchVal(e.target.value)}
-                placeholder="Job title or company name"
-                style={{ width: "100%", padding: "10px 14px", borderRadius: 8, border: "none", background: "rgba(255,255,255,.95)", fontSize: 13.5, fontFamily: "'DM Sans',sans-serif", color: S.text, marginBottom: 10, outline: "none" }}
-              />
-              <select style={{ width: "100%", padding: "10px 14px", borderRadius: 8, border: "none", background: "rgba(255,255,255,.95)", fontSize: 13.5, fontFamily: "'DM Sans',sans-serif", color: S.text, marginBottom: 10, outline: "none" }}>
-                <option>All Locations</option>
-                {["Bangalore", "Hyderabad", "Pune", "Mumbai", "Chennai", "Work From Home"].map(l => <option key={l}>{l}</option>)}
-              </select>
-              <select style={{ width: "100%", padding: "10px 14px", borderRadius: 8, border: "none", background: "rgba(255,255,255,.95)", fontSize: 13.5, fontFamily: "'DM Sans',sans-serif", color: S.text, marginBottom: 12, outline: "none" }}>
-                <option>All Categories</option>
-                {["Software / IT", "Government Jobs", "MBA Jobs", "Internships", "Data Analyst"].map(c => <option key={c}>{c}</option>)}
-              </select>
-              <button onClick={handleSearch} style={{ width: "100%", background: S.accent, color: "#fff", border: "none", padding: 11, borderRadius: 8, fontWeight: 700, fontSize: 14, fontFamily: "'Syne',sans-serif", cursor: "pointer" }}>
-                {searchTriggered ? "Searching..." : "Search Jobs →"}
-              </button>
-            </div>
+          </div>
+        </section>
+        {/* ── Top Ad ── */}
+        <div className="section-full" style={{ background: S.light }}>
+          <div className="section-inner" style={{ paddingTop: 16, paddingBottom: 0 }}>
+            <AdBanner icon="🎓" title="Upskill & Get Hired Faster — GreatLearning Free Courses" sub="Python, Data Science, Cloud, AI/ML — 100% Free Certifications" btnText="Enroll Free →" />
           </div>
         </div>
-      </div>
 
-      {/* ── Top Ad ── */}
-      <div className="section-full" style={{ background: S.light }}>
-        <div className="section-inner" style={{ paddingTop: 16, paddingBottom: 0 }}>
-          <AdBanner icon="🎓" title="Upskill & Get Hired Faster — GreatLearning Free Courses" sub="Python, Data Science, Cloud, AI/ML — 100% Free Certifications" btnText="Enroll Free →" />
-        </div>
-      </div>
+        {/* ── Main Content ── */}
+        <div id="jobs" className="section-full" style={{ background: S.light }}>
+          <div className="section-inner" style={{ paddingTop: 0, paddingBottom: 48 }}>
+            <div className="main-layout">
 
-      {/* ── Main Content ── */}
-      <div id="jobs" className="section-full" style={{ background: S.light }}>
-        <div className="section-inner" style={{ paddingTop: 0, paddingBottom: 48 }}>
-          <div className="main-layout">
-
-            {/* Content column */}
-            <div className="main-content">
-              {/* Category Pills */}
-              <div style={{ marginTop: 16, marginBottom: 20 }}>
-                {/* <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+              {/* Content column */}
+              <div className="main-content">
+                {/* Category Pills */}
+                <div style={{ marginTop: 16, marginBottom: 20 }}>
+                  {/* <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
                   <h2 className="syne" style={{ fontSize: 17, fontWeight: 700, display: "flex", alignItems: "center", gap: 8, color: S.text }}>
                     <span style={{ width: 4, height: 20, background: S.accent, borderRadius: 3, display: "inline-block" }} />
                     Browse by Category
                   </h2>
                 </div> */}
-                {/* <div className="cat-pill-wrap">
+                  {/* <div className="cat-pill-wrap">
                   {CATS.map((c, i) => (
                     <span key={c.label} onClick={() => setActiveCat(i)} style={{
                       background: activeCat === i ? S.primary : "#fff",
@@ -468,112 +723,115 @@ export default function App() {
                     </span>
                   ))}
                 </div> */}
-                {/* Content column */}
-            {/* <div className="main-content"> */}
-              {/* Category Pills */}
-              <div style={{ marginTop: 16, marginBottom: 20 }}>
-                <CategorySection 
-                  styles={S}
-                  activeCat={activeCat}
-                  setActiveCat={(idx) => {
-                    setActiveCat(idx);
-                    setPage(1); // Reset page on category change
-                  }}
-                  onCategorySelect={(name) => setSelectedCategoryName(name)}
+                  {/* Content column */}
+                  {/* <div className="main-content"> */}
+                  {/* Category Pills */}
+                  <div style={{ marginTop: 16, marginBottom: 20 }}>
+                    <CategorySection
+                      styles={S}
+                      activeCat={activeCat}
+                      setActiveCat={(idx) => {
+                        setActiveCat(idx);
+                        setPage(1); // Reset page on category change
+                      }}
+                      onCategorySelect={(name) => setSelectedCategoryName(name)}
+                    />
+                  </div>
+                </div>
+
+                {/* Section Header */}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+                  <h2 className="syne" style={{ fontSize: 17, fontWeight: 700, display: "flex", alignItems: "center", gap: 8, color: S.text }}>
+                    <span style={{ width: 4, height: 20, background: S.accent, borderRadius: 3, display: "inline-block" }} />
+                    Latest Jobs 2026
+                  </h2>
+                  <a href="#" style={{ fontSize: 12.5, color: S.primary, fontWeight: 600 }}>View All →</a>
+                </div>
+
+
+                <div className="job-grid">
+                  <JobCardList page={page} onTotal={setTotal} />
+                </div>
+                {/* {console.log("DEBUG →", { totalJobs, totalPages, page })} */}
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div style={{ display: "flex", gap: 8, marginTop: 28, justifyContent: "center", flexWrap: "wrap" }}>
+                    <button
+                      className={`page-btn ${page === 1 ? "disabled" : ""}`}
+                      onClick={() => setPage(p => Math.max(1, p - 1))}
+                      disabled={page === 1}
+                    >‹</button>
+
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(n => (
+                      <button
+                        key={n}
+                        className={`page-btn ${page === n ? "active" : ""}`}
+                        onClick={() => setPage(n)}
+                      >{n}</button>
+                    ))}
+
+                    <button
+                      className={`page-btn ${page === totalPages ? "disabled" : ""}`}
+                      onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                      disabled={page === totalPages}
+                    >›</button>
+                  </div>
+                )}
+
+              </div>
+
+              {/* Sidebar — hidden on tablet/mobile via CSS */}
+              <div className="sidebar-col" style={{ width: 280, flexShrink: 0 }}>
+                {/* Sidebar Ad */}
+                <div style={{ background: "linear-gradient(135deg,#0f4c81,#1565c0)", color: "#fff", borderRadius: 12, padding: 20, textAlign: "center", marginBottom: 16 }}>
+                  <span style={{ fontSize: 10, color: "rgba(255,255,255,.4)", display: "block", marginBottom: 8 }}>Advertisement</span>
+                  <h5 className="syne" style={{ fontSize: 15, fontWeight: 800, marginBottom: 6 }}>🚀 Launch Your Tech Career</h5>
+                  <p style={{ fontSize: 12, opacity: .85, marginBottom: 14 }}>Bootcamp by GeeksforGeeks – Job Guarantee for 2026 Batch</p>
+                  <a href="#" style={{ background: S.gold, color: "#000", padding: "8px 18px", borderRadius: 7, fontWeight: 700, fontSize: 12.5, display: "inline-block" }}>Join Now →</a>
+                </div>
+
+                <QuickCategories
+                  SidebarWidget={SidebarWidget}
+                  QuickLink={QuickLink}
+                  C={C}
+                />
+
+                <TopCompanies SidebarWidget={SidebarWidget} S={S} />
+
+                {/* WhatsApp Ad */}
+                <div style={{ background: "linear-gradient(160deg,#1a1a2e,#16213e)", color: "#fff", borderRadius: 12, padding: 18, textAlign: "center", marginBottom: 16 }}>
+                  <span style={{ fontSize: 10, color: "rgba(255,255,255,.35)", display: "block", marginBottom: 8 }}>Advertisement</span>
+                  <div style={{ fontSize: 36, marginBottom: 6 }}>📱</div>
+                  <h6 className="syne" style={{ fontSize: 14, fontWeight: 800, marginBottom: 6, color: "#fff" }}>Get Job Alerts on WhatsApp</h6>
+                  <p style={{ fontSize: 12, opacity: .75, marginBottom: 14 }}>Join 5 Lakh+ freshers getting daily updates</p>
+                  <a href="#" style={{ background: "linear-gradient(90deg,#e8472a,#f5a623)", color: "#fff", padding: "8px 18px", borderRadius: 7, fontWeight: 700, fontSize: 12.5, display: "inline-block" }}>Join Free Group →</a>
+                </div>
+
+                <JobsByLocation
+                  SidebarWidget={SidebarWidget}
+                  QuickLink={QuickLink}
                 />
               </div>
-              </div>
-
-              {/* Section Header */}
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
-                <h2 className="syne" style={{ fontSize: 17, fontWeight: 700, display: "flex", alignItems: "center", gap: 8, color: S.text }}>
-                  <span style={{ width: 4, height: 20, background: S.accent, borderRadius: 3, display: "inline-block" }} />
-                  Latest Jobs 2026
-                </h2>
-                <a href="#" style={{ fontSize: 12.5, color: S.primary, fontWeight: 600 }}>View All →</a>
-              </div>
-
-
-              <div className="job-grid">
-                <JobCardList page={page} onTotal={setTotal} />
-              </div>
-              {/* {console.log("DEBUG →", { totalJobs, totalPages, page })} */}
-
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <div style={{ display: "flex", gap: 8, marginTop: 28, justifyContent: "center", flexWrap: "wrap" }}>
-                  <button
-                    className={`page-btn ${page === 1 ? "disabled" : ""}`}
-                    onClick={() => setPage(p => Math.max(1, p - 1))}
-                    disabled={page === 1}
-                  >‹</button>
-
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(n => (
-                    <button
-                      key={n}
-                      className={`page-btn ${page === n ? "active" : ""}`}
-                      onClick={() => setPage(n)}
-                    >{n}</button>
-                  ))}
-
-                  <button
-                    className={`page-btn ${page === totalPages ? "disabled" : ""}`}
-                    onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                    disabled={page === totalPages}
-                  >›</button>
-                </div>
-              )}
 
             </div>
-
-            {/* Sidebar — hidden on tablet/mobile via CSS */}
-            <div className="sidebar-col" style={{ width: 280, flexShrink: 0 }}>
-              {/* Sidebar Ad */}
-              <div style={{ background: "linear-gradient(135deg,#0f4c81,#1565c0)", color: "#fff", borderRadius: 12, padding: 20, textAlign: "center", marginBottom: 16 }}>
-                <span style={{ fontSize: 10, color: "rgba(255,255,255,.4)", display: "block", marginBottom: 8 }}>Advertisement</span>
-                <h5 className="syne" style={{ fontSize: 15, fontWeight: 800, marginBottom: 6 }}>🚀 Launch Your Tech Career</h5>
-                <p style={{ fontSize: 12, opacity: .85, marginBottom: 14 }}>Bootcamp by GeeksforGeeks – Job Guarantee for 2026 Batch</p>
-                <a href="#" style={{ background: S.gold, color: "#000", padding: "8px 18px", borderRadius: 7, fontWeight: 700, fontSize: 12.5, display: "inline-block" }}>Join Now →</a>
-              </div>
-
-<QuickCategories 
-  SidebarWidget={SidebarWidget} 
-  QuickLink={QuickLink} 
-/>
-
-<TopCompanies SidebarWidget={SidebarWidget} S={S} />
-
-              {/* WhatsApp Ad */}
-              <div style={{ background: "linear-gradient(160deg,#1a1a2e,#16213e)", color: "#fff", borderRadius: 12, padding: 18, textAlign: "center", marginBottom: 16 }}>
-                <span style={{ fontSize: 10, color: "rgba(255,255,255,.35)", display: "block", marginBottom: 8 }}>Advertisement</span>
-                <div style={{ fontSize: 36, marginBottom: 6 }}>📱</div>
-                <h6 className="syne" style={{ fontSize: 14, fontWeight: 800, marginBottom: 6, color: "#fff" }}>Get Job Alerts on WhatsApp</h6>
-                <p style={{ fontSize: 12, opacity: .75, marginBottom: 14 }}>Join 5 Lakh+ freshers getting daily updates</p>
-                <a href="#" style={{ background: "linear-gradient(90deg,#e8472a,#f5a623)", color: "#fff", padding: "8px 18px", borderRadius: 7, fontWeight: 700, fontSize: 12.5, display: "inline-block" }}>Join Free Group →</a>
-              </div>
-
-<JobsByLocation 
-  SidebarWidget={SidebarWidget} 
-  QuickLink={QuickLink} 
-/>
-            </div>
-
           </div>
         </div>
-      </div>
 
-      {/* ── Bottom Ad ── */}
-      <div className="section-full" style={{ background: S.light }}>
-        <div className="section-inner" style={{ paddingBottom: 20 }}>
-          <AdBanner icon="💰" title="Earn While You Learn — Referral Bonus up to ₹5,000" sub="Refer a friend to CodeTechniques Premium & earn per successful referral" btnText="Learn More →" btnColor={S.green} bg="linear-gradient(90deg,#f0fff4,#e8f5e9)" borderColor="#86efac" />
+        {/* ── Bottom Ad ── */}
+        <div className="section-full" style={{ background: S.light }}>
+          <div className="section-inner" style={{ paddingBottom: 20 }}>
+            <AdBanner icon="💰" title="Earn While You Learn — Referral Bonus up to ₹5,000" sub="Refer a friend to CodeTechniques Premium & earn per successful referral" btnText="Learn More →" btnColor={S.green} bg="linear-gradient(90deg,#f0fff4,#e8f5e9)" borderColor="#86efac" />
+          </div>
         </div>
-      </div>
 
-      {/* ── Footer: full width ── */}
-      <div className="section-full">
-        <Footer bp={bp} gutter="16px" />
-      </div>
+        {/* ── Footer: full width ── */}
+        <div className="section-full">
+          <Footer bp={bp} gutter="16px" />
+        </div>
 
-    </div>
+      </div>
+    </>
+    </MainLayout>
   );
 }

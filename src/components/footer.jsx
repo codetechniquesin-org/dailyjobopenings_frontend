@@ -23,13 +23,21 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
         padding: isMobile ? "32px 0 24px" : "48px 0 24px",
       }}
     >
-      <div style={{ width: "100%", margin: "0 auto", padding: `0 ${gutter}` }}>
+                <div
+            style={{
+              width: "100%",
+              maxWidth: 1400,
+              margin: "0 auto",
+              padding: `0 ${gutter}`,
+              boxSizing: "border-box",
+            }}
+          >
 
         {/* Top Section: Left = Brand + Links, Right = Job Alert */}
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: isMobile ? "1fr" : "1fr auto",
+            gridTemplateColumns:isMobile || isTablet ? "1fr" : "1.2fr 0.8fr",
             gap: isMobile ? 24 : 48,
             marginBottom: 28,
             alignItems: "start",
@@ -38,7 +46,7 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
           {/* LEFT: Brand + Links */}
           <div>
             {/* Brand */}
-            <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 12 }}>
+            <div style={{ display: "flex", alignItems: "center",flexWrap:"wrap", gap: 9, marginBottom: 12 }}>
               <img
                 src="/favicon.svg"
                 alt="Logo"
@@ -53,15 +61,23 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
               </span>
             </div>
 
-            <p style={{ fontSize: 12, opacity: 0.7, lineHeight: 1.7, marginBottom: 20 }}>
+            <p
+                style={{
+                  fontSize: isMobile ? 11.5 : 12,
+                  opacity: 0.7,
+                  lineHeight: 1.7,
+                  marginBottom: 20,
+                  maxWidth: 650,
+                }}
+              >
               India's most trusted job portal for freshers & recent graduates.
               100% verified job postings updated daily.
             </p>
 
             {/* Desktop & Tablet: 3-column links below brand */}
             {!isMobile && (
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", columnGap: 20, rowGap: 0 }}>
-                <div>
+              <div style={{ display: "grid",gridTemplateColumns:  isTablet ? "1fr 1fr" : "1fr 1fr 1fr", columnGap: 20, rowGap: 0 }}>
+                {/* <div>
                   <h6 style={{ fontSize: 12, fontWeight: 700, color: "#fff", marginBottom: 8, marginTop: 0 }}>
                     Fresher Jobs
                   </h6>
@@ -70,9 +86,9 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
                       {l}
                     </a>
                   ))}
-                </div>
+                </div> */}
 
-                <div>
+                {/* <div>
                   <h6 style={{ fontSize: 12, fontWeight: 700, color: "#fff", marginBottom: 8, marginTop: 0 }}>
                     Resources
                   </h6>
@@ -81,7 +97,7 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
                       {l}
                     </a>
                   ))}
-                </div>
+                </div> */}
 
                 <div>
                   <h6 style={{ fontSize: 12, fontWeight: 700, color: "#fff", marginBottom: 8, marginTop: 0 }}>
@@ -122,6 +138,29 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
                 >
                 Privacy Policy
               </Link>
+              <Link
+                  to="/terms-and-conditions"
+                  style={{
+                    display: "block",
+                    fontSize: 11.5,
+                    color: "#8a9bb5",
+                    marginBottom: 4,
+                  }}
+                >
+                Terms and Conditions
+              </Link>
+              <Link
+                to="/disclaimer-page"
+                style={{
+                  display: "block",
+                  fontSize: 12,
+                  color: "#8a9bb5",
+                  marginBottom: 6,
+                }}
+              >
+                Disclaimer Page
+              </Link>
+
                 </div>
               </div>
             )}
@@ -129,7 +168,7 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
             {/* Mobile: 2-column condensed links */}
             {isMobile && (
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-                <div>
+                {/* <div>
                   <h6 style={{ fontSize: 12, fontWeight: 700, color: "#fff", marginBottom: 10 }}>
                     Jobs
                   </h6>
@@ -138,14 +177,14 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
                       {l}
                     </a>
                   ))}
-                </div>
+                </div> */}
 
                 <div>
                   <h6 style={{ fontSize: 12, fontWeight: 700, color: "#fff", marginBottom: 10 }}>
                     Company
                   </h6>
                 <Link
-                to="/about"
+                to="/about-us"
                 style={{
                   display: "block",
                   fontSize: 12,
@@ -157,7 +196,7 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
               </Link>
 
               <Link
-                to="/contact"
+                to="/contact-us"
                 style={{
                   display: "block",
                   fontSize: 12,
@@ -169,7 +208,7 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
               </Link>
 
               <Link
-                to="/privacy-policy"
+                to="/privacy"
                 style={{
                   display: "block",
                   fontSize: 12,
@@ -179,13 +218,41 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
               >
                 Privacy
               </Link>
+              <Link
+                to="/terms-and-conditions"
+                style={{
+                  display: "block",
+                  fontSize: 12,
+                  color: "#8a9bb5",
+                  marginBottom: 6,
+                }}
+              >
+                Terms and Conditions
+              </Link>
+              <Link
+                to="/disclaimer-page"
+                style={{
+                  display: "block",
+                  fontSize: 12,
+                  color: "#8a9bb5",
+                  marginBottom: 6,
+                }}
+              >
+                Disclaimer Page
+              </Link>
                 </div>
               </div>
             )}
           </div>
 
           {/* RIGHT: Job Alert Subscribe */}
-          <div style={{ minWidth: isMobile ? "unset" : 300 }}>
+          <div
+              style={{
+                width: "100%",
+                minWidth: 0,
+                maxWidth: isDesktop ? 520 : "100%",
+              }}
+            >
             <JobAlertSubscribe />
           </div>
         </div>
@@ -202,7 +269,7 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
           }}
         >
           <p style={{ fontSize: 11.5, opacity: 0.5 }}>
-            © 2026 CodeTechniques India. All rights reserved.
+            © 2026 Daily Job Openings by CodeTechniques India. All rights reserved.
           </p>
         </div>
       </div>

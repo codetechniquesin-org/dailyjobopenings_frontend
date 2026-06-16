@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import API_BASE_URL from "../../config/api";
+import QuickCategoriesSkeleton from "../skeletons/QuickCategoriesSkeleton";
 
 export default function TopCompanies({ SidebarWidget, S }) {
   const [companies, setCompanies] = useState(null);
@@ -9,6 +10,7 @@ export default function TopCompanies({ SidebarWidget, S }) {
       try {
         const res = await fetch(`${API_BASE_URL}/api/top-hiring-companies`);
         const data = await res.json();
+        // console.log(data);
 
         setCompanies(data.data);
       } catch (error) {
@@ -61,7 +63,7 @@ export default function TopCompanies({ SidebarWidget, S }) {
             </div>
           ))
         ) : (
-          <span>Loading companies...</span>
+          <QuickCategoriesSkeleton />
         )}
       </div>
     </SidebarWidget>

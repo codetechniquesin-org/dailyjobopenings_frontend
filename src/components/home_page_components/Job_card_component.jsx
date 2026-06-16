@@ -58,20 +58,43 @@ function JobCard({ job }) {
 
     const badge = job.badge || "new";
     const badgeLabel = job.badgeLabel || "New";
-    const role = job.jobTitle || job.role;
-    const company = job.companyName || job.company;
+    const role = job.displayTitle;
+    const company = job.displayCompany;
     const location = job.location;
     const edu = job.education || job.edu;
     const batch = job.eligibleBatches || job.batch;
     const salary = job.salary;
     const skills = Array.isArray(job.skills) ? job.skills : [];
-    const slug = job.slug || job._id || "";
+    const slug = job.displaySlug;
     const jobLink = job.jobLink || "#";
-    const logoSrc = job.companyLogo || null;
+    const logoSrc = job.displayLogo;
     const posted = job.createdAt
         ? new Date(job.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })
         : job.posted || "";
 
+    const type = job.contentType || "job";
+
+const detailsUrl =
+    type === "job"
+        ? `/jobs/${slug}`
+        : type === "walkin"
+            ? `user/walkins/view-walkin/${slug}`
+            : `/exams/${slug}`;
+
+const buttonText =
+    type === "exam"
+        ? "View Exam →"
+        : type === "walkin"
+            ? "View Walk-In →"
+            : "Apply Now →";
+
+const typeBadge =
+    type === "job"
+        ? "💼 Job"
+        : type === "walkin"
+            ? "🏢 Walk-In"
+            : "📝 Exam";
+            // console.log("CARD DATA:", job);
     return (
         <div
             onMouseEnter={() => setHovered(true)}
@@ -150,18 +173,40 @@ function JobCard({ job }) {
                     overflow: "hidden"
                 }}
             >
-                <span
-                    style={{
-                        fontSize: 10.5,
-                        fontWeight: 700,
-                        padding: "3px 9px",
-                        borderRadius: 4,
-                        whiteSpace: "nowrap",
-                        ...(badgeStyle[badge] || badgeStyle.new)
-                    }}
-                >
-                    {badgeLabel}
-                </span>
+<div
+    style={{
+        display: "flex",
+        gap: 6,
+        flexWrap: "wrap"
+    }}
+>
+    <span
+        style={{
+            fontSize: 10.5,
+            fontWeight: 700,
+            padding: "3px 9px",
+            borderRadius: 4,
+            whiteSpace: "nowrap",
+            ...(badgeStyle[badge] || badgeStyle.new)
+        }}
+    >
+        {badgeLabel}
+    </span>
+
+    <span
+        style={{
+            fontSize: 10.5,
+            fontWeight: 700,
+            padding: "3px 9px",
+            borderRadius: 4,
+            background: "#e8f4fd",
+            color: S.primary,
+            whiteSpace: "nowrap"
+        }}
+    >
+        {typeBadge}
+    </span>
+</div>
 
                 <MetaTag icon="📍" label={location} />
                 <MetaTag icon="🎓" label={edu} />
@@ -224,7 +269,8 @@ function JobCard({ job }) {
                     </div>
                     <div style={{ fontSize: 11, color: S.muted }}>{posted}</div>
                 </div>
-                <a href={slug ? `/view-job/${slug}` : jobLink} style={{
+                <a
+    href={slug ? detailsUrl : jobLink} style={{
                     background: S.primary,
                     color: "#fff",
                     padding: "7px 18px",
@@ -238,7 +284,7 @@ function JobCard({ job }) {
                     flexShrink: 0,
                     textAlign: "center"
                 }}>
-                    Apply Now →
+                    {buttonText}
                 </a>
             </div>
         </div>
@@ -248,18 +294,87 @@ function JobCard({ job }) {
 export default function JobCardList({ page = 1, onTotal }) {
     const [jobs, setJobs] = useState([]);
 
-    useEffect(() => {
-        fetch(`${API_BASE_URL}/api/get-jobs`)
-            .then(r => r.json())
-            .then(d => {
-                // console.log("API response:", d);           // 👈 add this
-                const all = Array.isArray(d) ? d : d.jobs || d.data || [];
-                // console.log("Parsed jobs length:", all.length); // 👈 and this
-                setJobs(all);
-                if (onTotal) onTotal(all.length);
-            })
-            .catch(console.error);
-    }, []);
+useEffect(() => {
+    Promise.all([
+        fetch(`${API_BASE_URL}/api/get-jobs`).then(res => res.json()),
+        fetch(`${API_BASE_URL}/api/walkins/get-all-walkins`).then(res => res.json()),
+        fetch(`${API_BASE_URL}/api/exams/get-all-exams`).then(res => res.json())
+    ])
+        .then(([jobsData, walkinsData, examsData]) => {
+
+            // console.log("JOBS:", jobsData);
+            // console.log("WALKINS:", walkinsData);
+            // console.log("EXAMS:", examsData);
+
+const jobs = (Array.isArray(jobsData)
+    ? jobsData
+    : jobsData.jobs || jobsData.data || []
+).map(item => ({
+    ...item,
+    contentType: "job",
+    displayTitle: item.jobTitle,
+    displaySlug: item.slug,
+    displayCompany: item.companyName,
+    displayLogo: item.companyLogo
+}));
+
+const walkins = (Array.isArray(walkinsData)
+    ? walkinsData
+    : walkinsData.walkIns || walkinsData.data || []
+).map(item => ({
+    ...item,
+    contentType: "walkin",
+    displayTitle: item.walkintitle,
+    displaySlug: item.walkinslug,
+    displayCompany: item.companyName,
+    displayLogo: item.companyLogo
+}));
+
+const exams = (Array.isArray(examsData)
+    ? examsData
+    : examsData.exams || examsData.data || []
+).map(item => ({
+    ...item,
+    contentType: "exam",
+    displayTitle: item.title,
+    displaySlug: item.slug,
+    displayCompany: item.organization,
+    displayLogo: item.image
+}));
+
+            const combined = [
+                ...jobs,
+                ...walkins,
+                ...exams
+            ];
+// console.log(
+//   combined.map(item => ({
+//     type: item.contentType,
+//     title: item.displayTitle,
+//     slug: item.displaySlug,
+//     company: item.displayCompany,
+//     logo: item.displayLogo,
+//     createdAt: item.createdAt,
+//     postedDate: item.postedDate
+//   }))
+// );
+            // newest first
+            combined.sort(
+                (a, b) =>
+                    new Date(b.createdAt || b.postedDate || 0) -
+                    new Date(a.createdAt || a.postedDate || 0)
+            );
+
+            // console.log("Combined:", combined);
+            // console.log("Combined Length:", combined.length);
+            setJobs(combined);
+
+            if (onTotal) {
+                onTotal(combined.length);
+            }
+        })
+        .catch(console.error);
+}, []);
     const offset = (page - 1) * 15;
     const first = jobs.slice(offset, offset + 8);
     const second = jobs.slice(offset + 8, offset + 13);
@@ -279,19 +394,34 @@ export default function JobCardList({ page = 1, onTotal }) {
     }
     return (
         <>
-            {first.map(job => <JobCard key={job._id || job.id} job={job} />)}
+            {first.map(job => (
+    <JobCard
+        key={`${job.contentType}-${job._id || job.id}`}
+        job={job}
+    />
+))}
 
             <div style={{ gridColumn: "1 / -1" }}>
                 <InlineAd icon="💼" title="Naukri.com — India's No.1 Job Portal" sub="Build your resume, get job alerts & apply to 1 crore+ jobs" btnText="Visit Naukri →" />
             </div>
 
-            {second.map(job => <JobCard key={job._id || job.id} job={job} />)}
+            {second.map(job => (
+    <JobCard
+        key={`${job.contentType}-${job._id || job.id}`}
+        job={job}
+    />
+))}
 
             <div style={{ gridColumn: "1 / -1" }}>
                 <InlineAd icon="📚" title="Coding Ninjas — Crack Product Companies" sub="Data Structures, System Design, Mock Interviews & Placement Prep" btnText="Start Free →" btnColor={S.accent} bg="linear-gradient(90deg,#fff0f0,#fff5f5)" borderColor="#fbb" />
             </div>
 
-            {third.map(job => <JobCard key={job._id || job.id} job={job} />)}
+            {third.map(job => (
+    <JobCard
+        key={`${job.contentType}-${job._id || job.id}`}
+        job={job}
+    />
+))}
 
             <div style={{ gridColumn: "1 / -1" }}>
                 <InlineAd icon="🎓" title="GreatLearning — Free Certifications" sub="Python, Data Science, Cloud, AI/ML — 100% Free" btnText="Enroll Free →" btnColor={S.green} bg="linear-gradient(90deg,#f0fff4,#e8f5e9)" borderColor="#86efac" />

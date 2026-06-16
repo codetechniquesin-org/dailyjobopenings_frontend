@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import API_BASE_URL from "../../config/api";
+import QuickCategoriesSkeleton from "../skeletons/QuickCategoriesSkeleton";
 
 export default function JobsByLocation({ SidebarWidget, QuickLink }) {
   const [locations, setLocations] = useState(null);
@@ -30,7 +31,7 @@ export default function JobsByLocation({ SidebarWidget, QuickLink }) {
           />
         ))
       ) : (
-        <span>Loading locations...</span>
+        <QuickCategoriesSkeleton />
       )}
     </SidebarWidget>
   );

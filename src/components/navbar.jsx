@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { createPortal } from "react-dom";
 
 const C = {
   primary: "#0a2540",
@@ -9,55 +10,64 @@ const C = {
   light: "#f3f4f6",
 };
 
+// ── Exact Devin.ai frosted glass values ──────────────────────
+const GLASS_BG = "#ffffff";
+const GLASS_BLUR = "blur(28px)";
+const GLASS_BORDER = "1px solid #e5e7eb";
+const GLASS_SHADOW = "0 1px 3px rgba(0,0,0,0.06)";
+
+// Dropdown slightly stronger for readability
+const DROPDOWN_BG = "rgba(255,255,255,0.88)";
+
 const NAV_ITEMS = [
   { label: "Home", page: "home" },
   {
     label: "Jobs",
     dropdown: [
-      { icon: "🎓", label: "Fresher Jobs", key: "fresher", desc: "0–1 year experience" },
-      { icon: "💼", label: "Experienced Jobs", key: "experienced", desc: "2+ years experience" },
-      { icon: "🏠", label: "Work From Home", key: "remote", desc: "Remote opportunities" },
-      { icon: "⏰", label: "Part-Time Jobs", key: "part-time", desc: "Flexible hours" },
-      { icon: "🚀", label: "Urgent Hiring", key: "urgent", desc: "Immediate joiners" },
-      { icon: "🌍", label: "Abroad Jobs", key: "abroad", desc: "International roles" },
+      { label: "Fresher Jobs", key: "fresher" },
+      { label: "Experienced Jobs", key: "experienced" },
+      { label: "Work From Home", key: "remote" },
+      { label: "Part-Time Jobs", key: "part-time" },
+      { label: "Urgent Hiring", key: "urgent" },
+      { label: "Abroad Jobs", key: "abroad" },
     ],
   },
   { label: "Walk in Drive", page: "walk-in-drive" },
   {
     label: "Internships",
     dropdown: [
-      { icon: "💰", label: "IT Internships", key: "it-internship", desc: "Earn while you learn" },
-      { icon: "📚", label: "GOVT Internships", key: "govt-internship", desc: "Build experience" },
+      { label: "IT Internships", key: "it-internship" },
+      { label: "GOVT Internships", key: "govt-internship" },
     ],
   },
-  // {label: "Exams",dropdown: [
-  //     { icon: "🎓", label: "Government Exams", key: "govt", desc: "" },
-  //     { icon: "💼", label: "IT Exams", key: "experienced", desc: "" },    
-  //     { icon: "🌍", label: "Non-IT Exams", key: "abroad", desc: "" },
-  //   ], page: "exams"},
-  {label: "Exams", page: "user/view-exams"},
-  { label: "Courses" , page: "users/view-courses" },
+  { label: "Exams", page: "user/view-exams" },
+  { label: "Courses", page: "users/view-courses" },
   { label: "Resources", page: "resources" },
   { label: "Resume Builder", page: "resume", external: "https://resumes-by-hirely.onrender.com/" },
 ];
 
 /* ── Desktop Dropdown ─────────────────────────────────────── */
-
-function DropdownMenu({ items }) {
-  return (
+function DropdownMenu({ items, position }) {
+  return createPortal(
     <div
       style={{
-        position: "absolute",
-        top: "calc(100% + 8px)",
-        left: "50%",
+        position: "fixed",
+        top: position.top,
+        left: position.left,
         transform: "translateX(-50%)",
-        background: "#fff",
-        border: `1px solid ${C.border}`,
-        borderRadius: 10,
-        boxShadow: "0 8px 24px rgba(0,0,0,.10)",
-        padding: "6px",
-        minWidth: 240,
-        zIndex: 999,
+
+        background: "rgba(255, 255, 255, 0.16)",
+        backdropFilter: "blur(28px)",
+        WebkitBackdropFilter: "blur(28px)",
+        border: "1px solid rgba(255,255,255,0.18)",
+        boxShadow: "0 8px 32px rgba(0, 0, 0, 0.08)",
+
+        borderRadius: 18,
+        padding: "6px 8px",
+        minWidth: 180,
+        zIndex: 9999,
+        overflow: "hidden",
+        alginItems: "center"
       }}
     >
       {items.map((item) => (
@@ -69,463 +79,243 @@ function DropdownMenu({ items }) {
             alignItems: "center",
             gap: 10,
             padding: "8px 12px",
-            borderRadius: 7,
+            borderRadius: 12,
             textDecoration: "none",
-            color: C.text,
+            color: C.primary,
+            fontWeight: 500,
             fontSize: 13,
+
+            transition:
+              "all 0.28s cubic-bezier(0.16, 1, 0.3, 1)",
+            transform: "translateY(0px)",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background =
+              "rgba(255,255,255,0.12)";
+            e.currentTarget.style.transform =
+              "translateX(4px)";
+            e.currentTarget.style.backdropFilter =
+              "blur(10px)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background =
+              "transparent";
+            e.currentTarget.style.transform =
+              "translateX(0px)";
           }}
         >
-          <span>{item.icon}</span>
-
-          <div>
-            <div style={{ fontWeight: 600, color: C.primary }}>
-              {item.label}
-            </div>
-            <div style={{ fontSize: 11, color: "#9ca3af" }}>
-              {item.desc}
-            </div>
-          </div>
+          {item.label}
         </Link>
       ))}
-    </div>
+    </div>,
+    document.body
   );
 }
-
 /* ── Desktop Nav Link ─────────────────────────────────────── */
 function NavLink({ item, index, activePage }) {
   const [open, setOpen] = useState(false);
   const timerRef = useRef(null);
   const hasDropdown = !!item.dropdown;
   const isActive = item.page && activePage === item.page;
+  const triggerRef = useRef(null);
+  const [position, setPosition] = useState(null);
 
   const show = () => {
     clearTimeout(timerRef.current);
+
+    const rect = triggerRef.current.getBoundingClientRect();
+
+    setPosition({
+      left: rect.left + rect.width / 2,
+      top: rect.bottom + 15,
+    });
+
     setOpen(true);
   };
+  const hide = () => { timerRef.current = setTimeout(() => setOpen(false), 150); };
 
-  const hide = () => {
-    timerRef.current = setTimeout(() => setOpen(false), 150);
-  };
-
-  return ( // ✅ INSIDE function
-    <>
-      <div
-        style={{ position: "relative" }}
-        onMouseEnter={show}
-        onMouseLeave={hide}
-      >
-        {/* <Link
-          to={item.page ? (item.page === "home" ? "/" : `/${item.page}`) : "#"}
-          style={{
-            fontSize: 13,
-            padding: "7px 11px",
-            borderRadius: 7,
-            color: isActive ? C.accent : index === 0 ? C.primary : C.text,
-            background:
-              isActive ? "#fff0f0" : index === 0 ? C.light : "transparent",
-            display: "flex",
-            alignItems: "center",
-            gap: 4,
-            textDecoration: "none",
-            fontWeight: isActive ? 700 : 500,
-            borderBottom: isActive
-              ? `2px solid ${C.accent}`
-              : "2px solid transparent",
-            transition: "color .15s",
-          }}
-        > */}
-        {item.external ? (
-  <a
-    href={item.external}
-    target="_blank"
-    rel="noopener noreferrer"
-    style={{
-      fontSize: 13,
-      padding: "7px 11px",
-      borderRadius: 7,
-      color: isActive ? C.accent : index === 0 ? C.primary : C.text,
-      background:
-        isActive ? "#fff0f0" : index === 0 ? C.light : "transparent",
-      display: "flex",
-      alignItems: "center",
-      gap: 4,
-      textDecoration: "none",
-      fontWeight: isActive ? 700 : 500,
-    }}
-  >
-    {item.label}
-  </a>
-) : (
-  <Link
-  to={item.page ? (item.page === "home" ? "/" : `/${item.page}`) : "#"}
-  style={{
-    fontSize: 13,
+  const linkStyle = {
+    fontSize: 14,
     padding: "7px 11px",
     borderRadius: 7,
     color: isActive ? C.accent : index === 0 ? C.primary : C.text,
-    background:
-      isActive ? "#fff0f0" : index === 0 ? C.light : "transparent",
+    background: isActive
+      ? "rgba(255,77,79,0.10)"
+      : index === 0
+        ? "rgba(243,244,246,0.60)"
+        : "transparent",
     display: "flex",
     alignItems: "center",
     gap: 6,
     textDecoration: "none",
     fontWeight: isActive ? 700 : 500,
-  }}
->
-  {item.label}
+    transition: "background 0.15s ease",
+  };
 
-  {hasDropdown && (
-    <span
-      style={{
-        fontSize: 8,
-        color: "#000",
-        marginTop: 1,
-      }}
+  return (
+    <div
+      ref={triggerRef}
+      style={{ position: "relative" }}
+      onMouseEnter={show}
+      onMouseLeave={hide}
     >
-      ▼
-    </span>
-  )}
-</Link>
-)}
-          {/* {item.label}
-          {hasDropdown && <span style={{ fontSize: 8 }}>▼</span>}
-        </Link> */}
-
-        {hasDropdown && open && (
-          <DropdownMenu items={item.dropdown} />
-        )}
-      </div>
-    </>
+      {item.external ? (
+        <a href={item.external} target="_blank" rel="noopener noreferrer" style={linkStyle}>
+          {item.label}
+        </a>
+      ) : (
+        <Link
+          to={item.page ? (item.page === "home" ? "/" : `/${item.page}`) : "#"}
+          style={linkStyle}
+        >
+          {item.label}
+          {hasDropdown && (
+            <span style={{
+              fontSize: 8,
+              color: "#000",
+              marginTop: 1,
+              display: "inline-block",
+              transform: open ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.2s ease",
+            }}>▼</span>
+          )}
+        </Link>
+      )}
+      {hasDropdown && open && <DropdownMenu items={item.dropdown} position={position} />}
+    </div>
   );
 }
 
-  // const handleClick = (e) => {
-  //   if (item.page) {
-  //     e.preventDefault();
-  //     if (item.external) {
-  //       window.open(item.external, "_blank", "noopener,noreferrer");
-  //     } else if (onNavigate) {
-  //       onNavigate(item.page);
-  //     }
-  //   }
-  // };
-
-// return (
-//   <>
-//     {/* <div style={{ position: "relative" }} onMouseEnter={show} onMouseLeave={hide}> */}
-//     {/* <a
-//       href={item.external || "#"}
-//       onClick={handleClick}
-//       style={{
-//         fontSize: 13,
-//         padding: "7px 11px",
-//         borderRadius: 7,
-//         color: isActive ? C.accent : index === 0 ? C.primary : C.text,
-//         background: isActive ? "#fff0f0" : index === 0 ? C.light : "transparent",
-//         display: "flex",
-//         alignItems: "center",
-//         gap: 4,
-//         textDecoration: "none",
-//         fontWeight: isActive ? 700 : 500,
-//         borderBottom: isActive ? `2px solid ${C.accent}` : "2px solid transparent",
-//         transition: "color .15s",
-//       }}
-//     >
-//       {item.label}
-//       {hasDropdown && <span style={{ fontSize: 8 }}>▼</span>}
-//     </a> */}
-//     {/* <Link
-//     to={
-//       item.external
-//         ? "#" 
-//         : item.page
-//         ? item.page === "home"
-//           ? "/"
-//           : `/${item.page}`
-//         : "#"
-//     }
-//     onClick={(e) => {
-//       if (item.external) {
-//         e.preventDefault();
-//         window.open(item.external, "_blank", "noopener,noreferrer");
-//       }
-//     }}
-//     style={{
-//       fontSize: 13,
-//       padding: "7px 11px",
-//       borderRadius: 7,
-//       color: isActive ? C.accent : index === 0 ? C.primary : C.text,
-//       background: isActive ? "#fff0f0" : index === 0 ? C.light : "transparent",
-//       display: "flex",
-//       alignItems: "center",
-//       gap: 4,
-//       textDecoration: "none",
-//       fontWeight: isActive ? 700 : 500,
-//       borderBottom: isActive ? `2px solid ${C.accent}` : "2px solid transparent",
-//       transition: "color .15s",
-//     }}
-//   ></Link> */} 
-
-//     <div
-//       style={{ position: "relative" }}
-//       onMouseEnter={show}
-//       onMouseLeave={hide}
-//     >
-//       <Link
-//         to={item.page ? (item.page === "home" ? "/" : `/${item.page}`) : "#"}
-//         style={{
-//           fontSize: 13,
-//           padding: "7px 11px",
-//           borderRadius: 7,
-//           color: isActive ? C.accent : index === 0 ? C.primary : C.text,
-//           background: isActive ? "#fff0f0" : index === 0 ? C.light : "transparent",
-//           display: "flex",
-//           alignItems: "center",
-//           gap: 4,
-//           textDecoration: "none",
-//           fontWeight: isActive ? 700 : 500,
-//           borderBottom: isActive ? `2px solid ${C.accent}` : "2px solid transparent",
-//           transition: "color .15s",
-//         }}
-//       >
-//         {item.label}
-//         {hasDropdown && <span style={{ fontSize: 8 }}>▼</span>}
-//       </Link>
-
-//       {hasDropdown && open && <DropdownMenu items={item.dropdown} />}
-//     </div>
-//   </>
-// );
-//       {/* {hasDropdown && open && <DropdownMenu items={item.dropdown} />}
-//     </div>
-//   );
-// } */}
-
-/* ── Apply with AI Button ─────────────────────────────────── */
+/* ── Apply with AI Button (kept as-is, currently empty) ──── */
 function ApplyWithAIButton({ fullWidth = false }) {
-  const [hovered, setHovered] = useState(false);
   return (
-    <>
-      <style>{`
-        @keyframes shimmer {
-          0%   { transform: translateX(-100%); }
-          100% { transform: translateX(100%); }
-        }
-      `}</style>
-      {/* <button
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        style={{
-          marginLeft: fullWidth ? 0 : 8,
-          padding: fullWidth ? "13px 0" : "8px 18px",
-          width: fullWidth ? "100%" : "auto",
-          borderRadius: 50,
-          border: "none",
-          fontSize: fullWidth ? 14 : 12,
-          fontWeight: 800,
-          cursor: "pointer",
-          letterSpacing: 0.4,
-          color: "#fff",
-          background: hovered
-            ? "linear-gradient(135deg, #ff4d4f 0%, #ff8c00 30%, #a855f7 60%, #3b82f6 100%)"
-            : "#1e293b",
-          boxShadow: hovered
-            ? "0 0 20px rgba(168,85,247,0.5), 0 0 40px rgba(255,77,79,0.25)"
-            : "0 2px 8px rgba(0,0,0,.15)",
-          transform: hovered ? "scale(1.03)" : "scale(1)",
-          transition: "background 0.4s ease, box-shadow 0.4s ease, transform 0.2s ease",
-          position: "relative",
-          overflow: "hidden",
-          whiteSpace: "nowrap",
-        }}
-      >
-        {hovered && (
-          <span
-            style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%)",
-              animation: "shimmer 1.2s infinite",
-            }}
-          />
-        )}
-        <span style={{ position: "relative", zIndex: 1000 }}>✨ Apply with AI</span>
-      </button> */}
-    </>
+    <style>{`
+      @keyframes shimmer {
+        0%   { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+      }
+@keyframes dropdownIn {
+  from {
+    opacity: 0;
+    transform:
+      translateX(-50%)
+      translateY(-10px)
+      scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateX(-50%)
+      translateY(0)
+      scale(1);
+  }
+}
+      @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-8px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+    `}</style>
   );
 }
 
 /* ── Mobile Accordion Item ────────────────────────────────── */
-function MobileNavItem({ item,  closeMenu }) {
+function MobileNavItem({ item, closeMenu }) {
   const [expanded, setExpanded] = useState(false);
   const hasDropdown = !!item.dropdown;
 
-  // const handleClick = (e) => {
-  //   e.preventDefault();
-  //   if (hasDropdown) {
-  //     setExpanded((v) => !v);
-  //   } else if (item.external) {
-  //     window.open(item.external, "_blank", "noopener,noreferrer");
-  //     closeMenu();
-  //   } else if (item.page && onNavigate) {
-  //     onNavigate(item.page);
-  //     closeMenu();
-  //   } else {
-  //     closeMenu();
-  //   }
-  // };
+  // Each mobile row also gets glass so the whole drawer is frosted
+const rowStyle = {
+  display: "flex",
+  padding: "13px 20px",
+  color: C.primary,
+  borderBottom: "1px solid rgba(0,0,0,0.07)",
+  background: "transparent",
+  textDecoration: "none",
+  fontSize: 15,
+  fontWeight: 500,
+};
 
   return (
     <div>
-      {/* <a
-        href="#"
-        onClick={handleClick}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "13px 20px",
-          fontSize: 14,
-          fontWeight: 600,
-          color: C.primary,
-          textDecoration: "none",
-          borderBottom: `1px solid ${C.border}`,
-          background: "#fff",
-        }}
-      >
-        {item.label}
-        {hasDropdown && (
-          <span
-            style={{
-              fontSize: 10,
-              display: "inline-block",
-              transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
-              transition: "transform .2s",
-            }}
-          >
-            ▼
-          </span>
-        )}
-      </a> */}
       {hasDropdown ? (
-  <div
-    onClick={() => setExpanded((v) => !v)}
-    style={{
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      padding: "13px 20px",
-      fontSize: 14,
-      fontWeight: 600,
-      color: C.primary,
-      borderBottom: `1px solid ${C.border}`,
-      background: "#fff",
-      cursor: "pointer",
-    }}
-  >
-    {item.label}
-    <span
-      style={{
-        fontSize: 10,
-        transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
-        transition: "transform .2s",
-      }}
-    >
-      ▼
-    </span>
-  </div>
-) : item.external ? (
-  <a
-    href={item.external}
-    target="_blank"
-    rel="noopener noreferrer"
-    onClick={closeMenu}
-    style={{
-      display: "flex",
-      padding: "13px 20px",
-      fontSize: 14,
-      fontWeight: 600,
-      color: C.primary,
-      textDecoration: "none",
-      borderBottom: `1px solid ${C.border}`,
-      background: "#fff",
-    }}
-  >
-    {item.label}
-  </a>
-) : (
-  <Link
-    to={item.page === "home" ? "/" : `/${item.page}`}
-    onClick={closeMenu}
-    style={{
-      display: "flex",
-      padding: "13px 20px",
-      fontSize: 14,
-      fontWeight: 600,
-      color: C.primary,
-      textDecoration: "none",
-      borderBottom: `1px solid ${C.border}`,
-      background: "#fff",
-    }}
-  >
-    {item.label}
-  </Link>
-)}
-
-
-
-{hasDropdown && expanded && (
-  <div style={{ background: "#f9fafb", borderBottom: `1px solid ${C.border}` }}>
-    {item.dropdown.map((sub) => (
-      <Link
-        key={sub.key}
-        to={`/jobs/categories/${sub.key}`}
-        onClick={closeMenu}
-        style={{
-          textDecoration: "none",
-          color: "inherit",
-        }}
-      >
         <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 12,
-            padding: "10px 32px",
-            cursor: "pointer",
-            borderBottom: `1px solid ${C.border}`,
-          }}
+          onClick={() => setExpanded((v) => !v)}
+          style={{ ...rowStyle, alignItems: "center", justifyContent: "space-between", cursor: "pointer" }}
         >
-          <span style={{ fontSize: 18 }}>{sub.icon}</span>
-
-          <div>
-            <div
-              style={{
-                fontWeight: 600,
-                color: C.primary,
-                fontSize: 13,
-              }}
-            >
-              {sub.label}
-            </div>
-
-            <div style={{ fontSize: 11, color: "#9ca3af" }}>
-              {sub.desc}
-            </div>
-          </div>
+          {item.label}
+          <span style={{
+            fontSize: 10,
+            transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
+            transition: "transform .2s",
+          }}>▼</span>
         </div>
-      </Link>
-    ))}
-  </div>
-)}
+      ) : item.external ? (
+        <a href={item.external} target="_blank" rel="noopener noreferrer" onClick={() => {
+          closeMenu();
+        }} style={rowStyle}>
+          {item.label}
+        </a>
+      ) : (
+        <Link to={item.page === "home" ? "/" : `/${item.page}`} onClick={closeMenu} style={rowStyle}>
+          {item.label}
+        </Link>
+      )}
+
+      {hasDropdown && expanded && (
+        // Sub-items: slightly darker frosted layer for depth
+<div style={{
+  background: "rgba(255,255,255,0.12)",
+  borderBottom: "1px solid rgba(0,0,0,0.06)",
+}}>
+          {item.dropdown.map((sub) => (
+            <Link
+              key={sub.key}
+              to={`/jobs/categories/${sub.key}`}
+              onClick={closeMenu}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  padding: "10px 32px",
+                  cursor: "pointer",
+                  borderBottom: "1px solid rgba(229,231,235,0.40)",
+                  transition: "background 0.15s",
+                }}
+                onMouseEnter={e => e.currentTarget.style.background = "rgba(0,0,0,0.04)"}
+                onMouseLeave={e => e.currentTarget.style.background = "transparent"}
+              >
+                <div
+                  style={{
+                    fontWeight: 600,
+                    color: C.primary,
+                    fontSize: 13,
+                  }}
+                >
+                  {sub.label}
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
 
 /* ── Navbar ───────────────────────────────────────────────── */
-function Navbar({ onNavigate = () => {}, activePage = "" }) {
+function Navbar({
+  bp,
+  onNavigate = () => { },
+  activePage = "",
+  sticky: isSticky = false,
+  navOffset = 0
+}) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [isDesktop, setIsDesktop] = useState(
     typeof window !== "undefined" ? window.innerWidth >= 1024 : true
   );
@@ -540,57 +330,58 @@ function Navbar({ onNavigate = () => {}, activePage = "" }) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Close on outside click
-  const drawerRef = useRef(null);
-  // useEffect(() => {
-  //   const handler = (e) => {
-  //     if (drawerRef.current && !drawerRef.current.contains(e.target)) {
-  //       setMenuOpen(false);
-  //     }
-  //   };
-  //   if (menuOpen) document.addEventListener("mousedown", handler);
-  //   return () => document.removeEventListener("mousedown", handler);
-  // }, [menuOpen]);
   useEffect(() => {
-  const handler = (e) => {
-    // ✅ allow clicks on button
-    if (
-      drawerRef.current &&
-      !drawerRef.current.contains(e.target) &&
-      !e.target.closest("button")   // <-- ADD THIS
-    ) {
-      setMenuOpen(false);
-    }
-  };
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  if (menuOpen) document.addEventListener("mousedown", handler);
-  return () => document.removeEventListener("mousedown", handler);
-}, [menuOpen]);
+  const drawerRef = useRef(null);
+  useEffect(() => {
+    const handler = (e) => {
+      if (
+        drawerRef.current &&
+        !drawerRef.current.contains(e.target) &&
+        !e.target.closest("button")
+      ) {
+        setMenuOpen(false);
+      }
+    };
+    if (menuOpen) document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [menuOpen]);
 
   return (
     <>
+      {/* Keyframe animations injected once */}
+      <ApplyWithAIButton />
+
       <style>{`
         .ct-overlay {
-          position: fixed; inset: 0;
-          background: rgba(0,0,0,0.25);
-          z-index: 198;
-          // backdrop-filter: blur(2px);
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.15);
+          z-index: 90;
         }
-        .ct-drawer {
-          position: absolute;
-          top: 100%; left: 0; right: 0;
-          background: #fff;
-          border-top: 1px solid ${C.border};
-          box-shadow: 0 16px 40px rgba(0,0,0,.13);
-          z-index: 199;
-          max-height: calc(100vh - 64px);
-          overflow-y: auto;
-          animation: slideDown .22s ease;
-        }
-        @keyframes slideDown {
-          from { opacity: 0; transform: translateY(-8px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
+        /* Mobile drawer — same frosted glass as the navbar */
+       // REPLACE WITH:
+.ct-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border-top: ${GLASS_BORDER};
+  box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+  z-index: 998;
+  max-height: 100vh;
+  overflow-y: auto;
+  animation: slideDown .22s ease;
+  padding-top: 64px;
+}
       `}</style>
 
       {menuOpen && (
@@ -599,11 +390,18 @@ function Navbar({ onNavigate = () => {}, activePage = "" }) {
 
       <nav
         style={{
-          background: "#fff",
-          borderBottom: `2px solid ${C.border}`,
-          position: "sticky",
-          top: 0,
-          zIndex: 200,
+          // ── Devin.ai frosted glass — semi-transparent + heavy blur ──
+background: menuOpen ? "rgba(255,255,255,0.18)" : isSticky ? "rgba(255, 255, 255, 0.16)" : "rgba(255, 255, 255, 0.95)",
+backdropFilter: GLASS_BLUR,
+WebkitBackdropFilter: GLASS_BLUR,
+          border: "1px solid rgba(255,255,255,0.18)",
+          boxShadow: "0 8px 32px rgba(0, 0, 0, 0.08)",
+          // ─────────────────────────────────────────────────────────────
+position: isSticky ? "fixed" : "relative",
+top: isSticky ? 0 : "auto",
+left: 0,
+right: 0,
+zIndex: menuOpen ? 999 : 1000,
         }}
       >
         <div
@@ -616,41 +414,16 @@ function Navbar({ onNavigate = () => {}, activePage = "" }) {
           }}
         >
           {/* Brand */}
-          {/* <a
-            href="#"
-            onClick={(e) => { e.preventDefault(); onNavigate("home"); setMenuOpen(false); }}
+          <Link
+            to="/"
+            onClick={() => setMenuOpen(false)}
             style={{ display: "flex", alignItems: "center", gap: 9, textDecoration: "none", flexShrink: 0 }}
           >
-            <img
-              src="/favicon.svg"
-              alt="Logo"
-              style={{ width: 40, height: 40, borderRadius: 9 }}
-            />
+            <img src="/favicon.svg" alt="Logo" style={{ width: 65, height: 65, borderRadius: 9 }} />
             <span style={{ fontWeight: 800, color: C.primary, fontSize: 15 }}>
               Daily<span style={{ color: C.accent }}>Job Openings</span>
             </span>
-          </a> */}
-          <Link
-  to="/"
-  onClick={() => setMenuOpen(false)}
-  style={{
-    display: "flex",
-    alignItems: "center",
-    gap: 9,
-    textDecoration: "none",
-    flexShrink: 0
-  }}
->
-  <img
-    src="/favicon.svg"
-    alt="Logo"
-    style={{ width: 65, height: 65, borderRadius: 9 }}
-  />
-  <span style={{ fontWeight: 800, color: C.primary, fontSize: 15 }}>
-    Daily<span style={{ color: C.accent }}>Job Openings</span>
-  </span>
-</Link>
-          
+          </Link>
 
           {/* Desktop Links */}
           {isDesktop && (
@@ -664,21 +437,20 @@ function Navbar({ onNavigate = () => {}, activePage = "" }) {
                   activePage={activePage}
                 />
               ))}
-              <ApplyWithAIButton />
             </div>
           )}
 
-          {/* Hamburger Button */}
+          {/* Hamburger */}
           {!isDesktop && (
-            <button
+            <button className="hamburger-btn"
               onClick={() => setMenuOpen((v) => !v)}
               aria-label="Toggle menu"
               style={{
                 width: 42,
                 height: 42,
                 borderRadius: 9,
-                background: menuOpen ? C.light : "transparent",
-                border: `1.5px solid ${menuOpen ? C.border : "transparent"}`,
+                background: menuOpen ? "rgba(243,244,246,0.70)" : "transparent",
+                border: `1.5px solid ${menuOpen ? "rgba(229,231,235,0.80)" : "transparent"}`,
                 cursor: "pointer",
                 display: "flex",
                 flexDirection: "column",
@@ -689,30 +461,24 @@ function Navbar({ onNavigate = () => {}, activePage = "" }) {
                 transition: "background .2s, border-color .2s",
               }}
             >
-              <span
-                style={{
-                  display: "block", width: 20, height: 2.5,
-                  background: C.primary, borderRadius: 2,
-                  transition: "transform .25s ease",
-                  transform: menuOpen ? "translateY(7.5px) rotate(45deg)" : "none",
-                }}
-              />
-              <span
-                style={{
-                  display: "block", width: 20, height: 2.5,
-                  background: C.primary, borderRadius: 2,
-                  transition: "opacity .2s ease",
-                  opacity: menuOpen ? 0 : 1,
-                }}
-              />
-              <span
-                style={{
-                  display: "block", width: 20, height: 2.5,
-                  background: C.primary, borderRadius: 2,
-                  transition: "transform .25s ease",
-                  transform: menuOpen ? "translateY(-7.5px) rotate(-45deg)" : "none",
-                }}
-              />
+              <span style={{
+                display: "block", width: 20, height: 2.5,
+                background: C.primary, borderRadius: 2,
+                transition: "transform .25s ease",
+                transform: menuOpen ? "translateY(7.5px) rotate(45deg)" : "none",
+              }} />
+              <span style={{
+                display: "block", width: 20, height: 2.5,
+                background: C.primary, borderRadius: 2,
+                transition: "opacity .2s ease",
+                opacity: menuOpen ? 0 : 1,
+              }} />
+              <span style={{
+                display: "block", width: 20, height: 2.5,
+                background: C.primary, borderRadius: 2,
+                transition: "transform .25s ease",
+                transform: menuOpen ? "translateY(-7.5px) rotate(-45deg)" : "none",
+              }} />
             </button>
           )}
         </div>
@@ -728,9 +494,10 @@ function Navbar({ onNavigate = () => {}, activePage = "" }) {
                 closeMenu={() => setMenuOpen(false)}
               />
             ))}
-            <div style={{ padding: "16px 20px", borderTop: `2px solid ${C.border}` }}>
-              <ApplyWithAIButton fullWidth />
-            </div>
+            <div style={{
+              padding: "16px 20px",
+              borderTop: "1px solid rgba(229,231,235,0.50)",
+            }} />
           </div>
         )}
       </nav>
