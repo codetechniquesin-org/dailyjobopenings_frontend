@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import API_BASE_URL from "../../config/api";
 import QuickCategoriesSkeleton from "../skeletons/QuickCategoriesSkeleton";
+import { useNavigate } from "react-router-dom";
+
 
 export default function QuickCategories({
   SidebarWidget,
   QuickLink,
 }) {
+  const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -41,7 +44,38 @@ export default function QuickCategories({
             key={cat.label}
             label={cat.label}
             count={`${cat.count}+`}
-          />
+            onClick={() =>
+              {switch (cat.type) {
+  case "category":
+    navigate(`/jobs/search?category=${encodeURIComponent(cat.value)}`);
+    break;
+
+  case "role":
+    navigate(`/jobs/search?role=${encodeURIComponent(cat.value)}`);
+    break;
+
+  case "workMode":
+    navigate(`/jobs/search?workMode=${encodeURIComponent(cat.value)}`);
+    break;
+
+  case "education":
+    navigate(`/jobs/search?education=${encodeURIComponent(cat.value)}`);
+    break;
+
+  case "jobType":
+    navigate(`/jobs/search?jobType=${encodeURIComponent(cat.value)}`);
+    break;
+
+  case "tag":
+    navigate(`/jobs/search?tag=${encodeURIComponent(cat.value)}`);
+    break;
+
+  default:
+    navigate("/jobs/search");
+}
+            }
+          
+            }/>
         ))
       )}
     </SidebarWidget>

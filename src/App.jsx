@@ -131,13 +131,55 @@ function SidebarWidget({ title, children }) {
   );
 }
 
-function QuickLink({ label, count }) {
+function QuickLink({ label, count, onClick }) {
   return (
-    <a href="#" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 0", borderBottom: `1px solid ${S.border}`, fontSize: 13, color: S.text, textDecoration: "none" }}>
+    <a
+      href="#"
+      onClick={(e) => {
+        e.preventDefault();
+        onClick?.();
+      }}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "8px 0",
+        borderBottom: `1px solid ${S.border}`,
+        fontSize: 13,
+        color: S.text,
+        textDecoration: "none",
+        cursor: "pointer",
+      }}
+    >
       {label}
-      <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-        <span style={{ background: S.light, color: S.muted, fontSize: 11, padding: "1px 7px", borderRadius: 10 }}>{count}</span>
-        <span style={{ color: S.muted, fontSize: 12 }}>›</span>
+
+      <span
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 6,
+        }}
+      >
+        <span
+          style={{
+            background: S.light,
+            color: S.muted,
+            fontSize: 11,
+            padding: "1px 7px",
+            borderRadius: 10,
+          }}
+        >
+          {count}
+        </span>
+
+        <span
+          style={{
+            color: S.muted,
+            fontSize: 12,
+          }}
+        >
+          ›
+        </span>
       </span>
     </a>
   );

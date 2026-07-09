@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import API_BASE_URL from "../../config/api";
 import QuickCategoriesSkeleton from "../skeletons/QuickCategoriesSkeleton";
+import { useNavigate } from "react-router-dom";
 
 export default function TopCompanies({ SidebarWidget, S }) {
+  const navigate = useNavigate();
   const [companies, setCompanies] = useState(null);
 
   useEffect(() => {
@@ -28,6 +30,9 @@ export default function TopCompanies({ SidebarWidget, S }) {
           companies.map((c) => (
             <div
               key={c.name}
+              onClick={() =>
+                navigate(`/jobs/search?query=${encodeURIComponent(c.name)}`)
+              }
               style={{
                 display: "flex",
                 alignItems: "center",
