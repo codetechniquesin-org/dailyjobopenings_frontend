@@ -30,11 +30,10 @@ export default function JobsByLocation({ SidebarWidget, QuickLink }) {
             key={loc.label}
             label={loc.label}
             count={`${loc.count}+`}
-            onClick={() =>
-              navigate(
-                `/jobs/search?location=${encodeURIComponent(loc.value || loc.label)}`
-              )
-            }
+onClick={() => {
+  window.scrollTo(0, 0);
+  navigate(`/jobs/search?location=${loc.value}`);
+}}
           />
         ))
       ) : (
