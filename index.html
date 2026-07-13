@@ -25,10 +25,10 @@
   />
 
   <!-- ========================================
-       SEO
+       DEFAULT META (Fallback)
+       Individual pages override these using
+       react-helmet-async.
   ========================================= -->
-
-  <!-- <title>Daily Job Openings</title> -->
 
   <meta
     name="description"
@@ -37,7 +37,7 @@
 
   <meta
     name="keywords"
-    content="jobs, fresher jobs, software jobs, internships, walkins, government jobs, placement updates"
+    content="jobs, fresher jobs, software jobs, internships, government jobs"
   />
 
   <meta
@@ -49,63 +49,6 @@
     name="robots"
     content="index, follow"
   />
-
-  <!-- ========================================
-       OPEN GRAPH
-  ========================================= -->
-
-  <meta
-    property="og:title"
-    content="Daily Job Openings"
-  />
-
-  <meta
-    property="og:description"
-    content="Latest fresher jobs, internships, walk-ins and software job updates."
-  />
-
-  <meta
-    property="og:type"
-    content="website"
-  />
-
-  <meta
-    property="og:url"
-    content="https://dailyjobopenings.online"
-  />
-
-  <meta
-    property="og:image"
-    content="https://dailyjobopenings.online/favicon.svg"
-  />
-
-  <!-- ========================================
-       TWITTER
-  ========================================= -->
-
-  <meta
-    name="twitter:card"
-    content="summary_large_image"
-  />
-
-  <meta
-    name="twitter:title"
-    content="Daily Job Openings"
-  />
-
-  <meta
-    name="twitter:description"
-    content="Latest fresher jobs, internships, walk-ins and software job updates."
-  />
-
-  <!-- ========================================
-       CANONICAL
-  ========================================= -->
-<!-- 
-  <link
-    rel="canonical"
-    href="https://dailyjobopenings.online"
-  /> -->
 
   <!-- ========================================
        FAVICON
@@ -133,15 +76,19 @@
       dataLayer.push(arguments);
     }
 
-    gtag('js', new Date());
+    gtag("js", new Date());
 
-    gtag('config', '%VITE_GA_ID%');
+    gtag("config", "%VITE_GA_ID%");
   </script>
 
   <!-- ========================================
        GOOGLE ADSENSE
   ========================================= -->
-  <meta name="google-adsense-account" content="ca-pub-1129811728309082">
+
+  <meta
+    name="google-adsense-account"
+    content="ca-pub-1129811728309082"
+  />
 
   <script
     async
