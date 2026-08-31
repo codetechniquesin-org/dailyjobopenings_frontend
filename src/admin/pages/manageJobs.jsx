@@ -68,7 +68,7 @@ const SALARY = [
 const BATCHES = ["2029","2028","2027","2026", "2025", "2024", "2023", "2022","2021", "Any Batch"];
 const EDUCATION = ["B.Tech / B.E", "BCA", "B.Sc", "MCA", "M.Tech", "MBA", "Any Graduate", "Any Post Graduate"];
 const BADGES = ["FEATURED", "HOT", "NEW", "REMOTE"];
-
+const HIRING_TYPES = ["DIRECT","OFF_CAMPUS","ON_CAMPUS"];
 // ─── Reusable Field Components ────────────────────────────────────────────────
 const inputCls = `
   width:100%; padding:10px 14px; font-size:13.5px; border:1.5px solid #e2e8f0;
@@ -537,6 +537,7 @@ const DEGREES = [
         experienceMax: f.experienceMax ? Number(f.experienceMax) : undefined,
         salaryMin: f.salaryMin ? Number(f.salaryMin) : undefined,
         salaryMax: f.salaryMax ? Number(f.salaryMax) : undefined,
+        hiringType: f.hiringType || null,
         eligibleBatches: f.eligibleBatches
   ? f.eligibleBatches
       .split(",")
@@ -1098,6 +1099,17 @@ console.log("RESPONSE:", data);
               borderRadius: 9, outline: "none", background: "#fafafa", color: S.text, fontFamily: "inherit", boxSizing: "border-box"
             }} />
         </Field>
+        <Field label="Hiring Type">
+          <CreatableSelect
+            styles={selectStyles}
+            options={HIRING_TYPES.map(h => ({ label: h, value: h }))}
+            value={f.hiringType ? { label: f.hiringType, value: f.hiringType } : null}
+            onChange={(selected) => set("hiringType", selected?.value || "")}
+            onCreateOption={(inputValue) => set("hiringType", inputValue)}
+            placeholder="Select or type Hiring Type..."
+          />
+          <ErrMsg msg={errors.hiringType} />
+        </Field>
         <Field label="Eligible Batches" required>
           <CreatableSelect
             styles={selectStyles}
@@ -1118,6 +1130,7 @@ console.log("RESPONSE:", data);
             onCreateOption={(inputValue) => set("eligibleDegrees", inputValue)}
             placeholder="Select or type Degree..."
           />
+          <ErrMsg msg={errors.eligibleDegrees} />
         </Field>
         {/* <Field label="Department">
           <input value={f.department} onChange={e => set("department", e.target.value)}
