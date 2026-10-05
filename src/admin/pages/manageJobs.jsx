@@ -647,6 +647,29 @@ console.log("RESPONSE:", data);
             📲 WhatsApp
           </button>
 
+          {/* Telegram Share */}
+          <button
+            onClick={() => {
+              const message = generateShareMessage();
+
+              const url = `https://t.me/share/url?url=${encodeURIComponent(
+                "Welcome to DailyJobOpenings Channel"
+              )}&text=${encodeURIComponent(message)}`;
+
+              window.open(url, "_blank");
+            }}
+            style={{
+              marginRight: 10,
+              padding: "8px 16px",
+              background: "#229ED9",
+              color: "#fff",
+              border: "none",
+              borderRadius: 6,
+              cursor: "pointer"
+            }}
+          >
+            ✈️ Telegram
+          </button>
           {/* Copy Full Message */}
           <button
             onClick={() => navigator.clipboard.writeText(generateShareMessage())}
