@@ -14,8 +14,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import WalkInDrivesPage from "./user_pages/walk_in_jobs";
 import CategorySection from "./components/home_page_components/browse_by_categories";
 import MainLayout from "./components/common_components/MainLayout";
-import JobSearchCard from "./components/home_page_components/quick_job_search";
-
+import JobAlertSubscribe from "./components/common_components/job_alert";
 
 const C = {
   primary: "#0f4c81",
@@ -492,8 +491,10 @@ const handleSearch = ({
               className="hero-flex"
               style={{
                 display: "grid",
-                gridTemplateColumns: isMobile ? "1fr" : "1.1fr 0.9fr",
-                gap: isMobile ? 45 : 70,
+                gridTemplateColumns: isMobile
+                  ? "minmax(0, 1fr)"
+                  : "minmax(0, 0.9fr) minmax(0, 1.1fr)",
+                gap: isMobile ? 32 : 40,
                 alignItems: "center",
               }}
             >
@@ -719,12 +720,18 @@ const handleSearch = ({
                 </div>
               </div>
 
-              {/* RIGHT SEARCH CARD */}
-<div style={{ display: "flex", justifyContent: "center" }}>
-<JobSearchCard
-  onSearch={handleSearch}
-/>
-</div>
+              {/* RIGHT JOB ALERTS CARD */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "flex-start",
+                  width: "100%",
+                  minWidth: 0,
+                }}
+              >
+                <JobAlertSubscribe />
+              </div>
             </div>
           </div>
         </section>
