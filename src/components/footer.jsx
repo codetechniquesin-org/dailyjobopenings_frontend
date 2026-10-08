@@ -1,7 +1,6 @@
 import React from "react";
 import Select from "react-select";
 import {Link} from "react-router-dom";
-import JobAlertSubscribe from "./common_components/job_alert";
 import About from "../user_pages/about";
 import Contact from "../user_pages/contactus";
 import Privacy from "../user_pages/privacy";
@@ -246,15 +245,6 @@ function Footer({ bp = {}, gutter = "16px", C = defaultColors }) {
           </div>
 
           {/* RIGHT: Job Alert Subscribe */}
-          <div
-              style={{
-                width: "100%",
-                minWidth: 0,
-                maxWidth: isDesktop ? 520 : "100%",
-              }}
-            >
-            <JobAlertSubscribe />
-          </div>
         </div>
 
         {/* Bottom */}
