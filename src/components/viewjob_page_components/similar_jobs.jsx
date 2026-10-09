@@ -89,7 +89,7 @@ function SimilarJobs({ jobId }) {
           {jobs.map((j) => (
             <a
               key={j._id}
-              href={`/view-job/${j.slug}`}
+              href={`/jobs/${j.slug}`}
               target="_blank"
               rel="noopener noreferrer"
               style={{

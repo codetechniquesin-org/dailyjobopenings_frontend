@@ -51,7 +51,8 @@ const JOB_ROLES = {
   NON_IT: ["Finance", "Healthcare", "Education", "Marketing", "Legal", "Engineering", "HR", "Sales", "Operations"],
   GOVT: ["Civil Services", "Defence", "Police", "Banking", "Railways", "Teaching", "Healthcare", "Judiciary"],
 };
-const WORK_MODES = ["Full Time", "Part Time", "Remote", "Work From Home", "Hybrid", "Contract", "Freelance", "Internship", "On-site"];
+const WORK_MODES = ["REMOTE", "HYBRID", "ONSITE"];
+const EMPLOYMENT_TYPES = ["FULL-TIME", "PART-TIME", "INTERNSHIP", "CONTRACT", "TEMPORARY", "APPRENTICESHIP", "FREELANCE","TEMPORARY"];
 const EXPERIENCE = [
   "0–1 yr", "0-2 yrs", "1–3 yrs", "3–5 yrs",
   "5–8 yrs", "8–12 yrs", "5+ yrs", "Director / VP", "C-Level",
@@ -64,10 +65,10 @@ const SALARY = [
   "0–2 LPA", "2–4 LPA", "4–6 LPA", "6–8 LPA", "8–12 LPA",
   "12–18 LPA", "18–25 LPA", "25–40 LPA", "40–60 LPA", "60+ LPA", "Unpaid / Stipend", "Not Disclosed"
 ];
-const BATCHES = ["2026", "2025", "2024", "2023", "2022", "Any Batch"];
+const BATCHES = ["2029","2028","2027","2026", "2025", "2024", "2023", "2022","2021", "Any Batch"];
 const EDUCATION = ["B.Tech / B.E", "BCA", "B.Sc", "MCA", "M.Tech", "MBA", "Any Graduate", "Any Post Graduate"];
-const BADGES = ["featured", "hot", "new", "remote"];
-
+const BADGES = ["FEATURED", "HOT", "NEW", "REMOTE"];
+const HIRING_TYPES = ["DIRECT","OFF_CAMPUS","ON_CAMPUS"];
 // ─── Reusable Field Components ────────────────────────────────────────────────
 const inputCls = `
   width:100%; padding:10px 14px; font-size:13.5px; border:1.5px solid #e2e8f0;
@@ -151,14 +152,15 @@ const selectStyles = {
   })
 };
 
+const SALARY_UNITS = ["LPA", "Per Month", "Per Week", "Per Day", "Per Hour"];
 // ─── POST JOB FORM ────────────────────────────────────────────────────────────
 function PostJobForm() {
   const blank = {
     companyLogo: "", companyName: "", companyWebsite: "", companyCareersLink: "",
     aboutCompany: "", jobTitle: "", jobRole: "", jobDescription: "", jobType: "IT",
-    jobCategory: "", experienceLevel: "", eligibleBatches: "", salary: "",
-    location: "", workMode: [], jobLink: "", expiryDate: "", education: "",
-    department: "", openings: "", skills: "", tags: "", perks: "",
+    jobCategory: "", experienceLevel: "",experienceMin: "",experienceMax: "",hiringType: "", salary: "",salaryMin: "", salaryMax: "",salaryUnit: "",
+    location: "",city: "",state: "",country: "",employmentType: "",jobFunction: "", workMode: [], jobLink: "", expiryDate: "", eligibleBatches: "",eligibleBranches: "",eligibleDegrees: "",
+    openings: "", skills: "", tags: "", perks: "",jobSummary: "",jobFunction: "",selectionProcess: "",applicationSteps: "",highlights: "",careerGrowth: "",importantInstructions: "",
     responsibilities: "", qualifications: "", badge: "", badgeLabel: "",
   };
   const [f, setF] = useState(blank);
@@ -181,7 +183,7 @@ function PostJobForm() {
   const [duplicateWarning, setDuplicateWarning] = useState("");
   const [aiRawText, setAiRawText] = useState("");
 
-//this function generates the share message for WhatsApp and other platforms based on the job data and job URL. It uses template literals to create a formatted message that includes the company name, job title, location, eligible batches, and a call to action to apply for the job. It also includes links to the WhatsApp channel, Instagram, and Telegram for daily job updates, encouraging users to share the opportunity with their friends and groups.
+  //this function generates the share message for WhatsApp and other platforms based on the job data and job URL. It uses template literals to create a formatted message that includes the company name, job title, location, eligible batches, and a call to action to apply for the job. It also includes links to the WhatsApp channel, Instagram, and Telegram for daily job updates, encouraging users to share the opportunity with their friends and groups.
   const generateShareMessage = () => {
     return `🚀 Job Opportunity Alert!
 
@@ -263,10 +265,10 @@ https://t.me/codetechniques
 
     const v = val.toLowerCase();
 
-    if (v.includes("remote") && v.includes("hybrid")) return "Hybrid";
-    if (v.includes("remote")) return "Remote";
-    if (v.includes("hybrid")) return "Hybrid";
-    if (v.includes("office")) return "Onsite";
+    if (v.includes("remote") && v.includes("hybrid")) return "HYBRID";
+    if (v.includes("remote")) return "REMOTE";
+    if (v.includes("hybrid")) return "HYBRID";
+    if (v.includes("office")) return "ONSITE";
 
     return val;
   };
@@ -290,9 +292,9 @@ https://t.me/codetechniques
     const v = val.toLowerCase();
     const modes = [];
 
-    if (v.includes("remote")) modes.push("Remote");
-    if (v.includes("hybrid")) modes.push("Hybrid");
-    if (v.includes("office") || v.includes("onsite")) modes.push("Onsite");
+    if (v.includes("remote")) modes.push("REMOTE");
+    if (v.includes("hybrid")) modes.push("HYBRID");
+    if (v.includes("office") || v.includes("ONSITE")) modes.push("ONSITE");
 
     return modes;
   };
@@ -324,15 +326,31 @@ https://t.me/codetechniques
     workMode: mapWorkModes(d["work mode"]), // ✅ FIXED
 
     location: d["location"] || "",
+    city: d["city"] || "",
+    state: d["state"] || "",
+    country: d["country"] || "",
     experienceLevel: d["experience level"] || "",
+    experienceMin: d["experience min"] || "",
+    experienceMax: d["experience max"] || "",
     jobDescription: d["job description"] || "",
-
+    employmentType: d["employment type"] || "",
+    jobFunction: d["job function"] || "",
     salary: d["salary"] || "",
-
+    salaryMin: d["salary min"] || "",
+    salaryMax: d["salary max"] || "",
+    salaryUnit: d["salary unit"] || "",
     education: d["education"] || "",
     eligibleBatches: d["eligible batches"] || "",
-    department: d["department"] || "",
-
+    eligibleBranches: d["eligible branches"] || "",
+    eligibleDegrees: d["eligible degrees"] || "",
+    hiringType: d["hiring type"] || "",
+    jobSummary: d["job summary"] || "",
+    jobFunction: d["job function"] || "",
+    selectionProcess: d["selection process"] || "",
+    applicationSteps: d["application steps"] || "",
+    highlights: d["highlights"] || "",
+    careerGrowth: d["career growth"] || "",
+    importantInstructions: d["important instructions"] || "",
     skills: splitToArray(d["skills"]).join(", "),
     tags: splitToArray(d["tags"]).join(", "),
     perks: splitToArray(d["perks"]).join(", "),
@@ -493,7 +511,9 @@ https://t.me/codetechniques
     if (f.jobType === "NON_IT" && !f.jobCategory) e.jobCategory = "Required";
     return e;
   };
-
+const DEGREES = [
+  "Computer Science", "Information Technology", "Electronics & Communication",
+  "Mechanical Engineering", "Civil Engineering", "Electrical Engineering",]
   const handleSubmit = async () => {
     const e = validate();
     setErrors(e);
@@ -513,6 +533,17 @@ https://t.me/codetechniques
         openings: f.openings ? Number(f.openings) : undefined,
         badge: f.badge || null,
         badgeLabel: f.badgeLabel || null,
+        experienceMin: f.experienceMin ? Number(f.experienceMin) : undefined,
+        experienceMax: f.experienceMax ? Number(f.experienceMax) : undefined,
+        salaryMin: f.salaryMin ? Number(f.salaryMin) : undefined,
+        salaryMax: f.salaryMax ? Number(f.salaryMax) : undefined,
+        hiringType: f.hiringType || null,
+        eligibleBatches: f.eligibleBatches
+  ? f.eligibleBatches
+      .split(",")
+      .map(b => Number(b.trim()))
+      .filter(Boolean)
+  : [],
       };
       const res = await fetch(`${API_BASE_URL}/api/post-job`, {
         method: "POST",
@@ -524,6 +555,10 @@ https://t.me/codetechniques
       });
       // console.log("token", JSON.parse(localStorage.getItem("adminInfo"))?.token);
       const data = await res.json();
+
+
+console.log("STATUS:", res.status);
+console.log("RESPONSE:", data);
 
       // if (data.success) { 
       //   const job = data.data;
@@ -547,7 +582,7 @@ https://t.me/codetechniques
         }
 
         const url = job?.slug
-          ? `${window.location.origin}/view-job/${job.slug}`
+          ? `${window.location.origin}/jobs/${job.slug}`
           : "";
 
         setJobUrl(url);
@@ -612,6 +647,29 @@ https://t.me/codetechniques
             📲 WhatsApp
           </button>
 
+          {/* Telegram Share */}
+          <button
+            onClick={() => {
+              const message = generateShareMessage();
+
+              const url = `https://t.me/share/url?url=${encodeURIComponent(
+                "Welcome to DailyJobOpenings Channel"
+              )}&text=${encodeURIComponent(message)}`;
+
+              window.open(url, "_blank");
+            }}
+            style={{
+              marginRight: 10,
+              padding: "8px 16px",
+              background: "#229ED9",
+              color: "#fff",
+              border: "none",
+              borderRadius: 6,
+              cursor: "pointer"
+            }}
+          >
+            ✈️ Telegram
+          </button>
           {/* Copy Full Message */}
           <button
             onClick={() => navigator.clipboard.writeText(generateShareMessage())}
@@ -651,7 +709,7 @@ https://t.me/codetechniques
   return (
     <div>
       {/* 🔥 AUTO EXTRACT BOX */}
-      <JobExtractor
+      {/* <JobExtractor
         API_BASE_URL={API_BASE_URL}
         S={S}
         onExtract={(d) => {
@@ -671,71 +729,71 @@ https://t.me/codetechniques
             perks: Array.isArray(d.perks) ? d.perks.join(", ") : ""
           }));
         }}
-      />
-<div
-  style={{
-    border: "1px solid #e2e8f0",
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 20,
-    background: "#ffffff",
-    boxShadow: "0 4px 18px rgba(0,0,0,0.04)"
-  }}
->
-  {/* 🔥 HEADING */}
-  <h3
-    style={{
-      fontSize: 15,
-      fontWeight: 700,
-      marginBottom: 10,
-      color: S.primary,
-      display: "flex",
-      alignItems: "center",
-      gap: 6
-    }}
-  >
-    🤖 AI Autofill (Paste Structured Response)
-  </h3>
+      /> */}
+      <div
+        style={{
+          border: "1px solid #e2e8f0",
+          borderRadius: 12,
+          padding: 16,
+          marginBottom: 20,
+          background: "#ffffff",
+          boxShadow: "0 4px 18px rgba(0,0,0,0.04)"
+        }}
+      >
+        {/* 🔥 HEADING */}
+        <h3
+          style={{
+            fontSize: 15,
+            fontWeight: 700,
+            marginBottom: 10,
+            color: S.primary,
+            display: "flex",
+            alignItems: "center",
+            gap: 6
+          }}
+        >
+          🤖 AI Autofill (Paste Structured Response)
+        </h3>
 
-  {/* 🔥 SUBTEXT */}
-  <p
-    style={{
-      fontSize: 12,
-      color: "#6b7280",
-      marginBottom: 10
-    }}
-  >
-    Paste ChatGPT response (key = value format) to auto-fill job details instantly.
-  </p>
+        {/* 🔥 SUBTEXT */}
+        <p
+          style={{
+            fontSize: 12,
+            color: "#6b7280",
+            marginBottom: 10
+          }}
+        >
+          Paste ChatGPT response (key = value format) to auto-fill job details instantly.
+        </p>
 
-  {/* 🔥 TEXTAREA */}
-  <textarea
-    value={aiRawText}
-    onChange={(e) => setAiRawText(e.target.value)}
-    placeholder="Paste AI structured response here..."
-    style={{
-      width: "100%",
-      minHeight: 120,
-      padding: "10px 14px",
-      borderRadius: 8,
-      border: "1.5px solid #e2e8f0",
-      background: "#fafafa",
-      fontSize: 13.5,
-      color: "#111827",
-      outline: "none",
-      marginBottom: 12,
-      resize: "vertical"
-    }}
-  />
+        {/* 🔥 TEXTAREA */}
+        <textarea
+          value={aiRawText}
+          onChange={(e) => setAiRawText(e.target.value)}
+          placeholder="Paste AI structured response here..."
+          style={{
+            width: "100%",
+            minHeight: 120,
+            padding: "10px 14px",
+            borderRadius: 8,
+            border: "1.5px solid #e2e8f0",
+            background: "#fafafa",
+            fontSize: 13.5,
+            color: "#111827",
+            outline: "none",
+            marginBottom: 12,
+            resize: "vertical"
+          }}
+        />
 
-  {/* 🔥 BUTTON */}
-<button
-  onClick={handleParseAI}
-  className="ai-gradient-btn"
->
-  ⚡ Autofill Using AI
-</button>
-</div>
+        {/* 🔥 BUTTON */}
+        <button
+          onClick={handleParseAI}
+          className="ai-gradient-btn"
+        >
+          ⚡ Autofill Using AI
+        </button>
+      </div>
       {/* Company Info */}
       <SectionHead title="Company Info" icon="🏢" />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 16 }}>
@@ -994,7 +1052,7 @@ https://t.me/codetechniques
                     </div>
 
                     <a
-                      href={`https://dailyjobopenings.online/view-job/${job.slug}`}
+                      href={`https://dailyjobopenings.online/jobs/${job.slug}`}
                       target="_blank"
                       rel="noreferrer"
                       style={{
@@ -1018,7 +1076,7 @@ https://t.me/codetechniques
             </div>
           )}
         </Field>
-        <Field label="Job Role / Department" required>
+        <Field label="Job Role" required>
           <CreatableSelect
             styles={selectStyles}
             options={(JOB_ROLES[f.jobType] || []).map(r => ({ label: r, value: r }))}
@@ -1028,6 +1086,14 @@ https://t.me/codetechniques
             placeholder="Select or type Role..."
           />
           <ErrMsg msg={errors.jobRole} />
+        </Field>
+        <Field label="Job Function">
+          <input value={f.jobFunction} onChange={e => set("jobFunction", e.target.value)}
+            placeholder="Enter job function"
+            style={{
+              width: "100%", padding: "10px 14px", fontSize: 13.5, border: "1.5px solid #e2e8f0",
+              borderRadius: 9, outline: "none", background: "#fafafa", color: S.text, fontFamily: "inherit", boxSizing: "border-box"
+            }} />
         </Field>
         <Field label="Experience Level" required>
           <CreatableSelect
@@ -1040,6 +1106,33 @@ https://t.me/codetechniques
           />
           <ErrMsg msg={errors.experienceLevel} />
         </Field>
+        <Field label="Experience Min">
+          <input value={f.experienceMin} onChange={e => set("experienceMin", e.target.value)}
+            placeholder="Minimum experience in years"
+            style={{
+              width: "100%", padding: "10px 14px", fontSize: 13.5, border: "1.5px solid #e2e8f0",
+              borderRadius: 9, outline: "none", background: "#fafafa", color: S.text, fontFamily: "inherit", boxSizing: "border-box"
+            }} />
+        </Field>
+        <Field label="Experience Max">
+          <input value={f.experienceMax} onChange={e => set("experienceMax", e.target.value)}
+            placeholder="Maximum experience in years"
+            style={{
+              width: "100%", padding: "10px 14px", fontSize: 13.5, border: "1.5px solid #e2e8f0",
+              borderRadius: 9, outline: "none", background: "#fafafa", color: S.text, fontFamily: "inherit", boxSizing: "border-box"
+            }} />
+        </Field>
+        <Field label="Hiring Type">
+          <CreatableSelect
+            styles={selectStyles}
+            options={HIRING_TYPES.map(h => ({ label: h, value: h }))}
+            value={f.hiringType ? { label: f.hiringType, value: f.hiringType } : null}
+            onChange={(selected) => set("hiringType", selected?.value || "")}
+            onCreateOption={(inputValue) => set("hiringType", inputValue)}
+            placeholder="Select or type Hiring Type..."
+          />
+          <ErrMsg msg={errors.hiringType} />
+        </Field>
         <Field label="Eligible Batches" required>
           <CreatableSelect
             styles={selectStyles}
@@ -1051,22 +1144,85 @@ https://t.me/codetechniques
           />
           <ErrMsg msg={errors.eligibleBatches} />
         </Field>
-        <Field label="Education">
+        <Field label="Eligible Degrees">
           <CreatableSelect
             styles={selectStyles}
-            options={EDUCATION.map(e => ({ label: e, value: e }))}
-            value={f.education ? { label: f.education, value: f.education } : null}
-            onChange={(selected) => set("education", selected?.value || "")}
-            onCreateOption={(inputValue) => set("education", inputValue)}
-            placeholder="Select or type Education..."
+            options={DEGREES.map(e => ({ label: e, value: e }))}
+            value={f.eligibleDegrees ? { label: f.eligibleDegrees, value: f.eligibleDegrees } : null}
+            onChange={(selected) => set("eligibleDegrees", selected?.value || "")}
+            onCreateOption={(inputValue) => set("eligibleDegrees", inputValue)}
+            placeholder="Select or type Degree..."
           />
+          <ErrMsg msg={errors.eligibleDegrees} />
         </Field>
-        <Field label="Department">
+        {/* <Field label="Department">
           <input value={f.department} onChange={e => set("department", e.target.value)}
             placeholder="e.g. Engineering, Finance"
             style={{
               width: "100%", padding: "10px 14px", fontSize: 13.5, border: "1.5px solid #e2e8f0",
               borderRadius: 9, outline: "none", background: "#fafafa", color: S.text, fontFamily: "inherit", boxSizing: "border-box"
+            }} />
+        </Field> */}
+        <Field label="Eligible Branches">
+          <input value={f.eligibleBranches} onChange={e => set("eligibleBranches", e.target.value)}
+            placeholder="e.g. CSE, ECE, ME"
+            style={{
+              width: "100%", padding: "10px 14px", fontSize: 13.5, border: "1.5px solid #e2e8f0",
+              borderRadius: 9, outline: "none", background: "#fafafa", color: S.text, fontFamily: "inherit", boxSizing: "border-box"
+            }} />
+        </Field>
+        <Field label="Job Summary">
+          <textarea value={f.jobSummary} onChange={e => set("jobSummary", e.target.value)}
+            rows={3} placeholder="Brief one-paragraph summary of the job..."
+            style={{
+              width: "100%", padding: "10px 14px", fontSize: 13.5, border: "1.5px solid #e2e8f0",
+              borderRadius: 9, outline: "none", background: "#fafafa", color: S.text, fontFamily: "inherit",
+              boxSizing: "border-box", resize: "vertical"
+            }} />
+        </Field>
+        <Field label="Selection Process">
+          <textarea value={f.selectionProcess} onChange={e => set("selectionProcess", e.target.value)}
+            rows={3} placeholder="Describe the selection process stages..."
+            style={{
+              width: "100%", padding: "10px 14px", fontSize: 13.5, border: "1.5px solid #e2e8f0",
+              borderRadius: 9, outline: "none", background: "#fafafa", color: S.text, fontFamily: "inherit",
+              boxSizing: "border-box", resize: "vertical"
+            }} />
+        </Field>
+        <Field label="Application Steps">
+          <textarea value={f.importantInstructions} onChange={e => set("importantInstructions", e.target.value)}
+            rows={3} placeholder="Important instructions for applicants..."
+            style={{
+              width: "100%", padding: "10px 14px", fontSize: 13.5, border: "1.5px solid #e2e8f0",
+              borderRadius: 9, outline: "none", background: "#fafafa", color: S.text, fontFamily: "inherit",
+              boxSizing: "border-box", resize: "vertical"
+            }} />
+        </Field>
+        <Field label="Job Highlights">
+          <textarea value={f.highlights} onChange={e => set("highlights", e.target.value)}
+            rows={3} placeholder="Key highlights or perks of the job..."
+            style={{
+              width: "100%", padding: "10px 14px", fontSize: 13.5, border: "1.5px solid #e2e8f0",
+              borderRadius: 9, outline: "none", background: "#fafafa", color: S.text, fontFamily: "inherit",
+              boxSizing: "border-box", resize: "vertical"
+            }} />
+        </Field>
+        <Field label="Career Growth Opportunities">
+          <textarea value={f.careerGrowth} onChange={e => set("careerGrowth", e.target.value)}
+            rows={3} placeholder="Describe potential career growth opportunities..."
+            style={{
+              width: "100%", padding: "10px 14px", fontSize: 13.5, border: "1.5px solid #e2e8f0",
+              borderRadius: 9, outline: "none", background: "#fafafa", color: S.text, fontFamily: "inherit",
+              boxSizing: "border-box", resize: "vertical"
+            }} />
+        </Field>
+        <Field label="Important Instructions for Applicants">
+          <textarea value={f.importantInstructions} onChange={e => set("importantInstructions", e.target.value)}
+            rows={3} placeholder="Important instructions for applicants..."
+            style={{
+              width: "100%", padding: "10px 14px", fontSize: 13.5, border: "1.5px solid #e2e8f0",
+              borderRadius: 9, outline: "none", background: "#fafafa", color: S.text, fontFamily: "inherit",
+              boxSizing: "border-box", resize: "vertical"
             }} />
         </Field>
       </div>
@@ -1118,6 +1274,16 @@ https://t.me/codetechniques
         </div>
         <ErrMsg msg={errors.workMode} />
       </Field>
+      <Field label="Employment Type">
+        <CreatableSelect
+          styles={selectStyles}
+          options={EMPLOYMENT_TYPES.map(t => ({ label: t, value: t }))}
+          value={f.employmentType ? { label: f.employmentType, value: f.employmentType } : null}
+          onChange={(selected) => set("employmentType", selected?.value || "")}
+          onCreateOption={(inputValue) => set("employmentType", inputValue)}
+          placeholder="Select or type Employment Type..."
+        />
+      </Field>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 16 }}>
         <Field label="Salary">
           <CreatableSelect
@@ -1127,6 +1293,32 @@ https://t.me/codetechniques
             onChange={(selected) => set("salary", selected?.value || "")}
             onCreateOption={(inputValue) => set("salary", inputValue)}
             placeholder="Select or type Salary..."
+          />
+        </Field>
+        <Field label="Salary Min">
+          <input type="number" value={f.salaryMin} onChange={e => set("salaryMin", e.target.value)}
+            placeholder="e.g. 50000" min={0}
+            style={{
+              width: "100%", padding: "10px 14px", fontSize: 13.5, border: "1.5px solid #e2e8f0",
+              borderRadius: 9, outline: "none", background: "#fafafa", color: S.text, fontFamily: "inherit", boxSizing: "border-box"
+            }} />
+        </Field>
+        <Field label="Salary Max">
+          <input type="number" value={f.salaryMax} onChange={e => set("salaryMax", e.target.value)}
+            placeholder="e.g. 120000" min={0}
+            style={{
+              width: "100%", padding: "10px 14px", fontSize: 13.5, border: "1.5px solid #e2e8f0",
+              borderRadius: 9, outline: "none", background: "#fafafa", color: S.text, fontFamily: "inherit", boxSizing: "border-box"
+            }} />
+        </Field>
+        <Field label="Salary Unit">
+          <CreatableSelect
+            styles={selectStyles}
+            options={SALARY_UNITS.map(u => ({ label: u, value: u }))}
+            value={f.salaryUnit ? { label: f.salaryUnit, value: f.salaryUnit } : null}
+            onChange={(selected) => set("salaryUnit", selected?.value || "")}
+            onCreateOption={(inputValue) => set("salaryUnit", inputValue)}
+            placeholder="Select or type Unit..."
           />
         </Field>
         <Field label="Location" required>
@@ -1139,6 +1331,28 @@ https://t.me/codetechniques
             placeholder="Select or type Location..."
           />
           <ErrMsg msg={errors.location} />
+        </Field>
+        <Field label="City" required>
+          <input value={f.city} onChange={e => set("city", e.target.value)}
+            placeholder="e.g. Bengaluru" style={{
+              width: "100%", padding: "10px 14px", fontSize: 13.5, border: "1.5px solid #e2e8f0",
+              borderRadius: 9, outline: "none", background: "#fafafa", color: S.text, fontFamily: "inherit", boxSizing: "border-box"
+            }} />
+          <ErrMsg msg={errors.city} />
+        </Field>
+        <Field label="State">
+          <input value={f.state} onChange={e => set("state", e.target.value)}
+            placeholder="e.g. Karnataka" style={{
+              width: "100%", padding: "10px 14px", fontSize: 13.5, border: "1.5px solid #e2e8f0",
+              borderRadius: 9, outline: "none", background: "#fafafa", color: S.text, fontFamily: "inherit", boxSizing: "border-box"
+            }} />
+        </Field>
+        <Field label="Country">
+          <input value={f.country} onChange={e => set("country", e.target.value)}
+            placeholder="e.g. India" style={{
+              width: "100%", padding: "10px 14px", fontSize: 13.5, border: "1.5px solid #e2e8f0",
+              borderRadius: 9, outline: "none", background: "#fafafa", color: S.text, fontFamily: "inherit", boxSizing: "border-box"
+            }} />
         </Field>
         <Field label="Openings">
           <input type="number" value={f.openings} onChange={e => set("openings", e.target.value)}
@@ -1284,8 +1498,10 @@ function UpdateJobForm() {
     if (!query.trim()) return;
     setSearching(true); setError("");
     try {
-      const res = await fetch(`${API_BASE_URL}/api/jobs?search=${encodeURIComponent(query)}&limit=10`, { headers: authHeader() });
+      const res = await fetch(`${API_BASE_URL}/api/get-jobs`, { headers: authHeader() });
+      console.log("Search response status:", res);
       const data = await res.json();
+      console.log("Search results:", data);
       setJobs(data.data || data.jobs || []);
     } catch { setError("Failed to fetch jobs."); }
     finally { setSearching(false); }
@@ -1294,7 +1510,7 @@ function UpdateJobForm() {
   const selectJob = (job) => {
     setSelected(job);
     setForm({
-      companyName: job.companyName || "", jobTitle: job.jobTitle || "",
+      companyName: job.companyName || "", companyLogo: job.companyLogo || "", jobTitle: job.jobTitle || "",
       jobRole: job.jobRole || "", location: job.location || "",
       salary: job.salary || "", experienceLevel: job.experienceLevel || "",
       workMode: job.workMode || "", jobDescription: job.jobDescription || "",
@@ -1314,7 +1530,7 @@ function UpdateJobForm() {
         skills: form.skills ? form.skills.split(",").map(s => s.trim()).filter(Boolean) : [],
         tags: form.tags ? form.tags.split(",").map(s => s.trim()).filter(Boolean) : [],
       };
-      const res = await fetch(`${API_BASE_URL}/api/jobs/${selected._id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/update-job/${selected._id}`, {
         method: "PUT", headers: authHeader(), body: JSON.stringify(payload),
       });
       const data = await res.json();
@@ -1348,24 +1564,117 @@ function UpdateJobForm() {
 
       {/* Results list */}
       {jobs.length > 0 && (
-        <div style={{ border: `1px solid ${S.border}`, borderRadius: 10, overflow: "hidden", marginBottom: 20 }}>
+        <div
+          style={{
+            border: `1px solid ${S.border}`,
+            borderRadius: 10,
+            overflow: "hidden",
+            marginBottom: 20,
+          }}
+        >
           {jobs.map((j, i) => (
-            <div key={j._id} onClick={() => selectJob(j)}
+            <div
+              key={j._id}
+              onClick={() => selectJob(j)}
               style={{
-                padding: "12px 16px", cursor: "pointer", borderBottom: i < jobs.length - 1 ? `1px solid ${S.border}` : "none",
-                background: selected?._id === j._id ? "#e8f4fd" : "#fff", transition: "background .15s",
-                display: "flex", justifyContent: "space-between", alignItems: "center"
-              }}>
-              <div>
-                <strong style={{ fontSize: 13.5, color: S.text }}>{j.jobTitle}</strong>
-                <span style={{ fontSize: 12, color: S.muted, marginLeft: 10 }}>{j.companyName}</span>
+                padding: "16px",
+                cursor: "pointer",
+                borderBottom:
+                  i < jobs.length - 1 ? `1px solid ${S.border}` : "none",
+                background: selected?._id === j._id ? "#e8f4fd" : "#fff",
+                transition: "background .15s",
+              }}
+            >
+              <div style={{ display: "flex", gap: 12 }}>
+                <img
+                  src={j.companyLogo}
+                  alt={j.companyName}
+                  style={{
+                    width: 50,
+                    height: 50,
+                    objectFit: "contain",
+                    borderRadius: 8,
+                  }}
+                />
+
+                <div style={{ flex: 1 }}>
+                  <h4
+                    style={{
+                      margin: 0,
+                      fontSize: 15,
+                      color: S.text,
+                    }}
+                  >
+                    {j.jobTitle}
+                  </h4>
+
+                  <p
+                    style={{
+                      margin: "4px 0",
+                      color: S.muted,
+                      fontSize: 13,
+                    }}
+                  >
+                    {j.companyName}
+                  </p>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      gap: 10,
+                      fontSize: 12,
+                      color: S.muted,
+                    }}
+                  >
+                    {j.location && <span>📍 {j.location}</span>}
+                    {j.experience && <span>💼 {j.experience}</span>}
+                    {j.salary && <span>💰 {j.salary}</span>}
+                    {j.jobType && <span>🏢 {j.jobType}</span>}
+                  </div>
+
+                  {j.skills?.length > 0 && (
+                    <div
+                      style={{
+                        marginTop: 8,
+                        display: "flex",
+                        flexWrap: "wrap",
+                        gap: 6,
+                      }}
+                    >
+                      {j.skills.slice(0, 5).map((skill, idx) => (
+                        <span
+                          key={idx}
+                          style={{
+                            background: "#f3f4f6",
+                            padding: "4px 8px",
+                            borderRadius: 20,
+                            fontSize: 11,
+                          }}
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <span
+                  style={{
+                    fontSize: 11,
+                    background:
+                      j.status === "active" ? "#f0fdf4" : "#fff8e1",
+                    color:
+                      j.status === "active" ? S.green : S.gold,
+                    padding: "4px 10px",
+                    borderRadius: 20,
+                    fontWeight: 600,
+                    height: "fit-content",
+                  }}
+                >
+                  {j.status}
+                </span>
               </div>
-              <span style={{
-                fontSize: 11, background: j.status === "active" ? "#f0fdf4" : "#fff8e1",
-                color: j.status === "active" ? S.green : S.gold, padding: "2px 9px", borderRadius: 20, fontWeight: 600
-              }}>
-                {j.status}
-              </span>
             </div>
           ))}
         </div>
@@ -1386,7 +1695,8 @@ function UpdateJobForm() {
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 16 }}>
             {[
-              ["companyName", "Company Name", "text"], ["jobTitle", "Job Title", "text"],
+              ["companyName", "Company Name", "text"], ["companyLogo", "Company Logo", "text"],
+              ["jobTitle", "Job Title", "text"],
               ["jobRole", "Job Role", "text"], ["location", "Location", "text"],
               ["salary", "Salary", "text"], ["experienceLevel", "Experience", "text"],
               ["workMode", "Work Mode", "text"], ["eligibleBatches", "Eligible Batches", "text"],
@@ -1441,7 +1751,7 @@ function DeleteJobForm() {
     if (!query.trim()) return;
     setSearching(true); setError("");
     try {
-      const res = await fetch(`${API_BASE_URL}/api/jobs?search=${encodeURIComponent(query)}&limit=10`, { headers: authHeader() });
+      const res = await fetch(`${API_BASE_URL}/api/get-jobs`, { headers: authHeader() });
       const data = await res.json();
       setJobs(data.data || data.jobs || []);
     } catch { setError("Failed to fetch jobs."); }
@@ -1451,7 +1761,7 @@ function DeleteJobForm() {
   const handleDelete = async (job) => {
     setLoading(true); setError("");
     try {
-      const res = await fetch(`${API_BASE_URL}/api/jobs/${job._id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/delete-jobs/${job._id}`, {
         method: "DELETE", headers: authHeader(),
       });
       const data = await res.json();
@@ -1573,7 +1883,7 @@ function CloseJobForm() {
     if (!query.trim()) return;
     setSearching(true); setError("");
     try {
-      const res = await fetch(`${API_BASE_URL}/api/jobs?search=${encodeURIComponent(query)}&limit=10`, { headers: authHeader() });
+      const res = await fetch(`${API_BASE_URL}/api/get-jobs`, { headers: authHeader() });
       const data = await res.json();
       setJobs(data.data || data.jobs || []);
     } catch { setError("Failed to fetch jobs."); }
@@ -1583,8 +1893,8 @@ function CloseJobForm() {
   const handleClose = async (job) => {
     setLoading(job._id); setError("");
     try {
-      const res = await fetch(`${API_BASE_URL}/api/jobs/${job._id}`, {
-        method: "PUT", headers: authHeader(),
+      const res = await fetch(`${API_BASE_URL}/api/close-job/${job._id}`, {
+        method: "PATCH", headers: authHeader(),
         body: JSON.stringify({ status: "closed" }),
       });
       const data = await res.json();

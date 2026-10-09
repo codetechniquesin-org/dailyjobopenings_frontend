@@ -1,139 +1,136 @@
-import React, { useState,useEffect } from "react";
-import AlertBar from "../components/alertbar";
-import TopTicker from "../components/topticker";
-import Navbar from "../components/navbar";
+import { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import Footer from "../components/footer";
-import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import VITE_API_BASE_URL from "../config/api";
+import MainLayout from "../components/common_components/MainLayout";
 
+/* ─────────────────────────────────────────────
+   Constants
+───────────────────────────────────────────── */
 const C = {
   primary: "#0a2540",
-  accent: "#ff4d4f",
-  border: "#e5e7eb",
-  text: "#374151",
-  light: "#f3f4f6",
-  muted: "#9ca3af",
-  white: "#ffffff",
+  accent:  "#ff4d4f",
+  border:  "#e5e7eb",
+  text:    "#374151",
+  light:   "#f3f4f6",
+  muted:   "#9ca3af",
+  white:   "#ffffff",
+};
+
+const S = {
+  primary: "#0a2540",
+  accent:  "#ff4d4f",
+  border:  "#e5e7eb",
+  text:    "#374151",
+  light:   "#f3f4f6",
+  muted:   "#9ca3af",
+  white:   "#ffffff",
 };
 
 const CATEGORIES = [
-  "All", "Python", "Java", "JavaScript", "Web Dev",
-  "DSA", "Database", "DevOps", "System Design", "HR & Behavioral",
+  { label: "All",           icon: "📚" },
+  { label: "Python",        icon: "🐍" },
+  { label: "Java",          icon: "☕" },
+  { label: "JavaScript",    icon: "⚡" },
+  { label: "Web Dev",       icon: "🌐" },
+  { label: "DSA",           icon: "🧠" },
+  { label: "Database",      icon: "🗄️" },
+  { label: "DevOps",        icon: "⚙️" },
+  { label: "System Design", icon: "🏗️" },
+  { label: "HR & Behavioral", icon: "💼" },
 ];
 
 const DIFF_COLOR = {
-  Beginner:     { bg: "#dcfce7", text: "#16a34a" },
-  Intermediate: { bg: "#fef3c7", text: "#d97706" },
-  Advanced:     { bg: "#fee2e2", text: "#dc2626" },
-  Mixed:        { bg: "#ede9fe", text: "#7c3aed" },
+  Beginner:     { bg: "#dcfce7", color: "#16a34a" },
+  Intermediate: { bg: "#fef3c7", color: "#d97706" },
+  Advanced:     { bg: "#fee2e2", color: "#dc2626" },
+  Mixed:        { bg: "#ede9fe", color: "#7c3aed" },
 };
 
-
-
-/* ── Badge ────────────────────────────────────────────────── */
-function Badge({ label, bg, color }) {
-  return (
-    <span
-      style={{
-        fontSize: 10, fontWeight: 700, padding: "2px 8px",
-        borderRadius: 20, background: bg, color,
-        letterSpacing: 0.4, textTransform: "uppercase",
-      }}
-    >
-      {label}
-    </span>
-  );
+/* ─────────────────────────────────────────────
+   Hooks
+───────────────────────────────────────────── */
+function useBreakpoint() {
+  const [w, setW] = useState(typeof window !== "undefined" ? window.innerWidth : 1280);
+  useEffect(() => {
+    const h = () => setW(window.innerWidth);
+    window.addEventListener("resize", h);
+    return () => window.removeEventListener("resize", h);
+  }, []);
+  return { w, isMobile: w < 640, isTablet: w >= 640 && w < 1024, isDesktop: w >= 1024 };
 }
 
-/* ── Question Item ────────────────────────────────────────── */
+/* ─────────────────────────────────────────────
+   Question Item (inside Modal)
+───────────────────────────────────────────── */
 function QuestionItem({ q, index }) {
   const [open, setOpen] = useState(false);
   return (
-    <div
-      style={{
-        border: `1px solid ${C.border}`,
-        borderRadius: 10,
-        padding: "14px 16px",
-        marginBottom: 10,
-      }}
-    >
-      <div style={{ fontSize: 10, fontWeight: 700, color: C.muted, textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 4 }}>
+    <div style={{ border: `1px solid ${S.border}`, borderRadius: 10, padding: "14px 16px", marginBottom: 10 }}>
+      <div style={{ fontSize: 10, fontWeight: 700, color: S.muted, textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 4 }}>
         Q{index + 1}
       </div>
-      <div style={{ fontSize: 13, fontWeight: 700, color: C.primary, lineHeight: 1.45, marginBottom: 6 }}>
+      <div style={{ fontSize: 13, fontWeight: 700, color: S.primary, lineHeight: 1.45, marginBottom: 6 }}>
         {q.q}
       </div>
       <button
         onClick={() => setOpen(!open)}
-        style={{ fontSize: 11, fontWeight: 700, color: C.accent, background: "none", border: "none", padding: 0, cursor: "pointer", marginTop: 4 }}
+        style={{ fontSize: 11, fontWeight: 700, color: S.accent, background: "none", border: "none", padding: 0, cursor: "pointer", marginTop: 4, fontFamily: "'DM Sans', sans-serif" }}
       >
         {open ? "▼ Hide Answer" : "▶ Show Answer"}
       </button>
       {open && (
-        <div style={{ fontSize: 12, color: C.muted, lineHeight: 1.6, marginTop: 8 }}>
-          {q.a}
-        </div>
+        <div style={{ fontSize: 12, color: S.muted, lineHeight: 1.6, marginTop: 8 }}>{q.a}</div>
       )}
     </div>
   );
 }
 
-/* ── Modal ────────────────────────────────────────────────── */
+/* ─────────────────────────────────────────────
+   Modal
+───────────────────────────────────────────── */
 function Modal({ set, onClose }) {
   const dc = DIFF_COLOR[set.difficulty] || DIFF_COLOR["Beginner"];
+
+  // BUG FIX: prevent body scroll when modal open
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, []);
+
   return (
     <div
-      onClick={(e) => e.target === e.currentTarget && onClose()}
-      style={{
-        position: "fixed", inset: 0, background: "rgba(0,0,0,.5)",
-        display: "flex", alignItems: "center", justifyContent: "center",
-        zIndex: 999, padding: 20,
-      }}
+      onClick={e => e.target === e.currentTarget && onClose()}
+      style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 999, padding: 20 }}
     >
-      <div
-        style={{
-          background: C.white, borderRadius: 16,
-          width: "100%", maxWidth: 600, maxHeight: "80vh",
-          overflowY: "auto", padding: 28,
-        }}
-      >
+      <div style={{ background: S.white, borderRadius: 16, width: "100%", maxWidth: 600, maxHeight: "80vh", overflowY: "auto", padding: 28 }}>
         {/* Header */}
         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, marginBottom: 20 }}>
           <div>
-            <div style={{ fontSize: 11, fontWeight: 700, color: C.muted, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>
+            <div style={{ fontSize: 11, fontWeight: 700, color: S.muted, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>
               {set.category}
             </div>
-            <div style={{ fontSize: 17, fontWeight: 700, color: C.primary, lineHeight: 1.3 }}>
-              {set.title}
-            </div>
+            <div style={{ fontSize: 17, fontWeight: 700, color: S.primary, lineHeight: 1.3 }}>{set.title}</div>
             <div style={{ marginTop: 8, display: "flex", gap: 8, alignItems: "center" }}>
-              <Badge label={set.difficulty} bg={dc.bg} color={dc.text} />
-              <span style={{ fontSize: 12, color: C.muted }}>
-                Showing {set.questions.length} of {set.count} questions
+              <span style={{ fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 20, background: dc.bg, color: dc.color, letterSpacing: 0.4, textTransform: "uppercase" }}>
+                {set.difficulty}
+              </span>
+              <span style={{ fontSize: 12, color: S.muted }}>
+                Showing {set.questions?.length || 0} of {set.count} questions
               </span>
             </div>
           </div>
-          <button
-            onClick={onClose}
-            style={{ background: "none", border: "none", fontSize: 20, cursor: "pointer", color: C.muted, lineHeight: 1 }}
-          >
-            ✕
-          </button>
+          <button onClick={onClose} style={{ background: "none", border: "none", fontSize: 20, cursor: "pointer", color: S.muted, lineHeight: 1, fontFamily: "'DM Sans', sans-serif" }}>✕</button>
         </div>
 
         {/* Questions */}
-        {set.questions.map((q, i) => (
+        {(set.questions || []).map((q, i) => (
           <QuestionItem key={i} q={q} index={i} />
         ))}
 
         {/* Practice Tip */}
-        <div
-          style={{
-            marginTop: 16, padding: 14, background: "#f0fdf4",
-            borderRadius: 10, border: "1px solid #bbf7d0",
-          }}
-        >
+        <div style={{ marginTop: 16, padding: 14, background: "#f0fdf4", borderRadius: 10, border: "1px solid #bbf7d0" }}>
           <div style={{ fontSize: 12, fontWeight: 700, color: "#166534", marginBottom: 3 }}>Practice Tip</div>
           <div style={{ fontSize: 12, color: "#15803d" }}>
             Try answering each question out loud before revealing the answer. This mirrors real interview conditions.
@@ -144,54 +141,55 @@ function Modal({ set, onClose }) {
   );
 }
 
-/* ── Question Set Card ────────────────────────────────────── */
+/* ─────────────────────────────────────────────
+   Question Set Card
+───────────────────────────────────────────── */
 function QuestionCard({ set, onOpen }) {
   const [hovered, setHovered] = useState(false);
   const dc = DIFF_COLOR[set.difficulty] || DIFF_COLOR["Beginner"];
-  const lc = DIFF_COLOR[set.level]       || DIFF_COLOR["Beginner"];
+  const lc = DIFF_COLOR[set.level]      || DIFF_COLOR["Beginner"];
+  const col = set.color || "#6b7280";
 
   return (
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        background: C.white,
-        border: `1.5px solid ${hovered ? set.color : C.border}`,
+        background: S.white,
+        border: `1.5px solid ${hovered ? col : S.border}`,
         borderRadius: 14, padding: 20,
         display: "flex", flexDirection: "column", gap: 12,
         transition: "border-color .2s, box-shadow .2s, transform .2s",
-        boxShadow: hovered ? `0 8px 28px ${set.color}22` : "0 1px 4px rgba(0,0,0,.06)",
+        boxShadow: hovered ? `0 8px 28px ${col}22` : "0 1px 4px rgba(0,0,0,.06)",
         transform: hovered ? "translateY(-3px)" : "none",
         cursor: "default",
+        boxSizing: "border-box",
+        width: "100%",
       }}
     >
       {/* Top row */}
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10 }}>
-        <div
-          style={{
-            width: 46, height: 46, borderRadius: 12, fontSize: 22,
-            background: set.color + "18",
-            display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
-          }}
-        >
+        <div style={{ width: 46, height: 46, borderRadius: 12, fontSize: 22, background: col + "18", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
           {set.icon}
         </div>
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "flex-end" }}>
-          <Badge label={set.difficulty} bg={dc.bg} color={dc.text} />
-          <Badge label={set.level}      bg={lc.bg} color={lc.text} />
+          <span style={{ fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 20, background: dc.bg, color: dc.color, letterSpacing: 0.4, textTransform: "uppercase", whiteSpace: "nowrap" }}>
+            {set.difficulty}
+          </span>
+          <span style={{ fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 20, background: lc.bg, color: lc.color, letterSpacing: 0.4, textTransform: "uppercase", whiteSpace: "nowrap" }}>
+            {set.level}
+          </span>
         </div>
       </div>
 
       {/* Title + desc */}
       <div>
-        <div style={{ fontWeight: 700, fontSize: 14, color: C.primary, lineHeight: 1.3, marginBottom: 5 }}>
-          {set.title}
-        </div>
-        <div style={{ fontSize: 12, color: C.muted, lineHeight: 1.5 }}>{set.desc}</div>
+        <div style={{ fontWeight: 700, fontSize: 14, color: S.primary, lineHeight: 1.3, marginBottom: 5 }}>{set.title}</div>
+        <div style={{ fontSize: 12, color: S.muted, lineHeight: 1.5 }}>{set.desc}</div>
       </div>
 
       {/* Meta */}
-      <div style={{ display: "flex", gap: 14, fontSize: 11, color: C.muted, marginTop: "auto" }}>
+      <div style={{ display: "flex", gap: 14, fontSize: 11, color: S.muted, marginTop: "auto" }}>
         <span>❓ {set.count} questions</span>
         <span>🗂️ {set.category}</span>
       </div>
@@ -200,12 +198,12 @@ function QuestionCard({ set, onOpen }) {
       <button
         onClick={() => onOpen(set)}
         style={{
-          width: "100%", padding: "9px 0", borderRadius: 9,
-          border: "none",
-          background: hovered ? set.color : C.light,
-          color: hovered ? "#fff" : C.primary,
+          width: "100%", padding: "9px 0", borderRadius: 9, border: "none",
+          background: hovered ? col : S.light,
+          color: hovered ? "#fff" : S.primary,
           fontWeight: 700, fontSize: 12, cursor: "pointer",
           transition: "background .2s, color .2s", letterSpacing: 0.3,
+          fontFamily: "'DM Sans', sans-serif",
         }}
       >
         👁 View Questions
@@ -214,330 +212,327 @@ function QuestionCard({ set, onOpen }) {
   );
 }
 
-/* ── Stats Bar ────────────────────────────────────────────── */
-function StatsBar({sets}) {
-  const totalQ = sets.reduce((a, s) => a + s.count, 0);
-  const stats = [
-    { label: "Question Sets",  value: sets.length,                                    icon: "📚" },
-    { label: "Total Questions", value: totalQ,                                         icon: "❓" },
-    { label: "Topics Covered", value: CATEGORIES.length - 1,                          icon: "🗂️" },
-    { label: "Advanced Sets",  value: sets.filter(s => s.difficulty === "Advanced").length, icon: "🏆" },
-  ];
-
-  return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))",
-        gap: 12, marginBottom: 32,
-      }}
-    >
-      {stats.map(s => (
-        <div
-          key={s.label}
-          style={{
-            background: C.white, border: `1px solid ${C.border}`,
-            borderRadius: 12, padding: "14px 16px", textAlign: "center",
-          }}
-        >
-          <div style={{ fontSize: 22, marginBottom: 4 }}>{s.icon}</div>
-          <div style={{ fontWeight: 800, fontSize: 22, color: C.primary }}>{s.value}</div>
-          <div style={{ fontSize: 11, color: C.muted, marginTop: 2 }}>{s.label}</div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-/* ── Interview Questions Page ─────────────────────────────── */
+/* ─────────────────────────────────────────────
+   Main Page
+───────────────────────────────────────────── */
 export default function InterviewQuestionsPage() {
-    
+  const bp = useBreakpoint();
+  // BUG FIX: single source of truth from useBreakpoint — removed duplicate
+  // useState + useEffect resize listeners that conflicted with each other
+  const { isMobile, isDesktop } = bp;
+
+  const [sets,           setSets]           = useState([]);
+  const [loading,        setLoading]        = useState(true);
+  const [error,          setError]          = useState(null);
   const [activeCategory, setActiveCategory] = useState("All");
-  const [search, setSearch]                 = useState("");
-  const [diffFilter, setDiffFilter]         = useState("All");
-  const [activeModal, setActiveModal]       = useState(null);
-  const [sets, setSets] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
-const navigate = useNavigate();
-const location = useLocation();
+  const [search,         setSearch]         = useState("");
+  const [diffFilter,     setDiffFilter]     = useState("All");
+  const [activeModal,    setActiveModal]    = useState(null);
 
-useEffect(() => {
-  const handleResize = () => {
-    setIsMobile(window.innerWidth < 768);
-    setIsDesktop(window.innerWidth >= 1024);
-  };
-
-  window.addEventListener("resize", handleResize);
-  return () => window.removeEventListener("resize", handleResize);
-}, []);
   useEffect(() => {
-  const fetchSets = async () => {
-    try {
-      const res = await axios.get(`${VITE_API_BASE_URL}/api/interview-ques/get-all-interview-ques`); 
-      // 👉 change this if your backend URL is different
+    let cancelled = false;
+    // BUG FIX: added cancellation flag so stale fetch can't update unmounted component
+    axios.get(`${VITE_API_BASE_URL}/api/interview-ques/get-all-interview-ques`)
+      .then(res => {
+        if (!cancelled) {
+          setSets(Array.isArray(res.data) ? res.data : []);
+          setLoading(false);
+        }
+      })
+      .catch(err => {
+        if (!cancelled) {
+          setError(err.message || "Failed to load");
+          setLoading(false);
+        }
+      });
+    return () => { cancelled = true; };
+  }, []);
 
-      setSets(res.data);
-    } catch (error) {
-      console.error("Error fetching interview sets:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchSets();
-}, []);
-
+  // BUG FIX: defensive string checks to prevent crash when API fields are undefined
   const filtered = sets.filter(s => {
-    const matchCat    = activeCategory === "All" || s.category === activeCategory;
-    const matchDiff   = diffFilter === "All"     || s.difficulty === diffFilter || s.level === diffFilter;
-    const matchSearch =
-      s.title.toLowerCase().includes(search.toLowerCase()) ||
-      s.desc.toLowerCase().includes(search.toLowerCase())  ||
-      s.category.toLowerCase().includes(search.toLowerCase());
-    return matchCat && matchDiff && matchSearch;
+    const matchCat  = activeCategory === "All" || s.category === activeCategory;
+    const matchDiff = diffFilter === "All"     || s.difficulty === diffFilter || s.level === diffFilter;
+    const q         = search.toLowerCase();
+    return matchCat && matchDiff &&
+      ((s.title    || "").toLowerCase().includes(q) ||
+       (s.desc     || "").toLowerCase().includes(q) ||
+       (s.category || "").toLowerCase().includes(q));
   });
-if (loading) {
-  return <div style={{ textAlign: "center", padding: 50 }}>Loading...</div>;
-}
-if (!loading && sets.length === 0) {
+
+  const totalQ = sets.reduce((a, s) => a + (s.count || 0), 0);
+
   return (
-    <div style={{ textAlign: "center", padding: 50 }}>
-      No data found from backend 😢
-    </div>
-  );
-}
-  return (
-    <div style={{ fontFamily: "'DM Sans',sans-serif", background: C.light, color: C.text, minHeight: "100vh" , width: "100%" , overflowX: "hidden"}}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: disc; padding-left: 20px; }
-        li { margin-bottom: 6px; font-size: 13.5px; line-height: 1.8; color: ${C.text}; }
-        @keyframes ticker {
-          0%   { transform: translateX(100%); }
-          100% { transform: translateX(-120%); }
-        }
-        .ticker-outer { overflow: hidden; flex: 1; min-width: 0; }
-        .ticker-inner { display: inline-block; animation: ticker 40s linear infinite; white-space: nowrap; opacity: .85; }
+    // BUG FIX: MainLayout now always renders — loading/error states live INSIDE it
+    // so the navbar/footer never disappear during load (was a bare early return before)
+    <MainLayout C={C} isMobile={isMobile} isDesktop={isDesktop}>
+      <>
+        <Helmet>
+          <title>Interview Questions 2025 | Topic-wise Q&A for Freshers & Developers</title>
+          <meta name="description" content="Practice topic-wise interview questions for Python, Java, JavaScript, DSA, System Design, HR and more. Curated for freshers and experienced developers." />
+          <meta name="keywords" content="interview questions, coding interview, Java interview, Python interview, DSA questions, HR interview, system design interview" />
+          <meta name="robots" content="index, follow" />
+          <link rel="canonical" href={`${window.location.origin}/user/interview-questions`} />
+          <meta property="og:type" content="website" />
+          <meta property="og:title" content="Interview Questions 2025" />
+          <meta property="og:description" content="Topic-wise interview Q&A for freshers and developers. Practice smarter, build confidence." />
+          <meta property="og:url" content={`${window.location.origin}/user/interview-questions`} />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="Interview Questions 2025" />
+          <meta name="twitter:description" content="Practice topic-wise interview questions for Python, Java, DSA, System Design and more." />
+          <script type="application/ld+json">{JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            name: "Interview Questions 2025",
+            description: "Topic-wise interview questions for freshers and developers.",
+            url: `${window.location.origin}/user/interview-questions`,
+            keywords: ["interview questions", "coding interview", "Java", "Python", "DSA", "HR"],
+          })}</script>
+        </Helmet>
 
-        /* Buttons */
-        .btn-apply {
-          background: ${C.primary}; color: #fff; border: none;
-          padding: 12px 28px; border-radius: 9px; font-weight: 700;
-          font-size: 14px; font-family: 'Syne',sans-serif;
-          display: inline-block; cursor: pointer; transition: background .2s;
-          white-space: nowrap;
-        }
-        .btn-apply:hover { background: #0a3a65; }
-        .btn-save {
-          background: #fff; color: ${C.primary}; border: 1.5px solid ${C.primary};
-          padding: 11px 22px; border-radius: 9px; font-weight: 600;
-          font-size: 13.5px; cursor: pointer; transition: background .2s;
-          white-space: nowrap;
-        }
-        .btn-save:hover { background: ${C.light}; }
-        .btn-share {
-          font-size: 13px; color: ${C.muted}; padding: 11px 14px;
-          border-radius: 9px; border: 1px solid ${C.border};
-          background: #fff; cursor: pointer; transition: background .2s;
-          white-space: nowrap;
-        }
-        .btn-share:hover { background: ${C.light}; }
+        <div style={{ width: "100%", minHeight: "100vh", fontFamily: "'DM Sans', sans-serif", background: S.light, color: S.text, overflowX: "hidden" }}>
+          <style>{`
+            @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
+            *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+            html, body { width: 100% !important; margin: 0 !important; padding: 0 !important; overflow-x: hidden !important; background: #f3f4f6 !important; }
+            #root { width: 100% !important; overflow-x: hidden !important; }
+            a { text-decoration: none; color: inherit; }
 
-        /* Nav hover */
-        .nav-link { transition: all .18s; }
-        @media (hover: hover) {
-          .nav-link:hover { background: ${C.light} !important; color: ${C.primary} !important; }
-          .similar-card:hover { border-color: ${C.primary} !important; }
-        }
+            .cat-pill { display: inline-flex; align-items: center; gap: 5px; padding: 6px 14px; border-radius: 20px; font-size: 12.5px; font-weight: 500; cursor: pointer; white-space: nowrap; border: 1.5px solid; transition: all .18s; flex-shrink: 0; }
+            .cat-pill.active   { background: #0a2540; color: #fff; border-color: #0a2540; }
+            .cat-pill.inactive { background: #fff; color: #374151; border-color: #e5e7eb; }
+            .cat-pill.inactive:hover { border-color: #0a2540; color: #0a2540; }
+            .cat-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+            .cat-scroll::-webkit-scrollbar { display: none; }
 
-        /* Responsive font helpers */
-        @media (max-width: 639px) {
-          .job-title { font-size: 19px !important; }
-          .detail-grid { grid-template-columns: 1fr 1fr !important; }
-          .action-row { flex-direction: column; align-items: stretch !important; }
-          .action-row .btn-apply,
-          .action-row .btn-save,
-          .action-row .btn-share { width: 100%; text-align: center; }
-        }
-        @media (min-width: 640px) and (max-width: 1023px) {
-          .job-title { font-size: 21px !important; }
-          .detail-grid { grid-template-columns: repeat(3, 1fr) !important; }
-        }
-        @media (min-width: 1024px) {
-          .job-title { font-size: 24px !important; }
-          .detail-grid { grid-template-columns: repeat(3, 1fr) !important; }
-        }
-          html, body { width: 100% !important; margin: 0 !important; padding: 0 !important; overflow-x: hidden !important; }
-#root { width: 100% !important; overflow-x: hidden !important; }
-      `}</style>
-    {/* ── AlertBar: full width ── */}
-      <div className="section-full">
-        <AlertBar isMobile={isMobile} C={{ accent: "#ff4d4f" }} />
-      </div>
-      {/* ── TopTicker: full width ── */}
-      <div className="section-full">
-        <TopTicker isMobile={isMobile} isDesktop={isDesktop} C={C} gutter="16px" />
-      </div>
-      {/* ── Navbar: full width ── */}
-      <Navbar
-        onNavigate={(page) => navigate(`/${page}`)}
-        activePage={location.pathname.replace("/", "")}
-      />
+            .filter-select { padding: 8px 12px; border: 1.5px solid #e5e7eb; border-radius: 8px; font-size: 13px; font-family: 'DM Sans', sans-serif; color: #374151; background: #fff; cursor: pointer; outline: none; }
+            .filter-select:focus { border-color: #0a2540; }
 
-      {/* ── Hero Banner ── */}
-      <div
-        style={{
-          background: `linear-gradient(135deg, ${C.primary} 0%, #0f3460 100%)`,
-          padding: "52px 24px 48px", textAlign: "center",
-          position: "relative", overflow: "hidden",
-        }}
-      >
-        <div style={{ position: "absolute", top: -40, right: -40, width: 200, height: 200, borderRadius: "50%", background: "rgba(255,255,255,.04)" }} />
-        <div style={{ position: "absolute", bottom: -60, left: -30, width: 160, height: 160, borderRadius: "50%", background: "rgba(255,255,255,.04)" }} />
+            .iq-grid { display: grid; gap: 18px; grid-template-columns: repeat(3, 1fr); }
+            @media (max-width: 1023px) { .iq-grid { grid-template-columns: repeat(2, 1fr); } }
+            @media (max-width: 639px)  { .iq-grid { grid-template-columns: 1fr; } }
 
-        <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: 2, color: C.accent, textTransform: "uppercase", marginBottom: 12 }}>
-          Interview Prep
-        </div>
-        <h1 style={{ fontSize: 34, fontWeight: 900, color: "#fff", margin: "0 0 12px", lineHeight: 1.2 }}>
-          Crack Your Next <span style={{ color: C.accent }}>Interview</span>
-        </h1>
-        <p style={{ color: "#94a3b8", fontSize: 14, maxWidth: 480, margin: "0 auto 28px" }}>
-          Topic-wise interview questions curated for freshers & experienced developers. Practice, learn, and land the job.
-        </p>
+            .section-full  { width: 100%; }
+            .section-inner { width: 100%; padding: 0 32px; box-sizing: border-box; }
+            @media (max-width: 639px) { .section-inner { padding: 0 16px; } }
 
-        {/* Search */}
-        <div style={{ display: "flex", maxWidth: 480, margin: "0 auto", gap: 0 }}>
-          <input
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            placeholder="Search questions or topics..."
-            style={{
-              flex: 1, padding: "12px 16px", border: "none",
-              borderRadius: "10px 0 0 10px", fontSize: 13,
-              outline: "none", background: "#fff", color: C.primary,
-            }}
-          />
-          <button
-            style={{
-              padding: "12px 20px", background: C.accent, color: "#fff",
-              border: "none", borderRadius: "0 10px 10px 0",
-              fontWeight: 700, fontSize: 13, cursor: "pointer",
-            }}
-          >
-            🔍
-          </button>
-        </div>
-      </div>
+            @keyframes shimmer {
+              0%   { background-position: -600px 0; }
+              100% { background-position:  600px 0; }
+            }
+            .skeleton-box {
+              border-radius: 12px;
+              background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+              background-size: 600px 100%;
+              animation: shimmer 1.4s ease-in-out infinite;
+            }
+          `}</style>
 
-      {/* ── Content ── */}
-      <div style={{ maxWidth: "100%", margin: "0 auto", padding: "36px 20px" }}>
-        <StatsBar sets={sets} />
-
-        {/* Filters Row */}
-        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10, marginBottom: 24 }}>
-
-          {/* Category pills */}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 7, flex: 1 }}>
-            {CATEGORIES.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                style={{
-                  padding: "6px 14px", borderRadius: 20,
-                  border: `1.5px solid ${activeCategory === cat ? C.accent : C.border}`,
-                  background: activeCategory === cat ? C.accent : C.white,
-                  color: activeCategory === cat ? "#fff" : C.text,
-                  fontWeight: 600, fontSize: 12, cursor: "pointer", transition: "all .15s",
-                }}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-
-          {/* Difficulty filter */}
-          <div style={{ display: "flex", gap: 6 }}>
-            {["All", "Beginner", "Intermediate", "Advanced"].map(d => (
-              <button
-                key={d}
-                onClick={() => setDiffFilter(d)}
-                style={{
-                  padding: "6px 14px", borderRadius: 8,
-                  border: `1.5px solid ${diffFilter === d ? C.primary : C.border}`,
-                  background: diffFilter === d ? C.primary : C.white,
-                  color: diffFilter === d ? "#fff" : C.text,
-                  fontWeight: 600, fontSize: 12, cursor: "pointer",
-                }}
-              >
-                {d === "All" ? "All Levels" : d}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Results count */}
-        <div style={{ fontSize: 13, color: C.muted, marginBottom: 18 }}>
-          Showing{" "}
-          <strong style={{ color: C.primary }}>{filtered.length}</strong>{" "}
-          set{filtered.length !== 1 ? "s" : ""}
-          {activeCategory !== "All" ? ` in ${activeCategory}` : ""}
-          {search ? ` matching "${search}"` : ""}
-        </div>
-
-        {/* Grid */}
-        {filtered.length === 0 ? (
-          <div style={{ textAlign: "center", padding: "60px 0", color: C.muted }}>
-            <div style={{ fontSize: 40, marginBottom: 12 }}>🔍</div>
-            <div style={{ fontWeight: 700, color: C.primary, marginBottom: 6 }}>No question sets found</div>
-            <div style={{ fontSize: 13 }}>Try a different search or category.</div>
-          </div>
-        ) : (
+          {/* ── Hero Banner ── */}
           <div
+            className="section-full"
             style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
-              gap: 18,
+              position: "relative", overflow: "hidden",
+              background: "linear-gradient(135deg,#f8fbff 0%,#eef4ff 45%,#f5f9ff 100%)",
+              padding: isMobile ? "56px 0 46px" : "84px 0 70px",
             }}
           >
-            {filtered.map(set => (
-              <QuestionCard key={set.id} set={set} onOpen={setActiveModal} />
-            ))}
-          </div>
-        )}
+            {/* BG shapes */}
+            <div style={{ position: "absolute", top: -100, right: -80, width: 300, height: 300, borderRadius: "40%", background: "linear-gradient(135deg,#dbeafe,#bfdbfe)", opacity: 0.7, transform: "rotate(22deg)" }} />
+            <div style={{ position: "absolute", bottom: -120, left: -100, width: 340, height: 340, borderRadius: "50%", background: "linear-gradient(135deg,#fca5a5,#fde68a)", opacity: 0.45, filter: "blur(18px)" }} />
+            {/* Grid overlay */}
+            <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(rgba(37,99,235,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,0.04) 1px,transparent 1px)", backgroundSize: "42px 42px", pointerEvents: "none" }} />
 
-        {/* Footer note */}
-        <div
-          style={{
-            marginTop: 48, padding: "20px 24px",
-            background: "#fff7ed", borderRadius: 12,
-            border: "1px solid #fed7aa",
-            display: "flex", alignItems: "flex-start", gap: 12,width: "100%",
-          }}
-        >
-          <span style={{ fontSize: 20 }}>💡</span>
-          <div>
-            <div style={{ fontWeight: 700, color: "#92400e", fontSize: 13, marginBottom: 4 }}>
-              Tip: click "View Questions" on any card to practice
-            </div>
-            <div style={{ fontSize: 12, color: "#a16207" }}>
-              New question sets are added weekly. Bookmark this page and revisit before your next interview.
+            <div className="section-inner" style={{ position: "relative", zIndex: 2 }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 36 }}>
+
+                {/* LEFT */}
+                <div style={{ flex: 1, minWidth: 260 }}>
+                  {/* Badge */}
+                  <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#fff", border: "1px solid #dbeafe", borderRadius: 999, padding: "8px 16px", marginBottom: 24, boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
+                    <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#2563eb" }} />
+                    <span style={{ fontSize: 12, fontWeight: 700, color: "#111827", letterSpacing: "0.04em" }}>🎯 Interview Prep</span>
+                  </div>
+
+                  <h1 style={{ fontFamily: "'Syne', sans-serif", fontSize: isMobile ? "2.3rem" : "4.2rem", fontWeight: 800, lineHeight: 0.98, color: "#111827", marginBottom: 20, letterSpacing: "-0.05em", maxWidth: 700 }}>
+                    Crack Your Next <br />
+                    <span style={{ color: "#2563eb" }}>Interview</span>
+                  </h1>
+
+                  <p style={{ fontSize: isMobile ? 14 : 16, lineHeight: 1.9, color: "#4b5563", maxWidth: 620, marginBottom: 34 }}>
+                    Topic-wise interview questions curated for freshers &amp; experienced
+                    developers. Practice smarter, build confidence, and land your dream role faster.
+                  </p>
+
+                  {/* Search + Difficulty filter */}
+                  <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+                    <div style={{ flex: 1, minWidth: 220, position: "relative" }}>
+                      <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 16, pointerEvents: "none" }}>🔍</span>
+                      <input
+                        value={search}
+                        onChange={e => setSearch(e.target.value)}
+                        placeholder="Search interview questions or topics..."
+                        style={{ width: "100%", padding: "14px 16px 14px 42px", borderRadius: 14, border: "1px solid #dbeafe", background: "#fff", fontSize: 14, color: "#111827", outline: "none", boxShadow: "0 8px 24px rgba(0,0,0,0.04)", fontFamily: "'DM Sans',sans-serif" }}
+                      />
+                    </div>
+                    <select
+                      value={diffFilter}
+                      onChange={e => setDiffFilter(e.target.value)}
+                      style={{ padding: "14px 16px", borderRadius: 14, border: "1px solid #dbeafe", background: "#fff", fontSize: 14, color: "#111827", outline: "none", minWidth: 160, cursor: "pointer", boxShadow: "0 8px 24px rgba(0,0,0,0.04)", fontFamily: "'DM Sans',sans-serif" }}
+                    >
+                      {["All", "Beginner", "Intermediate", "Advanced"].map(d => (
+                        <option key={d}>{d === "All" ? "All Levels" : d}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                {/* RIGHT STATS */}
+                <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: isMobile ? "flex-start" : "center" }}>
+                  {[
+                    ["📚", sets.length + "+", "Question Sets"],
+                    ["❓", totalQ + "+",      "Total Questions"],
+                    ["🗂️", CATEGORIES.length - 1, "Topics Covered"],
+                  ].map(([icon, val, label]) => (
+                    <div key={label} style={{ minWidth: 140, background: "rgba(255,255,255,0.75)", backdropFilter: "blur(12px)", border: "1px solid #dbeafe", borderRadius: 24, padding: isMobile ? "20px 18px" : "24px 22px", textAlign: "center", boxShadow: "0 18px 45px rgba(37,99,235,0.08)" }}>
+                      <div style={{ width: 52, height: 52, borderRadius: 16, background: "#eff6ff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, margin: "0 auto 14px" }}>
+                        {icon}
+                      </div>
+                      <div style={{ fontSize: isMobile ? "1.6rem" : "2rem", fontWeight: 800, color: "#111827", fontFamily: "'Syne',sans-serif", lineHeight: 1 }}>
+                        {val}
+                      </div>
+                      <div style={{ marginTop: 8, color: "#6b7280", fontSize: 12, fontWeight: 500 }}>{label}</div>
+                    </div>
+                  ))}
+                </div>
+
+              </div>
             </div>
           </div>
+
+          {/* ── Category Pills Bar ── */}
+          <div className="section-full" style={{ background: "#fff", borderBottom: "1px solid #e5e7eb" }}>
+            <div className="section-inner" style={{ paddingTop: 12, paddingBottom: 12 }}>
+              <div className="cat-scroll">
+                {CATEGORIES.map(cat => (
+                  <span
+                    key={cat.label}
+                    className={`cat-pill ${activeCategory === cat.label ? "active" : "inactive"}`}
+                    onClick={() => setActiveCategory(cat.label)}
+                  >
+                    {cat.icon} {cat.label}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* ── Main Body ── */}
+          <div className="section-full" style={{ background: S.light }}>
+            <div className="section-inner" style={{ paddingTop: 24, paddingBottom: 48 }}>
+
+              {/* Filter row */}
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14, flexWrap: "wrap" }}>
+                <div style={{ display: "flex", gap: 6, flexWrap: "wrap", flex: 1 }}>
+                  {["All", "Beginner", "Intermediate", "Advanced"].map(d => (
+                    <span
+                      key={d}
+                      onClick={() => setDiffFilter(d)}
+                      style={{
+                        fontSize: 12, fontWeight: 600, padding: "6px 14px", borderRadius: 20, cursor: "pointer",
+                        background: diffFilter === d ? (d === "Beginner" ? "#dcfce7" : d === "Intermediate" ? "#fef3c7" : d === "Advanced" ? "#fee2e2" : S.primary) : S.white,
+                        color:      diffFilter === d ? (d === "Beginner" ? "#16a34a" : d === "Intermediate" ? "#d97706" : d === "Advanced" ? "#dc2626" : "#fff")    : S.muted,
+                        border:     `1.5px solid ${diffFilter === d ? "transparent" : S.border}`,
+                      }}
+                    >
+                      {d === "All" ? "All Levels" : `● ${d}`}
+                    </span>
+                  ))}
+                </div>
+                <div style={{ fontSize: 13, color: S.muted }}>
+                  <strong style={{ color: S.text }}>{filtered.length}</strong> set{filtered.length !== 1 ? "s" : ""}
+                </div>
+              </div>
+
+              {/* Section header */}
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20, flexWrap: "wrap", gap: 8 }}>
+                <h2 style={{ fontSize: 17, fontWeight: 700, display: "flex", alignItems: "center", gap: 8, color: S.text }}>
+                  <span style={{ width: 4, height: 20, background: S.accent, borderRadius: 3, display: "inline-block" }} />
+                  Interview Question Sets
+                </h2>
+                {activeCategory !== "All" && (
+                  <span style={{ fontSize: 12, color: S.muted }}>
+                    Showing: <strong style={{ color: S.primary }}>{activeCategory}</strong>
+                  </span>
+                )}
+              </div>
+
+              {/* Loading skeleton */}
+              {loading && (
+                <div className="iq-grid">
+                  {[1,2,3,4,5,6].map(i => (
+                    <div key={i} className="skeleton-box" style={{ height: 240 }} />
+                  ))}
+                </div>
+              )}
+
+              {/* Error */}
+              {!loading && error && (
+                <div style={{ textAlign: "center", padding: "60px 20px", color: S.muted }}>
+                  <div style={{ fontSize: 48, marginBottom: 12 }}>⚠️</div>
+                  <h3 style={{ fontSize: 18, fontWeight: 700, color: S.text, marginBottom: 8 }}>Failed to load question sets</h3>
+                  <p style={{ fontSize: 14 }}>{error}</p>
+                </div>
+              )}
+
+              {/* Empty */}
+              {!loading && !error && filtered.length === 0 && (
+                <div style={{ textAlign: "center", padding: "60px 20px", color: S.muted }}>
+                  <div style={{ fontSize: 48, marginBottom: 12 }}>🔍</div>
+                  <h3 style={{ fontSize: 18, fontWeight: 700, color: S.text, marginBottom: 8 }}>No question sets found</h3>
+                  <p style={{ fontSize: 14 }}>Try adjusting your search or filters.</p>
+                  <button
+                    onClick={() => { setSearch(""); setActiveCategory("All"); setDiffFilter("All"); }}
+                    style={{ marginTop: 16, background: S.primary, color: "#fff", border: "none", padding: "10px 22px", borderRadius: 8, fontWeight: 700, fontSize: 13.5, cursor: "pointer", fontFamily: "'DM Sans',sans-serif" }}
+                  >
+                    Clear All Filters
+                  </button>
+                </div>
+              )}
+
+              {/* Cards Grid */}
+              {!loading && !error && filtered.length > 0 && (
+                <div className="iq-grid">
+                  {filtered.map((set, idx) => (
+                    <QuestionCard key={set._id || set.id || idx} set={set} onOpen={setActiveModal} />
+                  ))}
+                </div>
+              )}
+
+              {/* Bottom Banner */}
+              <div style={{ marginTop: 28, background: "linear-gradient(90deg,#e8f4fd,#f0f7ff)", border: "1.5px dashed #bdd6f0", borderRadius: 12, padding: "14px 20px", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12 }}>
+                <span style={{ fontSize: 10, color: "#999", border: "1px solid #ddd", padding: "1px 5px", borderRadius: 3 }}>Tip</span>
+                <span style={{ fontSize: 22 }}>💡</span>
+                <div style={{ flex: 1, minWidth: 160 }}>
+                  <strong style={{ fontSize: 14, display: "block" }}>Click "View Questions" to practice</strong>
+                  <span style={{ fontSize: 12, color: S.muted }}>New question sets are added weekly. Bookmark this page and revisit before your next interview.</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div className="section-full">
+            <Footer bp={bp} gutter="16px" />
+          </div>
+
         </div>
 
-        <Footer style={{ marginTop: 60, padding: "24px 20px", textAlign: "center", fontSize: 12, color: C.muted, width: "100%" }}>
-          &copy; 2026 Daily Job Openings. All rights reserved.
-        </Footer>
-      </div>
-
-      {/* ── Modal ── */}
-      {activeModal && (
-        <Modal set={activeModal} onClose={() => setActiveModal(null)} />
-      )}
-    </div>
+        {/* Modal — rendered outside main div so it overlays everything */}
+        {activeModal && (
+          <Modal set={activeModal} onClose={() => setActiveModal(null)} />
+        )}
+      </>
+    </MainLayout>
   );
 }

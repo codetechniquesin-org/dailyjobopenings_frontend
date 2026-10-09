@@ -1,17 +1,8 @@
-import { useState, useEffect } from "react";
-import API_BASE_URL from "../../config/api";
-import JobCardSkeleton from "../skeletons/JobCardSkeleton";
+import { useState } from "react";
 
 const S = {
-    primary: "#0f4c81", accent: "#e8472a", gold: "#f5a623",
-    light: "#f4f7fb", green: "#16a34a", text: "#1a1a2e", muted: "#6b7280", border: "#e2e8f0",
-};
-
-const badgeStyle = {
-    featured: { background: "#fff8e1", color: "#b45309" },
-    hot: { background: "#fee2e2", color: "#b91c1c" },
-    new: { background: "#dcfce7", color: "#15803d" },
-    remote: { background: "#ede9fe", color: "#6d28d9" },
+  primary: "#0f4c81", accent: "#e8472a", gold: "#f5a623",
+  light: "#f4f7fb", green: "#16a34a", text: "#1a1a2e", muted: "#6b7280", border: "#e2e8f0",
 };
 
 const borderAccent = {
@@ -19,6 +10,13 @@ const borderAccent = {
     hot: `3px solid ${S.accent}`,
     remote: `3px solid #7c3aed`,
     new: `1px solid ${S.border}`,
+};
+
+const badgeStyle = {
+    featured: { background: "#fff8e1", color: "#b45309" },
+    hot: { background: "#fee2e2", color: "#b91c1c" },
+    new: { background: "#dcfce7", color: "#15803d" },
+    remote: { background: "#ede9fe", color: "#6d28d9" },
 };
 
 function MetaTag({ icon, label }) {
@@ -53,14 +51,13 @@ function SkillTag({ label }) {
         </span>
     );
 }
-
-function JobCard({ job }) {
+export default function ReusableJobCard({ job }) {
     const [hovered, setHovered] = useState(false);
 
     const badge = job.badge || "new";
     const badgeLabel = job.badgeLabel || "New";
-    const role = job.displayTitle;
-    const company = job.displayCompany;
+    const role = job.jobTitle || job.role || job.title;
+    const company = job.companyName || job.company;
     const location = job.location;
     const edu = job.education || job.edu;
     const batch = job.eligibleBatches || job.batch;
@@ -68,7 +65,7 @@ function JobCard({ job }) {
     const skills = Array.isArray(job.skills) ? job.skills : [];
     const slug = job.displaySlug;
     const jobLink = job.jobLink || "#";
-    const logoSrc = job.displayLogo;
+    const logoSrc = job.companyLogo;
     const posted = job.createdAt
         ? new Date(job.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })
         : job.posted || "";
@@ -290,165 +287,4 @@ function JobCard({ job }) {
             </div>
         </div>
     );
-}
-
-export default function JobCardList({ page = 1, onTotal }) {
-    const [jobs, setJobs] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-
-    useEffect(() => {
-        Promise.all([
-            fetch(`${API_BASE_URL}/api/get-jobs`).then(res => res.json()),
-            fetch(`${API_BASE_URL}/api/walkins/get-all-walkins`).then(res => res.json()),
-            fetch(`${API_BASE_URL}/api/exams/get-all-exams`).then(res => res.json())
-        ])
-            .then(([jobsData, walkinsData, examsData]) => {
-
-                // console.log("JOBS:", jobsData);
-                // console.log("WALKINS:", walkinsData);
-                // console.log("EXAMS:", examsData);
-
-                const jobs = (Array.isArray(jobsData)
-                    ? jobsData
-                    : jobsData.jobs || jobsData.data || []
-                ).map(item => ({
-                    ...item,
-                    contentType: "job",
-                    displayTitle: item.jobTitle,
-                    displaySlug: item.slug,
-                    displayCompany: item.companyName,
-                    displayLogo: item.companyLogo
-                }));
-
-                const walkins = (Array.isArray(walkinsData)
-                    ? walkinsData
-                    : walkinsData.walkIns || walkinsData.data || []
-                ).map(item => ({
-                    ...item,
-                    contentType: "walkin",
-                    displayTitle: item.walkintitle,
-                    displaySlug: item.walkinslug,
-                    displayCompany: item.companyName,
-                    displayLogo: item.companyLogo
-                }));
-
-                const exams = (Array.isArray(examsData)
-                    ? examsData
-                    : examsData.exams || examsData.data || []
-                ).map(item => ({
-                    ...item,
-                    contentType: "exam",
-                    displayTitle: item.title,
-                    displaySlug: item.slug,
-                    displayCompany: item.organization,
-                    displayLogo: item.image
-                }));
-
-                const combined = [
-                    ...jobs,
-                    ...walkins,
-                    ...exams
-                ];
-                // console.log(
-                //   combined.map(item => ({
-                //     type: item.contentType,
-                //     title: item.displayTitle,
-                //     slug: item.displaySlug,
-                //     company: item.displayCompany,
-                //     logo: item.displayLogo,
-                //     createdAt: item.createdAt,
-                //     postedDate: item.postedDate
-                //   }))
-                // );
-                // newest first
-                combined.sort(
-                    (a, b) =>
-                        new Date(b.createdAt || b.postedDate || 0) -
-                        new Date(a.createdAt || a.postedDate || 0)
-                );
-
-                // console.log("Combined:", combined);
-                // console.log("Combined Length:", combined.length);
-                setJobs(combined);
-
-                if (onTotal) {
-                    onTotal(combined.length);
-                }
-                setLoading(false);
-            })
-            .catch(console.error);
-    }, []);
-
-    
-    const offset = (page - 1) * 15;
-    const first = jobs.slice(offset, offset + 8);
-    const second = jobs.slice(offset + 8, offset + 13);
-    const third = jobs.slice(offset + 13, offset + 15);
-    function InlineAd({ icon, title, sub, btnText, btnColor = S.primary, bg = "linear-gradient(90deg,#e8f4fd,#f0f7ff)", borderColor = "#bdd6f0" }) {
-        return (
-            <div style={{ background: bg, border: `1px solid ${borderColor}`, borderRadius: 10, padding: "13px 16px", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12 }}>
-                <span style={{ fontSize: 10, color: "#999", border: "1px solid #ddd", padding: "1px 5px", borderRadius: 3 }}>AD</span>
-                <span style={{ fontSize: 26 }}>{icon}</span>
-                <div style={{ flex: 1, minWidth: 140 }}>
-                    <strong style={{ fontSize: 13.5, display: "block" }}>{title}</strong>
-                    <span style={{ fontSize: 12, color: S.muted }}>{sub}</span>
-                </div>
-                <a href="#" style={{ background: btnColor, color: "#fff", padding: "7px 16px", borderRadius: 7, fontSize: 12.5, fontWeight: 600, textDecoration: "none", whiteSpace: "nowrap" }}>{btnText}</a>
-            </div>
-        );
-    }
-return (
-    <>
-        {loading ? (
-            [...Array(9)].map((_, index) => (
-                <JobCardSkeleton key={index} />
-            ))
-        ) : (
-            <>
-                {first.map(job => (
-                    <JobCard
-                        key={`${job.contentType}-${job._id || job.id}`}
-                        job={job}
-                    />
-                ))}
-
-                <div style={{ gridColumn: "1 / -1" }}>
-                    <InlineAd
-                        icon="💼"
-                        title="Naukri.com — India's No.1 Job Portal"
-                        sub="Build your resume, get job alerts & apply to 1 crore+ jobs"
-                        btnText="Visit Naukri →"
-                    />
-                </div>
-
-                {second.map(job => (
-                    <JobCard
-                        key={`${job.contentType}-${job._id || job.id}`}
-                        job={job}
-                    />
-                ))}
-
-                <div style={{ gridColumn: "1 / -1" }}>
-                    <InlineAd
-                        icon="📚"
-                        title="Coding Ninjas — Crack Product Companies"
-                        sub="Data Structures, System Design, Mock Interviews & Placement Prep"
-                        btnText="Start Free →"
-                        btnColor={S.accent}
-                        bg="linear-gradient(90deg,#fff0f0,#fff5f5)"
-                        borderColor="#fbb"
-                    />
-                </div>
-
-                {third.map(job => (
-                    <JobCard
-                        key={`${job.contentType}-${job._id || job.id}`}
-                        job={job}
-                    />
-                ))}
-            </>
-        )}
-    </>
-);
 }

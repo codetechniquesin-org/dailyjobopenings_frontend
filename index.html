@@ -3,26 +3,110 @@
 
 <head>
 
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Daily Job Openings</title>
+  <!-- ========================================
+       BASIC META
+  ========================================= -->
 
-  <!-- ✅ ADD GOOGLE ANALYTICS HERE -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=%VITE_GA_ID%"></script>
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <meta
+    name="referrer"
+    content="strict-origin-when-cross-origin"
+  />
+
+  <meta
+    name="theme-color"
+    content="#ffffff"
+  />
+
+  <!-- ========================================
+       DEFAULT META (Fallback)
+       Individual pages override these using
+       react-helmet-async.
+  ========================================= -->
+
+  <meta
+    name="description"
+    content="Daily Job Openings provides latest fresher jobs, software jobs, walk-ins, internships, government jobs, and placement updates across India."
+  />
+
+  <meta
+    name="keywords"
+    content="jobs, fresher jobs, software jobs, internships, government jobs"
+  />
+
+  <meta
+    name="author"
+    content="Daily Job Openings"
+  />
+
+  <meta
+    name="robots"
+    content="index, follow"
+  />
+
+  <!-- ========================================
+       FAVICON
+  ========================================= -->
+
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    href="/favicon.svg"
+  />
+
+  <!-- ========================================
+       GOOGLE ANALYTICS
+  ========================================= -->
+
+  <script
+    async
+    src="https://www.googletagmanager.com/gtag/js?id=%VITE_GA_ID%">
+  </script>
+
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
 
-    gtag('config', '%VITE_GA_ID%');
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag("js", new Date());
+
+    gtag("config", "%VITE_GA_ID%");
+  </script>
+
+  <!-- ========================================
+       GOOGLE ADSENSE
+  ========================================= -->
+
+  <meta
+    name="google-adsense-account"
+    content="ca-pub-1129811728309082"
+  />
+
+  <script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1129811728309082"
+    crossorigin="anonymous">
   </script>
 
 </head>
 
 <body>
+
   <div id="root"></div>
-  <script type="module" src="/src/main.jsx"></script>
+
+  <script
+    type="module"
+    src="/src/main.jsx">
+  </script>
+
 </body>
 
 </html>

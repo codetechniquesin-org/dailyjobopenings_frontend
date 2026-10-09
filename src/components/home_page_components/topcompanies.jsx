@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import API_BASE_URL from "../../config/api";
+import QuickCategoriesSkeleton from "../skeletons/QuickCategoriesSkeleton";
+import { useNavigate } from "react-router-dom";
 
 export default function TopCompanies({ SidebarWidget, S }) {
+  const navigate = useNavigate();
   const [companies, setCompanies] = useState(null);
 
   useEffect(() => {
@@ -9,6 +12,7 @@ export default function TopCompanies({ SidebarWidget, S }) {
       try {
         const res = await fetch(`${API_BASE_URL}/api/top-hiring-companies`);
         const data = await res.json();
+        // console.log(data);
 
         setCompanies(data.data);
       } catch (error) {
@@ -26,6 +30,9 @@ export default function TopCompanies({ SidebarWidget, S }) {
           companies.map((c) => (
             <div
               key={c.name}
+              onClick={() =>
+                navigate(`/jobs/search?query=${encodeURIComponent(c.name)}`)
+              }
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -61,7 +68,7 @@ export default function TopCompanies({ SidebarWidget, S }) {
             </div>
           ))
         ) : (
-          <span>Loading companies...</span>
+          <QuickCategoriesSkeleton />
         )}
       </div>
     </SidebarWidget>

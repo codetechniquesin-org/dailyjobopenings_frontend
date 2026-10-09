@@ -1,57 +1,52 @@
-import React, { useState ,useEffect} from "react";
-import AlertBar from "../components/alertbar";
-import TopTicker from "../components/topticker";
-import Navbar from "../components/navbar";
+import { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import Footer from "../components/footer";
-import axios from "axios";
+import MainLayout from "../components/common_components/MainLayout";
 import API_BASE_URL from "../config/api";
-
 
 const C = {
   primary: "#0a2540",
-  accent: "#ff4d4f",
-  border: "#e5e7eb",
-  text: "#374151",
-  light: "#f3f4f6",
-  muted: "#9ca3af",
-  white: "#ffffff",
+  accent:  "#ff4d4f",
+  border:  "#e5e7eb",
+  text:    "#374151",
+  light:   "#f3f4f6",
+  muted:   "#9ca3af",
+  white:   "#ffffff",
+};
+
+const S = {
+  primary: "#0a2540",
+  accent:  "#ff4d4f",
+  border:  "#e5e7eb",
+  text:    "#374151",
+  light:   "#f3f4f6",
+  muted:   "#9ca3af",
+  white:   "#ffffff",
 };
 
 const CATEGORIES = [
-  "All", "Python", "Java", "JavaScript", "Web Dev",
-  "DSA", "Database", "DevOps", "Interview Prep",
+  { label: "All",            icon: "📚" },
+  { label: "Python",         icon: "🐍" },
+  { label: "Java",           icon: "☕" },
+  { label: "JavaScript",     icon: "⚡" },
+  { label: "Web Dev",        icon: "🌐" },
+  { label: "DSA",            icon: "🧠" },
+  { label: "Database",       icon: "🗄️" },
+  { label: "DevOps",         icon: "⚙️" },
+  { label: "Interview Prep", icon: "🎯" },
 ];
 
-// const RESOURCES = [
-//   { id: 1,  title: "Python Complete Handbook",    desc: "Covers basics to advanced: OOP, decorators, generators & more.", type: "PDF", category: "Python",         pages: 320, size: "4.2 MB", color: "#3b82f6", icon: "🐍", level: "Beginner" },
-//   { id: 2,  title: "Python Data Science Notes",   desc: "NumPy, Pandas, Matplotlib & Scikit-learn cheatsheet.",          type: "DOC", category: "Python",         pages: 80,  size: "1.1 MB", color: "#3b82f6", icon: "🐍", level: "Intermediate" },
-//   { id: 3,  title: "Python Interview Q&A",        desc: "Top 200 Python interview questions with detailed answers.",      type: "PDF", category: "Python",         pages: 110, size: "2.0 MB", color: "#3b82f6", icon: "🐍", level: "Advanced" },
-//   { id: 4,  title: "Java Core Concepts",          desc: "OOP, collections, multithreading & exception handling.",        type: "PDF", category: "Java",           pages: 280, size: "3.8 MB", color: "#f59e0b", icon: "☕", level: "Beginner" },
-//   { id: 5,  title: "Spring Boot Notes",           desc: "REST APIs, dependency injection, JPA & security.",              type: "DOC", category: "Java",           pages: 140, size: "2.3 MB", color: "#f59e0b", icon: "☕", level: "Intermediate" },
-//   { id: 6,  title: "JavaScript ES6+ Guide",       desc: "Arrow functions, promises, async/await, modules & more.",       type: "PDF", category: "JavaScript",     pages: 190, size: "2.8 MB", color: "#eab308", icon: "⚡", level: "Beginner" },
-//   { id: 7,  title: "React.js Mastery Notes",      desc: "Hooks, context, Redux, performance & testing.",                 type: "DOC", category: "JavaScript",     pages: 160, size: "2.5 MB", color: "#eab308", icon: "⚡", level: "Intermediate" },
-//   { id: 8,  title: "HTML & CSS Fundamentals",     desc: "Semantic HTML, Flexbox, Grid & responsive design patterns.",    type: "PDF", category: "Web Dev",        pages: 200, size: "3.1 MB", color: "#ef4444", icon: "🌐", level: "Beginner" },
-//   { id: 9,  title: "Full Stack Roadmap Doc",      desc: "Structured learning path from HTML to deployment.",             type: "DOC", category: "Web Dev",        pages: 60,  size: "0.9 MB", color: "#ef4444", icon: "🌐", level: "Beginner" },
-//   { id: 10, title: "DSA Crash Course",            desc: "Arrays, linked lists, trees, graphs, sorting & searching.",     type: "PDF", category: "DSA",            pages: 350, size: "5.1 MB", color: "#8b5cf6", icon: "🧠", level: "Intermediate" },
-//   { id: 11, title: "LeetCode Patterns Notes",     desc: "Two pointers, sliding window, DP, backtracking patterns.",      type: "DOC", category: "DSA",            pages: 120, size: "1.8 MB", color: "#8b5cf6", icon: "🧠", level: "Advanced" },
-//   { id: 12, title: "SQL Complete Guide",          desc: "DDL, DML, joins, indexes, transactions & optimization.",        type: "PDF", category: "Database",       pages: 180, size: "2.6 MB", color: "#06b6d4", icon: "🗄️", level: "Beginner" },
-//   { id: 13, title: "MongoDB Basics",              desc: "Document model, CRUD, aggregation & indexing.",                 type: "DOC", category: "Database",       pages: 90,  size: "1.4 MB", color: "#06b6d4", icon: "🗄️", level: "Beginner" },
-//   { id: 14, title: "Docker & Kubernetes Notes",   desc: "Containers, images, pods, services & deployments.",             type: "PDF", category: "DevOps",         pages: 170, size: "2.9 MB", color: "#10b981", icon: "⚙️", level: "Intermediate" },
-//   { id: 15, title: "Linux Command Cheatsheet",    desc: "Essential terminal commands for developers.",                   type: "DOC", category: "DevOps",         pages: 30,  size: "0.5 MB", color: "#10b981", icon: "⚙️", level: "Beginner" },
-//   { id: 16, title: "System Design Primer",        desc: "Scalability, load balancing, caching, databases & microservices.", type: "PDF", category: "Interview Prep", pages: 240, size: "3.5 MB", color: "#f43f5e", icon: "🎯", level: "Advanced" },
-//   { id: 17, title: "HR Interview Questions",      desc: "Behavioural, situational & common HR round questions.",         type: "DOC", category: "Interview Prep", pages: 70,  size: "1.0 MB", color: "#f43f5e", icon: "🎯", level: "Beginner" },
-// ];
-
 const LEVEL_COLOR = {
-  Beginner:     { bg: "#dcfce7", text: "#16a34a" },
-  Intermediate: { bg: "#fef3c7", text: "#d97706" },
-  Advanced:     { bg: "#fee2e2", text: "#dc2626" },
+  Beginner:     { bg: "#dcfce7", color: "#16a34a" },
+  Intermediate: { bg: "#fef3c7", color: "#d97706" },
+  Advanced:     { bg: "#fee2e2", color: "#dc2626" },
 };
 
 const TYPE_COLOR = {
-  PDF: { bg: "#fee2e2", text: "#dc2626" },
-  DOC: { bg: "#dbeafe", text: "#2563eb" },
+  PDF: { bg: "#fee2e2", color: "#dc2626" },
+  DOC: { bg: "#dbeafe", color: "#2563eb" },
 };
+
 function useBreakpoint() {
   const [w, setW] = useState(typeof window !== "undefined" ? window.innerWidth : 1280);
   useEffect(() => {
@@ -59,111 +54,78 @@ function useBreakpoint() {
     window.addEventListener("resize", h);
     return () => window.removeEventListener("resize", h);
   }, []);
-  return {
-    w,
-    isMobile: w < 640,
-    isTablet: w >= 640 && w < 1024,
-    isDesktop: w >= 1024,
-    showSidebar: w >= 1024,
-  };
+  return { w, isMobile: w < 640, isTablet: w >= 640 && w < 1024, isDesktop: w >= 1024 };
 }
 
-/* ── Badge ────────────────────────────────────────────────── */
-function Badge({ label, bg, color }) {
-  return (
-    <span
-      style={{
-        fontSize: 10, fontWeight: 700, padding: "2px 8px",
-        borderRadius: 20, background: bg, color,
-        letterSpacing: 0.4, textTransform: "uppercase",
-      }}
-    >
-      {label}
-    </span>
-  );
-}
-
-/* ── Resource Card ────────────────────────────────────────── */
 function ResourceCard({ res }) {
-
   const [hovered, setHovered] = useState(false);
-   // ✅ ADD THIS HERE (inside component, before return)
-  const handleDownload = (url) => {
-    window.open(url, "_blank");
-  };
-
-  const lvl = LEVEL_COLOR[res.level];
-  const typ = TYPE_COLOR[res.type];
+  const lvl = LEVEL_COLOR[res.level] || { bg: "#f3f4f6", color: "#374151" };
+  const typ = TYPE_COLOR[res.type]   || { bg: "#f3f4f6", color: "#374151" };
+  const col = res.color || "#6b7280";
 
   return (
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        background: C.white,
-        border: `1.5px solid ${hovered ? res.color : C.border}`,
+        background: "#fff",
+        border: `1.5px solid ${hovered ? col : S.border}`,
         borderRadius: 14,
-        padding: "18px",
+        padding: 18,
         display: "flex",
-        maxWidth:"300px",
-        width:"100%",
         flexDirection: "column",
         gap: 12,
         transition: "border-color .2s, box-shadow .2s, transform .2s",
-        boxShadow: hovered
-          ? `0 8px 28px ${res.color}22`
-          : "0 1px 4px rgba(0,0,0,.06)",
+        boxShadow: hovered ? `0 8px 28px ${col}22` : "0 1px 4px rgba(0,0,0,.06)",
         transform: hovered ? "translateY(-3px)" : "none",
         cursor: "default",
+        boxSizing: "border-box",
+        width: "100%",
       }}
     >
       {/* Top row */}
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10 }}>
-        <div
-          style={{
-            width: 46, height: 46, borderRadius: 12, fontSize: 22,
-            background: res.color + "18",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            flexShrink: 0,
-          }}
-        >
+        <div style={{
+          width: 46, height: 46, borderRadius: 12, fontSize: 22,
+          background: col + "18",
+          display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+        }}>
           {res.icon}
         </div>
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "flex-end" }}>
-          <Badge label={res.type} bg={typ.bg} color={typ.text} />
-          <Badge label={res.level} bg={lvl.bg} color={lvl.text} />
+          <span style={{ fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 20, background: typ.bg, color: typ.color, letterSpacing: 0.4, textTransform: "uppercase", whiteSpace: "nowrap" }}>
+            {res.type}
+          </span>
+          <span style={{ fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 20, background: lvl.bg, color: lvl.color, letterSpacing: 0.4, textTransform: "uppercase", whiteSpace: "nowrap" }}>
+            {res.level}
+          </span>
         </div>
       </div>
 
       {/* Title + desc */}
       <div>
-        <div style={{ fontWeight: 700, fontSize: 14, color: C.primary, lineHeight: 1.3, marginBottom: 5 }}>
+        <div style={{ fontWeight: 700, fontSize: 14, color: S.primary, lineHeight: 1.3, marginBottom: 5 }}>
           {res.title}
         </div>
-        <div style={{ fontSize: 12, color: C.muted, lineHeight: 1.5 }}>{res.desc}</div>
+        <div style={{ fontSize: 12, color: S.muted, lineHeight: 1.5 }}>{res.desc}</div>
       </div>
 
       {/* Meta */}
-      <div style={{ display: "flex", gap: 14, fontSize: 11, color: C.muted, marginTop: "auto" }}>
+      <div style={{ display: "flex", gap: 14, fontSize: 11, color: S.muted, marginTop: "auto" }}>
         <span>📄 {res.pages} pages</span>
         <span>💾 {res.size}</span>
       </div>
 
       {/* Download btn */}
       <button
-        onClick={() => handleDownload(res.fileUrl)}
+        onClick={() => res.fileUrl && window.open(res.fileUrl, "_blank")}
         style={{
-          width: "100%",
-          padding: "9px 0",
-          borderRadius: 9,
-          border: "none",
-          background: hovered ? res.color : C.light,
-          color: hovered ? "#fff" : C.primary,
-          fontWeight: 700,
-          fontSize: 12,
-          cursor: "pointer",
-          transition: "background .2s, color .2s",
-          letterSpacing: 0.3,
+          width: "100%", padding: "9px 0", borderRadius: 9, border: "none",
+          background: hovered ? col : S.light,
+          color: hovered ? "#fff" : S.primary,
+          fontWeight: 700, fontSize: 12, cursor: "pointer",
+          transition: "background .2s, color .2s", letterSpacing: 0.3,
+          fontFamily: "'DM Sans', sans-serif",
         }}
       >
         ⬇ Download {res.type}
@@ -172,331 +134,307 @@ function ResourceCard({ res }) {
   );
 }
 
-/* ── Stats Bar ────────────────────────────────────────────── */
-function StatsBar({resources}) {
-  const stats = [
-    { label: "Total Resources", value: resources.length,                              icon: "📚" },
-    { label: "PDF Files",       value: resources.filter(r => r.type === "PDF").length, icon: "📕" },
-    { label: "DOC Files",       value: resources.filter(r => r.type === "DOC").length, icon: "📘" },
-    { label: "Topics Covered",  value: CATEGORIES.length - 1,                          icon: "🗂️" },
-  ];
-
-  return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))",
-        gap: 12,
-        marginBottom: 32,
-      }}
-    >
-      {stats.map(s => (
-        <div
-          key={s.label}
-          style={{
-            background: C.white,
-            border: `1px solid ${C.border}`,
-            borderRadius: 12,
-            padding: "14px 16px",
-            textAlign: "center",
-          }}
-        >
-          <div style={{ fontSize: 22, marginBottom: 4 }}>{s.icon}</div>
-          <div style={{ fontWeight: 800, fontSize: 22, color: C.primary }}>{s.value}</div>
-          <div style={{ fontSize: 11, color: C.muted, marginTop: 2 }}>{s.label}</div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-/* ── Resources Page ───────────────────────────────────────── */
 export default function ResourcesPage() {
   const bp = useBreakpoint();
-  const [resources, setResources] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { isMobile, isTablet, isDesktop } = bp;
+
+  const [resources,      setResources]      = useState([]);
+  const [loading,        setLoading]        = useState(true);
+  const [error,          setError]          = useState(null);
   const [activeCategory, setActiveCategory] = useState("All");
-  const [search, setSearch] = useState("");
-  const [typeFilter, setTypeFilter] = useState("All");
-  const { isMobile, isTablet, isDesktop, showSidebar } = bp;
+  const [search,         setSearch]         = useState("");
+  const [typeFilter,     setTypeFilter]     = useState("All");
+
   useEffect(() => {
-  const fetchResources = async () => {
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/resources/get-all-resources`);
-      
-      if (!res.ok) {
-        throw new Error("Failed to fetch data");
-      }
-
-      const data = await res.json();
-      setResources(data);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchResources();
-}, []);
-
-
+    let cancelled = false;
+    fetch(`${API_BASE_URL}/api/resources/get-all-resources`)
+      .then(res => { if (!res.ok) throw new Error(`Server error ${res.status}`); return res.json(); })
+      .then(data => { if (!cancelled) { setResources(Array.isArray(data) ? data : []); setLoading(false); } })
+      .catch(err => { if (!cancelled) { setError(err.message); setLoading(false); } });
+    return () => { cancelled = true; };
+  }, []);
 
   const filtered = resources.filter(r => {
-    const matchCat    = activeCategory === "All" || r.category === activeCategory;
-    const matchType   = typeFilter === "All"     || r.type === typeFilter;
-    const matchSearch =
-      r.title.toLowerCase().includes(search.toLowerCase()) ||
-      r.desc.toLowerCase().includes(search.toLowerCase());
-
-    return matchCat && matchType && matchSearch;
+    const matchCat  = activeCategory === "All" || r.category === activeCategory;
+    const matchType = typeFilter === "All"     || r.type === typeFilter;
+    const q         = search.toLowerCase();
+    return matchCat && matchType &&
+      ((r.title || "").toLowerCase().includes(q) || (r.desc || "").toLowerCase().includes(q));
   });
-if (loading) {
-  return <div style={{ padding: 40 }}>⏳ Loading resources...</div>;
-}
 
-if (error) {
-  return <div style={{ padding: 40, color: "red" }}>❌ {error}</div>;
-}
+  const stats = {
+    total: resources.length,
+    pdfs:  resources.filter(r => r.type === "PDF").length,
+    docs:  resources.filter(r => r.type === "DOC").length,
+  };
 
   return (
-        <div style={{ fontFamily: "'DM Sans',sans-serif", background: C.light, color: C.text, minHeight: "100vh" , width: "100%" , overflowX: "hidden"}}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: disc; padding-left: 20px; }
-        li { margin-bottom: 6px; font-size: 13.5px; line-height: 1.8; color: ${C.text}; }
-        @keyframes ticker {
-          0%   { transform: translateX(100%); }
-          100% { transform: translateX(-120%); }
-        }
-        .ticker-outer { overflow: hidden; flex: 1; min-width: 0; }
-        .ticker-inner { display: inline-block; animation: ticker 40s linear infinite; white-space: nowrap; opacity: .85; }
+    <MainLayout C={C} isMobile={isMobile} isDesktop={isDesktop}>
+      <>
+        <Helmet>
+          <title>Free Learning Resources 2025 | PDFs, Notes & Interview Guides</title>
+          <meta name="description" content="Download free PDFs, interview notes, coding sheets, aptitude materials and study guides for freshers, developers and job seekers." />
+          <meta name="keywords" content="free study materials, PDF notes, interview preparation, DSA notes, Python PDF, Java notes, coding resources" />
+          <meta name="robots" content="index, follow" />
+          <link rel="canonical" href={`${window.location.origin}/user/resources`} />
+          <meta property="og:type" content="website" />
+          <meta property="og:title" content="Free Learning Resources 2025" />
+          <meta property="og:description" content="Download curated PDFs, notes and guides for freshers, developers and job seekers — completely free." />
+          <meta property="og:url" content={`${window.location.origin}/user/resources`} />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="Free Learning Resources 2025" />
+          <meta name="twitter:description" content="Free PDFs, interview notes, coding sheets & study guides." />
+          <script type="application/ld+json">{JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            name: "Free Learning Resources 2025",
+            description: "Download free PDFs, interview notes, coding sheets and study guides.",
+            url: `${window.location.origin}/user/resources`,
+            keywords: ["free PDFs", "study material", "interview prep", "coding notes", "DSA"],
+          })}</script>
+        </Helmet>
 
-        /* Buttons */
-        .btn-apply {
-          background: ${C.primary}; color: #fff; border: none;
-          padding: 12px 28px; border-radius: 9px; font-weight: 700;
-          font-size: 14px; font-family: 'Syne',sans-serif;
-          display: inline-block; cursor: pointer; transition: background .2s;
-          white-space: nowrap;
-        }
-        .btn-apply:hover { background: #0a3a65; }
-        .btn-save {
-          background: #fff; color: ${C.primary}; border: 1.5px solid ${C.primary};
-          padding: 11px 22px; border-radius: 9px; font-weight: 600;
-          font-size: 13.5px; cursor: pointer; transition: background .2s;
-          white-space: nowrap;
-        }
-        .btn-save:hover { background: ${C.light}; }
-        .btn-share {
-          font-size: 13px; color: ${C.muted}; padding: 11px 14px;
-          border-radius: 9px; border: 1px solid ${C.border};
-          background: #fff; cursor: pointer; transition: background .2s;
-          white-space: nowrap;
-        }
-        .btn-share:hover { background: ${C.light}; }
+        <div style={{ width: "100%", minHeight: "100vh", fontFamily: "'DM Sans', sans-serif", background: S.light, color: S.text, overflowX: "hidden" }}>
+          <style>{`
+            @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
+            *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+            html, body { width: 100% !important; margin: 0 !important; padding: 0 !important; overflow-x: hidden !important; background: #f3f4f6 !important; }
+            #root { width: 100% !important; overflow-x: hidden !important; }
+            a { text-decoration: none; color: inherit; }
 
-        /* Nav hover */
-        .nav-link { transition: all .18s; }
-        @media (hover: hover) {
-          .nav-link:hover { background: ${C.light} !important; color: ${C.primary} !important; }
-          .similar-card:hover { border-color: ${C.primary} !important; }
-        }
+            .cat-pill { display: inline-flex; align-items: center; gap: 5px; padding: 6px 14px; border-radius: 20px; font-size: 12.5px; font-weight: 500; cursor: pointer; white-space: nowrap; border: 1.5px solid; transition: all .18s; flex-shrink: 0; }
+            .cat-pill.active   { background: #0a2540; color: #fff; border-color: #0a2540; }
+            .cat-pill.inactive { background: #fff; color: #374151; border-color: #e5e7eb; }
+            .cat-pill.inactive:hover { border-color: #0a2540; color: #0a2540; }
+            .cat-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+            .cat-scroll::-webkit-scrollbar { display: none; }
 
-        /* Responsive font helpers */
-        @media (max-width: 639px) {
-          .job-title { font-size: 19px !important; }
-          .detail-grid { grid-template-columns: 1fr 1fr !important; }
-          .action-row { flex-direction: column; align-items: stretch !important; }
-          .action-row .btn-apply,
-          .action-row .btn-save,
-          .action-row .btn-share { width: 100%; text-align: center; }
-        }
-        @media (min-width: 640px) and (max-width: 1023px) {
-          .job-title { font-size: 21px !important; }
-          .detail-grid { grid-template-columns: repeat(3, 1fr) !important; }
-        }
-        @media (min-width: 1024px) {
-          .job-title { font-size: 24px !important; }
-          .detail-grid { grid-template-columns: repeat(3, 1fr) !important; }
-        }
-          html, body { width: 100% !important; margin: 0 !important; padding: 0 !important; overflow-x: hidden !important; }
-#root { width: 100% !important; overflow-x: hidden !important; }
-      `}</style>
-      {/* ── AlertBar: full width ── */}
-      <div className="section-full">
-        <AlertBar isMobile={isMobile} C={{ accent: "#ff4d4f" }} />
-      </div>
-      {/* ── TopTicker: full width ── */}
-      <div className="section-full">
-        <TopTicker isMobile={isMobile} isDesktop={isDesktop} C={C} gutter="16px" />
-      </div>
-      {/* ── Navbar: full width ── */}
-      <Navbar
-        bp={bp}
-        onMenuOpen={() => {}}
-        onNavigate={(page) => navigate(`/${page}`)}
-        activePage={location.pathname.replace("/", "")}
-      />
-      {/* ── Hero Banner ── */}
-      <div
-        style={{
-          background: `linear-gradient(135deg, ${C.primary} 0%, #0f3460 100%)`,
-          padding: "52px 24px 48px",
-          textAlign: "center",
-          position: "relative",
-          overflow: "hidden",
-        }}
-        
-      >
-        {/* Decorative circles */}
-        <div style={{ position: "absolute", top: -40, right: -40, width: 200, height: 200, borderRadius: "50%", background: "rgba(255,255,255,.04)" }} />
-        <div style={{ position: "absolute", bottom: -60, left: -30, width: 160, height: 160, borderRadius: "50%", background: "rgba(255,255,255,.04)" }} />
+            .filter-select { padding: 8px 12px; border: 1.5px solid #e5e7eb; border-radius: 8px; font-size: 13px; font-family: 'DM Sans', sans-serif; color: #374151; background: #fff; cursor: pointer; outline: none; }
+            .filter-select:focus { border-color: #0a2540; }
 
-        <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: 2, color: C.accent, textTransform: "uppercase", marginBottom: 12 }}>
-          Study Materials
-        </div>
-        <h1 style={{ fontSize: 34, fontWeight: 900, color: "#fff", margin: "0 0 12px", lineHeight: 1.2 }}>
-          Free Learning <span style={{ color: C.accent }}>Resources</span>
-        </h1>
-        <p style={{ color: "#94a3b8", fontSize: 14, maxWidth: 480, margin: "0 auto 28px" }}>
-          Download PDFs & DOCs curated for freshers, developers & interview aspirants. All free.
-        </p>
+            .res-grid { display: grid; gap: 18px; grid-template-columns: repeat(3, 1fr); }
+            @media (max-width: 1023px) { .res-grid { grid-template-columns: repeat(2, 1fr); } }
+            @media (max-width: 639px)  { .res-grid { grid-template-columns: 1fr; } }
 
-        {/* Search bar */}
-        <div style={{ display: "flex", maxWidth: 480, margin: "0 auto", gap: 0 }}>
-          <input
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            placeholder="Search resources..."
-            style={{
-              flex: 1, padding: "12px 16px", border: "none",
-              borderRadius: "10px 0 0 10px", fontSize: 13,
-              outline: "none", background: "#fff", color: C.primary,
-            }}
-          />
-          <button
-            style={{
-              padding: "12px 20px", background: C.accent, color: "#fff",
-              border: "none", borderRadius: "0 10px 10px 0",
-              fontWeight: 700, fontSize: 13, cursor: "pointer",
-            }}
-          >
-            🔍
-          </button>
-          
-        </div>
-      </div>
+            .section-full  { width: 100%; }
+            .section-inner { width: 100%; padding: 0 32px; box-sizing: border-box; }
+            @media (max-width: 639px) { .section-inner { padding: 0 16px; } }
 
-      {/* ── Content ── */}
-      <div style={{ Width: "100%", padding: "36px 40px" }}>
-        <StatsBar resources={resources} />
+            @keyframes shimmer {
+              0%   { background-position: -600px 0; }
+              100% { background-position:  600px 0; }
+            }
+            .skeleton-box {
+              border-radius: 12px;
+              background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+              background-size: 600px 100%;
+              animation: shimmer 1.4s ease-in-out infinite;
+            }
+          `}</style>
 
-        {/* Filters Row */}
-        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10, marginBottom: 24 }}>
-
-          {/* Category pills */}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 7, flex: 1 }}>
-            {CATEGORIES.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                style={{
-                  padding: "6px 14px", borderRadius: 20,
-                  border: `1.5px solid ${activeCategory === cat ? C.accent : C.border}`,
-                  background: activeCategory === cat ? C.accent : C.white,
-                  color: activeCategory === cat ? "#fff" : C.text,
-                  fontWeight: 600, fontSize: 12, cursor: "pointer", transition: "all .15s",
-                }}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-
-          {/* Type filter */}
-          <div style={{ display: "flex", gap: 6 }}>
-            {["All", "PDF", "DOC"].map(t => (
-              <button
-                key={t}
-                onClick={() => setTypeFilter(t)}
-                style={{
-                  padding: "6px 14px", borderRadius: 8,
-                  border: `1.5px solid ${typeFilter === t ? C.primary : C.border}`,
-                  background: typeFilter === t ? C.primary : C.white,
-                  color: typeFilter === t ? "#fff" : C.text,
-                  fontWeight: 600, fontSize: 12, cursor: "pointer",
-                }}
-              >
-                {t === "All" ? "All Types" : t}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Results count */}
-        <div style={{ fontSize: 13, color: C.muted, marginBottom: 18 }}>
-          Showing{" "}
-          <strong style={{ color: C.primary }}>{filtered.length}</strong>{" "}
-          resource{filtered.length !== 1 ? "s" : ""}
-          {activeCategory !== "All" ? ` in ${activeCategory}` : ""}
-          {search ? ` matching "${search}"` : ""}
-        </div>
-
-        {/* Grid */}
-        {filtered.length === 0 ? (
-          <div style={{ textAlign: "center", padding: "60px 0", color: C.muted }}>
-            <div style={{ fontSize: 40, marginBottom: 12 }}>🔍</div>
-            <div style={{ fontWeight: 700, color: C.primary, marginBottom: 6 }}>No resources found</div>
-            <div style={{ fontSize: 13 }}>Try a different search or category.</div>
-          </div>
-        ) : (
+          {/* ── Hero Banner ── */}
           <div
+            className="section-full"
             style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-              gap: 18,
+              position: "relative", overflow: "hidden",
+              background: "linear-gradient(135deg,#f8fbff 0%,#eef4ff 45%,#f5f9ff 100%)",
+              padding: isMobile ? "56px 0 46px" : "84px 0 70px",
             }}
           >
-            {filtered.map(res => (
-              <ResourceCard key={res._id} res={res} />
-            ))}
-          </div>
-        )}
+            {/* BG shapes */}
+            <div style={{ position: "absolute", top: -100, right: -80, width: 300, height: 300, borderRadius: "40%", background: "linear-gradient(135deg,#dbeafe,#bfdbfe)", opacity: 0.7, transform: "rotate(22deg)" }} />
+            <div style={{ position: "absolute", bottom: -120, left: -100, width: 340, height: 340, borderRadius: "50%", background: "linear-gradient(135deg,#fde68a,#fca5a5)", opacity: 0.45, filter: "blur(18px)" }} />
+            {/* Grid overlay */}
+            <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(rgba(37,99,235,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,0.04) 1px,transparent 1px)", backgroundSize: "42px 42px", pointerEvents: "none" }} />
 
-        {/* Footer note */}
-        <div
-          style={{
-            marginTop: 48,
-            padding: "20px 24px",
-            background: "#fff7ed",
-            borderRadius: 12,
-            border: "1px solid #fed7aa",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center", 
-            textAlign: "center",
-            gap: 12,
-          }}
-        >
-          <span style={{ fontSize: 20 }}>💡</span>
-          <div>
-            <div style={{ fontWeight: 700, color: "#92400e", fontSize: 13, marginBottom: 4 }}>
-              Can't find what you need?
-            </div>
-            <div style={{ fontSize: 12, color: "#a16207" }}>
-              More resources are added every week. Bookmark this page or request a specific topic from our team.
+            <div className="section-inner" style={{ position: "relative", zIndex: 2 }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 36 }}>
+
+                {/* LEFT */}
+                <div style={{ flex: 1, minWidth: 260 }}>
+                  {/* Badge */}
+                  <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#fff", border: "1px solid #dbeafe", borderRadius: 999, padding: "8px 16px", marginBottom: 24, boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
+                    <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#2563eb" }} />
+                    <span style={{ fontSize: 12, fontWeight: 700, color: "#111827", letterSpacing: "0.04em" }}>📚 Study Materials</span>
+                  </div>
+
+                  <h1 style={{ fontFamily: "'Syne', sans-serif", fontSize: isMobile ? "2.3rem" : "4.2rem", fontWeight: 800, lineHeight: 0.98, color: "#111827", marginBottom: 20, letterSpacing: "-0.05em", maxWidth: 700 }}>
+                    Free Learning <br />
+                    <span style={{ color: "#2563eb" }}>Resources</span>
+                  </h1>
+
+                  <p style={{ fontSize: isMobile ? 14 : 16, lineHeight: 1.9, color: "#4b5563", maxWidth: 620, marginBottom: 34 }}>
+                    Download curated PDFs, interview notes, aptitude materials,
+                    coding sheets &amp; learning guides for freshers, developers
+                    and job seekers — completely free.
+                  </p>
+
+                  {/* Search + Type filter */}
+                  <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+                    <div style={{ flex: 1, minWidth: 220, position: "relative" }}>
+                      <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 16, pointerEvents: "none" }}>🔍</span>
+                      <input
+                        value={search}
+                        onChange={e => setSearch(e.target.value)}
+                        placeholder="Search resources, PDFs or notes..."
+                        style={{ width: "100%", padding: "14px 16px 14px 42px", borderRadius: 14, border: "1px solid #dbeafe", background: "#fff", fontSize: 14, color: "#111827", outline: "none", boxShadow: "0 8px 24px rgba(0,0,0,0.04)", fontFamily: "'DM Sans',sans-serif" }}
+                      />
+                    </div>
+                    <select
+                      value={typeFilter}
+                      onChange={e => setTypeFilter(e.target.value)}
+                      style={{ padding: "14px 16px", borderRadius: 14, border: "1px solid #dbeafe", background: "#fff", fontSize: 14, color: "#111827", outline: "none", minWidth: 150, cursor: "pointer", boxShadow: "0 8px 24px rgba(0,0,0,0.04)", fontFamily: "'DM Sans',sans-serif" }}
+                    >
+                      {["All", "PDF", "DOC"].map(t => <option key={t}>{t === "All" ? "All Types" : t}</option>)}
+                    </select>
+                  </div>
+                </div>
+
+                {/* RIGHT STATS */}
+                <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: isMobile ? "flex-start" : "center" }}>
+                  {[
+                    ["📚", resources.length + "+", "Total Resources"],
+                    ["📕", stats.pdfs,              "PDF Files"],
+                    ["📘", stats.docs,              "DOC Files"],
+                  ].map(([icon, val, label]) => (
+                    <div key={label} style={{ minWidth: 140, background: "rgba(255,255,255,0.75)", backdropFilter: "blur(12px)", border: "1px solid #dbeafe", borderRadius: 24, padding: isMobile ? "20px 18px" : "24px 22px", textAlign: "center", boxShadow: "0 18px 45px rgba(37,99,235,0.08)" }}>
+                      <div style={{ width: 52, height: 52, borderRadius: 16, background: "#eff6ff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, margin: "0 auto 14px" }}>
+                        {icon}
+                      </div>
+                      <div style={{ fontSize: isMobile ? "1.6rem" : "2rem", fontWeight: 800, color: "#111827", fontFamily: "'Syne',sans-serif", lineHeight: 1 }}>
+                        {val}
+                      </div>
+                      <div style={{ marginTop: 8, color: "#6b7280", fontSize: 12, fontWeight: 500 }}>{label}</div>
+                    </div>
+                  ))}
+                </div>
+
+              </div>
             </div>
           </div>
+
+          {/* ── Category Pills Bar ── */}
+          <div className="section-full" style={{ background: "#fff", borderBottom: "1px solid #e5e7eb" }}>
+            <div className="section-inner" style={{ paddingTop: 12, paddingBottom: 12 }}>
+              <div className="cat-scroll">
+                {CATEGORIES.map(cat => (
+                  <span
+                    key={cat.label}
+                    className={`cat-pill ${activeCategory === cat.label ? "active" : "inactive"}`}
+                    onClick={() => setActiveCategory(cat.label)}
+                  >
+                    {cat.icon} {cat.label}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* ── Main Body ── */}
+          <div className="section-full" style={{ background: S.light }}>
+            <div className="section-inner" style={{ paddingTop: 24, paddingBottom: 48 }}>
+
+              {/* Filter row */}
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14, flexWrap: "wrap" }}>
+                <div style={{ display: "flex", gap: 8, flex: 1, flexWrap: "wrap" }}>
+                  {/* Type pills (same pattern as ExamsPage status pills) */}
+                  <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                    {["All", "PDF", "DOC"].map(t => (
+                      <span
+                        key={t}
+                        onClick={() => setTypeFilter(t)}
+                        style={{
+                          fontSize: 12, fontWeight: 600, padding: "6px 14px", borderRadius: 20, cursor: "pointer",
+                          background: typeFilter === t ? (t === "PDF" ? "#fee2e2" : t === "DOC" ? "#dbeafe" : S.primary) : S.white,
+                          color:      typeFilter === t ? (t === "PDF" ? "#dc2626" : t === "DOC" ? "#2563eb" : "#fff")   : S.muted,
+                          border:     `1.5px solid ${typeFilter === t ? "transparent" : S.border}`,
+                        }}
+                      >
+                        {t === "All" ? "All Types" : t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div style={{ fontSize: 13, color: S.muted }}>
+                  <strong style={{ color: S.text }}>{filtered.length}</strong> resource{filtered.length !== 1 ? "s" : ""}
+                </div>
+              </div>
+
+              {/* Section header */}
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20, flexWrap: "wrap", gap: 8 }}>
+                <h2 style={{ fontSize: 17, fontWeight: 700, display: "flex", alignItems: "center", gap: 8, color: S.text }}>
+                  <span style={{ width: 4, height: 20, background: S.accent, borderRadius: 3, display: "inline-block" }} />
+                  Free Study Materials
+                </h2>
+                {activeCategory !== "All" && (
+                  <span style={{ fontSize: 12, color: S.muted }}>
+                    Showing: <strong style={{ color: S.primary }}>{activeCategory}</strong>
+                  </span>
+                )}
+              </div>
+
+              {/* Loading */}
+              {loading && (
+                <div className="res-grid">
+                  {[1,2,3,4,5,6].map(i => (
+                    <div key={i} className="skeleton-box" style={{ height: 240 }} />
+                  ))}
+                </div>
+              )}
+
+              {/* Error */}
+              {!loading && error && (
+                <div style={{ textAlign: "center", padding: "60px 20px", color: S.muted }}>
+                  <div style={{ fontSize: 48, marginBottom: 12 }}>⚠️</div>
+                  <h3 style={{ fontSize: 18, fontWeight: 700, color: S.text, marginBottom: 8 }}>Failed to load resources</h3>
+                  <p style={{ fontSize: 14 }}>{error}</p>
+                </div>
+              )}
+
+              {/* Empty */}
+              {!loading && !error && filtered.length === 0 && (
+                <div style={{ textAlign: "center", padding: "60px 20px", color: S.muted }}>
+                  <div style={{ fontSize: 48, marginBottom: 12 }}>🔍</div>
+                  <h3 style={{ fontSize: 18, fontWeight: 700, color: S.text, marginBottom: 8 }}>No resources found</h3>
+                  <p style={{ fontSize: 14 }}>Try adjusting your search or filters.</p>
+                  <button
+                    onClick={() => { setSearch(""); setActiveCategory("All"); setTypeFilter("All"); }}
+                    style={{ marginTop: 16, background: S.primary, color: "#fff", border: "none", padding: "10px 22px", borderRadius: 8, fontWeight: 700, fontSize: 13.5, cursor: "pointer", fontFamily: "'DM Sans',sans-serif" }}
+                  >
+                    Clear All Filters
+                  </button>
+                </div>
+              )}
+
+              {/* Cards Grid */}
+              {!loading && !error && filtered.length > 0 && (
+                <div className="res-grid">
+                  {filtered.map((res, idx) => (
+                    <ResourceCard key={res._id || res.id || idx} res={res} />
+                  ))}
+                </div>
+              )}
+
+              {/* Bottom Banner */}
+              <div style={{ marginTop: 28, background: "linear-gradient(90deg,#e8f4fd,#f0f7ff)", border: "1.5px dashed #bdd6f0", borderRadius: 12, padding: "14px 20px", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12 }}>
+                <span style={{ fontSize: 10, color: "#999", border: "1px solid #ddd", padding: "1px 5px", borderRadius: 3 }}>Tip</span>
+                <span style={{ fontSize: 22 }}>💡</span>
+                <div style={{ flex: 1, minWidth: 160 }}>
+                  <strong style={{ fontSize: 14, display: "block" }}>Can't find what you need?</strong>
+                  <span style={{ fontSize: 12, color: S.muted }}>More resources are added every week. Bookmark this page or request a specific topic.</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div className="section-full">
+            <Footer bp={bp} gutter="16px" />
+          </div>
+
         </div>
-      </div>
-        {/* ── Footer: full width ── */}
-      <div className="section-full">
-        <Footer bp={bp} gutter="16px" />
-      </div>
-    </div>
+      </>
+    </MainLayout>
   );
 }

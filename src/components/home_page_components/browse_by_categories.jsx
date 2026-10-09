@@ -1,6 +1,22 @@
 import React, { useState, useEffect } from "react";
 import API_BASE_URL from "../../config/api";
-
+const CategorySkeleton = () => (
+  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+    {[88, 120, 72, 104, 92, 80].map((w, i) => (
+      <div
+        key={i}
+        style={{
+          width: w,
+          height: 36,
+          borderRadius: 999,
+          background: 'linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%)',
+          backgroundSize: '600px 100%',
+          animation: 'shimmer 1.4s infinite linear',
+        }}
+      />
+    ))}
+  </div>
+);
 const CategorySection = ({ styles, activeCat, setActiveCat, onCategorySelect }) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -75,7 +91,7 @@ const CategorySection = ({ styles, activeCat, setActiveCat, onCategorySelect }) 
       {/* Categories Horizontal Scroll */}
       <div className="cat-pill-wrap">
         {loading ? (
-          <span style={{ fontSize: 13, color: styles.muted }}>Loading categories...</span>
+          <CategorySkeleton />
         ) : categories.length === 0 ? (
           <span style={{ fontSize: 13, color: styles.muted }}>No categories found.</span>
         ) : (
